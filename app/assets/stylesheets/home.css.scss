@@ -1,3 +1,32 @@
 // Place all the styles related to the home controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+#home_title {
+  font-size: 24px;
+  text-align: center
+}
+#login {
+  padding: 20px;
+  position:absolute;
+  left: 50%;
+  top: 50%;
+  width: 50%;
+  margin-left: -25%;
+  margin-top: -25%;
+  border: 1px solid;
+  border-color: black;
+}
+#lables {
+  float: left;
+  width: 40%;
+  padding: 5px;
+  left: 0;
+  text-align: right;
+}
+#values {
+  float: right;
+  width: 50%;
+  right: 0;
+  text-align: left;
+  padding: 5px;
+}

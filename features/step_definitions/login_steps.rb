@@ -2,9 +2,9 @@
 Given /^Я на главной странице$/ do
   visit "/"
 end
-When /^Я заполняю "([^"]*)" значением "([^"]*)"$/ do |arg1, arg2|
-  fill_in arg1, :with => arg2
+When /^Я заполняю "([^"]*)" значением "([^"]*)"$/ do |field, value|
+  fill_in field, :with => value
 end
-Then /^Я должен увидеть "([^"]*)"$/ do |arg|
-  assert page.has_content?(arg)
+Then /^Я должен увидеть "([^"]*)"$/ do |value|
+  assert page.has_content?(value)
 end
