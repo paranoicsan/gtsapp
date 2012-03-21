@@ -1,6 +1,7 @@
 #home
   #home_title Авторизация
   #login
+    -#= form_tag movie_path(@movie), :method => :put do
     #lables
       %label{ :for => "email" } Электронная почта
       %br
@@ -8,3 +9,4 @@
     #values
       = text_field_tag "password"
       = text_field_tag "email"
+      = submit_tag "Войти", {:id => "login_bt"}
