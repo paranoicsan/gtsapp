@@ -13,8 +13,7 @@ Given /^Я - зарегистрированный пользователь$/ do
   @user.save_without_session_maintenance # решение https://github.com/binarylogic/authlogic/issues/262
 end
 When /^Я вхожу в систему$/ do
-  #noinspection RubyResolve
-  visit login_path
+  step %{Я пытаюсь попасть на страницу авторизации}
   fill_in "user_session_username", :with => @user.username
   fill_in "user_session_password", :with => @user.password
   click_button "login_bt"
@@ -33,8 +32,7 @@ When /^Я пытаюсь войти в систему с неверными да
   step "Я вхожу в систему"
 end
 Given /^Я нахожусь на странице авторизации$/ do
-  #noinspection RubyResolve
-  visit login_path
+  step %{Я пытаюсь попасть на страницу авторизации}
   step %{Я остаюсь на странице авторизации} # если пользователь не вышел, он не останется на первой странице
 end
 Then /^Я остаюсь на странице авторизации$/ do
@@ -47,4 +45,8 @@ Given /^Я авторизован в системе$/ do
 end
 When /^Я нажимаю на ссылку "([^"]*)"$/ do |link_text|
   click_link link_text
+end
+When /^Я пытаюсь попасть на страницу авторизации$/ do
+  #noinspection RubyResolve
+  visit login_path
 end
