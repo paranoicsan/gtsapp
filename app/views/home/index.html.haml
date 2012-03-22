@@ -1,12 +1,19 @@
 #home
   #home_title Авторизация
+  %br
   #login
     -#= form_tag movie_path(@movie), :method => :put do
-    #lables
-      %label{ :for => "email" } Электронная почта
-      %br
-      %label{ :for => "password" } Пароль
-    #values
-      = text_field_tag "password"
-      = text_field_tag "email"
-      = submit_tag "Войти", {:id => "login_bt"}
+    %table
+      %tr
+        %td.labels
+          %label{ :for => "email" } Электронная почта
+        %td.values
+          = text_field_tag "password"
+      %tr
+        %td.labels
+          %label{ :for => "password" } Пароль
+        %td.values
+          = text_field_tag "email"
+      %tr
+        %td{ :colspan => 2, :class => "submit" }
+          = submit_tag "Войти", { :id => "login_bt" }
