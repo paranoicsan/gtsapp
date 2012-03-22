@@ -76,6 +76,8 @@
     <orderEntry type="library" scope="PROVIDED" name="sass (v3.1.15, RVM: ruby-1.9.2-p318) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sass-rails (v3.1.6, RVM: ruby-1.9.2-p318) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="selenium-webdriver (v2.20.0, RVM: ruby-1.9.2-p318) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="simplecov (v0.6.1, RVM: ruby-1.9.2-p318) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="simplecov-html (v0.5.3, RVM: ruby-1.9.2-p318) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sprockets (v2.0.3, RVM: ruby-1.9.2-p318) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sqlite3 (v1.3.5, RVM: ruby-1.9.2-p318) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="term-ansicolor (v1.0.7, RVM: ruby-1.9.2-p318) [gem]" level="application" />

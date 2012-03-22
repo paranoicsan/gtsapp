@@ -23,9 +23,9 @@ class UserSessionsController < ApplicationController
         format.json { render json: @user_session, status: :created, location: @user_session }
       else
         flash[:error] = @user_session.errors.full_messages # собираем ошибки
+        format.html { redirect_to :login }
+        format.json { render json: @user_session.errors, status: :unprocessable_entity }
       end
-      format.html { redirect_to :login }
-      format.json { render json: @user_session.errors, status: :unprocessable_entity }
     end
   end
 
@@ -38,8 +38,9 @@ class UserSessionsController < ApplicationController
       @user_session.destroy
 
       respond_to do |format|
-        format.html { redirect_to :user_sessions, notice: "Выполнен выход" }
-        format.json { head :ok }
+        flash[:notice] = "Выполнен выход."
+        format.html { redirect_to login_path }
+        #format.json { head :ok }
       end
     else
       respond_to do |format|
