@@ -1,6 +1,6 @@
 # encoding: utf-8
 class UserSessionsController < ApplicationController
-  before_filter :require_no_user, :only => [:new, :create]
+  before_filter :redirect_logged_in, :only => [:new, :create]
 
   # GET /user_sessions/new
   # GET /user_sessions/new.json

@@ -24,6 +24,13 @@ class ApplicationController < ActionController::Base
       end
     end
 
+    # Осуществляет перенаправление уже авторизованного пользователя
+    # @return [Boolean] false если пользователь не авторизован
+    def redirect_logged_in
+      if current_user ; redirect_back_or_default(dashboard_url) end
+      false
+    end
+
     def require_no_user
       if current_user
         store_location
@@ -42,4 +49,5 @@ class ApplicationController < ActionController::Base
       redirect_to(session[:return_to] || default)
       session[:return_to] = nil
     end
+
 end
