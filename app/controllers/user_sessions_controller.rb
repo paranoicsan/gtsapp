@@ -1,5 +1,7 @@
 # encoding: utf-8
 class UserSessionsController < ApplicationController
+  before_filter :require_no_user, :only => [:new, :create]
+
   # GET /user_sessions/new
   # GET /user_sessions/new.json
   def new
@@ -19,7 +21,7 @@ class UserSessionsController < ApplicationController
     respond_to do |format|
       if @user_session.save
         flash[:notice] = "Вы вошли в систему."
-        format.html { redirect_to :dashboard }
+        format.html { redirect_back_or_default(dashboard_url) }
         format.json { render json: @user_session, status: :created, location: @user_session }
       else
         flash[:error] = @user_session.errors.full_messages # собираем ошибки
