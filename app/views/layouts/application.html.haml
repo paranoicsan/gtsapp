@@ -10,19 +10,7 @@
     #container
       #header ГТС. Управление каталогом компаний
       #body
-        #message
-          - if flash[:notice]
-            #notice
-              = flash[:notice]
-          - if flash[:error]
-            #warning
-              Ошибка:
-              %br
-              - if flash[:error].is_a?(Array)
-                - flash[:error].each do |msg|
-                  = msg
-              - else
-                = flash[:error]
+
 
         = yield
 

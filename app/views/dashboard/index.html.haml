@@ -1,1 +1,15 @@
+-#TODO: Вынести этот блок в partial
+#message
+  - if flash[:notice]
+    #notice
+      = flash[:notice]
+  - if flash[:error]
+    #warning
+      Ошибка:
+      %br
+      - if flash[:error].is_a?(Array)
+        - flash[:error].each do |msg|
+          = msg
+      - else
+        = flash[:error]
 %h1 Сводка
