@@ -1,4 +1,12 @@
 Gtsapp::Application.routes.draw do
+  resources :users, :user_sessions
+
+  match 'dashboard' => 'dashboard#index', :as => :dashboard
+  match 'login' => 'user_sessions#new', :as => :login
+  match 'logout' => 'user_sessions#destroy', :as => :logout
+
+  root :to => 'user_sessions#new'
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
@@ -10,7 +18,7 @@ Gtsapp::Application.routes.draw do
   #   match 'products/:id/purchase' => 'catalog#purchase', :as => :purchase
   # This route can be invoked with purchase_url(:id => product.id)
 
-  root :to => "home#index"
+
 
   # Sample resource route (maps HTTP verbs to controller actions automatically):
   #   resources :products

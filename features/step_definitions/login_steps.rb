@@ -1,5 +1,5 @@
 # encoding: utf-8
-Given /^Я на главной странице$/ do
+Given /^Я на странице авторизации$/ do
   visit "/"
 end
 When /^Я заполняю "([^"]*)" значением "([^"]*)"$/ do |field, value|

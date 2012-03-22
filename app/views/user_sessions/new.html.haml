@@ -1,0 +1,19 @@
+#home
+  #home_title Авторизация
+  %br
+  #login
+    = form_tag user_sessions_path(), :method => :post do
+      %table
+        %tr
+          %td.labels
+            %label{ :for => "user_session_username" } Электронная почта
+          %td.values
+            = text_field_tag "user_session[username]"
+        %tr
+          %td.labels
+            %label{ :for => "user_session_password" } Пароль
+          %td.values
+            = text_field_tag "user_session[password]"
+        %tr
+          %td{ :colspan => 2, :class => "submit" }
+            = submit_tag "Войти", { :id => "login_bt" }

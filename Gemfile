@@ -9,6 +9,7 @@ end
 
 group :test do
   gem 'cucumber-rails'
+  gem 'rspec'
   gem 'database_cleaner'
   gem 'capybara'
   gem 'launchy'
