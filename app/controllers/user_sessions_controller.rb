@@ -18,8 +18,8 @@ class UserSessionsController < ApplicationController
 
     respond_to do |format|
       if @user_session.save
-        flash[:notice] = "Выполнен вход в систему."
-        format.html { redirect_to :login }
+        flash[:notice] = "Вы вошли в систему."
+        format.html { redirect_to :dashboard }
         format.json { render json: @user_session, status: :created, location: @user_session }
       else
         flash[:error] = @user_session.errors.full_messages # собираем ошибки
