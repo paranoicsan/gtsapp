@@ -2,7 +2,6 @@ source 'http://rubygems.org'
 
 gem 'rails', '3.1.0'
 
-gem 'sqlite3'
 gem 'pg'
 gem 'foreigner'
 
@@ -11,6 +10,7 @@ group :development, :test do
 end
 
 group :test do
+  gem 'sqlite3'
   gem 'cucumber-rails', require: false
   gem 'rspec'
   gem 'rspec-rails'
