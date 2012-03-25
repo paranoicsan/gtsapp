@@ -1,0 +1,15 @@
+%p#notice= notice
+
+%p
+  %strong Title:
+  = @company.title
+%p
+  %strong Date added:
+  = @company.date_added
+%p
+  %strong Rubricator:
+  = @company.rubricator
+
+= link_to 'Edit', edit_company_path(@company)
+\|
+= link_to 'Back', companies_path

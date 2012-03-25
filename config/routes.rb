@@ -1,5 +1,7 @@
 Gtsapp::Application.routes.draw do
-  resources :users, :user_sessions
+  resources :companies
+  resources :users
+  resources :user_sessions
 
   match 'dashboard' => 'dashboard#index', :as => :dashboard
   match 'login' => 'user_sessions#new', :as => :login

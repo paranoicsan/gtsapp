@@ -44,5 +44,12 @@ module Gtsapp
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+
+    config.generators do |g|
+      #Здесь я отключил генерацию rspec файлов для вьюх, хелперов, роутинга и запросов
+      #т.о. оставив лишь генерацию spec's для моделей и контроллеров
+      g.test_framework :rspec, :view_specs => false, :helper_specs => true,
+                       :routing_specs => false, :request_specs => false
+    end
   end
 end

@@ -1,0 +1,23 @@
+%h1 Listing companies
+
+%table
+  %tr
+    %th Title
+    %th Date added
+    %th Rubricator
+    %th
+    %th
+    %th
+
+  - @companies.each do |company|
+    %tr
+      %td= company.title
+      %td= company.date_added
+      %td= company.rubricator
+      %td= link_to 'Show', company
+      %td= link_to 'Edit', edit_company_path(company)
+      %td= link_to 'Destroy', company, :confirm => 'Are you sure?', :method => :delete
+
+%br
+
+= link_to 'New Company', new_company_path
