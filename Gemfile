@@ -4,7 +4,6 @@ gem 'rails', '3.1.0'
 
 gem 'pg'
 gem 'foreigner'
-gem 'rspec-rails'
 gem 'jquery-rails'
 gem 'haml'
 gem 'haml-rails'
@@ -12,7 +11,9 @@ gem 'authlogic'
 
 group :development, :test do
   gem 'ruby-debug19', :require => 'ruby-debug'
-  gem 'simplecov'
+  gem 'simplecov', :require => false
+  gem 'rspec'
+  gem 'rspec-rails'
   gem 'spork'
 end
 
@@ -22,7 +23,6 @@ group :test do
   gem 'database_cleaner'
   gem 'capybara'
   gem 'launchy'
-  gem 'simplecov', :require => false
 end
 
 # Gems used only for assets and not required
