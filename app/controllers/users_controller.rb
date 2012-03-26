@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
-  before_filter :require_no_user, :only => [:new, :create]
-  before_filter :require_user, :only => [:index, :show, :edit, :update]
+  before_filter :require_user
+  before_filter :require_admin
 
   # GET /users
   # GET /users.json

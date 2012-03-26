@@ -5,49 +5,79 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
 
   private
-    def current_user_session
-      return @current_user_session if defined?(@current_user_session)
-      @current_user_session = UserSession.find
-    end
 
-    def current_user
-      return @current_user if defined?(@current_user)
-      @current_user = current_user_session && current_user_session.record
-    end
+  def current_user_session
+    return @current_user_session if defined?(@current_user_session)
+    @current_user_session = UserSession.find
+  end
 
-    def require_user
-      unless current_user
-        store_location
-        flash[:error] = %{Необходимо авторизоваться в системе.}
-        redirect_to login_url
-        false
-      end
-    end
+  def current_user
+    return @current_user if defined?(@current_user)
+    @current_user = current_user_session && current_user_session.record
+  end
 
-    # Осуществляет перенаправление уже авторизованного пользователя
-    # @return [Boolean] false если пользователь не авторизован
-    def redirect_logged_in
-      if current_user ; redirect_back_or_default(dashboard_url) end
+  # Проверяет, авторизован ли пользователь
+  # в противном случае пренправляет на страницу авторизации
+  def require_user
+    unless current_user
+      store_destination
+      flash[:error] = %{Необходимо авторизоваться в системе.}
+      redirect_to login_url
       false
     end
+  end
 
-    def require_no_user
-      if current_user
-        store_location
-        flash[:error] = %{Необходимо выйти из системы для выполнения данной операции.}
-        redirect_to dashboard_url
-        false
-      end
+  # Проверяет, чтобы пользователь был администратором
+  def require_admin
+    #noinspection RubyResolve
+    unless @current_user.is_admin?
+      store_referrer
+      flash[:error] = %{У Вас недостаточно прав для доступа к запрошенной странице.}
+      redirect_back_or_default(dashboard_url)
+      false
     end
+  end
 
-    def store_location
-      #session[:return_to] = request.request_uri
-      session[:return_to] = request.fullpath
+  # Проверяет, чтобы пользователь был оператором
+  def require_operator
+    #noinspection RubyResolve
+    unless @current_user.is_operator?
+      store_referrer
+      flash[:error] = %{У Вас недостаточно прав для доступа к запрошенной странице.}
+      redirect_back_or_default(dashboard_url)
+      false
     end
+  end
 
-    def redirect_back_or_default(default)
-      redirect_to(session[:return_to] || default)
-      session[:return_to] = nil
+  # Осуществляет перенаправление уже авторизованного пользователя
+  # @return [Boolean] false если пользователь не авторизован
+  def redirect_logged_in
+    if current_user ; redirect_back_or_default(dashboard_url) end
+    false
+  end
+
+  def require_no_user
+    if current_user
+      store_destination
+      flash[:error] = %{Необходимо выйти из системы для выполнения данной операции.}
+      redirect_to dashboard_url
+      false
     end
+  end
+
+  # Сохраняет в сессии путь, куда хотят попасть
+  def store_destination
+    session[:return_to] = request.fullpath
+  end
+
+  # Сохраняет в сессии путь, откуда пришли
+  def store_referrer
+    session[:return_to] = request.referer
+  end
+
+  def redirect_back_or_default(default)
+    redirect_to(session[:return_to] || default)
+    session[:return_to] = nil
+  end
 
 end
