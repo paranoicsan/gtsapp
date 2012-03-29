@@ -15,5 +15,6 @@
         = flash[:error]
 %h1.section-title
   Сводка
-= link_to "Пользователи", users_path
+- if @current_user.is_admin?
+  = link_to "Пользователи", users_path
 = link_to "Выйти", logout_path
