@@ -17,7 +17,7 @@ Given /^Я - не администратор системы$/ do
   @user = create_user
   @user.save_without_session_maintenance
   #noinspection RubyResolve
-  @user.add_role "admin"
+  @user.add_role "operator"
   @user.save
   #noinspection RubyResolve
   visit login_path
