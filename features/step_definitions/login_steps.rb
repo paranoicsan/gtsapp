@@ -6,7 +6,7 @@ end
 
 When /^Я вхожу в систему$/ do
   step %{Я пытаюсь попасть на страницу авторизации}
-  login(@user)
+  login @user
 end
 
 Then /^Я попадаю на страницу "([^"]*)"$/ do |page_title|
