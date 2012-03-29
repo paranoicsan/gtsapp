@@ -1,0 +1,36 @@
+# encoding: utf-8
+-#TODO: Вынести этот блок в partial
+#message
+  - if flash[:notice]
+    #notice
+      = flash[:notice]
+  - if flash[:error]
+    #warning
+      Ошибка:
+      %br
+      - if flash[:error].is_a?(Array)
+        - flash[:error].each do |msg|
+          = msg
+      - else
+        = flash[:error]
+%h1.section-title
+  Пользователи
+%table
+  %thead
+    %tr
+      %td Имя пользователя
+      %td Электронная почта
+      %td Роли
+      %td Операции
+  %tbody
+    - @users.each do |user|
+      %tr
+        %td= user.username
+        %td= user.email
+        %td= user.roles.map { |role| role.to_s }.join(", ")
+        %td
+          -#= link_to "Изменить", edit_user_path user
+          -#= link_to "Удалить", delete_user_path user
+
+= link_to "Сводка", dashboard_path
+= link_to "Выйти", logout_path
