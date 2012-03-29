@@ -13,5 +13,7 @@
           = msg
       - else
         = flash[:error]
-%h1 Сводка
+%h1.section-title
+  Сводка
+= link_to "Пользователи", users_path
 = link_to "Выйти", logout_path

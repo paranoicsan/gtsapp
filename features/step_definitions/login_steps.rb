@@ -40,10 +40,6 @@ Given /^Я авторизован в системе$/ do
   step %{Я попадаю на страницу "Сводка"}  
 end
 
-When /^Я нажимаю на ссылку "([^"]*)"$/ do |link_text|
-  click_link link_text
-end
-
 When /^Я пытаюсь попасть на страницу авторизации$/ do
   #noinspection RubyResolve
   visit login_path

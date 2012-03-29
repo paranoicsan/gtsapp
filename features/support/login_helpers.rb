@@ -1,17 +1,15 @@
 module LoginHelpers
 
   # Создает пользователя с предопределенными параметрами
-  # @param [String] Роль пользователя
   # @return [User] Созданный пользователь
-  def create_user(role = nil)
+  def create_user
     username = "test_username@t.com"
     pwd = "test_password"
     params = {
         :username => username,
         :email => username,
         :password => pwd,
-        :password_confirmation => pwd,
-        :roles => [role]
+        :password_confirmation => pwd
     }
     User.new(params)
   end

@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  helper :application
   before_filter :require_user
   before_filter :require_admin
 
