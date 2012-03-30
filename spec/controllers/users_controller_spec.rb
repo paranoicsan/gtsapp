@@ -17,20 +17,19 @@ describe UsersController do
   before(:each) do
     controller.stub(:require_user).and_return(true)
     controller.stub(:require_admin).and_return(true)
+    @user = mock(User)
   end
   
   
   describe "POST create" do
     it "должен создать пользователя с указанной ролью" do
       params = user_params
-      params[:roles] = %W(admin)
-      expect {
-        post :create, :user => params
-      }.to change(User, :count).by(1), "Пользователь не создался"
-      user = User.find_by_username(params[:username])
-      puts user.inspect
-      #noinspection RubyResolve
-      assert user && user.is_admin? == true, "Роль не назначена"
+      params['roles'] = %W(admin)
+      params_str = {} # хэш, у которого все ключи - строки
+      params.each { |k, v| params_str[k.to_s] = v }
+      User.should_receive(:new).with(params_str).and_return(@user)
+      @user.should_receive(:save).with(no_args)
+      post :create, :user => params
     end
     
     #describe "with valid params" do
