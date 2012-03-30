@@ -13,14 +13,6 @@
 
 ActiveRecord::Schema.define(:version => 20120326202517) do
 
-  create_table "companies", :force => true do |t|
-    t.string   "title"
-    t.date     "date_added"
-    t.integer  "rubricator"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "users", :force => true do |t|
     t.string   "username"
     t.string   "email"
