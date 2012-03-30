@@ -31,3 +31,12 @@ end
 When /^Я не вижу пользователя "([^"]*)"$/ do |username|
   page.should_not have_content username
 end
+When /^Я создаю нового пользователя$/ do
+  #noinspection RubyResolve
+  visit new_user_path
+  fill_in :username, :with => 'Test user'
+  fill_in :password, :with => '1111'
+  fill_in :password_confirmation, :with => '1111'
+  fill_in :email, :with => 'test@333test.com'
+  click "commit"
+end
