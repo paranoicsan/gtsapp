@@ -16,9 +16,11 @@ module LoginHelpers
 
   # Заполняет форму авторизации и пытается войти
   # @param user [User] Пользователь, который пытается аойти в систему
-  def login(user)
+  # @param plain_password [String] Открытый пароль для ввода значений
+  def login(user, plain_password = nil)
+    pwd = plain_password ? plain_password : user.password
     fill_in "user_session_username", :with => user.username
-    fill_in "user_session_password", :with => user.password
+    fill_in "user_session_password", :with => pwd
     click_button "login_bt"
   end
 
