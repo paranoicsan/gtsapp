@@ -14,41 +14,23 @@ describe UsersController do
     }
   end
 
-  def create_user
-    params = {}
-    user_params.each { |k, v| params[k] = "t_#{v}" }
-    unless User.find_by_username(params[:t_username])
-      #puts params.inspect
-      user = User.create!(params)
-      #noinspection RubyResolve
-      user.add_role "admin"
-    end
-  end
-
   before(:each) do
-    create_user
-    @app_controller = mock("ApplicationController")
-    #@app_controller.stub(:current_user).and_return(User.first)
-    #@app_controller.stub(:require_user).and_return(true)
-    #@app_controller.stub(:require_admin).and_return(true)
-    #@user_model = mock("User")
+    controller.stub(:require_user).and_return(true)
+    controller.stub(:require_admin).and_return(true)
   end
   
   
   describe "POST create" do
     it "должен создать пользователя с указанной ролью" do
       params = user_params
-      #roles = ["admin"]
-      #params[:roles] = roles
-      @app_controller.stub(:require_user).and_return(true)
-      post :create, :user => params
+      params[:roles] = %W(admin)
+      expect {
+        post :create, :user => params
+      }.to change(User, :count).by(1), "Пользователь не создался"
+      user = User.find_by_username(params[:username])
+      puts user.inspect
       #noinspection RubyResolve
-      puts flash.inspect
-      response.should redirect_to(users_path)
-      #expect {
-      #  post :create, :user => params
-      #}.to change(User, :count).by(1), "Пользователь не создался"
-      #assert :user.roles == roles, "Роль не назначена"
+      assert user && user.is_admin? == true, "Роль не назначена"
     end
     
     #describe "with valid params" do
