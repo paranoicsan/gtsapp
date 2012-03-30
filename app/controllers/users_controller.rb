@@ -1,3 +1,4 @@
+# encoding: utf-8
 class UsersController < ApplicationController
   helper :application
   before_filter :require_user
@@ -44,11 +45,16 @@ class UsersController < ApplicationController
   # POST /users
   # POST /users.json
   def create
+    # проверяем, была ли передана роль через параметры
+    if params[:user]['roles'].is_a?(String)
+      params[:user]['roles'] = [params[:user]['roles']]
+    end
+
     @user = User.new(params[:user])
 
     respond_to do |format|
       if @user.save
-        format.html { redirect_to users_path, notice: 'User was successfully created.' }
+        format.html { redirect_to users_path, notice: 'Пользователь создан' }
         format.json { render json: users_path, status: :created, location: @user }
       else
         format.html { render action: "new" }
