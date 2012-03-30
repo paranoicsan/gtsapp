@@ -34,9 +34,9 @@ end
 When /^Я создаю нового пользователя$/ do
   #noinspection RubyResolve
   visit new_user_path
-  fill_in :username, :with => 'Test user'
-  fill_in :password, :with => '1111'
-  fill_in :password_confirmation, :with => '1111'
-  fill_in :email, :with => 'test@333test.com'
-  click "commit"
+  fill_in "user_username", :with => 'Test user'
+  fill_in "user_password", :with => '1111'
+  fill_in "user_password_confirmation", :with => '1111'
+  fill_in "user_email", :with => 'test@333test.com'
+  click_button "Создать"
 end
