@@ -2,7 +2,6 @@ require 'rubygems'
 require 'spork'
 #uncomment the following line to use spork with the debugger
 #require 'spork/ext/ruby-debug'
-
 Spork.prefork do
   # Loading more in this block will cause your tests to run faster. However,
   # if you change any configuration or code from libraries loaded here, you'll
@@ -13,8 +12,10 @@ Spork.prefork do
   # instead of editing this one. Cucumber will automatically load all features/**/*.rb
   # files.
 
-  require 'simplecov'
-  SimpleCov.start 'rails'
+  unless ENV['DRB']
+    require 'simplecov'
+    SimpleCov.start 'rails'
+  end
 
   require 'cucumber/rails'
 
@@ -71,9 +72,10 @@ Spork.prefork do
 end
 
 Spork.each_run do
-  # This code will be run each time you run your specs.
-  require 'simplecov'
-  SimpleCov.start 'rails'
+  if ENV['DRB']
+    require 'simplecov'
+    SimpleCov.start 'rails'
+  end
 end
 
 # --- Instructions ---
