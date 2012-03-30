@@ -9,29 +9,11 @@ When /^Я вхожу в систему$/ do
   login @user
 end
 
-Then /^Я попадаю на страницу "([^"]*)"$/ do |page_title|
-  page.should have_content(page_title)
-end
-
-When /^Я вижу сообщение "([^"]*)"$/ do |msg|
-  #save_and_open_page
-  page.should have_content(msg)
-end
-
 When /^Я пытаюсь войти в систему с неверными данными$/ do
   @user = User.new
   @user.username = ""
   @user.password = ""
   step "Я вхожу в систему"
-end
-
-Given /^Я нахожусь на странице авторизации$/ do
-  step %{Я пытаюсь попасть на страницу авторизации}
-  step %{Я остаюсь на странице авторизации} # если пользователь не вышел, он не останется на первой странице
-end
-
-Then /^Я остаюсь на странице авторизации$/ do
-  page.should have_content("Авторизация")
 end
 
 Given /^Я авторизован в системе$/ do
