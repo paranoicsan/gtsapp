@@ -56,14 +56,6 @@ class ApplicationController < ActionController::Base
     false
   end
 
-  def require_no_user
-    if current_user
-      store_destination
-      flash[:error] = %{Необходимо выйти из системы для выполнения данной операции.}
-      redirect_to dashboard_url
-      false
-    end
-  end
 
   def redirect_back_or_default(default)
     redirect_to(session[:return_to] || default)
