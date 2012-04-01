@@ -24,7 +24,10 @@ describe CompaniesController do
   # Company. As you add validations to Company, be sure to
   # update the return value of this method accordingly.
   def valid_attributes
-    {}
+    {
+        :title => 'rspec_company',
+        :date_added => DateTime::now
+    }
   end
   
   # This should return the minimal set of values that should be in the session
@@ -111,7 +114,7 @@ describe CompaniesController do
         # specifies that the Company created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        Company.any_instance.should_receive(:update_attributes).with({:these => 'params'})
+        Company.any_instance.should_receive(:update_attributes).with({:these.to_s => 'params'})
         put :update, {:id => company.to_param, :company => {:these => 'params'}}, valid_session
       end
 

@@ -8,6 +8,7 @@ gem 'jquery-rails'
 gem 'haml'
 gem 'haml-rails'
 gem 'authlogic'
+gem 'easy_roles'
 
 group :development, :test do
   gem 'ruby-debug19', :require => 'ruby-debug'

@@ -1,6 +1,8 @@
+# encoding: utf-8
 class UsersController < ApplicationController
-  before_filter :require_no_user, :only => [:new, :create]
-  before_filter :require_user, :only => [:index, :show, :edit, :update]
+  helper :application
+  before_filter :require_user
+  before_filter :require_admin
 
   # GET /users
   # GET /users.json
@@ -43,12 +45,17 @@ class UsersController < ApplicationController
   # POST /users
   # POST /users.json
   def create
+    # проверяем, была ли передана роль через параметры
+    if params[:user]['roles'].is_a?(String)
+      params[:user]['roles'] = [params[:user]['roles']]
+    end
+
     @user = User.new(params[:user])
 
     respond_to do |format|
       if @user.save
-        format.html { redirect_to @user, notice: 'User was successfully created.' }
-        format.json { render json: @user, status: :created, location: @user }
+        format.html { redirect_to users_path, notice: 'Пользователь создан' }
+        format.json { render json: users_path, status: :created, location: @user }
       else
         format.html { render action: "new" }
         format.json { render json: @user.errors, status: :unprocessable_entity }

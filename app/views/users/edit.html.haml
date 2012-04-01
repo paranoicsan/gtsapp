@@ -13,10 +13,5 @@
           = msg
       - else
         = flash[:error]
-
-- if @current_user.is_admin?
-  = link_to "Пользователи", users_path
-= link_to "Выйти", logout_path
-
 %h1.section-title
-  Сводка
+  Редактирование пользователя

@@ -14,10 +14,10 @@
       - else
         = flash[:error]
 #home
-  #home_title Авторизация
+  #home_title.section-title Авторизация
   %br
   #login
-    = form_tag user_sessions_path(), :method => :post do
+    = form_tag user_sessions_path, :method => :post do
       %table
         %tr
           %td.labels
