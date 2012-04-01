@@ -25,6 +25,7 @@
 
 %table
   %tr
+    %th Status
     %th Title
     %th Date added
     %th Rubricator
@@ -34,6 +35,7 @@
 
   - @companies.each do |company|
     %tr
+      %td= company.company_status
       %td= company.title
       %td= company.date_added
       %td= company.rubricator

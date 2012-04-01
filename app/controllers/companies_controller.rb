@@ -1,4 +1,6 @@
+#include ApplicationHelper
 class CompaniesController < ApplicationController
+  #helper :application
   before_filter :require_user
 
   # GET /companies
