@@ -7,6 +7,9 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 # admin
-User.create(username: 't_admin', password: '1111', password_confirmation: '1111', email: 'admin@test.com', roles: ['admin']).save!
-User.create(username: 't_operator', password: '1111', password_confirmation: '1111', email: 'operator@test.com', roles: ['operator']).save!
-User.create(username: 't_agent', password: '1111', password_confirmation: '1111', email: 'agent@test.com', roles: ['agent']).save!
+User.create(username: 't_admin', password: '1111', password_confirmation: '1111',
+            email: 'admin@test.com', roles: %w(admin)).save!
+User.create(username: 't_operator', password: '1111', password_confirmation: '1111',
+            email: 'operator@test.com', roles: %w(operator)).save!
+User.create(username: 't_agent', password: '1111', password_confirmation: '1111',
+            email: 'agent@test.com', roles: %w(agent)).save!
