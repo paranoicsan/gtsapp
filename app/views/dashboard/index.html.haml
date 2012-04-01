@@ -14,6 +14,8 @@
       - else
         = flash[:error]
 
+-#TODO: Вынести блок верхнего меню в partial
+= link_to "Компании", companies_path
 - if @current_user.is_admin?
   = link_to "Пользователи", users_path
 = link_to "Выйти", logout_path
