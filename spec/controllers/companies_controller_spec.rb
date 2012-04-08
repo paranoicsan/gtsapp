@@ -1,3 +1,4 @@
+# encoding: utf-8
 require 'spec_helper'
 require 'shared/auth_helper'
 
@@ -8,26 +9,47 @@ describe CompaniesController do
   end
 
   before(:each) do
-    controller.stub(:require_user).and_return(true)
-    controller.stub(:require_admin).and_return(true)
+    controller.stub(:require_user).and_return(true) # подмена авторизованного пользователя
+    controller.stub(:require_admin).and_return(true) # подмена прав администратора
+    @user = mock(User)
+    @user.stub(:is_admin?).with(no_args).and_return(true) # подмена, что пользователь является администратором
+    controller.stub(:current_user).and_return(@user) # подмена текущего пользователя
   end
 
   # This should return the minimal set of attributes required to create a valid
   # Company. As you add validations to Company, be sure to
   # update the return value of this method accordingly.
   def valid_attributes
-    #{
-    #    :title => 'rspec_company',
-    #    :date_added => DateTime::now
-    #}
-    {}
+    {
+        :title => 'rspec_company',
+        :date_added => Date::today
+    }
   end
-  
+
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # CompaniesController. Be sure to keep this updated too.
   def valid_session
     {}
+  end
+
+  describe "Подготовка значений рубрикатора" do
+    before(:each) do
+      @params = {}
+    end
+    it "должен возвращать сумму для полного рубрикатора" do
+      @params[0] = 1
+      @params[1] = 2
+      assert CompaniesController.prepare_rubricator(@params) == 3, "Значения для рубрикатора не суммируются"
+    end
+    it "должен возвращать отдельные значения для социального рубрикатора " do
+      @params[0] = 1
+      assert CompaniesController.prepare_rubricator(@params) == 1, "Неверное значение для социального рубрикатора"
+    end
+    it "должен возвращать отдельные значения для коммерческого рубрикатора " do
+      @params[1] = 2
+      assert CompaniesController.prepare_rubricator(@params) == 2, "Неверное значение для коммерческого рубрикатора"
+    end
   end
 
   describe "GET index" do
@@ -69,6 +91,16 @@ describe CompaniesController do
         }.to change(Company, :count).by(1)
       end
 
+      it "создается со статусом АКТИВНА для админа и оператора" do
+        status = CompanyStatus.create!  :name => "Активна"
+        post :create, {:company => valid_attributes}, valid_session
+        assigns(:company).company_status == status
+      end
+
+      it "создается со статусом НА РАССМОТРЕНИИ для агента" do
+
+      end
+
       it "assigns a newly created company as @company" do
         post :create, {:company => valid_attributes}, valid_session
         assigns(:company).should be_a(Company)
@@ -107,7 +139,7 @@ describe CompaniesController do
         # specifies that the Company created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        Company.any_instance.should_receive(:update_attributes).with({:these.to_s => 'params'})
+        Company.any_instance.should_receive(:update_attributes).with({:these.to_s => 'params', :rubricator.to_s => 0})
         put :update, {:id => company.to_param, :company => {:these => 'params'}}, valid_session
       end
 

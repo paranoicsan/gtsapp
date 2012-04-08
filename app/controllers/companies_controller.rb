@@ -1,7 +1,18 @@
-#include ApplicationHelper
+# encoding: utf-8
 class CompaniesController < ApplicationController
-  #helper :application
+  helper :application
   before_filter :require_user
+
+  # Подготавливает значения рубрикатора для вставки в СУБД
+  # @param params [Hash] массив значений выбранных Checkbox-объектов
+  # @return [Integer] финальное значение
+  def self.prepare_rubricator(params)
+    r = 0
+    if params.is_a?(Hash)
+      params.each_value { |v| r += Integer(v) }
+    end
+    r
+  end
 
   # GET /companies
   # GET /companies.json
@@ -44,11 +55,20 @@ class CompaniesController < ApplicationController
   # POST /companies
   # POST /companies.json
   def create
+
+    # Определяем права пользователя и в зависимости от этого задаем статус
+    #noinspection RubyResolve
+    status = current_user.is_admin? || current_user.is_operator? ? CompanyStatus.active : CompanyStatus.pending
+    params[:company][:company_status] = status
+
+    # Обрабатываем рубрикатор
+    params[:company][:rubricator] = CompaniesController.prepare_rubricator(params[:company][:rubricator])
+
     @company = Company.new(params[:company])
 
     respond_to do |format|
       if @company.save
-        format.html { redirect_to @company, notice: 'Company was successfully created.' }
+        format.html { redirect_to @company, notice: 'Компания добавлена' }
         format.json { render json: @company, status: :created, location: @company }
       else
         format.html { render action: "new" }
@@ -61,6 +81,9 @@ class CompaniesController < ApplicationController
   # PUT /companies/1.json
   def update
     @company = Company.find(params[:id])
+
+    # Обрабатываем рубрикатор
+    params[:company][:rubricator] = CompaniesController.prepare_rubricator(params[:company][:rubricator])
 
     respond_to do |format|
       if @company.update_attributes(params[:company])

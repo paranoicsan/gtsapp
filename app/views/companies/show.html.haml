@@ -4,11 +4,21 @@
   %strong Title:
   = @company.title
 %p
+  %strong Статус
+  %div#company_status
+    - if @company.company_status
+      = @company.company_status.name
+    - else
+      Нет статуса
+%p
   %strong Date added:
   = @company.date_added
 %p
   %strong Rubricator:
-  = @company.rubricator
+  Социальный
+  = check_box_tag "company[rubricator]", 1, @company.social_rubricator? || @company.full_rubricator?, :disabled => true
+  Коммерческий
+  = check_box_tag "company[rubricator]", 2, @company.commercial_rubricator? || @company.full_rubricator?, :disabled => true
 
 = link_to 'Edit', edit_company_path(@company)
 \|

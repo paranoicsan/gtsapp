@@ -13,11 +13,9 @@
     = f.label :date_added
     = f.date_select :date_added
   .field
-    -#= f.label :rubricator
-    -#= f.check_box  :rubricator, {  }
     Социальный
-    = check_box_tag "user[role_ids][]", 1, true if (@company.rubricator = 1) || (@company.rubricator = 3)
+    = check_box_tag "company[rubricator][0]", 1, @company.social_rubricator? || @company.full_rubricator?
     Коммерческий
-    = check_box_tag "user[role_ids][]", 2, true if (@company.rubricator = 2) || (@company.rubricator = 3)
+    = check_box_tag "company[rubricator][1]", 2, @company.commercial_rubricator? || @company.full_rubricator?
   .actions
-    = f.submit 'Создать'
+    = f.submit 'Сохранить'

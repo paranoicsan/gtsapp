@@ -9,6 +9,11 @@ Feature: Создание, удаление, редактирование ком
       | t_admin    | 1111     | t_admin@test.com    | admin    |
       | t_operator | 1111     | t_operator@test.com | operator |
       | t_agent    | 1111     | t_agent@test.com    | agent    |
+    And Существуют следующие статусы компаний
+      | name |
+      | Активна |
+      | На рассмотрении |
+      | В архиве |
 
   Scenario: Все авторизованные пользователи могут просматривать список компаний
     Given Я - пользователь "t_agent" с паролем "1111"

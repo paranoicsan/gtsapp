@@ -15,7 +15,7 @@
         = flash[:error]
 
 -#TODO: Вынести блок верхнего меню в partial
-= link_to "Компании", companies_path
+= link_to "Сводка", dashboard_path
 - if @current_user.is_admin?
   = link_to "Пользователи", users_path
 = link_to "Выйти", logout_path
@@ -35,10 +35,10 @@
 
   - @companies.each do |company|
     %tr
-      %td= company.company_status
+      %td= company.company_status.name
       %td= company.title
       %td= company.date_added
-      %td= company.rubricator
+      %td= company.rubricator_name
       %td= link_to 'Show', company
       %td= link_to 'Edit', edit_company_path(company)
       %td= link_to 'Destroy', company, :confirm => 'Are you sure?', :method => :delete

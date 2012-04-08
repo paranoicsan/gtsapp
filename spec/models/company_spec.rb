@@ -27,4 +27,20 @@ describe Company do
       assert @company.full_rubricator?, "Должен быть полный рубрикатор"
     end
   end
+
+  describe "возвращает текстовое название рубрикатора или рубрикаторов, связанных с компанией" do
+    it "возврат имени социального рубрикатора" do
+      @company.rubricator = 1
+      assert @company.rubricator_name == "Социальный", "Социальный рубрикатор не выводится по имени"
+    end
+    it "возврат имени коммерческого рубрикатора" do
+      @company.rubricator = 2
+      assert @company.rubricator_name == "Коммерческий", "Коммерческий рубрикатор не выводится по имени"
+    end
+    it "возврат имени полного рубрикатора" do
+      @company.rubricator = 3
+      assert @company.rubricator_name == "Полный", "Полный рубрикатор не выводится по имени"
+    end
+  end
+
 end
