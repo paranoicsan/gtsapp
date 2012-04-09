@@ -3,3 +3,6 @@ db/*.sqlite3
 log/*.log
 tmp/
 .sass-cache/
+.idea/dataSources.xml
+.idea/gtsapp.iml
+.idea/misc.xml
