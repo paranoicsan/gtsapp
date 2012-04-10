@@ -1,21 +1,12 @@
 # encoding: utf-8
--#TODO: Вынести этот блок в partial
-#message
-  - if flash[:notice]
-    #notice
-      = flash[:notice]
-  - if flash[:error]
-    #warning
-      Ошибка:
-      %br
-      - if flash[:error].is_a?(Array)
-        - flash[:error].each do |msg|
-          = msg
-      - else
-        = flash[:error]
-%h1.section-title
-  Создание пользователя
+= render :partial => "shared/top_menu"
+= render :partial => "shared/messages"
+
+%h1.section-title#title
+  Новый пользователь
 
 = render :partial => "form"
+
+= link_to "Назад", users_path
 
 
