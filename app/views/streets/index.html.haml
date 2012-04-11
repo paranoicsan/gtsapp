@@ -1,0 +1,23 @@
+%h1 Listing streets
+
+%table
+  %tr
+    %th Name
+    %th Old
+    %th City
+    %th
+    %th
+    %th
+
+  - @streets.each do |street|
+    %tr
+      %td= street.name
+      %td= street.old_id
+      %td= street.city_id
+      %td= link_to 'Show', street
+      %td= link_to 'Edit', edit_street_path(street)
+      %td= link_to 'Destroy', street, :confirm => 'Are you sure?', :method => :delete
+
+%br
+
+= link_to 'New Street', new_street_path

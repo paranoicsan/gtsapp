@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120411205909) do
+ActiveRecord::Schema.define(:version => 20120411213042) do
 
   create_table "cities", :force => true do |t|
     t.string   "name"
@@ -36,9 +36,31 @@ ActiveRecord::Schema.define(:version => 20120411205909) do
     t.datetime "updated_at"
   end
 
+  create_table "districts", :force => true do |t|
+    t.string   "name"
+    t.integer  "old_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "form_types", :force => true do |t|
     t.string  "name"
     t.integer "old_id"
+  end
+
+  create_table "post_indices", :force => true do |t|
+    t.integer  "code"
+    t.integer  "old_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "streets", :force => true do |t|
+    t.string   "name"
+    t.integer  "old_id"
+    t.integer  "city_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "users", :force => true do |t|
@@ -51,5 +73,7 @@ ActiveRecord::Schema.define(:version => 20120411205909) do
     t.datetime "updated_at"
     t.string   "roles",             :default => "--- []"
   end
+
+  add_foreign_key "streets", "cities", :name => "streets_city_id_fk"
 
 end

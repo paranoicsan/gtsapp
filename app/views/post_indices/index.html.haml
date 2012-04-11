@@ -1,0 +1,21 @@
+%h1 Listing post_indices
+
+%table
+  %tr
+    %th Code
+    %th Old
+    %th
+    %th
+    %th
+
+  - @post_indices.each do |post_index|
+    %tr
+      %td= post_index.code
+      %td= post_index.old_id
+      %td= link_to 'Show', post_index
+      %td= link_to 'Edit', edit_post_index_path(post_index)
+      %td= link_to 'Destroy', post_index, :confirm => 'Are you sure?', :method => :delete
+
+%br
+
+= link_to 'New Post index', new_post_index_path
