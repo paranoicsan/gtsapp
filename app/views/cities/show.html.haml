@@ -1,0 +1,15 @@
+%p#notice= notice
+
+%p
+  %span style="font-weight: bold;" Name:
+  = @city.name
+%p
+  %span style="font-weight: bold;" Phone code:
+  = @city.phone_code
+%p
+  %span style="font-weight: bold;" Old:
+  = @city.old_id
+
+= link_to 'Edit', edit_city_path(@city)
+\|
+= link_to 'Back', cities_path

@@ -1,4 +1,5 @@
 Gtsapp::Application.routes.draw do
+  resources :cities
   resources :form_types
   resources :companies
   resources :users
