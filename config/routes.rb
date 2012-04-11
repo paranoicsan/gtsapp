@@ -1,6 +1,5 @@
 Gtsapp::Application.routes.draw do
-  resources :company_statuses
-
+  resources :form_types
   resources :companies
   resources :users
   resources :user_sessions
