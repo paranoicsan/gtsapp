@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120411213042) do
+ActiveRecord::Schema.define(:version => 20120411215412) do
 
   create_table "cities", :force => true do |t|
     t.string   "name"
@@ -55,6 +55,12 @@ ActiveRecord::Schema.define(:version => 20120411213042) do
     t.datetime "updated_at"
   end
 
+  create_table "street_indices", :force => true do |t|
+    t.integer "street_id"
+    t.integer "post_index_id"
+    t.string  "comments"
+  end
+
   create_table "streets", :force => true do |t|
     t.string   "name"
     t.integer  "old_id"
@@ -73,6 +79,9 @@ ActiveRecord::Schema.define(:version => 20120411213042) do
     t.datetime "updated_at"
     t.string   "roles",             :default => "--- []"
   end
+
+  add_foreign_key "street_indices", "post_indices", :name => "street_indices_post_index_id_fk"
+  add_foreign_key "street_indices", "streets", :name => "street_indices_street_id_fk"
 
   add_foreign_key "streets", "cities", :name => "streets_city_id_fk"
 

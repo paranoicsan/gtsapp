@@ -41,4 +41,18 @@ namespace :db do
     end
   end
 
+  desc 'Загрузка связей Улица-Почтовый индекс'
+  task :load_streets_indices  => :environment do
+    CSV.foreach('db/data/street_index.csv', { :col_sep => ',', :quote_char =>'"', :headers => true }) do |row|
+
+      old_street_id = row[0]
+      old_index_id = row[1]
+      new_street_id = Street.find_by_old_id(old_street_id).id
+      new_index_id = PostIndex.find_by_old_id(old_index_id).id
+
+      StreetIndex.create(:street_id => new_street_id, :post_index_id => new_index_id,
+                         :comments => row[2])
+    end
+  end
+
 end
