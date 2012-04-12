@@ -15,8 +15,3 @@ User.create(username: 't_operator', password: '1111', password_confirmation: '11
             email: 'operator@test.com', roles: %w(operator)).save!
 User.create(username: 't_agent', password: '1111', password_confirmation: '1111',
             email: 'agent@test.com', roles: %w(agent)).save!
-
-# Статусы компаний
-CompanyStatus.create(name: 'Активна').save!
-CompanyStatus.create(name: 'На рассмотрении').save!
-CompanyStatus.create(name: 'В архиве').save!
