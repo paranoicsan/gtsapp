@@ -1,0 +1,27 @@
+%h1 Listing branches
+
+%table
+  %tr
+    %th Form type
+    %th Fact name
+    %th Legel name
+    %th Company
+    %th Address
+    %th
+    %th
+    %th
+
+  - @branches.each do |branch|
+    %tr
+      %td= branch.form_type_id
+      %td= branch.fact_name
+      %td= branch.legel_name
+      %td= branch.company_id
+      %td= branch.address_id
+      %td= link_to 'Show', branch
+      %td= link_to 'Edit', edit_branch_path(branch)
+      %td= link_to 'Destroy', branch, :confirm => 'Are you sure?', :method => :delete
+
+%br
+
+= link_to 'New Branch', new_branch_path

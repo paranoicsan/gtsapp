@@ -1,0 +1,21 @@
+%p#notice= notice
+
+%p
+  %span style="font-weight: bold;" Form type:
+  = @branch.form_type_id
+%p
+  %span style="font-weight: bold;" Fact name:
+  = @branch.fact_name
+%p
+  %span style="font-weight: bold;" Legel name:
+  = @branch.legel_name
+%p
+  %span style="font-weight: bold;" Company:
+  = @branch.company_id
+%p
+  %span style="font-weight: bold;" Address:
+  = @branch.address_id
+
+= link_to 'Edit', edit_branch_path(@branch)
+\|
+= link_to 'Back', branches_path

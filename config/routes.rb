@@ -1,6 +1,6 @@
 Gtsapp::Application.routes.draw do
+  resources :branches
   resources :addresses
-
   resources :streets
   resources :post_indices
   resources :districts
