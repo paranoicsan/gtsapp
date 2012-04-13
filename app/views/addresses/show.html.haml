@@ -1,0 +1,45 @@
+%p#notice= notice
+
+%p
+  %span style="font-weight: bold;" House:
+  = @address.house
+%p
+  %span style="font-weight: bold;" Entrance:
+  = @address.entrance
+%p
+  %span style="font-weight: bold;" Case:
+  = @address.case
+%p
+  %span style="font-weight: bold;" Stage:
+  = @address.stage
+%p
+  %span style="font-weight: bold;" Office:
+  = @address.office
+%p
+  %span style="font-weight: bold;" Cabinet:
+  = @address.cabinet
+%p
+  %span style="font-weight: bold;" Other:
+  = @address.other
+%p
+  %span style="font-weight: bold;" Pavilion:
+  = @address.pavilion
+%p
+  %span style="font-weight: bold;" Litera:
+  = @address.litera
+%p
+  %span style="font-weight: bold;" District:
+  = @address.district_id
+%p
+  %span style="font-weight: bold;" City:
+  = @address.city_id
+%p
+  %span style="font-weight: bold;" Street:
+  = @address.street_id
+%p
+  %span style="font-weight: bold;" Post index:
+  = @address.post_index_id
+
+= link_to 'Edit', edit_address_path(@address)
+\|
+= link_to 'Back', addresses_path

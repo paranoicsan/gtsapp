@@ -98,14 +98,4 @@ ActiveRecord::Schema.define(:version => 20120413182348) do
     t.string   "roles",             :default => "--- []"
   end
 
-  add_foreign_key "addresses", "cities", :name => "addresses_city_id_fk"
-  add_foreign_key "addresses", "districts", :name => "addresses_district_id_fk"
-  add_foreign_key "addresses", "post_indices", :name => "addresses_post_index_id_fk"
-  add_foreign_key "addresses", "streets", :name => "addresses_street_id_fk"
-
-  add_foreign_key "street_indices", "post_indices", :name => "street_indices_post_index_id_fk"
-  add_foreign_key "street_indices", "streets", :name => "street_indices_street_id_fk"
-
-  add_foreign_key "streets", "cities", :name => "streets_city_id_fk"
-
 end
