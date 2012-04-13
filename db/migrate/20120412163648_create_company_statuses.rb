@@ -9,10 +9,5 @@ class CreateCompanyStatuses < ActiveRecord::Migration
 
     add_column :companies, :company_status_id, :integer
 
-    # Статусы компаний
-    CompanyStatus.create(name: 'Активна').save!
-    CompanyStatus.create(name: 'На рассмотрении').save!
-    CompanyStatus.create(name: 'В архиве').save!
-
   end
 end
