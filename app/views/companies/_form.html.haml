@@ -17,5 +17,19 @@
     = check_box_tag "company[rubricator][0]", 1, @company.social_rubricator? || @company.full_rubricator?
     Коммерческий
     = check_box_tag "company[rubricator][1]", 2, @company.commercial_rubricator? || @company.full_rubricator?
+
+  %p Филиалы
+  %table
+    %tr
+      %th Form type
+      %th Fact name
+      %th Legel name
+
+    - @branches.each do |branch|
+      %tr
+        %td= branch.form_type.name
+        %td= branch.fact_name
+        %td= branch.legel_name
+
   .actions
     = f.submit 'Сохранить'
