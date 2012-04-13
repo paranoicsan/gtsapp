@@ -11,7 +11,25 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120412163648) do
+ActiveRecord::Schema.define(:version => 20120413182348) do
+
+  create_table "addresses", :force => true do |t|
+    t.string   "house"
+    t.string   "entrance"
+    t.string   "case"
+    t.string   "stage"
+    t.string   "office"
+    t.string   "cabinet"
+    t.string   "other"
+    t.string   "pavilion"
+    t.string   "litera"
+    t.integer  "district_id"
+    t.integer  "city_id"
+    t.integer  "street_id"
+    t.integer  "post_index_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "cities", :force => true do |t|
     t.string   "name"
@@ -79,5 +97,15 @@ ActiveRecord::Schema.define(:version => 20120412163648) do
     t.datetime "updated_at"
     t.string   "roles",             :default => "--- []"
   end
+
+  add_foreign_key "addresses", "cities", :name => "addresses_city_id_fk"
+  add_foreign_key "addresses", "districts", :name => "addresses_district_id_fk"
+  add_foreign_key "addresses", "post_indices", :name => "addresses_post_index_id_fk"
+  add_foreign_key "addresses", "streets", :name => "addresses_street_id_fk"
+
+  add_foreign_key "street_indices", "post_indices", :name => "street_indices_post_index_id_fk"
+  add_foreign_key "street_indices", "streets", :name => "street_indices_street_id_fk"
+
+  add_foreign_key "streets", "cities", :name => "streets_city_id_fk"
 
 end
