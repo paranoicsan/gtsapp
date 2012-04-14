@@ -9,3 +9,7 @@ When /^Я создаю филиал с фактическим названием
   select "МУП", :from => "branch_form_type_id"
   click_button "Добавить"
 end
+When /^Я вижу "([^"]*)" в списке филиалов$/ do |bname|
+  page.should have_content(bname)
+  save_and_open_page
+end

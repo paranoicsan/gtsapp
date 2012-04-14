@@ -23,7 +23,17 @@
 
 %h2 Филиалы
 
-= link_to 'Добавить филиал', new_company_branch_path(@company)
+%table#index
+  %tr
+    %th Фактическое название
+    %th Юридическое название
+    %th Форма собственности
+  -@branches.each do |branch|
+    %td= branch.fact_name
+    %td= branch.legel_name
+    %td= branch.form_type.name
+
+%p= link_to 'Добавить филиал', new_company_branch_path(@company)
 
 = link_to 'Edit', edit_company_path(@company)
 \|
