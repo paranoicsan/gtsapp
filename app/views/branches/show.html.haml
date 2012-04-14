@@ -1,21 +1,25 @@
-%p#notice= notice
+
+= render :partial => "shared/top_menu"
+= render :partial => "shared/messages"
+
+%h1#title
+  Филиал
+
+= link_to @company.title, company_path(@company)
 
 %p
-  %span style="font-weight: bold;" Form type:
-  = @branch.form_type_id
+  %strong Form type:
+  = @branch.form_type.name
 %p
-  %span style="font-weight: bold;" Fact name:
+  %strong Fact name:
   = @branch.fact_name
 %p
-  %span style="font-weight: bold;" Legel name:
+  %strong Legel name:
   = @branch.legel_name
 %p
-  %span style="font-weight: bold;" Company:
-  = @branch.company_id
-%p
-  %span style="font-weight: bold;" Address:
-  = @branch.address_id
+  %strong Примечание:
+  = @branch.comments
 
 = link_to 'Edit', edit_branch_path(@branch)
 \|
-= link_to 'Back', branches_path
+= link_to 'Back', company_path(@company)

@@ -1,5 +1,10 @@
-%h1 New branch
+
+= render :partial => "shared/top_menu"
+= render :partial => "shared/messages"
+
+%h1#title
+  Новый филиал
 
 = render 'form'
 
-= link_to 'Back', branches_path
+= link_to 'Отмена', company_path(@company)

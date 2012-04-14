@@ -1,3 +1,4 @@
+
 = render :partial => "shared/top_menu"
 = render :partial => "shared/messages"
 
@@ -19,6 +20,10 @@
   = check_box_tag "company[rubricator]", 1, @company.social_rubricator? || @company.full_rubricator?, :disabled => true
   Коммерческий
   = check_box_tag "company[rubricator]", 2, @company.commercial_rubricator? || @company.full_rubricator?, :disabled => true
+
+%h2 Филиалы
+
+= link_to 'Добавить филиал', new_company_branch_path(@company)
 
 = link_to 'Edit', edit_company_path(@company)
 \|
