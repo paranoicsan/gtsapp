@@ -76,7 +76,8 @@ class AddressesController < ApplicationController
     @address.destroy
 
     respond_to do |format|
-      format.html { redirect_to addresses_url }
+      #noinspection RubyResolve
+      format.html { redirect_to branch_addresses_url(params[:branch_id]) }
       format.json { head :ok }
     end
   end
