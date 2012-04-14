@@ -19,6 +19,7 @@
     = check_box_tag "company[rubricator][1]", 2, @company.commercial_rubricator? || @company.full_rubricator?
 
   %p Филиалы
+  -#= link_to "Добавить", new_company_branch_url
   %table
     %tr
       %th Form type

@@ -76,7 +76,7 @@ class BranchesController < ApplicationController
     @branch.destroy
 
     respond_to do |format|
-      format.html { redirect_to branches_url }
+      format.html { redirect_to company_branches_url(params[:company_id]) }
       format.json { head :ok }
     end
   end

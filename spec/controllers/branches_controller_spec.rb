@@ -24,7 +24,7 @@ describe BranchesController do
   # Branch. As you add validations to Branch, be sure to
   # update the return value of this method accordingly.
   def valid_attributes
-    {}
+    {:company_id => 1}
   end
   
   # This should return the minimal set of values that should be in the session
@@ -37,7 +37,7 @@ describe BranchesController do
   describe "GET index" do
     it "assigns all branches as @branches" do
       branch = Branch.create! valid_attributes
-      get :index, {}, valid_session
+      get :index, {:company_id => 1}, valid_session
       assigns(:branches).should eq([branch])
     end
   end
@@ -52,7 +52,7 @@ describe BranchesController do
 
   describe "GET new" do
     it "assigns a new branch as @branch" do
-      get :new, {}, valid_session
+      get :new, {:company_id => 1}, valid_session
       assigns(:branch).should be_a_new(Branch)
     end
   end
@@ -69,19 +69,19 @@ describe BranchesController do
     describe "with valid params" do
       it "creates a new Branch" do
         expect {
-          post :create, {:branch => valid_attributes}, valid_session
+          post :create, {:branch => valid_attributes, :company_id => 1}, valid_session
         }.to change(Branch, :count).by(1)
       end
 
       it "assigns a newly created branch as @branch" do
-        post :create, {:branch => valid_attributes}, valid_session
+        post :create, {:branch => valid_attributes, :company_id => 1}, valid_session
         assigns(:branch).should be_a(Branch)
         #noinspection RubyResolve
         assigns(:branch).should be_persisted
       end
 
       it "redirects to the created branch" do
-        post :create, {:branch => valid_attributes}, valid_session
+        post :create, {:branch => valid_attributes, :company_id => 1}, valid_session
         response.should redirect_to(Branch.last)
       end
     end
@@ -90,14 +90,14 @@ describe BranchesController do
       it "assigns a newly created but unsaved branch as @branch" do
         # Trigger the behavior that occurs when invalid params are submitted
         Branch.any_instance.stub(:save).and_return(false)
-        post :create, {:branch => {}}, valid_session
+        post :create, {:branch => {}, :company_id => 1}, valid_session
         assigns(:branch).should be_a_new(Branch)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         Branch.any_instance.stub(:save).and_return(false)
-        post :create, {:branch => {}}, valid_session
+        post :create, {:branch => {}, :company_id => 1}, valid_session
         response.should render_template("new")
       end
     end
@@ -151,15 +151,15 @@ describe BranchesController do
     it "destroys the requested branch" do
       branch = Branch.create! valid_attributes
       expect {
-        delete :destroy, {:id => branch.to_param}, valid_session
+        delete :destroy, {:id => branch.to_param, :company_id => 1}, valid_session
       }.to change(Branch, :count).by(-1)
     end
 
     it "redirects to the branches list" do
       branch = Branch.create! valid_attributes
-      delete :destroy, {:id => branch.to_param}, valid_session
+      delete :destroy, {:id => branch.to_param, :company_id => 1}, valid_session
       #noinspection RubyResolve
-      response.should redirect_to(branches_url)
+      response.should redirect_to(company_branches_url(1))
     end
   end
 
