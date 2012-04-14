@@ -28,10 +28,12 @@
     %th Фактическое название
     %th Юридическое название
     %th Форма собственности
+    %th
   -@branches.each do |branch|
     %td= branch.fact_name
     %td= branch.legel_name
     %td= branch.form_type.name
+    %td= link_to 'Удалить', branch, :confirm => 'Вы уверены?', :method => :delete
 
 %p= link_to 'Добавить филиал', new_company_branch_path(@company)
 

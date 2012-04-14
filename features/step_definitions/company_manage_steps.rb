@@ -25,3 +25,8 @@ When /^Существуют следующие формы собственнос
     FormType.create! :name => forms[:name]
   end
 end
+When /^Я нахожусь на странице компании "([^"]*)"$/ do |company_name|
+  company = Company.find_by_title company_name
+  #noinspection RubyResolve
+  visit company_path company
+end
