@@ -1,4 +1,5 @@
-= form_for @address do |f|
+-form_params = @branch ? [@branch, @address] : @address
+= form_for (form_params) do |f|
   -if @address.errors.any?
     #error_explanation
       %h2= "#{pluralize(@address.errors.count, "error")} prohibited this address from being saved:"
@@ -6,6 +7,18 @@
         - @address.errors.full_messages.each do |msg|
           %li= msg
 
+  .field
+    = f.label :district_id
+    = f.select(:district_id, options_for_select(District.all.collect{ |el| [el.name, el.id] }))
+  .field
+    = f.label :city_id
+    = f.select(:city_id, options_for_select(City.all.collect{ |el| [el.name, el.id] }))
+  .field
+    = f.label :street_id
+    = f.select(:street_id, options_for_select(Street.all.collect{ |el| [el.name, el.id] }))
+  .field
+    = f.label :post_index_id
+    = f.select(:post_index_id, options_for_select(PostIndex.all.collect{ |el| [el.name, el.id] }))
   .field
     = f.label :house
     = f.text_field :house
@@ -33,17 +46,5 @@
   .field
     = f.label :litera
     = f.text_field :litera
-  .field
-    = f.label :district_id
-    = f.number_field :district_id
-  .field
-    = f.label :city_id
-    = f.number_field :city_id
-  .field
-    = f.label :street_id
-    = f.number_field :street_id
-  .field
-    = f.label :post_index_id
-    = f.number_field :post_index_id
   .actions
-    = f.submit 'Save'
+    = f.submit 'Сохранить'

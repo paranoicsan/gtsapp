@@ -1,45 +1,52 @@
-%p#notice= notice
+
+= render :partial => "shared/top_menu"
+= render :partial => "shared/messages"
+
+%h1#title
+  Адрес
+
+= link_to @branch.fact_name, branch_path(@branch)
 
 %p
-  %span style="font-weight: bold;" House:
+  %strong House:
   = @address.house
 %p
-  %span style="font-weight: bold;" Entrance:
+  %strong Entrance:
   = @address.entrance
 %p
-  %span style="font-weight: bold;" Case:
+  %strong Case:
   = @address.case
 %p
-  %span style="font-weight: bold;" Stage:
+  %strong Stage:
   = @address.stage
 %p
-  %span style="font-weight: bold;" Office:
+  %strong Office:
   = @address.office
 %p
-  %span style="font-weight: bold;" Cabinet:
+  %strong Cabinet:
   = @address.cabinet
 %p
-  %span style="font-weight: bold;" Other:
+  %strong Other:
   = @address.other
 %p
-  %span style="font-weight: bold;" Pavilion:
+  %strong Pavilion:
   = @address.pavilion
 %p
-  %span style="font-weight: bold;" Litera:
+  %strong Litera:
   = @address.litera
 %p
-  %span style="font-weight: bold;" District:
+  %strong District:
   = @address.district_id
 %p
-  %span style="font-weight: bold;" City:
+  %strong City:
   = @address.city_id
 %p
-  %span style="font-weight: bold;" Street:
+  %strong Street:
   = @address.street_id
 %p
-  %span style="font-weight: bold;" Post index:
+  %strong Post index:
   = @address.post_index_id
 
-= link_to 'Edit', edit_address_path(@address)
+= link_to 'Изменить', edit_address_path(@address)
 \|
-= link_to 'Back', addresses_path
+= link_to 'К филиалу', branch_path(@branch)

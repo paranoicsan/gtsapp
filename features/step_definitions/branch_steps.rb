@@ -16,9 +16,7 @@ When /^Существует филиал "([^"]*)" в компании "([^"]*)"
   step %{Я создаю филиал с фактическим названием "#{bname}" для компании "#{cname}"}
 end
 When /^Я удаляю филиал "([^"]*)" компании "([^"]*)"$/ do |bname, cname|
-  company = Company.find_by_title cname
-  #noinspection RubyResolve
-  branch = company.branches.find_by_fact_name bname
+  branch = find_branch(bname, cname)
   #noinspection RubyResolve
   s = branch_path branch
   page.find(%{a[href = "#{s}"][data-method = "delete"]}).click
@@ -40,10 +38,11 @@ Given /^Существуют следующие филиалы для компа
     b.save
   end
 end
+
+
 When /^Я изменяю информацию для филиала компании "([^"]*)" с факт. названием "([^"]*)" на$/ do |cname, bname, table|
   # table is a | МУП       | Филиал рогов изменённый | Юр. имя филиала рогов изменённое |pending
-  company = Company.find_by_title cname
-  branch = company.branches.find_by_fact_name bname
+  branch = find_branch(bname, cname)
   #noinspection RubyResolve
   visit edit_branch_path branch
   table.hashes.each do |new_info|

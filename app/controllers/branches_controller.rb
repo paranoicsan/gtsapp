@@ -17,7 +17,7 @@ class BranchesController < ApplicationController
   def show
     @branch = Branch.find(params[:id])
     @company = @branch.company
-    puts @company.inspect
+
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @branch }

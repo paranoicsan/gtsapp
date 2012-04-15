@@ -20,6 +20,13 @@
   %strong Примечание:
   = @branch.comments
 
-= link_to 'Edit', edit_branch_path(@branch)
+= link_to 'Изменить', edit_branch_path(@branch)
 \|
 = link_to 'К компании', company_path(@company)
+
+%h2 Адрес
+
+-if @branch.address.is_a?(NilClass)
+  = link_to 'Добавить адрес', new_branch_address_path(@branch)
+-else
+  = link_to 'Удалить адрес', @branch.address, :confirm => 'Вы уверены?', :method => :delete
