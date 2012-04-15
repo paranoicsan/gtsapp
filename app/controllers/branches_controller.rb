@@ -36,7 +36,6 @@ class BranchesController < ApplicationController
   # GET /branches/1/edit
   def edit
     @branch = Branch.find(params[:id])
-    @company = @branch.company
   end
 
   # POST /companies/:company_id/branches

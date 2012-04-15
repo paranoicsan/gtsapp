@@ -1,7 +1,10 @@
-%h1 Editing branch
+
+= render :partial => "shared/top_menu"
+= render :partial => "shared/messages"
+
+%h1#title
+  Изменене филиала
 
 = render 'form'
 
-= link_to 'Show', @branch
-\|
-= link_to 'Back', branches_path
+= link_to 'Отмена', company_path(@company)

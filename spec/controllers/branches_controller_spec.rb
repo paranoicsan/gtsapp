@@ -167,11 +167,11 @@ describe BranchesController do
       }.to change(Branch, :count).by(-1)
     end
 
-    it "redirects to the branches list" do
+    it "перенаправляет на страницу компании" do
       branch = Branch.create! valid_attributes
       delete :destroy, {:id => branch.to_param, :company_id => 1}, valid_session
       #noinspection RubyResolve
-      response.should redirect_to(company_branches_url(1))
+      response.should redirect_to(company_url(1))
     end
   end
 

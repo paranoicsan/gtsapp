@@ -1,4 +1,5 @@
-= form_for ([@company, @branch]) do |f|
+-form_params = @company ? [@company, @branch] : @branch
+= form_for (form_params) do |f|
   -if @branch.errors.any?
     #error_explanation
       %h2= "#{pluralize(@branch.errors.count, "error")} prohibited this branch from being saved:"
@@ -19,4 +20,4 @@
     = f.label :comments
     = f.text_field :comments
   .actions
-    = f.submit 'Добавить'
+    = f.submit 'Сохранить'
