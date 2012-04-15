@@ -29,4 +29,6 @@
 -if @branch.address.is_a?(NilClass)
   = link_to 'Добавить адрес', new_branch_address_path(@branch)
 -else
+  = link_to 'Изменить адрес', edit_address_path(@branch.address)
+  \|
   = link_to 'Удалить адрес', @branch.address, :confirm => 'Вы уверены?', :method => :delete

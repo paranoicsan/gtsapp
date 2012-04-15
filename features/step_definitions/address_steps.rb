@@ -36,8 +36,8 @@ When /^Я вижу адрес со следующей информацией$/ d
   end
 end
 When /^Для филиала "([^"]*)" компании "([^"]*)" существует адрес$/ do |bname, cname|
-  branch = find_branch(bname, cname)
-  branch.address = Address.create({:house => 111})
+  @branch = find_branch(bname, cname)
+  @branch.address = Address.create({:house => 111})
 end
 Then /^Я не вижу ссылку "([^"]*)" на странице филиала "([^"]*)" компании "([^"]*)"$/ do |link_name, bname, cname|
   branch = find_branch(bname, cname)
@@ -53,4 +53,14 @@ Then /^Я удаляю адрес на странице филиала "([^"]*)"
 end
 When /^Я вижу ссылку "([^"]*)"$/ do |link_name|
   page.should have_content link_name
+end
+When /^Я изменяю его со следующей информацией$/ do |table|
+  # table is a |a1     |a2  |a3      |a4   |a5    |a6    |a7   |a8      |a9   |pending
+  #noinspection RubyResolve
+  visit branch_path @branch
+  click_link "Изменить адрес"
+  table.hashes.each do |info|
+
+    break
+  end
 end
