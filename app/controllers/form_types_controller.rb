@@ -1,4 +1,7 @@
 class FormTypesController < ApplicationController
+  helper :application
+  before_filter :require_user
+
   # GET /form_types
   # GET /form_types.json
   def index

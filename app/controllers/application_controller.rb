@@ -22,6 +22,7 @@ class ApplicationController < ActionController::Base
     unless current_user
       store_destination
       flash[:error] = %{Необходимо авторизоваться в системе.}
+      #noinspection RubyResolve
       redirect_to login_url
       false
     end
@@ -39,20 +40,21 @@ class ApplicationController < ActionController::Base
   end
 
   # Проверяет, чтобы пользователь был оператором
-  #def require_operator
+  def require_operator
     #noinspection RubyResolve
-    #unless @current_user.is_operator?
-    #  store_referrer
-    #  flash[:error] = %{У Вас недостаточно прав для доступа к запрошенной странице.}
-    #  redirect_back_or_default(dashboard_url)
-    #  false
-    #end
-  #end
+    unless @current_user.is_operator?
+      store_referrer
+      flash[:error] = %{У Вас недостаточно прав для доступа к запрошенной странице.}
+      redirect_back_or_default(dashboard_url)
+      false
+    end
+  end
 
   # Осуществляет перенаправление уже авторизованного пользователя
   # @return [Boolean] false если пользователь не авторизован
   def redirect_logged_in
-    if current_user ; redirect_back_or_default(dashboard_url) end
+    if current_user ; #noinspection RubyResolve
+    redirect_back_or_default(dashboard_url) end
     false
   end
 

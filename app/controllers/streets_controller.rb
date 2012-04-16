@@ -1,4 +1,7 @@
 class StreetsController < ApplicationController
+  helper :application
+  before_filter :require_user
+
   # GET /streets
   # GET /streets.json
   def index

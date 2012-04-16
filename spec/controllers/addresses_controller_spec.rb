@@ -1,3 +1,4 @@
+# encoding: utf-8
 require 'spec_helper'
 require 'shared/auth_helper'
 
@@ -26,7 +27,6 @@ describe AddressesController do
   end
 
   before(:each) do
-    controller.stub(:require_user).and_return(true) # подмена авторизованного пользователя
     @branch = mock(Branch)
     Branch.stub(:find).with("1").and_return(@branch) # подмена родительской компании
   end
@@ -45,9 +45,15 @@ describe AddressesController do
     {}
   end
 
+  # создание адреса с мин. набором атрибутов
+  def create_address
+    Address.create! valid_attributes
+  end
+
   describe "GET index" do
-    it "assigns all addresses as @addresses" do
-      address = Address.create! valid_attributes
+    it "assigns all addresses as @addresses только авторизованым" do
+      authorize_user
+      address = create_address
       get :index, {:branch_id => 1}, valid_session
       assigns(:addresses).should eq([address])
     end
@@ -55,7 +61,7 @@ describe AddressesController do
 
   describe "GET show" do
     it "assigns the requested address as @address" do
-      address = Address.create! valid_attributes
+      address = create_address
       get :show, {:id => address.to_param, :branch_id => 1}, valid_session
       assigns(:address).should eq(address)
     end
@@ -70,7 +76,7 @@ describe AddressesController do
 
   describe "GET edit" do
     it "assigns the requested address as @address" do
-      address = Address.create! valid_attributes
+      address = create_address
       get :edit, {:id => address.to_param}, valid_session
       assigns(:address).should eq(address)
     end
@@ -84,14 +90,14 @@ describe AddressesController do
         }.to change(Address, :count).by(1)
       end
 
-      it "assigns a newly created address as @address" do
+      it "assigns a newly created address as @address только авторизованным" do
         post :create, {:address => valid_attributes, :branch_id => 1}, valid_session
         assigns(:address).should be_a(Address)
         #noinspection RubyResolve
         assigns(:address).should be_persisted
       end
 
-      it "redirects to the created address" do
+      it "redirects to the created address  только авторизованным" do
         post :create, {:address => valid_attributes, :branch_id => 1}, valid_session
         response.should redirect_to(Address.last)
       end

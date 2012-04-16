@@ -1,4 +1,7 @@
 class PostIndicesController < ApplicationController
+  helper :application
+  before_filter :require_user
+
   # GET /post_indices
   # GET /post_indices.json
   def index

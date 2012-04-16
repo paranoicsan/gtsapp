@@ -1,4 +1,7 @@
 class CitiesController < ApplicationController
+  helper :application
+  before_filter :require_user
+
   # GET /cities
   # GET /cities.json
   def index
