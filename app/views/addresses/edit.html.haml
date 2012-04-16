@@ -1,7 +1,10 @@
-%h1 Editing address
+
+= render :partial => "shared/top_menu"
+= render :partial => "shared/messages"
+
+%h1#title
+  Изменение адреса
 
 = render 'form'
 
-= link_to 'Show', @address
-\|
-= link_to 'Back', addresses_path
+= link_to 'Отмена', address_path(@branch)

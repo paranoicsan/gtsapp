@@ -60,7 +60,30 @@ When /^Я изменяю его со следующей информацией$/
   visit branch_path @branch
   click_link "Изменить адрес"
   table.hashes.each do |info|
+    @edited_info = info # Сохраняем новую информацию для следующей проверки
 
+    # |cabinet|case|entrance|house|litera|office|other|pavilion|stage|
+    fill_in 'address_cabinet', :with => info[:cabinet]
+    fill_in 'address_case', :with => info[:case]
+    fill_in 'address_entrance', :with => info[:entrance]
+    fill_in 'address_house', :with => info[:house]
+    fill_in 'address_litera', :with => info[:litera]
+    fill_in 'address_office', :with => info[:office]
+    fill_in 'address_other', :with => info[:other]
+    fill_in 'address_pavilion', :with => info[:pavilion]
+    fill_in 'address_stage', :with => info[:stage]
+    click_button "Сохранить"
     break
   end
+end
+Then /^Я вижу адрес с новой информацией$/ do
+  page.should have_content "Адрес"
+  page.should have_content @branch.fact_name
+  @edited_info.each_value do |v|
+    page.should have_content v
+  end
+end
+When /^Я перехожу на страницу филиала$/ do
+  #noinspection RubyResolve
+  visit branch_path @branch
 end
