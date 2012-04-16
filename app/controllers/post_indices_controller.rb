@@ -1,6 +1,7 @@
 class PostIndicesController < ApplicationController
   helper :application
   before_filter :require_user
+  before_filter :require_operator, :only => [:new, :edit, :update, :create, :destroy]
 
   # GET /post_indices
   # GET /post_indices.json

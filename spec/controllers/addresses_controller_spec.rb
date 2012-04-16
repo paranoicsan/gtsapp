@@ -27,6 +27,7 @@ describe AddressesController do
   end
 
   before(:each) do
+    authorize_user
     @branch = mock(Branch)
     Branch.stub(:find).with("1").and_return(@branch) # подмена родительской компании
   end
@@ -52,7 +53,6 @@ describe AddressesController do
 
   describe "GET index" do
     it "assigns all addresses as @addresses только авторизованым" do
-      authorize_user
       address = create_address
       get :index, {:branch_id => 1}, valid_session
       assigns(:addresses).should eq([address])

@@ -1,6 +1,7 @@
 class FormTypesController < ApplicationController
   helper :application
   before_filter :require_user
+  before_filter :require_operator, :only => [:new, :edit, :update, :create, :destroy]
 
   # GET /form_types
   # GET /form_types.json
