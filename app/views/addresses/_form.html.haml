@@ -18,7 +18,7 @@
     = f.select(:street_id, options_for_select(Street.all.collect{ |el| [el.name, el.id] }))
   .field
     = f.label :post_index_id
-    = f.select(:post_index_id, options_for_select(PostIndex.all.collect{ |el| [el.name, el.id] }))
+    = f.select(:post_index_id, options_for_select(PostIndex.all.collect{ |el| [el.code, el.id] }))
   .field
     = f.label :house
     = f.text_field :house
