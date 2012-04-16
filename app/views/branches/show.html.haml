@@ -8,13 +8,13 @@
 = link_to @company.title, company_path(@company)
 
 %p
-  %strong Form type:
+  %strong Форма  собственности:
   = @branch.form_type.name
 %p
-  %strong Fact name:
+  %strong Фактическое название:
   = @branch.fact_name
 %p
-  %strong Legel name:
+  %strong Юридическое название:
   = @branch.legel_name
 %p
   %strong Примечание:
@@ -32,6 +32,5 @@
   = link_to 'Изменить адрес', edit_address_path(@branch.address)
   \|
   = link_to 'Удалить адрес', @branch.address, :confirm => 'Вы уверены?', :method => :delete
-
--if @branch.address
-  = render "shared/show_address_fields"
+  %p
+    = @branch.address.full_address
