@@ -1,0 +1,27 @@
+%h1 Listing phones
+
+%table
+  %tr
+    %th Mobile refix
+    %th Publishable
+    %th Fax
+    %th Director
+    %th Mobile
+    %th
+    %th
+    %th
+
+  - @phones.each do |phone|
+    %tr
+      %td= phone.mobile_refix
+      %td= phone.publishable
+      %td= phone.fax
+      %td= phone.director
+      %td= phone.mobile
+      %td= link_to 'Show', phone
+      %td= link_to 'Edit', edit_phone_path(phone)
+      %td= link_to 'Destroy', phone, :confirm => 'Are you sure?', :method => :delete
+
+%br
+
+= link_to 'New Phone', new_phone_path

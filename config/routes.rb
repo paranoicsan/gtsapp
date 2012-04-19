@@ -1,6 +1,5 @@
 Gtsapp::Application.routes.draw do
 
-
   resources :streets
   resources :post_indices
   resources :districts
@@ -10,6 +9,7 @@ Gtsapp::Application.routes.draw do
   resources :companies, :shallow => true do
     resources :branches do
       resources :addresses
+      resources :phones
     end
   end
 

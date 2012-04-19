@@ -123,7 +123,7 @@ describe AddressesController do
   describe "PUT update" do
     describe "with valid params" do
       it "updates the requested address" do
-        address = Address.create! valid_attributes
+        address = create_address
         # Assuming there are no other addresses in the database, this
         # specifies that the Address created on the previous line
         # receives the :update_attributes message with whatever params are

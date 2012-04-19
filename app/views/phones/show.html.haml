@@ -1,0 +1,21 @@
+%p#notice= notice
+
+%p
+  %b Mobile refix:
+  = @phone.mobile_refix
+%p
+  %b Publishable:
+  = @phone.publishable
+%p
+  %b Fax:
+  = @phone.fax
+%p
+  %b Director:
+  = @phone.director
+%p
+  %b Mobile:
+  = @phone.mobile
+
+= link_to 'Edit', edit_phone_path(@phone)
+\|
+= link_to 'Back', phones_path

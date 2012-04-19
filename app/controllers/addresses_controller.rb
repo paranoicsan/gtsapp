@@ -4,6 +4,13 @@ class AddressesController < ApplicationController
   before_filter :require_user
   before_filter :get_branch
 
+  # Ищет адрес по укаазнному параметру
+  # @param [Integer] id ключ адреса
+  # @return [Address] объект адреса
+  def find_address(id)
+    Address.find(id)
+  end
+
   def index
     @addresses = Address.all
 
@@ -16,7 +23,7 @@ class AddressesController < ApplicationController
   # GET /addresses/1
   # GET /addresses/1.json
   def show
-    @address = Address.find(params[:id])
+    @address = find_address params[:id]
     @branch = @address.branch
 
     respond_to do |format|
@@ -38,7 +45,7 @@ class AddressesController < ApplicationController
 
   # GET /addresses/1/edit
   def edit
-    @address = Address.find(params[:id])
+    @address = find_address params[:id]
   end
 
   # POST /addresses
@@ -61,7 +68,7 @@ class AddressesController < ApplicationController
   # PUT /addresses/1
   # PUT /addresses/1.json
   def update
-    @address = Address.find(params[:id])
+    @address = find_address params[:id]
     @branch = @address.branch
 
     respond_to do |format|
@@ -78,7 +85,7 @@ class AddressesController < ApplicationController
   # DELETE /addresses/1
   # DELETE /addresses/1.json
   def destroy
-    @address = Address.find(params[:id])
+    @address = find_address params[:id]
     branch_id = @address.branch_id
 
     @address.destroy
@@ -90,6 +97,7 @@ class AddressesController < ApplicationController
     end
   end
 
+  private
   # Определяет связанный филиал
   def get_branch
     @branch = Branch.find(params[:branch_id]) if params[:branch_id]
