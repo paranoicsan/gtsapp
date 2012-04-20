@@ -39,7 +39,7 @@
 
 = link_to 'Добавить телефон', new_branch_phone_path(@branch)
 
-%table#phones
+%table#phones.sub-index
   -if @branch.phones.count > 0
     %tr
       %th № телефона

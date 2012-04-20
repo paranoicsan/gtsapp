@@ -8,28 +8,28 @@
           %li= msg
 
   .field
-    = f.label :name
+    = f.label :name, '№ телефона'
     = f.text_field :name
   .field
-    = f.label :order_num
+    = f.label :order_num, 'Порядок отображения'
     = f.number_field :order_num
   .field
-    = f.label :mobile_refix
+    = f.label :mobile, 'Мобильный'
+    = f.check_box :mobile
+  .field
+    = f.label :mobile_refix, 'Префикс мобильного оператора'
     = f.text_field :mobile_refix
   .field
-    = f.label :publishable
+    = f.label :publishable, 'В печать'
     = f.check_box :publishable
   .field
-    = f.label :fax
+    = f.label :fax, 'Факс'
     = f.check_box :fax
   .field
-    = f.label :director
+    = f.label :director, 'Директор'
     = f.check_box :director
   .field
-    = f.label :contact
+    = f.label :contact, 'Контактный'
     = f.check_box :contact
-  .field
-    = f.label :mobile
-    = f.check_box :mobile
   .actions
     = f.submit 'Сохранить'

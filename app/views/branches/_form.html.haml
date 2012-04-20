@@ -8,16 +8,16 @@
           %li= msg
 
   .field
-    = f.label :form_type_id
+    = f.label :form_type_id, 'Форма собственности'
     = f.select(:form_type_id, options_for_select(FormType.all.collect{ |ftype| [ftype.name, ftype.id] }))
   .field
-    = f.label :fact_name
+    = f.label :fact_name, 'Фактическое название'
     = f.text_field :fact_name
   .field
-    = f.label :legel_name
+    = f.label :legel_name, 'Юридическое название'
     = f.text_field :legel_name
   .field
-    = f.label :comments
+    = f.label :comments, 'Примечание'
     = f.text_field :comments
   .actions
     = f.submit 'Сохранить'
