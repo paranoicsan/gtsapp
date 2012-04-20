@@ -1,48 +1,29 @@
 # encoding: utf-8
--#TODO: Вынести этот блок в partial
-#message
-  - if flash[:notice]
-    #notice
-      = flash[:notice]
-  - if flash[:error]
-    #warning
-      Ошибка:
-      %br
-      - if flash[:error].is_a?(Array)
-        - flash[:error].each do |msg|
-          = msg
-      - else
-        = flash[:error]
+= render :partial => "shared/top_menu"
+= render :partial => "shared/messages"
 
--#TODO: Вынести блок верхнего меню в partial
-= link_to "Сводка", dashboard_path
-- if @current_user.is_admin?
-  = link_to "Пользователи", users_path
-= link_to "Выйти", logout_path
-
-%h1.section-title
+%h1.section-title#title
   Компании
 
-%table
+%p
+  = link_to 'Добавить компанию', new_company_path
+
+%table#index
   %tr
-    %th Status
-    %th Title
-    %th Date added
-    %th Rubricator
-    %th
-    %th
-    %th
+    %th Статус
+    %th Название
+    %th Добавлена
+    %th Рубрикатор
+    %th Операции
 
   - @companies.each do |company|
     %tr
       %td= company.company_status.name
-      %td= company.title
+      %td= link_to company.title, company
       %td= company.date_added
       %td= company.rubricator_name
-      %td= link_to 'Show', company
-      %td= link_to 'Edit', edit_company_path(company)
-      %td= link_to 'Destroy', company, :confirm => 'Are you sure?', :method => :delete
+      %td= link_to 'Удалить', company, :confirm => 'Are you sure?', :method => :delete
 
 %br
 
-= link_to 'New Company', new_company_path
+= link_to 'Добавить компанию', new_company_path

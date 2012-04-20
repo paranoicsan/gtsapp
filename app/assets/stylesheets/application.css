@@ -77,3 +77,40 @@ td.submit {
 #message {
     text-align: center;
 }
+h1 {
+    color: maroon;
+    font-size: 150%;
+    font-style: italic;
+    display: block;
+    width: 100%;
+    border-bottom: 1px solid #a9a9a9;
+}
+h1.title {
+    margin: 0 0 1em;
+    padding: 10px;
+    background-color: orange;
+    color: white;
+    border-bottom: 4px solid gold;
+    font-size: 2em;
+    font-style: normal;
+}
+table#index {
+    margin: 10px;
+    border-collapse: collapse;
+    width: 100%;
+    border-bottom: 2px solid black;
+}
+table#index th {
+    border: 2px solid white;
+    font-weight: bold;
+    background-color: wheat;
+}
+table#index th, table#index td {
+    padding: 4px;
+    text-align: left;
+}
+div#top_menu {
+    padding: 10px;
+    background-color: #ffebcd;
+    font-size: 16px
+}

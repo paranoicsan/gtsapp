@@ -1,7 +1,9 @@
-%h1 Editing company
+= render :partial => "shared/top_menu"
+= render :partial => "shared/messages"
+
+%h1.section-title#title
+  Изменение компании
 
 = render 'form'
 
-= link_to 'Show', @company
-\|
-= link_to 'Back', companies_path
+= link_to 'Назад', companies_path
