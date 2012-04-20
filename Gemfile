@@ -9,7 +9,10 @@ gem 'haml'
 gem 'haml-rails'
 gem 'authlogic'
 gem 'easy_roles'
-gem 'taps'
+
+group :production do
+  gem 'taps'
+end
 
 group :development, :test do
   gem 'ruby-debug19', :require => 'ruby-debug'
