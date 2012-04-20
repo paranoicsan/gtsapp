@@ -1,4 +1,5 @@
-= form_for @phone do |f|
+-form_params = @branch ? [@branch, @phone] : @phone
+= form_for (form_params) do |f|
   -if @phone.errors.any?
     #error_explanation
       %h2= "#{pluralize(@phone.errors.count, "error")} prohibited this phone from being saved:"
@@ -6,6 +7,12 @@
         - @phone.errors.full_messages.each do |msg|
           %li= msg
 
+  .field
+    = f.label :name
+    = f.text_field :name
+  .field
+    = f.label :order_num
+    = f.number_field :order_num
   .field
     = f.label :mobile_refix
     = f.text_field :mobile_refix
@@ -19,7 +26,10 @@
     = f.label :director
     = f.check_box :director
   .field
+    = f.label :contact
+    = f.check_box :contact
+  .field
     = f.label :mobile
-    = f.text_field :mobile
+    = f.check_box :mobile
   .actions
-    = f.submit 'Save'
+    = f.submit 'Сохранить'

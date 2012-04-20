@@ -34,7 +34,8 @@ Given /^Существуют следующие филиалы для компа
     b = Branch.create! params
     #noinspection RubyResolve
     b.form_type = FormType.find_by_name branch[:form_type]
-    b.company = Company.find_by_title cname
+    #noinspection RubyResolve
+    b.company_id = Company.find_by_title(cname).id
     b.save
   end
 end
@@ -42,9 +43,9 @@ end
 
 When /^Я изменяю информацию для филиала компании "([^"]*)" с факт. названием "([^"]*)" на$/ do |cname, bname, table|
   # table is a | МУП       | Филиал рогов изменённый | Юр. имя филиала рогов изменённое |pending
-  branch = find_branch(bname, cname)
+  @branch = find_branch(bname, cname)
   #noinspection RubyResolve
-  visit edit_branch_path branch
+  visit edit_branch_path @branch
   table.hashes.each do |new_info|
     fill_in "branch_legel_name", :with => new_info[:legel_name]
     fill_in "branch_fact_name", :with => new_info[:fact_name]
@@ -63,4 +64,9 @@ When /^Я вижу филиал со следующей информацией$/
     page.should have_content info[:comments]
     break
   end
+end
+When /^Я нахожусь на странице филиала "([^"]*)" компании "([^"]*)"$/ do |bname, cname|
+  @branch = find_branch bname, cname
+  #noinspection RubyResolve
+  visit branch_path(@branch)
 end

@@ -34,3 +34,39 @@
   = link_to 'Удалить адрес', @branch.address, :confirm => 'Вы уверены?', :method => :delete
   %p
     = @branch.address.full_address
+
+%h2 Телефоны
+
+= link_to 'Добавить телефон', new_branch_phone_path(@branch)
+
+%table#phones
+  -if @branch.phones.count > 0
+    %tr
+      %th № телефона
+      %th Мобильный?
+      %th Префикс моб. оператора
+      %th Контактный?
+      %th Директор?
+      %th Факс?
+      %th Порядок
+      %th Для печати?
+      %th
+      %th
+    -@branch.phones.each do |phone|
+      %tr
+        %td= phone.name
+        %td= phone.mobile.to_s
+        %td= phone.mobile_refix.to_s
+        %td= phone.contact.to_s
+        %td= phone.director.to_s
+        %td= phone.fax.to_s
+        %td= phone.order_num.to_s
+        %td= phone.publishable.to_s
+        %td= link_to 'Изменить', edit_phone_path(phone)
+        %td= link_to 'Удалить', phone, :confirm => 'Вы уверены?', :method => :delete
+  -else
+    %tr
+      %td Телефонов нет.
+
+= link_to 'Добавить телефон', new_branch_phone_path(@branch)
+

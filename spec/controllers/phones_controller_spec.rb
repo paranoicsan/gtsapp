@@ -33,7 +33,7 @@ describe PhonesController do
   end
 
   # создание объекта с минимальным набором атрибутов
-  def create_phone
+  def create_default_phone
     Phone.create! valid_attributes
   end
 
@@ -53,7 +53,7 @@ describe PhonesController do
 
   describe "GET index" do
     it "assigns all phones as @phones" do
-      phone = create_phone
+      phone = create_default_phone
       get :index, valid_attributes, valid_session
       assigns(:phones).should eq([phone])
     end
@@ -61,7 +61,7 @@ describe PhonesController do
 
   describe "GET show" do
     it "assigns the requested phone as @phone" do
-      phone = create_phone
+      phone = create_default_phone
       get :show, {:id => phone.to_param}, valid_session
       assigns(:phone).should eq(phone)
     end
@@ -76,7 +76,7 @@ describe PhonesController do
 
   describe "GET edit" do
     it "assigns the requested phone as @phone" do
-      phone = create_phone
+      phone = create_default_phone
       get :edit, {:id => phone.to_param}, valid_session
       assigns(:phone).should eq(phone)
     end
@@ -123,7 +123,7 @@ describe PhonesController do
   describe "PUT update" do
     describe "with valid params" do
       it "updates the requested phone" do
-        phone = create_phone
+        phone = create_default_phone
         # Assuming there are no other phones in the database, this
         # specifies that the Phone created on the previous line
         # receives the :update_attributes message with whatever params are
@@ -133,7 +133,7 @@ describe PhonesController do
       end
 
       it "assigns the requested phone as @phone" do
-        phone = create_phone
+        phone = create_default_phone
         put :update, {:id => phone.to_param, :phone => valid_attributes}, valid_session
         assigns(:phone).should eq(phone)
       end
@@ -147,7 +147,7 @@ describe PhonesController do
 
     describe "with invalid params" do
       it "assigns the phone as @phone" do
-        phone = create_phone
+        phone = create_default_phone
         # Trigger the behavior that occurs when invalid params are submitted
         Phone.any_instance.stub(:save).and_return(false)
         put :update, {:id => phone.to_param, :phone => {}}, valid_session
@@ -155,7 +155,7 @@ describe PhonesController do
       end
 
       it "re-renders the 'edit' template" do
-        phone = create_phone
+        phone = create_default_phone
         # Trigger the behavior that occurs when invalid params are submitted
         Phone.any_instance.stub(:save).and_return(false)
         put :update, {:id => phone.to_param, :phone => {}}, valid_session
@@ -166,14 +166,14 @@ describe PhonesController do
 
   describe "DELETE destroy" do
     it "destroys the requested phone" do
-      phone = create_phone
+      phone = create_default_phone
       expect {
         delete :destroy, {:id => phone.to_param, :branch_id => 1}, valid_session
       }.to change(Phone, :count).by(-1)
     end
 
     it "redirects to the phones list" do
-      phone = create_phone
+      phone = create_default_phone
       delete :destroy, {:id => phone.to_param, :branch_id => 1}, valid_session
       #noinspection RubyResolve
       response.should redirect_to(branch_url(1))

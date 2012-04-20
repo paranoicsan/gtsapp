@@ -1,21 +1,36 @@
-%p#notice= notice
 
-%p
-  %b Mobile refix:
-  = @phone.mobile_refix
-%p
-  %b Publishable:
-  = @phone.publishable
-%p
-  %b Fax:
-  = @phone.fax
-%p
-  %b Director:
-  = @phone.director
-%p
-  %b Mobile:
-  = @phone.mobile
+= render :partial => "shared/top_menu"
+= render :partial => "shared/messages"
 
-= link_to 'Edit', edit_phone_path(@phone)
+%h1#title
+  Телефон
+
+= link_to @branch.fact_name, branch_path(@branch)
+
+#phone_info
+  %p
+    %strong № телефона
+    = @phone.name
+  %p
+    %strong Мобильный:
+    = @phone.mobile
+  -if @phone.mobile
+    %p
+      %strong Префикс сотового оператора:
+      = @phone.mobile_refix
+  %p
+    %strong Для печати:
+    = @phone.publishable
+  %p
+    %strong Факс:
+    = @phone.fax
+  %p
+    %strong Директор:
+    = @phone.director
+  %p
+    %strong Контактный:
+    = @phone.contact
+
+= link_to 'Изменить', edit_phone_path(@phone)
 \|
-= link_to 'Back', phones_path
+= link_to 'К филиалу', branch_path(@branch)
