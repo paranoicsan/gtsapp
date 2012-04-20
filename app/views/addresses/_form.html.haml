@@ -1,0 +1,50 @@
+-form_params = @branch ? [@branch, @address] : @address
+= form_for (form_params) do |f|
+  -if @address.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@address.errors.count, "error")} prohibited this address from being saved:"
+      %ul
+        - @address.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :district_id, 'Район'
+    = f.select(:district_id, options_for_select(District.all.collect{ |el| [el.name, el.id] }))
+  .field
+    = f.label :city_id, 'Город'
+    = f.select(:city_id, options_for_select(City.all.collect{ |el| [el.name, el.id] }))
+  .field
+    = f.label :street_id, 'Улица'
+    = f.select(:street_id, options_for_select(Street.all.collect{ |el| [el.name, el.id] }))
+  .field
+    = f.label :post_index_id, 'Почтовый индекс'
+    = f.select(:post_index_id, options_for_select(PostIndex.all.collect{ |el| [el.code, el.id] }))
+  .field
+    = f.label :house, 'Дом'
+    = f.text_field :house
+  .field
+    = f.label :entrance, 'Подъезд'
+    = f.text_field :entrance
+  .field
+    = f.label :case, 'Строение'
+    = f.text_field :case
+  .field
+    = f.label :stage, 'Этаж'
+    = f.text_field :stage
+  .field
+    = f.label :office, 'Офис'
+    = f.text_field :office
+  .field
+    = f.label :cabinet, 'Кабинет'
+    = f.text_field :cabinet
+  .field
+    = f.label :other, 'Другое'
+    = f.text_field :other
+  .field
+    = f.label :pavilion, 'Павильон'
+    = f.text_field :pavilion
+  .field
+    = f.label :litera, 'Литера'
+    = f.text_field :litera
+  .actions
+    = f.submit 'Сохранить'

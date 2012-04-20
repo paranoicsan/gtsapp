@@ -7,15 +7,16 @@
           %li= msg
 
   .field
-    = f.label :title
+    = f.label :title, 'Название'
     = f.text_field :title
   .field
-    = f.label :date_added
+    = f.label :date_added, 'Дата добавления'
     = f.date_select :date_added
   .field
     Социальный
     = check_box_tag "company[rubricator][0]", 1, @company.social_rubricator? || @company.full_rubricator?
     Коммерческий
     = check_box_tag "company[rubricator][1]", 2, @company.commercial_rubricator? || @company.full_rubricator?
+
   .actions
     = f.submit 'Сохранить'

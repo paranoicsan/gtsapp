@@ -11,7 +11,44 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120401170920) do
+ActiveRecord::Schema.define(:version => 20120419195327) do
+
+  create_table "addresses", :force => true do |t|
+    t.string   "house"
+    t.string   "entrance"
+    t.string   "case"
+    t.string   "stage"
+    t.string   "office"
+    t.string   "cabinet"
+    t.string   "other"
+    t.string   "pavilion"
+    t.string   "litera"
+    t.integer  "district_id"
+    t.integer  "city_id"
+    t.integer  "street_id"
+    t.integer  "post_index_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "branch_id"
+  end
+
+  create_table "branches", :force => true do |t|
+    t.integer  "form_type_id"
+    t.string   "fact_name"
+    t.string   "legel_name"
+    t.integer  "company_id"
+    t.string   "comments"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "cities", :force => true do |t|
+    t.string   "name"
+    t.integer  "phone_code"
+    t.integer  "old_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "companies", :force => true do |t|
     t.string   "title"
@@ -24,6 +61,55 @@ ActiveRecord::Schema.define(:version => 20120401170920) do
 
   create_table "company_statuses", :force => true do |t|
     t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "districts", :force => true do |t|
+    t.string   "name"
+    t.integer  "old_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "form_types", :force => true do |t|
+    t.string  "name"
+    t.integer "old_id"
+  end
+
+  create_table "phones", :force => true do |t|
+    t.string   "mobile_refix"
+    t.boolean  "publishable"
+    t.boolean  "fax"
+    t.boolean  "director"
+    t.boolean  "mobile"
+    t.text     "description"
+    t.string   "name"
+    t.integer  "contact"
+    t.integer  "order_num"
+    t.integer  "branch_id"
+    t.integer  "old_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "post_indices", :force => true do |t|
+    t.integer  "code"
+    t.integer  "old_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "street_indices", :force => true do |t|
+    t.integer "street_id"
+    t.integer "post_index_id"
+    t.string  "comments"
+  end
+
+  create_table "streets", :force => true do |t|
+    t.string   "name"
+    t.integer  "old_id"
+    t.integer  "city_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -1,0 +1,72 @@
+
+= render :partial => "shared/top_menu"
+= render :partial => "shared/messages"
+
+%h1#title
+  Филиал
+
+= link_to @company.title, company_path(@company)
+
+%p
+  %strong Форма  собственности:
+  = @branch.form_type.name
+%p
+  %strong Фактическое название:
+  = @branch.fact_name
+%p
+  %strong Юридическое название:
+  = @branch.legel_name
+%p
+  %strong Примечание:
+  = @branch.comments
+
+= link_to 'Изменить', edit_branch_path(@branch)
+\|
+= link_to 'К компании', company_path(@company)
+
+%h2 Адрес
+
+-if @branch.address.is_a?(NilClass)
+  = link_to 'Добавить адрес', new_branch_address_path(@branch)
+-else
+  = link_to 'Изменить адрес', edit_address_path(@branch.address)
+  \|
+  = link_to 'Удалить адрес', @branch.address, :confirm => 'Вы уверены?', :method => :delete
+  %p
+    = @branch.address.full_address
+
+%h2 Телефоны
+
+= link_to 'Добавить телефон', new_branch_phone_path(@branch)
+
+%table#phones.sub-index
+  -if @branch.phones.count > 0
+    %tr
+      %th № телефона
+      %th Мобильный?
+      %th Префикс моб. оператора
+      %th Контактный?
+      %th Директор?
+      %th Факс?
+      %th Порядок
+      %th Для печати?
+      %th
+      %th
+    -@branch.phones.each do |phone|
+      %tr
+        %td= phone.name
+        %td= phone.mobile.to_s
+        %td= phone.mobile_refix.to_s
+        %td= phone.contact.to_s
+        %td= phone.director.to_s
+        %td= phone.fax.to_s
+        %td= phone.order_num.to_s
+        %td= phone.publishable.to_s
+        %td= link_to 'Изменить', edit_phone_path(phone)
+        %td= link_to 'Удалить', phone, :confirm => 'Вы уверены?', :method => :delete
+  -else
+    %tr
+      %td Телефонов нет.
+
+= link_to 'Добавить телефон', new_branch_phone_path(@branch)
+

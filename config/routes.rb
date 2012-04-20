@@ -1,7 +1,18 @@
 Gtsapp::Application.routes.draw do
-  resources :company_statuses
 
-  resources :companies
+  resources :streets
+  resources :post_indices
+  resources :districts
+  resources :cities
+  resources :form_types
+
+  resources :companies, :shallow => true do
+    resources :branches do
+      resources :addresses
+      resources :phones
+    end
+  end
+
   resources :users
   resources :user_sessions
 

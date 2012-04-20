@@ -1,0 +1,12 @@
+%p#notice= notice
+
+%p
+  %span style="font-weight: bold;" Name:
+  = @district.name
+%p
+  %ыspan style="font-weight: bold;" Old:
+  = @district.old_id
+
+= link_to 'Edit', edit_district_path(@district)
+\|
+= link_to 'Back', districts_path

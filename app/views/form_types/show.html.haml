@@ -1,0 +1,12 @@
+%p#notice= notice
+
+%p
+  %span style="font-weight: bold;" Name:
+  = @form_type.name
+%p
+  %span style="font-weight: bold;" Old:
+  = @form_type.old_id
+
+= link_to 'Edit', edit_form_type_path(@form_type)
+\|
+= link_to 'Back', form_types_path

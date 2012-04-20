@@ -1,0 +1,14 @@
+
+= render :partial => "shared/top_menu"
+= render :partial => "shared/messages"
+
+%h1#title
+  Адрес
+
+= link_to @branch.fact_name, branch_path(@branch)
+
+= render "shared/show_address_fields"
+
+= link_to 'Изменить', edit_address_path(@address)
+\|
+= link_to 'К филиалу', branch_path(@branch)

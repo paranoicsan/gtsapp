@@ -1,0 +1,16 @@
+= form_for @post_index do |f|
+  -if @post_index.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@post_index.errors.count, "error")} prohibited this post_index from being saved:"
+      %ul
+        - @post_index.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :code
+    = f.number_field :code
+  .field
+    = f.label :old_id
+    = f.number_field :old_id
+  .actions
+    = f.submit 'Save'

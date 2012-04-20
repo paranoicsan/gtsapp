@@ -1,0 +1,12 @@
+%p#notice= notice
+
+%p
+  %span style="font-weight: bold;" Code:
+  = @post_index.code
+%p
+  %ыspan style="font-weight: bold;" Old:
+  = @post_index.old_id
+
+= link_to 'Edit', edit_post_index_path(@post_index)
+\|
+= link_to 'Back', post_indices_path

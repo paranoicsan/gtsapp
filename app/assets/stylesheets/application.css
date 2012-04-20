@@ -109,6 +109,21 @@ table#index th, table#index td {
     padding: 4px;
     text-align: left;
 }
+.sub-index {
+    margin: 5px;
+    border-collapse: collapse;
+    width: 100%;
+    border-bottom: 2px solid black;
+}
+.sub-index th {
+    border: 2px solid white;
+    font-weight: bold;
+    background-color: wheat;
+}
+.sub-index th, table#index td {
+    padding: 2px;
+    text-align: left;
+}
 div#top_menu {
     padding: 10px;
     background-color: #ffebcd;

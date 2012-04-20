@@ -29,6 +29,7 @@ class CompaniesController < ApplicationController
   # GET /companies/1.json
   def show
     @company = Company.find(params[:id])
+    @branches = Branch.find_all_by_company_id @company.id
 
     respond_to do |format|
       format.html # show.html.erb
@@ -40,6 +41,7 @@ class CompaniesController < ApplicationController
   # GET /companies/new.json
   def new
     @company = Company.new
+    @branches = []
 
     respond_to do |format|
       format.html # new.html.erb
@@ -50,6 +52,8 @@ class CompaniesController < ApplicationController
   # GET /companies/1/edit
   def edit
     @company = Company.find(params[:id])
+    @branches = Branch.find_all_by_company_id(params[:id])
+    @branches = @branches ? @branches : []
   end
 
   # POST /companies
