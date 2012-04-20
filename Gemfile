@@ -10,10 +10,6 @@ gem 'haml-rails'
 gem 'authlogic'
 gem 'easy_roles'
 
-group :production do
-  gem 'taps'
-end
-
 group :development, :test do
   gem 'ruby-debug19', :require => 'ruby-debug'
   gem 'simplecov', :require => false
