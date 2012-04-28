@@ -7,6 +7,9 @@
 
 = link_to @company.title, company_path(@company)
 
+-if @branch.is_main?
+  %p
+    %strong Головной филиал
 %p
   %strong Форма  собственности:
   = @branch.form_type.name

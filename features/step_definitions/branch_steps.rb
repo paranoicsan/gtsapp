@@ -71,5 +71,6 @@ When /^Я нахожусь на странице филиала "([^"]*)" ком
   visit branch_path(@branch)
 end
 When /^Я вижу текст "([^"]*)"$/ do |title|
+  save_and_open_page
   page.should have_content title
 end
