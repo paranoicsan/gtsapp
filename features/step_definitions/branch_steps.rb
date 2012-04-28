@@ -70,3 +70,6 @@ When /^Я нахожусь на странице филиала "([^"]*)" ком
   #noinspection RubyResolve
   visit branch_path(@branch)
 end
+When /^Я вижу текст "([^"]*)"$/ do |title|
+  page.should have_content title
+end
