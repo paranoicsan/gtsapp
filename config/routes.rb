@@ -13,6 +13,8 @@ Gtsapp::Application.routes.draw do
     end
   end
 
+  match 'branches/:id/make_main' => 'branches#make_main', :as => :branch_make_main
+
   resources :users
   resources :user_sessions
 

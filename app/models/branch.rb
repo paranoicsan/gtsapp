@@ -15,4 +15,17 @@ class Branch < ActiveRecord::Base
       self.is_main = true
     end
   end
+
+  ##
+  #
+  # Устанавливает филиал как основной
+  # и снимает этот флаг со всех остальных филиалов
+  #
+  def make_main
+    c_id = self.company_id
+    Branch.find_all_by_company_id(c_id).each do |b|
+      b.is_main = b.eql?(self)
+      b.save
+    end
+  end
 end

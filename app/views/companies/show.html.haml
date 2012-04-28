@@ -41,8 +41,10 @@
       %td= link_to branch.fact_name, branch_path(branch)
       %td= branch.legel_name
       %td= branch.address.full_address if branch.address
-      %td= link_to 'Удалить', branch, :confirm => 'Вы уверены?', :method => :delete
+      %td
+        = link_to 'Удалить', branch, :confirm => 'Вы уверены?', :method => :delete
+        -unless branch.is_main?
+          \|
+          = link_to 'Сделать головным', branch_make_main_path(branch)
 
 %p= link_to 'Добавить филиал', new_company_branch_path(@company)
-
-

@@ -90,4 +90,15 @@ class BranchesController < ApplicationController
   def get_company
     @company = Company.find(params[:company_id]) if params[:company_id]
   end
+
+  ##
+  #
+  # Устанавливает указанный филиал как основной
+  #
+  def make_main
+    @branch = Branch.find(params[:id])
+    @branch.make_main
+    company_id = @branch.company_id
+    redirect_to company_url company_id
+  end
 end
