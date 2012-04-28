@@ -100,3 +100,11 @@ When /^Я выбираю в качестве головного филиал с 
     click_link "Сделать головным"
   end
 end
+Then /^Филиал с факт. название "([^"]*)" находится в первом ряду списка$/ do |bname|
+  xpth_row = "//table[@id='branches']/tr[1]" # первый ряд с данными
+  within :xpath, xpth_row do
+    find(:xpath, "//td[3]").text.should == bname
+    find(:xpath, "//td[1]").text.should == "Головной филиал"
+  end
+  save_and_open_page
+end

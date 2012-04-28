@@ -34,7 +34,7 @@
     %th Юридическое название
     %th Адрес
     %th
-  -@branches.each do |branch|
+  -@branches_sorted.each do |branch|
     %tr
       %td= branch.is_main? ? "Головной филиал" : ""
       %td= branch.form_type.name
