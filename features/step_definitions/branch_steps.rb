@@ -1,8 +1,8 @@
 # encoding: utf-8
 When /^Я создаю филиал с фактическим названием "([^"]*)" для компании "([^"]*)"$/ do |bname, cname|
-  company = Company.find_by_title cname
+  @company = Company.find_by_title cname
   #noinspection RubyResolve
-  visit company_path company
+  visit company_path @company
   click_link "Добавить филиал"
   fill_in "branch_legel_name", :with => "Legel name - #{bname}"
   fill_in "branch_fact_name", :with => bname
@@ -71,6 +71,9 @@ When /^Я нахожусь на странице филиала "([^"]*)" ком
   visit branch_path(@branch)
 end
 When /^Я вижу текст "([^"]*)"$/ do |title|
-  save_and_open_page
   page.should have_content title
+end
+When /^Я вижу пометку "Головной филиал" в списке филиалов$/ do
+  rows = branch_populate_rows @company
+  page.should have_table('branches', :rows => rows)
 end

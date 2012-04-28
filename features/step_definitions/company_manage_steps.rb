@@ -30,3 +30,6 @@ When /^Я нахожусь на странице компании "([^"]*)"$/ do
   #noinspection RubyResolve
   visit company_path company
 end
+When /^Я перехожу на страницу компании "([^"]*)"$/ do |cname|
+  step %{Я нахожусь на странице компании "#{cname}"}
+end

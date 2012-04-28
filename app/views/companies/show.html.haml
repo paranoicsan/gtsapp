@@ -26,8 +26,9 @@
 
 %p= link_to 'Добавить филиал', new_company_branch_path(@company)
 
-%table#index
+%table#branches.sub-index
   %tr
+    %th
     %th Форма собственности
     %th Фактическое название
     %th Юридическое название
@@ -35,6 +36,7 @@
     %th
   -@branches.each do |branch|
     %tr
+      %td= branch.is_main? ? "Головной филиал" : ""
       %td= branch.form_type.name
       %td= link_to branch.fact_name, branch_path(branch)
       %td= branch.legel_name
