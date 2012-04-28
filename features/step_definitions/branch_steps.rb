@@ -8,6 +8,7 @@ When /^Я создаю филиал с фактическим названием
   fill_in "branch_fact_name", :with => bname
   select "МУП", :from => "branch_form_type_id"
   click_button "Сохранить"
+  @branch = Branch.find_by_fact_name bname
 end
 When /^Я вижу "([^"]*)" в списке филиалов$/ do |bname|
   page.should have_content(bname)
@@ -27,15 +28,15 @@ end
 Given /^Существуют следующие филиалы для компании "([^"]*)"$/ do |cname, table|
   # table is a | ООО       | Филиал рогов   | Юр. имя филиала рогов   |pending
   table.hashes.each do |branch|
+    c_id = Company.find_by_title(cname).id
+    ft_id = FormType.find_by_name(branch[:form_type]).id
     params = {
         :fact_name => branch[:fact_name],
-        :legel_name => branch[:legel_name]
+        :legel_name => branch[:legel_name],
+        :company_id => c_id,
+        :form_type_id => ft_id
     }
     b = Branch.create! params
-    #noinspection RubyResolve
-    b.form_type = FormType.find_by_name branch[:form_type]
-    #noinspection RubyResolve
-    b.company_id = Company.find_by_title(cname).id
     b.save
   end
 end
@@ -73,7 +74,29 @@ end
 When /^Я вижу текст "([^"]*)"$/ do |title|
   page.should have_content title
 end
-When /^Я вижу пометку "Головной филиал" в списке филиалов$/ do
-  rows = branch_populate_rows @company
-  page.should have_table('branches', :rows => rows)
+When /^Я вижу пометку "([^"]*)" в списке для этого филиала$/ do |title|
+  puts @branch.fact_name
+  row_num = branch_get_table_index @company, @branch.fact_name
+  xpth_row = "//table[@id='branches']/tr[#{row_num}]/td[1]"
+  find(:xpath, xpth_row).text.should == title
+end
+When /^Я вижу в качестве головного филиал с факт. названием "([^"]*)"$/ do |bname|
+
+  branch = Branch.find_by_fact_name bname
+  assert branch.is_main?, "Первый созданный филиал не является головным"
+
+  row_num = branch_get_table_index @company, bname
+  xpth_row = "//table[@id='branches']/tr[#{row_num}]"
+  within :xpath, xpth_row do
+    find(:xpath, "//td[1]").text.should == "Головной филиал"
+    find(:xpath, "//td[3]").text.should == branch.fact_name
+  end
+end
+When /^Я выбираю в качестве головного филиал с факт. названием "([^"]*)"$/ do |bname|
+  row_num = branch_get_table_index @company, bname
+  @branch = Branch.find_by_fact_name bname
+  xpth = "//table[@id='branches']/tr[#{row_num}]/td[6]"
+  within :xpath, xpth do
+    click_link "Сделать головным"
+  end
 end
