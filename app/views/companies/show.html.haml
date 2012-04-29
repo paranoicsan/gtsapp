@@ -17,9 +17,11 @@
   #added
     - if @company.date_added
       = @company.date_added.strftime("%d.%m.%Y")
+      = @company.author
   %span{ :style => "font-weight: bold;"} Изменена:
   #updated
     = @company.updated_at.strftime("%d.%m.%Y %H:%M")
+    = @company.editor
 %p
   %strong Рубрикатор:
   =@company.rubricator_name

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120428065846) do
+ActiveRecord::Schema.define(:version => 20120429200531) do
 
   create_table "addresses", :force => true do |t|
     t.string   "house"
@@ -58,6 +58,8 @@ ActiveRecord::Schema.define(:version => 20120428065846) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "company_status_id"
+    t.integer  "author_user_id"
+    t.integer  "editor_user_id"
   end
 
   create_table "company_statuses", :force => true do |t|
@@ -125,21 +127,5 @@ ActiveRecord::Schema.define(:version => 20120428065846) do
     t.datetime "updated_at"
     t.string   "roles",             :default => "--- []"
   end
-
-  add_foreign_key "addresses", "branches", :name => "addresses_branch_id_fk"
-  add_foreign_key "addresses", "cities", :name => "addresses_city_id_fk"
-  add_foreign_key "addresses", "districts", :name => "addresses_district_id_fk"
-  add_foreign_key "addresses", "post_indices", :name => "addresses_post_index_id_fk"
-  add_foreign_key "addresses", "streets", :name => "addresses_street_id_fk"
-
-  add_foreign_key "branches", "companies", :name => "branches_company_id_fk"
-  add_foreign_key "branches", "form_types", :name => "branches_form_type_id_fk"
-
-  add_foreign_key "phones", "branches", :name => "phones_branch_id_fk"
-
-  add_foreign_key "street_indices", "post_indices", :name => "street_indices_post_index_id_fk"
-  add_foreign_key "street_indices", "streets", :name => "street_indices_street_id_fk"
-
-  add_foreign_key "streets", "cities", :name => "streets_city_id_fk"
 
 end

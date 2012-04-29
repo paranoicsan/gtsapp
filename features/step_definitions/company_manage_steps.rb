@@ -38,3 +38,18 @@ When /^Я вижу одинаковую дату создания и дату и
   added = find(:xpath, "//div[@id='added']").text.split
   assert added[0] == updated[0], "Даты не совпадают."
 end
+When /^Я вижу, что "([^"]*)" компании - "([^"]*)"$/ do |uposition, uname|
+  i = 0
+  case uposition
+    when "автор"
+      pos = "added"
+      i = 1
+    when "редактор"
+      pos = "updated"
+      i = 2 # т.к. у метки изменения ещё указано время
+    else
+      puts "Нет такого варианта"
+  end
+  s = find(:xpath, "//div[@id='#{pos}']").text.split
+  assert s[i] == uname, "Имя пользователя не совпадает."
+end

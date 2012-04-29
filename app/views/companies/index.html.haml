@@ -24,7 +24,10 @@
       %td
         - if company.date_added
           = company.date_added.strftime("%d.%m.%Y")
-      %td= company.updated_at.strftime("%d.%m.%Y %H:%M")
+          = company.author
+      %td
+        = company.updated_at.strftime("%d.%m.%Y %H:%M")
+        = company.editor
       %td= company.rubricator_name
       %td= link_to 'Удалить', company, :confirm => 'Are you sure?', :method => :delete
 

@@ -65,8 +65,13 @@ class CompaniesController < ApplicationController
     status = current_user.is_admin? || current_user.is_operator? ? CompanyStatus.active : CompanyStatus.pending
     params[:company][:company_status] = status
 
+    # Автор и редактор!
+    params[:company][:author_user_id] = @current_user.id
+    params[:company][:editor_user_id] = @current_user.id
+
     # Обрабатываем рубрикатор
     params[:company][:rubricator] = CompaniesController.prepare_rubricator(params[:company][:rubricator])
+
 
     @company = Company.new(params[:company])
 
@@ -88,6 +93,9 @@ class CompaniesController < ApplicationController
 
     # Обрабатываем рубрикатор
     params[:company][:rubricator] = CompaniesController.prepare_rubricator(params[:company][:rubricator])
+
+    # Редактор
+    params[:company][:editor_user_id] = @current_user.id
 
     respond_to do |format|
       if @company.update_attributes(params[:company])

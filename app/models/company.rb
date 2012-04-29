@@ -1,6 +1,7 @@
 # encoding: utf-8
 class Company < ActiveRecord::Base
   belongs_to :company_status
+  belongs_to :user
   has_many :branches
   validates_presence_of :title
   before_save :check_fields
@@ -25,6 +26,7 @@ class Company < ActiveRecord::Base
   # Проверяет и обрабатывает поля перед непосредственной записью в БД
   #
   def check_fields
+    # Если дату не заполнили, подставляем сегодняшний день
     unless self.date_added
       self.date_added = Date.today
     end
@@ -42,4 +44,29 @@ class Company < ActiveRecord::Base
     end
   end
 
+  ##
+  #
+  # Возвращает автора компании
+  #
+  # @return [String] Автор компании
+  def author
+    s = ""
+    if self.author_user_id
+      s = User.find(self.author_user_id).username
+    end
+    s
+  end
+
+  ##
+  #
+  # Возвращает редактора компании
+  #
+  # @return [String] Редактор компании
+  def editor
+    s = ""
+    if self.editor_user_id
+      s = User.find(self.editor_user_id).username
+    end
+    s
+  end
 end
