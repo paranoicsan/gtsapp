@@ -75,36 +75,38 @@ When /^Я вижу текст "([^"]*)"$/ do |title|
   page.should have_content title
 end
 When /^Я вижу пометку "([^"]*)" в списке для этого филиала$/ do |title|
-  puts @branch.fact_name
-  row_num = branch_get_table_index @company, @branch.fact_name
-  xpth_row = "//table[@id='branches']/tr[#{row_num}]/td[1]"
-  find(:xpath, xpth_row).text.should == title
+  xpth_row = "//table[@id='branches']/tr[1]" # первый ряд с данными
+  within :xpath, xpth_row do
+    find(:xpath, "//td[3]").text.should == @branch.fact_name
+    find(:xpath, "//td[1]").text.should == title
+  end
 end
 When /^Я вижу в качестве головного филиал с факт. названием "([^"]*)"$/ do |bname|
 
   branch = Branch.find_by_fact_name bname
-  assert branch.is_main?, "Первый созданный филиал не является головным"
+  assert branch.is_main?, "Первый созданный филиал не является головным."
 
-  row_num = branch_get_table_index @company, bname
-  xpth_row = "//table[@id='branches']/tr[#{row_num}]"
+  # Проверяем, что первым в списке показан головной филиал с указанным
+  # фактическим названием
+  xpth_row = "//table[@id='branches']/tr[2]"
   within :xpath, xpth_row do
     find(:xpath, "//td[1]").text.should == "Головной филиал"
     find(:xpath, "//td[3]").text.should == branch.fact_name
   end
 end
 When /^Я выбираю в качестве головного филиал с факт. названием "([^"]*)"$/ do |bname|
-  row_num = branch_get_table_index @company, bname
+
   @branch = Branch.find_by_fact_name bname
-  xpth = "//table[@id='branches']/tr[#{row_num}]/td[6]"
-  within :xpath, xpth do
+
+  # Ищем ячейку с операциями для филиала по указанному факт. названию
+  within :xpath, "//table[@id='branches']/*[(th|td)/descendant-or-self::*[contains(text(), '#{bname}')]]/td[6]" do
     click_link "Сделать головным"
   end
 end
 Then /^Филиал с факт. название "([^"]*)" находится в первом ряду списка$/ do |bname|
-  xpth_row = "//table[@id='branches']/tr[1]" # первый ряд с данными
+  xpth_row = "//table[@id='branches']/tr[2]" # первый ряд с данными
   within :xpath, xpth_row do
     find(:xpath, "//td[3]").text.should == bname
     find(:xpath, "//td[1]").text.should == "Головной филиал"
   end
-  save_and_open_page
 end

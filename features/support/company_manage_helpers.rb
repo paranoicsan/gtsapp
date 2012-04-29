@@ -55,29 +55,6 @@ module CompanyManageHelpers
     rows
   end
 
-  ##
-  #
-  # Возврашает порядковый номер филиала в коллекции для компании.
-  #
-  # @param [Company] Объект компании
-  # @param [String] Факт. название филиала
-  # @return [Integer] Индекс филиала
-  def branch_get_index(company, bname)
-    company.branches.index(Branch.find_by_fact_name(bname))
-  end
-
-  ##
-  #
-  # Возврашает порядковый номер ряда в табличном представлении, с учётом
-  # ряда заголовков и старта нумерации Capybara с единицы
-  #
-  # @param [Company] Объект компании
-  # @param [String] Факт. название филиала
-  # @return [Integer] Индекс ряда
-  def branch_get_table_index(company, bname)
-    branch_get_index(company, bname) + 2
-  end
-
 end
 
 World(CompanyManageHelpers)

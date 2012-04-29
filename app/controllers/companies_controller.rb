@@ -30,7 +30,7 @@ class CompaniesController < ApplicationController
   def show
     @company = Company.find(params[:id])
     @branches = Branch.find_all_by_company_id(@company.id)
-    @branches_sorted = Branch.order("is_main DESC").find_all_by_company_id(@company.id)
+    @branches_sorted = Branch.order("is_main DESC, fact_name ASC").find_all_by_company_id(@company.id)
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @company }
