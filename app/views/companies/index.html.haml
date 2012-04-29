@@ -13,6 +13,7 @@
     %th Статус
     %th Название
     %th Добавлена
+    %th Изменена
     %th Рубрикатор
     %th Операции
 
@@ -20,7 +21,10 @@
     %tr
       %td= company.company_status.name
       %td= link_to company.title, company
-      %td= company.date_added
+      %td
+        - if company.date_added
+          = company.date_added.strftime("%d.%m.%Y")
+      %td= company.updated_at.strftime("%d.%m.%Y %H:%M")
       %td= company.rubricator_name
       %td= link_to 'Удалить', company, :confirm => 'Are you sure?', :method => :delete
 
