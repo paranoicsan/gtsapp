@@ -3,6 +3,7 @@ class Company < ActiveRecord::Base
   belongs_to :company_status
   has_many :branches
   validates_presence_of :title
+  before_save :check_fields
 
   # Возвращает истину, если компания владеет только социальным рубрикатором
   def social_rubricator?
@@ -19,6 +20,15 @@ class Company < ActiveRecord::Base
     self.rubricator == 3
   end
 
+  ##
+  #
+  # Проверяет и обрабатывает поля перед непосредственной записью в БД
+  #
+  def check_fields
+    unless self.date_added
+      self.date_added = Date.today
+    end
+  end
 
   # Выводит текстовое обозначение рубриктора для компании
   # @return [string] Текстовое значение рубрикатора

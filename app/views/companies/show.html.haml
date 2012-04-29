@@ -11,9 +11,15 @@
       = @company.company_status.name
     - else
       Нет статуса
-%p
-  %strong Добавлена:
-  = @company.date_added
+
+#dates
+  %span{ :style => "font-weight: bold;"} Добавлена:
+  #added
+    - if @company.date_added
+      = @company.date_added.strftime("%d.%m.%Y")
+  %span{ :style => "font-weight: bold;"} Изменена:
+  #updated
+    = @company.updated_at.strftime("%d.%m.%Y %H:%M")
 %p
   %strong Рубрикатор:
   =@company.rubricator_name

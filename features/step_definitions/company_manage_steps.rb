@@ -33,3 +33,8 @@ end
 When /^Я перехожу на страницу компании "([^"]*)"$/ do |cname|
   step %{Я нахожусь на странице компании "#{cname}"}
 end
+When /^Я вижу одинаковую дату создания и дату изменения компании$/ do
+  updated = find(:xpath, "//div[@id='updated']").text.split
+  added = find(:xpath, "//div[@id='added']").text.split
+  assert added[0] == updated[0], "Даты не совпадают."
+end
