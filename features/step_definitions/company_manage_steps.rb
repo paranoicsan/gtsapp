@@ -14,9 +14,12 @@ When /^Компания имеет статус "([^"]*)"$/ do |status_name|
   find("#company_status").should have_content(status_name)
 end
 Given /^Существуют следующие компании$/ do |table|
-  # table is a | Рога и копыта |pending
   table.hashes.each do |company|
-    Company.create! :title => company[:title]
+    params = {
+        :title => company[:title]
+    }
+    params[:company_status_id] = company[:status_id] if company[:status_id]
+    Company.create! params
   end
 end
 When /^Существуют следующие формы собственности$/ do |table|
@@ -40,6 +43,7 @@ When /^Я вижу одинаковую дату создания и дату и
 end
 When /^Я вижу, что "([^"]*)" компании - "([^"]*)"$/ do |uposition, uname|
   i = 0
+  pos = 'N\A'
   case uposition
     when "автор"
       pos = "added"

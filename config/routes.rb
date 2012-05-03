@@ -14,6 +14,7 @@ Gtsapp::Application.routes.draw do
   end
 
   match 'branches/:id/make_main' => 'branches#make_main', :as => :branch_make_main
+  match 'companies/:id/activate' =>'companies#activate', :as => :activate_company
 
   resources :users
   resources :user_sessions

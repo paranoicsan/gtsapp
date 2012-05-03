@@ -2,6 +2,7 @@
 class CompaniesController < ApplicationController
   helper :application
   before_filter :require_user
+  before_filter :require_admin, :only => [:activate]
 
   # Подготавливает значения рубрикатора для вставки в СУБД
   # @param params [Hash] массив значений выбранных Checkbox-объектов
@@ -118,5 +119,14 @@ class CompaniesController < ApplicationController
       format.html { redirect_to companies_url }
       format.json { head :ok }
     end
+  end
+
+  ##
+  #
+  # Активирует указанную компанию - устанавливает ей статус как "Активна"
+  # GET /companies/1/activate
+  def activate
+    Company.activate params[:id]
+    redirect_to dashboard_url
   end
 end

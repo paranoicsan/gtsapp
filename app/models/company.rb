@@ -69,4 +69,15 @@ class Company < ActiveRecord::Base
     end
     s
   end
+
+  ##
+  #
+  # Активирует указанную компанию
+  #
+  # @param [Integer] Ключ компании
+  def self.activate(company_id)
+    c = Company.find company_id
+    c.update_attribute :company_status_id, CompanyStatus.active
+    c.save
+  end
 end

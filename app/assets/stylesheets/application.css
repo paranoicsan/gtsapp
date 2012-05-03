@@ -111,9 +111,9 @@ table#index th, table#index td {
 }
 .sub-index {
     margin: 5px;
-    border-collapse: collapse;
+    /*border-collapse: collapse;*/
     width: 100%;
-    border-bottom: 2px solid black;
+    /*border-bottom: 2px solid black;*/
 }
 .sub-index th {
     border: 2px solid white;
