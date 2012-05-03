@@ -13,6 +13,7 @@ describe CompaniesController do
     controller.stub(:require_admin).and_return(true) # подмена прав администратора
     @user = mock(User)
     @user.stub(:is_admin?).with(no_args).and_return(true) # подмена, что пользователь является администратором
+    @user.stub(:id).with(no_args).and_return(1)
     controller.stub(:current_user).and_return(@user) # подмена текущего пользователя
   end
 
@@ -22,7 +23,8 @@ describe CompaniesController do
   def valid_attributes
     {
         :title => 'rspec_company',
-        :date_added => Date::today
+        :date_added => Date::today,
+        :author_user_id => 1
     }
   end
 
@@ -139,7 +141,8 @@ describe CompaniesController do
         # specifies that the Company created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        Company.any_instance.should_receive(:update_attributes).with({:these.to_s => 'params', :rubricator.to_s => 0})
+        Company.any_instance.should_receive(:update_attributes).with({:these.to_s => 'params', :rubricator.to_s => 0,
+                                                                      :editor_user_id.to_s => 1})
         put :update, {:id => company.to_param, :company => {:these => 'params'}}, valid_session
       end
 
