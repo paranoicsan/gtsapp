@@ -3,8 +3,10 @@ class DashboardController < ApplicationController
 
   def index
 
-    status_id = CompanyStatus.pending.id
-    @suspended_companies = Company.find_all_by_company_status_id status_id
+    if CompanyStatus.pending
+      status_id = CompanyStatus.pending.id
+      @suspended_companies = Company.find_all_by_company_status_id status_id
+    end
 
     respond_to do |format|
       format.html # index.html.haml

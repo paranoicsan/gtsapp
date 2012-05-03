@@ -13,11 +13,12 @@
         %th Название
         %th Добавлена
         %th Операции
-      - @suspended_companies.each do |company|
-        %tr
-          %td= company.title
-          %td
-            = company.date_added.strftime("%d.%m.%Y")
-            = company.author
-          %td
-            = link_to "Активировать", activate_company_path(company)
+      - if @suspended_companies
+        - @suspended_companies.each do |company|
+          %tr
+            %td= company.title
+            %td
+              = company.date_added.strftime("%d.%m.%Y")
+              = company.author
+            %td
+              = link_to "Активировать", activate_company_path(company)
