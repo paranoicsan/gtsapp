@@ -16,7 +16,7 @@
       - if @suspended_companies
         - @suspended_companies.each do |company|
           %tr
-            %td= company.title
+            %td= link_to company.title, company_path(company)
             %td
               = company.date_added.strftime("%d.%m.%Y")
               = company.author
