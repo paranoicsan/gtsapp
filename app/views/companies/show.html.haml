@@ -26,6 +26,9 @@
   %strong Рубрикатор:
   =@company.rubricator_name
 
+-if @current_user.is_admin? && !@company.active?
+  = link_to 'Активировать', activate_company_path(@company)
+  \|
 = link_to 'Изменить', edit_company_path(@company)
 \|
 = link_to 'Назад', companies_path
@@ -42,7 +45,7 @@
     %th Юридическое название
     %th Адрес
     %th
-  -@branches_sorted.each do |branch|
+  -@company.branches_sorted.each do |branch|
     %tr
       %td= branch.is_main? ? "Головной филиал" : ""
       %td= branch.form_type.name

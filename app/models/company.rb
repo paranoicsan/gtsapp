@@ -80,4 +80,24 @@ class Company < ActiveRecord::Base
     c.update_attribute :company_status_id, CompanyStatus.active
     c.save
   end
+
+  ##
+  #
+  # Определяет, активна ли компания
+  #
+  # @return [Boolean] Активна ли компания
+  def active?
+    self.company_status_id == CompanyStatus.active.id
+  end
+
+  ##
+  #
+  # Отсортированный набор филиалов
+  #
+  # @return [Array] Коллекция филиалов
+  def branches_sorted
+    self.branches.order("is_main DESC, fact_name ASC")
+  end
+
+
 end

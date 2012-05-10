@@ -12,6 +12,7 @@ When /^Существуют следующие статусы компаний$/
 end
 When /^Компания имеет статус "([^"]*)"$/ do |status_name|
   find("#company_status").should have_content(status_name)
+  page.should_not have_content("Активировать")
 end
 Given /^Существуют следующие компании$/ do |table|
   table.hashes.each do |company|
@@ -56,4 +57,13 @@ When /^Я вижу, что "([^"]*)" компании - "([^"]*)"$/ do |upositio
   end
   s = find(:xpath, "//div[@id='#{pos}']").text.split
   assert s[i] == uname, "Имя пользователя не совпадает."
+end
+When /^Я активирую компанию "([^"]*)"$/ do |cname|
+  @company = Company.find_by_title cname
+  #noinspection RubyResolve
+  s = activate_company_path @company
+  find("a[href='#{s}']").click
+end
+Then /^Я не могу активировать компанию$/ do
+  page.should_not have_content("Активировать")
 end

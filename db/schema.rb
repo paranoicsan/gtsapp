@@ -128,4 +128,9 @@ ActiveRecord::Schema.define(:version => 20120429200531) do
     t.string   "roles",             :default => "--- []"
   end
 
+  add_foreign_key "companies", "users", :name => "companies_author_user_id_fk", :column => "author_user_id"
+  add_foreign_key "companies", "users", :name => "companies_editor_user_id_fk", :column => "editor_user_id"
+
+  add_foreign_key "phones", "branches", :name => "phones_branch_id_fk"
+
 end
