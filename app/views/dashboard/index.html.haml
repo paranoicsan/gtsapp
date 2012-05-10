@@ -20,4 +20,5 @@
             = company.date_added.strftime("%d.%m.%Y")
             = company.author
           %td
-            = link_to "Активировать", activate_company_path(company)
+            -if current_user.is_admin?
+              = link_to "Активировать", activate_company_path(company)
