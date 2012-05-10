@@ -63,7 +63,7 @@ class CompaniesController < ApplicationController
 
     # Определяем права пользователя и в зависимости от этого задаем статус
     #noinspection RubyResolve
-    status = current_user.is_admin? || current_user.is_operator? ? CompanyStatus.active : CompanyStatus.pending
+    status = current_user.is_admin? || current_user.is_operator? ? CompanyStatus.active : CompanyStatus.suspended
     params[:company][:company_status] = status
 
     # Автор и редактор

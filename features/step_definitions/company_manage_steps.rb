@@ -5,11 +5,6 @@ When /^Я создаю новую компанию с названием "([^"]*
   fill_in "company_title", :with => company_title
   click_button "Сохранить"
 end
-When /^Существуют следующие статусы компаний$/ do |table|
-  table.hashes.each do |status|
-    CompanyStatus.create! :name => status[:name]
-  end
-end
 When /^Компания имеет статус "([^"]*)"$/ do |status_name|
   find("#company_status").should have_content(status_name)
   page.should_not have_content("Активировать")
@@ -66,4 +61,9 @@ When /^Я активирую компанию "([^"]*)"$/ do |cname|
 end
 Then /^Я не могу активировать компанию$/ do
   page.should_not have_content("Активировать")
+end
+When /^Я добавляю следующие компании$/ do |table|
+  table.hashes.each do |row|
+    step %{Я создаю новую компанию с названием "#{row[:title]}"}
+  end
 end

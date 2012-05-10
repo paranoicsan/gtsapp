@@ -16,7 +16,7 @@ describe CompanyStatus do
     it "На рассмотрении" do
       @company_status.name = "На рассмотрении"
       @company_status.save
-      assert CompanyStatus.pending == @company_status, "Статус на рассмотрении не возвращается"
+      assert CompanyStatus.suspended == @company_status, "Статус на рассмотрении не возвращается"
     end
     it "Архивный статус" do
       @company_status.name = "В архиве"

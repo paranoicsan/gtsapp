@@ -5,6 +5,7 @@ class Company < ActiveRecord::Base
   has_many :branches
   validates_presence_of :title
   before_save :check_fields
+  scope :suspended, where(:company_status_id => CompanyStatus.suspended.id)
 
   # Возвращает истину, если компания владеет только социальным рубрикатором
   def social_rubricator?
@@ -99,5 +100,8 @@ class Company < ActiveRecord::Base
     self.branches.order("is_main DESC, fact_name ASC")
   end
 
+  def self.suspended_by_user(user_id)
+    Company.where("author_user_id = ? and company_status_id = ?", user_id, CompanyStatus.suspended.id)
+  end
 
 end

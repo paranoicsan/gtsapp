@@ -8,11 +8,6 @@ Feature: Создание, изменение и удаление компани
       | t_admin    | 1111     | t_admin@test.com    | admin    |
       | t_operator | 1111     | t_operator@test.com | operator |
       | t_agent    | 1111     | t_agent@test.com    | agent    |
-    And Существуют следующие статусы компаний
-      | name |
-      | Активна |
-      | На рассмотрении |
-      | В архиве |
 
   Scenario: Только операторы или администраторы могут удалять компанию
     # TODO: Реализовать сценарий

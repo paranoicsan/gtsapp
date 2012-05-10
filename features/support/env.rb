@@ -1,3 +1,4 @@
+# encoding: utf-8
 require 'rubygems'
 require 'spork'
 #uncomment the following line to use spork with the debugger
@@ -75,6 +76,11 @@ Spork.each_run do
   if ENV['DRB']
     require 'simplecov'
     SimpleCov.start 'rails'
+  end
+
+  # записываем сюда статусы компаний, т.к. они должны всегда существовать
+  ["Активна", "На рассмотрении", "В архиве"].each do |status|
+    CompanyStatus.create! :name => status
   end
 end
 

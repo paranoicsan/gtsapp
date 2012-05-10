@@ -5,20 +5,19 @@
 %h1.section-title#title
   Сводка
 
--unless @current_user.is_agent?
-  #suspend_box
-    %h2#dashboard_title Компании на рассмотрении
-    %table#suspended_list.sub-index
-      %tr
-        %th Название
-        %th Добавлена
-        %th Операции
-      - if @suspended_companies
-        - @suspended_companies.each do |company|
-          %tr
-            %td= link_to company.title, company_path(company)
-            %td
-              = company.date_added.strftime("%d.%m.%Y")
-              = company.author
-            %td
-              = link_to "Активировать", activate_company_path(company)
+#suspend_box
+  %h2#dashboard_title Компании на рассмотрении
+  %table#suspended_list.sub-index
+    %tr
+      %th Название
+      %th Добавлена
+      %th Операции
+    - if @suspended_companies
+      - @suspended_companies.each do |company|
+        %tr
+          %td= link_to company.title, company_path(company)
+          %td
+            = company.date_added.strftime("%d.%m.%Y")
+            = company.author
+          %td
+            = link_to "Активировать", activate_company_path(company)

@@ -3,9 +3,16 @@ class DashboardController < ApplicationController
 
   def index
 
-    if CompanyStatus.pending
-      status_id = CompanyStatus.pending.id
-      @suspended_companies = Company.find_all_by_company_status_id status_id
+    # эта проверка существует на случай тестов, когда у нас никаких статусов не создано
+    if CompanyStatus.suspended
+
+      #noinspection RubyResolve
+      if current_user.is_agent?
+        @suspended_companies = Company.suspended_by_user current_user.id
+      else
+        @suspended_companies = Company.suspended
+      end
+
     end
 
     respond_to do |format|

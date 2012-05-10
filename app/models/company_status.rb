@@ -6,7 +6,7 @@ class CompanyStatus < ActiveRecord::Base
     CompanyStatus.find_by_name "Активна"
   end
 
-  def self.pending
+  def self.suspended
     CompanyStatus.find_by_name "На рассмотрении"
   end
 
