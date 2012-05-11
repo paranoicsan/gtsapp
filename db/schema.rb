@@ -133,4 +133,24 @@ ActiveRecord::Schema.define(:version => 20120510130502) do
     t.string   "roles",             :default => "--- []"
   end
 
+  add_foreign_key "addresses", "branches", :name => "addresses_branch_id_fk"
+  add_foreign_key "addresses", "cities", :name => "addresses_city_id_fk"
+  add_foreign_key "addresses", "districts", :name => "addresses_district_id_fk"
+  add_foreign_key "addresses", "post_indices", :name => "addresses_post_index_id_fk"
+  add_foreign_key "addresses", "streets", :name => "addresses_street_id_fk"
+
+  add_foreign_key "branches", "companies", :name => "branches_company_id_fk"
+  add_foreign_key "branches", "form_types", :name => "branches_form_type_id_fk"
+
+  add_foreign_key "companies", "company_sources", :name => "companies_company_source_id_fk"
+  add_foreign_key "companies", "users", :name => "companies_author_user_id_fk", :column => "author_user_id"
+  add_foreign_key "companies", "users", :name => "companies_editor_user_id_fk", :column => "editor_user_id"
+
+  add_foreign_key "phones", "branches", :name => "phones_branch_id_fk"
+
+  add_foreign_key "street_indices", "post_indices", :name => "street_indices_post_index_id_fk"
+  add_foreign_key "street_indices", "streets", :name => "street_indices_street_id_fk"
+
+  add_foreign_key "streets", "cities", :name => "streets_city_id_fk"
+
 end

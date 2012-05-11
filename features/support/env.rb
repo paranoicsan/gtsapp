@@ -82,6 +82,9 @@ Spork.each_run do
   ["Активна", "На рассмотрении", "В архиве"].each do |status|
     CompanyStatus.create! :name => status
   end
+  ["Заявка с сайта", "От агента"].each do |source|
+    CompanySource.create :name => source
+  end
 end
 
 # --- Instructions ---
