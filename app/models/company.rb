@@ -1,6 +1,7 @@
 # encoding: utf-8
 class Company < ActiveRecord::Base
   belongs_to :company_status
+  belongs_to :company_source
   belongs_to :user
   has_many :branches
   validates_presence_of :title
