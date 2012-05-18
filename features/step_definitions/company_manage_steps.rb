@@ -67,3 +67,37 @@ When /^Я добавляю следующие компании$/ do |table|
     step %{Я создаю новую компанию с названием "#{row[:title]}"}
   end
 end
+
+When /^Я создаю новую компанию через веб-интерфейс с параметрами$/ do |table|
+  # table is a | Рога и копыта | Заявка с сайта |pending
+  table.hashes.each do |param|
+    #noinspection RubyResolve
+    visit new_company_path
+    fill_in "company_title", :with => param[:title]
+    select param[:source_name], :from => "company_company_source_id"
+    click_button "Сохранить"
+  end
+end
+
+When /^Существует компания с параметрами$/ do |table|
+  # table is a | Рога и копыта | Заявка с сайта |pending
+  table.hashes.each do |param|
+    cs = CompanySource.find_by_name param[:source_name]
+    params = {
+        :title => param[:title],
+        :company_source_id => cs.id
+    }
+    company = Company.create params
+    company.save
+  end
+end
+
+When /^Я изменяю компанию "([^"]*)" параметрами$/ do |cname, table|
+  company = Company.find_all_by_title cname
+  #noinspection RubyResolve
+  visit edit_company_path company
+  table.hashes.each do |param|
+    select param[:source_name], :from => "company_company_source_id"
+  end
+  click_button "Сохранить"
+end

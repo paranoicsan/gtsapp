@@ -20,3 +20,7 @@ User.create(username: 't_agent', password: '1111', password_confirmation: '1111'
 CompanyStatus.create(name: 'Активна').save!
 CompanyStatus.create(name: 'На рассмотрении').save!
 CompanyStatus.create(name: 'В архиве').save!
+
+
+
+

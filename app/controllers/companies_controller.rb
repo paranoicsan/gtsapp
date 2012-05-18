@@ -131,4 +131,5 @@ class CompaniesController < ApplicationController
     #redirect_to dashboard_url
     redirect_to request.referer
   end
+
 end

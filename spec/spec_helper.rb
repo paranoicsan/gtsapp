@@ -1,3 +1,4 @@
+# encoding: utf-8
 require 'rubygems'
 require 'spork'
 #uncomment the following line to use spork with the debugger
@@ -66,6 +67,13 @@ Spork.each_run do
   if ENV['DRB']
     require 'simplecov'
     SimpleCov.start 'rails'
+  end
+
+  ["Активна", "На рассмотрении", "В архиве"].each do |status|
+    CompanyStatus.create! :name => status
+  end
+  ["Заявка с сайта", "От агента"].each do |source|
+    CompanySource.create :name => source
   end
 end
 

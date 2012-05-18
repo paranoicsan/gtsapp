@@ -9,7 +9,8 @@
 
   .field
     = f.label :form_type_id, 'Форма собственности'
-    = f.select(:form_type_id, options_for_select(FormType.all.collect{ |ftype| [ftype.name, ftype.id] }))
+    = f.select(:form_type_id, options_for_select(FormType.all.collect{ |ftype| [ftype.name, ftype.id] },
+      @branch.form_type_id))
   .field
     = f.label :fact_name, 'Фактическое название'
     = f.text_field :fact_name

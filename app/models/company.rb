@@ -105,4 +105,17 @@ class Company < ActiveRecord::Base
     Company.where("author_user_id = ? and company_status_id = ?", user_id, CompanyStatus.suspended.id)
   end
 
+  ##
+  #
+  # Определяет имя источника информации
+
+  # @return [String] Отформатированное значение источника информации
+  def source_name
+    if self.company_source
+      CompanySource.find(self.company_source_id).name
+    else
+      "Не указан"
+    end
+  end
+
 end

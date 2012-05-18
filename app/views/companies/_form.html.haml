@@ -17,6 +17,10 @@
     = check_box_tag "company[rubricator][0]", 1, @company.social_rubricator? || @company.full_rubricator?
     Коммерческий
     = check_box_tag "company[rubricator][1]", 2, @company.commercial_rubricator? || @company.full_rubricator?
+  .field
+    = f.label :company_source_id, 'Источник информации'
+    = f.select(:company_source_id, options_for_select(CompanySource.all.collect{ |f| [f.name, f.id] },
+      @company.company_source_id))
 
   .actions
     = f.submit 'Сохранить'

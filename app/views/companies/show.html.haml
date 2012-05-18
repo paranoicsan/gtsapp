@@ -26,6 +26,10 @@
   %strong Рубрикатор:
   =@company.rubricator_name
 
+%p
+  %strong Источник информации:
+  =@company.source_name
+
 -if @current_user.is_admin? && !@company.active?
   = link_to 'Активировать', activate_company_path(@company)
   \|
