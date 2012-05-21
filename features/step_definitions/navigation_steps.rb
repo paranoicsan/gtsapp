@@ -18,6 +18,9 @@ When /^Я нахожусь на странице "([^"]*)"$/ do |title|
     when "Пользователи"
       #noinspection RubyResolve
       visit users_path
+    when "Компании"
+      #noinspection RubyResolve
+      visit companies_path
     else
       assert false, "Неизвестный путь."
   end

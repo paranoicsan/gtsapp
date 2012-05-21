@@ -20,6 +20,15 @@ Spork.prefork do
 
   require 'cucumber/rails'
 
+  # Должно быть записано в БД из seed.rb при выполнении db:test:prepare
+  ## записываем сюда статусы компаний, т.к. они должны всегда существовать
+  ["Активна", "На рассмотрении", "В архиве"].each do |status|
+    CompanyStatus.create! :name => status
+  end
+  #["Заявка с сайта", "От агента"].each do |source|
+  #  CompanySource.create :name => source
+  #end
+
 # Capybara defaults to XPath selectors rather than Webrat's default of CSS3. In
 # order to ease the transition to Capybara we set the default here. If you'd
 # prefer to use XPath just remove this line and adjust any selectors in your
@@ -78,13 +87,7 @@ Spork.each_run do
     SimpleCov.start 'rails'
   end
 
-  # записываем сюда статусы компаний, т.к. они должны всегда существовать
-  ["Активна", "На рассмотрении", "В архиве"].each do |status|
-    CompanyStatus.create! :name => status
-  end
-  ["Заявка с сайта", "От агента"].each do |source|
-    CompanySource.create :name => source
-  end
+
 end
 
 # --- Instructions ---
