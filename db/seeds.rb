@@ -21,6 +21,10 @@ CompanyStatus.create(name: 'Активна').save!
 CompanyStatus.create(name: 'На рассмотрении').save!
 CompanyStatus.create(name: 'В архиве').save!
 
+# Источники компаний
+CompanySource.create(name: "Заявка с сайта").save!
+CompanySource.create(name: "От агента").save!
+
 
 
 
