@@ -147,4 +147,5 @@ end
 Then /^Я вижу только (\d+) компаний$/ do |cnt|
   cnt = Integer(cnt)
   page.all("table#index tr").count.should == cnt + 1 # Один ряд с заголовками
+  save_and_open_page
 end
