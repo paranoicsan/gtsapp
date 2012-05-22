@@ -18,7 +18,7 @@
           %td= link_to company.title, company_path(company)
           %td
             = company.date_added.strftime("%d.%m.%Y")
-            = company.author
+            = company.author_name
           %td
             -if current_user.is_admin?
               = link_to "Активировать", activate_company_path(company)

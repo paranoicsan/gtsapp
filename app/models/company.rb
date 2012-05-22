@@ -51,7 +51,7 @@ class Company < ActiveRecord::Base
   # Возвращает автора компании
   #
   # @return [String] Автор компании
-  def author
+  def author_name
     s = ""
     if self.author_user_id
       s = User.find(self.author_user_id).username
@@ -64,7 +64,7 @@ class Company < ActiveRecord::Base
   # Возвращает редактора компании
   #
   # @return [String] Редактор компании
-  def editor
+  def editor_name
     s = ""
     if self.editor_user_id
       s = User.find(self.editor_user_id).username
@@ -108,7 +108,7 @@ class Company < ActiveRecord::Base
   ##
   #
   # Определяет имя источника информации
-
+  #
   # @return [String] Отформатированное значение источника информации
   def source_name
     if self.company_source
@@ -116,6 +116,24 @@ class Company < ActiveRecord::Base
     else
       "Не указан"
     end
+  end
+
+  ##
+  #
+  # Определяет, имеет ли компании источник "От агента"
+  #
+  # @return [Boolean] Истина, если компания имеет источник "От агента"
+  def from_agent?
+    self.company_source_id == CompanySource.from_agent_id
+  end
+
+  ##
+  #
+  # Возвращает агента компании
+  #
+  # @return [String] Агент компании
+  def agent_name
+    User.find(self.agent_id).username
   end
 
 end

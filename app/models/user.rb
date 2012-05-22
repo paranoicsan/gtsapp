@@ -3,6 +3,11 @@ class User < ActiveRecord::Base
   easy_roles :roles
   acts_as_authentic
 
+  ##
+  # Возвращает набор пользователей с ролью "Агент"
+  #
+  # @return [Array] Набор пользователей
+  #
   def self.agents
     res = []
     self.all.each do |u|

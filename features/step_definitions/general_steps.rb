@@ -1,15 +1,17 @@
 # encoding: utf-8
 When /^Я вижу сообщение "([^"]*)"$/ do |msg|
-  #save_and_open_page
   page.should have_content(msg)
 end
+
 Then /^Я вижу надпись "([^"]*)"$/ do |text|
   page.should have_content(text)
 end
+
 Then /^Я не вижу таблицу "([^"]*)"$/ do |table_id|
   xpth = "//table[@id='#{table_id}']"
   page.should_not have_selector :xpath, xpth
 end
+
 Then /^Я вижу таблицу "([^"]*)" с компаниями$/ do |table_id, table|
   xpth = "//table[@id='#{table_id}']"
   page.should have_selector :xpath, xpth

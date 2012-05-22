@@ -17,11 +17,11 @@
   #added
     - if @company.date_added
       = @company.date_added.strftime("%d.%m.%Y")
-      = @company.author
+      = @company.author_name
   %span{ :style => "font-weight: bold;"} Изменена:
   #updated
     = @company.updated_at.strftime("%d.%m.%Y %H:%M")
-    = @company.editor
+    = @company.editor_name
 %p
   %strong Рубрикатор:
   =@company.rubricator_name
@@ -29,6 +29,11 @@
 %p
   %strong Источник информации:
   =@company.source_name
+
+-if @company.from_agent?
+  %p
+    %strong Агент
+    =@company.agent_name
 
 -if @current_user.is_admin? && !@company.active?
   = link_to 'Активировать', activate_company_path(@company)
