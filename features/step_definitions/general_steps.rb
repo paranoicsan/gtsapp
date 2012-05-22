@@ -24,3 +24,7 @@ Then /^Я вижу таблицу "([^"]*)" с компаниями$/ do |table_
     idx += 1
   end
 end
+
+When /^Я вижу разбивку на страницы$/ do
+  page.should have_selector("div.pagination")
+end

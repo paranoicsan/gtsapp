@@ -137,3 +137,14 @@ When /^Я ([^"]*)вижу слой с ключом "([^"]*)"$/ do |arg, select_i
   b = arg == "не" ? false : true
   page.has_selector?(xpth, :visible => b)
 end
+
+Given /^Существуют (\d+) компаний с названиями на вариацию "([^"]*)"$/ do |cnt, cname_base|
+  Integer(cnt).times do |i|
+    Company.create! :title => "#{cname_base}_#{i}", :company_status_id => 1
+  end
+end
+
+Then /^Я вижу только (\d+) компаний$/ do |cnt|
+  cnt = Integer(cnt)
+  page.all("table#index tr").count.should == cnt + 1 # Один ряд с заголовками
+end

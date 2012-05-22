@@ -18,7 +18,7 @@ class CompaniesController < ApplicationController
   # GET /companies
   # GET /companies.json
   def index
-    @companies = Company.all
+    @companies = Company.paginate(:page => params[:page], :per_page => 25)
 
     respond_to do |format|
       format.html # index.html.erb
