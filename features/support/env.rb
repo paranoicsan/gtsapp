@@ -20,14 +20,10 @@ Spork.prefork do
 
   require 'cucumber/rails'
 
-  # Должно быть записано в БД из seed.rb при выполнении db:test:prepare
-  ## записываем сюда статусы компаний, т.к. они должны всегда существовать
-  ["Активна", "На рассмотрении", "В архиве"].each do |status|
-    CompanyStatus.create! :name => status
-  end
-  #["Заявка с сайта", "От агента"].each do |source|
-  #  CompanySource.create :name => source
-  #end
+  #Capybara.server_port = 3000
+  #Capybara.app_host = "http://localhost:3000"
+
+  ActionController::Base.asset_host = Capybara.app_host
 
 # Capybara defaults to XPath selectors rather than Webrat's default of CSS3. In
 # order to ease the transition to Capybara we set the default here. If you'd
@@ -63,12 +59,12 @@ Spork.prefork do
 # You may also want to configure DatabaseCleaner to use different strategies for certain features and scenarios.
 # See the DatabaseCleaner documentation for details. Example:
 #
-#   Before('@no-txn,@selenium,@culerity,@celerity,@javascript') do
-#     # { :except => [:widgets] } may not do what you expect here
-#     # as tCucumber::Rails::Database.javascript_strategy overrides
-#     # this setting.
-#     DatabaseCleaner.strategy = :truncation
-#   end
+   Before('@no-txn,@selenium,@culerity,@celerity,@javascript') do
+     # { :except => [:widgets] } may not do what you expect here
+     # as tCucumber::Rails::Database.javascript_strategy overrides
+     # this setting.
+     DatabaseCleaner.strategy = :truncation
+   end
 #
 #   Before('~@no-txn', '~@selenium', '~@culerity', '~@celerity', '~@javascript') do
 #     DatabaseCleaner.strategy = :transaction
@@ -87,8 +83,15 @@ Spork.each_run do
     SimpleCov.start 'rails'
   end
 
-
+  ## записываем сюда статусы компаний, т.к. они должны всегда существовать
+  ["Активна", "На рассмотрении", "В архиве"].each do |status|
+    CompanyStatus.create(name: status).save!
+  end
+  # Источники компаний
+  CompanySource.create(name: "Заявка с сайта").save!
+  CompanySource.create(name: "От агента").save!
 end
+
 
 # --- Instructions ---
 # Sort the contents of this file into a Spork.prefork and a Spork.each_run

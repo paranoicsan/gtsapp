@@ -19,10 +19,12 @@
     = check_box_tag "company[rubricator][1]", 2, @company.commercial_rubricator? || @company.full_rubricator?
   .field
     = f.label :company_source_id, 'Источник информации'
-    = f.select(:company_source_id, options_for_select(CompanySource.all.collect{ |f| [f.name, f.id] },
+    = f.select(:company_source_id, options_for_select(CompanySource.all.collect{ |s| [s.name, s.id] },
       @company.company_source_id), {}, {:onChange => "ShowHideAgentList(#{CompanySource.from_agent_id})"})
     %div{:id => "agent_list"}
-      = select_tag("registered.agents", "<option>TEST</option>".html_safe, {})
+      = f.label :agent_id, 'Агент'
+      = f.select(:agent_id, options_for_select(User.agents.collect{ |u| [u.username, u.id] },
+        @company.agent_id), {:prompt => 'Выберите агента'})
 
   .actions
     = f.submit 'Сохранить'

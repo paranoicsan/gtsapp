@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120510130502) do
+ActiveRecord::Schema.define(:version => 20120522060154) do
 
   create_table "addresses", :force => true do |t|
     t.string   "house"
@@ -61,6 +61,7 @@ ActiveRecord::Schema.define(:version => 20120510130502) do
     t.integer  "author_user_id"
     t.integer  "editor_user_id"
     t.integer  "company_source_id"
+    t.integer  "agent_id"
   end
 
   create_table "company_sources", :force => true do |t|
@@ -132,5 +133,7 @@ ActiveRecord::Schema.define(:version => 20120510130502) do
     t.datetime "updated_at"
     t.string   "roles",             :default => "--- []"
   end
+
+  add_foreign_key "companies", "users", :name => "companies_agent_id_fk", :column => "agent_id"
 
 end

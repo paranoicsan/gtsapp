@@ -29,6 +29,7 @@ When /^Существуют следующие формы собственнос
 end
 
 When /^Я нахожусь на странице компании "([^"]*)"$/ do |company_name|
+  #noinspection RubyResolve
   @company = Company.find_by_title company_name
   #noinspection RubyResolve
   visit company_path @company
@@ -113,24 +114,20 @@ When /^Я изменяю компанию "([^"]*)" параметрами$/ do 
 end
 
 When /^Я выбираю истоник "([^"]*)"$/ do |source_name|
-  #Capybara.current_driver = :webkit
-  save_and_open_page
   select source_name, :from =>"company_company_source_id"
-  #Capybara.use_default_driver
 end
 
 Then /^Я вижу выпадающее меню с ключом "([^"]*)" с данными$/ do |select_id, table|
   # table is a | t_agent  |pending
-
   params = []
-  #table.hashes.each do |row|
-  #  params << row[:username]
-  #end
-  params << "TEST"
-  page.should have_select select_id, :options => params
+  table.hashes.each do |row|
+    params << row[:username]
+  end
+  page.should have_select(select_id, :options => params)
 end
 
-When /^Я не вижу выпадающее меню с ключом "([^"]*)"$/ do |select_id|
-  #save_and_open_page
-  #page.should_not have_select select_id
+When /^Я ([^"]*)вижу слой с ключом "([^"]*)"$/ do |arg, select_id|
+  xpth = "//div[@id='#{select_id}']"
+  b = arg == "не" ? false : true
+  page.find(:xpath, xpth).visible? == b
 end
