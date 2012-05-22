@@ -63,7 +63,7 @@ Spork.prefork do
      # { :except => [:widgets] } may not do what you expect here
      # as tCucumber::Rails::Database.javascript_strategy overrides
      # this setting.
-     DatabaseCleaner.strategy = :truncation
+     DatabaseCleaner.strategy = :truncation, {:except => %w[company_sources company_statuses]}
    end
 #
 #   Before('~@no-txn', '~@selenium', '~@culerity', '~@celerity', '~@javascript') do
@@ -84,12 +84,12 @@ Spork.each_run do
   end
 
   ## записываем сюда статусы компаний, т.к. они должны всегда существовать
-  ["Активна", "На рассмотрении", "В архиве"].each do |status|
-    CompanyStatus.create(name: status).save!
-  end
-  # Источники компаний
-  CompanySource.create(name: "Заявка с сайта").save!
-  CompanySource.create(name: "От агента").save!
+  #["Активна", "На рассмотрении", "В архиве"].each do |status|
+  #  CompanyStatus.create(name: status).save!
+  #end
+  ## Источники компаний
+  #CompanySource.create(name: "Заявка с сайта").save!
+  #CompanySource.create(name: "От агента").save!
 end
 
 

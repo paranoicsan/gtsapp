@@ -134,6 +134,4 @@ ActiveRecord::Schema.define(:version => 20120522060154) do
     t.string   "roles",             :default => "--- []"
   end
 
-  add_foreign_key "companies", "users", :name => "companies_agent_id_fk", :column => "agent_id"
-
 end

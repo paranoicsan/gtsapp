@@ -21,10 +21,11 @@
     = f.label :company_source_id, 'Источник информации'
     = f.select(:company_source_id, options_for_select(CompanySource.all.collect{ |s| [s.name, s.id] },
       @company.company_source_id), {}, {:onChange => "ShowHideAgentList(#{CompanySource.from_agent_id})"})
-    %div{:id => "agent_list"}
+    %div{ :id => "agent_list",
+          :class => @company.company_source_id == CompanySource.from_agent_id ? "agent_list_visible" : "agent_list_hidden" }
       = f.label :agent_id, 'Агент'
       = f.select(:agent_id, options_for_select(User.agents.collect{ |u| [u.username, u.id] },
-        @company.agent_id), {:prompt => 'Выберите агента'})
+      @company.agent_id), {:prompt => 'Выберите агента'})
 
   .actions
     = f.submit 'Сохранить'

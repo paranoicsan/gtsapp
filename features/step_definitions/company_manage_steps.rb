@@ -133,7 +133,7 @@ Then /^Я вижу выпадающее меню с ключом "([^"]*)" с д
 end
 
 When /^Я ([^"]*)вижу слой с ключом "([^"]*)"$/ do |arg, select_id|
-  xpth = "//div[@id='#{select_id}']"
+  xpth = "div[@id='#{select_id}']"
   b = arg == "не" ? false : true
-  page.find(:xpath, xpth).visible? == b
+  page.has_selector?(xpth, :visible => b)
 end

@@ -133,7 +133,9 @@ class Company < ActiveRecord::Base
   #
   # @return [String] Агент компании
   def agent_name
-    User.find(self.agent_id).username
+    if self.agent_id
+      User.find(self.agent_id).username
+    end
   end
 
 end
