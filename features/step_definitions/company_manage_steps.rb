@@ -113,15 +113,24 @@ When /^Я изменяю компанию "([^"]*)" параметрами$/ do 
 end
 
 When /^Я выбираю истоник "([^"]*)"$/ do |source_name|
+  #Capybara.current_driver = :webkit
+  save_and_open_page
   select source_name, :from =>"company_company_source_id"
+  #Capybara.use_default_driver
 end
 
 Then /^Я вижу выпадающее меню с ключом "([^"]*)" с данными$/ do |select_id, table|
   # table is a | t_agent  |pending
-  #save_and_open_page
+
   params = []
-  table.hashes.each do |row|
-    params << row[:username]
-  end
+  #table.hashes.each do |row|
+  #  params << row[:username]
+  #end
+  params << "TEST"
   page.should have_select select_id, :options => params
+end
+
+When /^Я не вижу выпадающее меню с ключом "([^"]*)"$/ do |select_id|
+  #save_and_open_page
+  #page.should_not have_select select_id
 end

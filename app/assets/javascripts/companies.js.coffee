@@ -7,17 +7,9 @@
 # Прячет или показывает выпадающее меню со списком зарегистрированных агентов
 #
 @ShowHideAgentList = (id) ->
-  div = $('#agents.list')
+  div = $('#agent_list')
   list = $('#company_company_source_id')
   if id == (Number) list.val()
     div.show()
   else
     div.hide()
-
-$(document).ready(
-  v = (Number) $('#company_company_source_id').val()
-  alert v
-  if v == 2
-    $('#agents.list').css('display', 'none')
-    alert 'fuck'
-)

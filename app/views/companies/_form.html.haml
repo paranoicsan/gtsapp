@@ -21,8 +21,8 @@
     = f.label :company_source_id, 'Источник информации'
     = f.select(:company_source_id, options_for_select(CompanySource.all.collect{ |f| [f.name, f.id] },
       @company.company_source_id), {}, {:onChange => "ShowHideAgentList(#{CompanySource.from_agent_id})"})
-    %div{:id => "agents.list" }
-      = select_tag("registered.agents", {})
+    %div{:id => "agent_list"}
+      = select_tag("registered.agents", "<option>TEST</option>".html_safe, {})
 
   .actions
     = f.submit 'Сохранить'
