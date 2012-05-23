@@ -22,3 +22,5 @@
           %td
             -if current_user.is_admin?
               = link_to "Активировать", activate_company_path(company)
+
+  = will_paginate @suspended_companies

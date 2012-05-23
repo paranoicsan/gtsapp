@@ -138,14 +138,25 @@ When /^Я ([^"]*)вижу слой с ключом "([^"]*)"$/ do |arg, select_i
   page.has_selector?(xpth, :visible => b)
 end
 
-Given /^Существуют (\d+) компаний с названиями на вариацию "([^"]*)"$/ do |cnt, cname_base|
-  Integer(cnt).times do |i|
-    Company.create! :title => "#{cname_base}_#{i}", :company_status_id => 1
-  end
+Then /^Я вижу только (\d+) компаний в таблице "([^"]*)"$/ do |cnt, table_id|
+  cnt = Integer(cnt)
+  page.all("table\##{table_id} tr").count.should == cnt + 1 # Один ряд с заголовками
 end
 
-Then /^Я вижу только (\d+) компаний$/ do |cnt|
-  cnt = Integer(cnt)
-  page.all("table#index tr").count.should == cnt + 1 # Один ряд с заголовками
-  save_and_open_page
+Given /^Существуют (\d+) компаний с названиями на вариацию "([^"]*)" и параметрами$/ do |cnt, cname_base, table|
+  params = {}
+  if table
+    table.hashes.each do |p|
+      if p[:company_status]
+        params[:company_status_id] = CompanyStatus.find_by_name(p[:company_status]).id
+      end
+      if p[:author_user]
+        params[:author_user_id] = User.find_by_username(p[:author_user]).id
+      end
+    end
+  end
+  Integer(cnt).times do |i|
+    params[:title] = "#{cname_base}_#{i}"
+    Company.create! params
+  end
 end
