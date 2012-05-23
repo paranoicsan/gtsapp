@@ -22,7 +22,7 @@ Given /^Существуют следующие компании$/ do |table|
     if company[:source_name]
       params[:company_source_id] = CompanySource.find_by_name(company[:source_name]).id
     end
-    params[:company_status_id] = company[:status_id] if company[:status_id]
+    params[:company_status_id] = company[:status_id] ? company[:status_id] : 1
     Company.create! params
   end
 end
