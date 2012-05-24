@@ -35,7 +35,7 @@
     %strong Агент
     =@company.agent_name
 
--if @current_user.is_admin? && !@company.active?
+-if (@current_user.is_admin? || @current_user.is_operator?) && !@company.active?
   = link_to 'Активировать', activate_company_path(@company)
   \|
 = link_to 'Изменить', edit_company_path(@company)

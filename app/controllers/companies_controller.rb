@@ -2,7 +2,7 @@
 class CompaniesController < ApplicationController
   helper :application
   before_filter :require_user
-  before_filter :require_admin, :only => [:activate]
+  before_filter :require_system_users, :only => [:activate]
 
   # Подготавливает значения рубрикатора для вставки в СУБД
   # @param params [Hash] массив значений выбранных Checkbox-объектов

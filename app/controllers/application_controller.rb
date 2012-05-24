@@ -49,6 +49,18 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  # Проверяет, что это был системный пользователь,
+  # либо администратор, либо оператор
+  def require_system_users
+    #noinspection RubyResolve
+    unless @current_user.is_admin? || @current_user.is_operator?
+      store_referrer
+      flash[:error] = %{У Вас недостаточно прав для доступа к запрошенной странице.}
+      redirect_back_or_default(dashboard_url)
+      false
+    end
+  end
+
   # Проверяет, чтобы пользователь был оператором
   def require_operator
     #noinspection RubyResolve

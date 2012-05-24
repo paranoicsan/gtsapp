@@ -20,7 +20,7 @@
             = company.date_added.strftime("%d.%m.%Y")
             = company.author_name
           %td
-            -if current_user.is_admin?
+            -if current_user.is_admin? || current_user.is_operator?
               = link_to "Активировать", activate_company_path(company)
 
   = will_paginate @suspended_companies
