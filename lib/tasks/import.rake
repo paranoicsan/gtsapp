@@ -52,9 +52,9 @@ namespace :db do
 
   def rubrics
     # коммерческие рубрики
-    #CSV.foreach('db/data/rubrics.csv', {:col_sep => ',', :quote_char => '"', :headers => true}) do |row|
-    #  Rubric.create(:old_id => row[0], :name => row[1], :social => false)
-    #end
+    CSV.foreach('db/data/rubrics.csv', {:col_sep => ',', :quote_char => '"', :headers => true}) do |row|
+      Rubric.create(:old_id => row[0], :name => row[1], :social => false)
+    end
     CSV.foreach('db/data/rubric_keywords.csv', {:col_sep => ',', :quote_char => '"', :headers => true}) do |row|
       kw = Keyword.create(:name => row[2])
       kw.save
@@ -63,9 +63,9 @@ namespace :db do
     end
 
     # социальные
-    #CSV.foreach('db/data/soc_rubrics.csv', {:col_sep => ',', :quote_char => '"', :headers => true}) do |row|
-    #  Rubric.create(:old_id => row[0], :name => row[1], :social => true)
-    #end
+    CSV.foreach('db/data/soc_rubrics.csv', {:col_sep => ',', :quote_char => '"', :headers => true}) do |row|
+      Rubric.create(:old_id => row[0], :name => row[1], :social => true)
+    end
     CSV.foreach('db/data/soc_rubric_keywords.csv', {:col_sep => ',', :quote_char => '"', :headers => true}) do |row|
       kw = Keyword.create(:name => row[2])
       kw.save
