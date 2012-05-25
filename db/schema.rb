@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120522060154) do
+ActiveRecord::Schema.define(:version => 20120525061000) do
 
   create_table "addresses", :force => true do |t|
     t.string   "house"
@@ -64,6 +64,11 @@ ActiveRecord::Schema.define(:version => 20120522060154) do
     t.integer  "agent_id"
   end
 
+  create_table "company_rubrics", :force => true do |t|
+    t.integer "company_id"
+    t.integer "rubric_id"
+  end
+
   create_table "company_sources", :force => true do |t|
     t.string "name"
   end
@@ -84,6 +89,11 @@ ActiveRecord::Schema.define(:version => 20120522060154) do
   create_table "form_types", :force => true do |t|
     t.string  "name"
     t.integer "old_id"
+  end
+
+  create_table "keywords", :force => true do |t|
+    t.integer "old_id"
+    t.string  "name"
   end
 
   create_table "phones", :force => true do |t|
@@ -107,6 +117,17 @@ ActiveRecord::Schema.define(:version => 20120522060154) do
     t.integer  "old_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "rubric_keywords", :force => true do |t|
+    t.integer "rubric_id"
+    t.integer "keyword_id"
+  end
+
+  create_table "rubrics", :force => true do |t|
+    t.integer "old_id"
+    t.string  "name"
+    t.boolean "social"
   end
 
   create_table "street_indices", :force => true do |t|

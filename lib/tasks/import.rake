@@ -49,7 +49,31 @@ namespace :db do
                          :comments => row[2])
     end
   end
-  
+
+  def rubrics
+    # коммерческие рубрики
+    #CSV.foreach('db/data/rubrics.csv', {:col_sep => ',', :quote_char => '"', :headers => true}) do |row|
+    #  Rubric.create(:old_id => row[0], :name => row[1], :social => false)
+    #end
+    CSV.foreach('db/data/rubric_keywords.csv', {:col_sep => ',', :quote_char => '"', :headers => true}) do |row|
+      kw = Keyword.create(:name => row[2])
+      kw.save
+      rub = Rubric.find_by_old_id row[1]
+      RubricKeyword.create(:rubric_id => rub.id, :keyword_id => kw.id)
+    end
+
+    # социальные
+    #CSV.foreach('db/data/soc_rubrics.csv', {:col_sep => ',', :quote_char => '"', :headers => true}) do |row|
+    #  Rubric.create(:old_id => row[0], :name => row[1], :social => true)
+    #end
+    CSV.foreach('db/data/soc_rubric_keywords.csv', {:col_sep => ',', :quote_char => '"', :headers => true}) do |row|
+      kw = Keyword.create(:name => row[2])
+      kw.save
+      rub = Rubric.find_by_old_id row[1]
+      RubricKeyword.create(:rubric_id => rub.id, :keyword_id => kw.id)
+    end
+  end
+
   desc 'Полная загрузка'
   task :load_all_data => :environment do
     form_types
@@ -58,6 +82,7 @@ namespace :db do
     post_indexes
     streets
     street_indexes
+    rubrics
   end
   
   desc 'Загрузка Формы собственности'
@@ -90,4 +115,8 @@ namespace :db do
     street_indexes
   end
 
+  desc 'Рубрик'
+  task :load_rubrics  => :environment do
+    rubrics
+  end
 end
