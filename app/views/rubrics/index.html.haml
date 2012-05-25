@@ -1,0 +1,23 @@
+%h1 Listing rubrics
+
+%table
+  %tr
+    %th Old
+    %th Name
+    %th Social
+    %th
+    %th
+    %th
+
+  - @rubrics.each do |rubric|
+    %tr
+      %td= rubric.old_id
+      %td= rubric.name
+      %td= rubric.social?
+      %td= link_to 'Show', rubric
+      %td= link_to 'Edit', edit_rubric_path(rubric)
+      %td= link_to 'Destroy', rubric, :confirm => 'Are you sure?', :method => :delete
+
+%br
+
+= link_to 'New Rubric', new_rubric_path

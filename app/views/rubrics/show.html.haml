@@ -1,0 +1,15 @@
+%p#notice= notice
+
+%p
+  %strong Old:
+  = @rubric.old_id
+%p
+  %strong Name:
+  = @rubric.name
+%p
+  %strong Social:
+  = @rubric.social?
+
+= link_to 'Edit', edit_rubric_path(@rubric)
+\|
+= link_to 'Back', rubrics_path
