@@ -14,4 +14,17 @@
   else
     div.hide()
 
+##
+#
+# Прячет или показывает ссылку для добавления выбранной рубрики
+#
+@ShowHideAddRubLink = ->
+  el =  $('#add_rub_link')
+  if $('#select_rubrics_id').val() != ''
+    el.show()
+  else
+    el.hide()
 
+# прячем ссылку для добавления рубрики, т.к. по умолчанию нет выбранных рубрик
+$ ->
+  $('#add_rub_link').hide()

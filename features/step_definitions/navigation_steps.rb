@@ -2,6 +2,7 @@
 include ApplicationHelper
 
 When /^Я нажимаю на ссылку "([^"]*)"$/ do |link_text|
+  save_and_open_page
   click_link link_text
 end
 
@@ -47,11 +48,8 @@ When /^Я перехожу на страницу "([^"]*)"$/ do |title|
 end
 
 Then /^Я не вижу ссылки "([^"]*)"$/ do |title|
-  page.all("a").each do |link|
-    if link.text.eql?(title)
-      assert false, "Ссылка видна на странице."
-    end
-  end
+  save_and_open_page
+  assert !find_link(title).visible?, "Ссылка видна на странице."
 end
 
 Then /^Я попадаю на страницу "([^"]*)"$/ do |page_title|

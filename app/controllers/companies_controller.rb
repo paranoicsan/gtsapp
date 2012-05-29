@@ -132,4 +132,17 @@ class CompaniesController < ApplicationController
     redirect_to request.referer
   end
 
+  ##
+  #
+  # Добавляет рубрику к компании
+  # GET /companies/1/add_rubric/2
+  def add_rubric
+    company = Company.find params[:id]
+    rub = Rubric.find params[:rub_id]
+    company.rubrics << rub
+    respond_to do |format|
+      format.js
+    end
+  end
+
 end

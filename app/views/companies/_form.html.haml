@@ -23,12 +23,23 @@
       @company.company_source_id), {}, {:onChange => "ShowHideAgentList(#{CompanySource.from_agent_id})"})
     %div{ :id => "agent_list",
           :class => @company.company_source_id == CompanySource.from_agent_id ? "agent_list_visible" : "agent_list_hidden" }
-      = f.label :agent_id, 'Агент'
+      = f.label :agent_id, "Агент"
       = f.select(:agent_id, options_for_select(User.agents.collect{ |u| [u.username, u.id] },
-      @company.agent_id), {:prompt => 'Выберите агента'})
+      @company.agent_id), {:prompt => "Выберите агента"})
+
+  Рубрики
+  = select_tag("select_rubrics", options_for_select(Rubric.all.collect{ |s| [s.name, s.id] }),
+  {:prompt => "Выберите рубрику", :onChange => "ShowHideAddRubLink()", :id => "select_rubrics_id"})
+  = link_to "Добавить", "#", {:id => "add_rub_link"}
   #rubrics
-    -if @company.rubrics
-      #rubrics_table
+    -if @company.rubrics.count > 0
+      %table{ :id => "rubrics_table"}
+        %tr
+          %th Наименование
+        -@company.rubrics.each do |rubric|
+          %tr
+            %td= rubric.name
+
     -else
       Рубрик не назначено.
   .actions

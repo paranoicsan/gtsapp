@@ -17,6 +17,7 @@ Gtsapp::Application.routes.draw do
 
   match 'branches/:id/make_main' => 'branches#make_main', :as => :branch_make_main
   match 'companies/:id/activate' =>'companies#activate', :as => :activate_company
+  match 'companies/:id/add_rubric/:rub_id' => 'companies#add_rubric', :as => :company_add_rubric
 
   resources :users
   resources :user_sessions

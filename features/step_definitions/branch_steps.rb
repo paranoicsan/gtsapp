@@ -10,21 +10,26 @@ When /^Я создаю филиал с фактическим названием
   click_button "Сохранить"
   @branch = Branch.find_by_fact_name bname
 end
+
 When /^Я вижу "([^"]*)" в списке филиалов$/ do |bname|
   page.should have_content(bname)
 end
+
 When /^Существует филиал "([^"]*)" в компании "([^"]*)"$/ do |bname, cname|
   step %{Я создаю филиал с фактическим названием "#{bname}" для компании "#{cname}"}
 end
+
 When /^Я удаляю филиал "([^"]*)" компании "([^"]*)"$/ do |bname, cname|
   branch = find_branch(bname, cname)
   #noinspection RubyResolve
   s = branch_path branch
   page.find(%{a[href = "#{s}"][data-method = "delete"]}).click
 end
+
 Then /^Я не вижу "([^"]*)" в списке филиалов$/ do |bname|
   page.should_not have_content(bname)
 end
+
 Given /^Существуют следующие филиалы для компании "([^"]*)"$/ do |cname, table|
   # table is a | ООО       | Филиал рогов   | Юр. имя филиала рогов   |pending
   table.hashes.each do |branch|
@@ -40,7 +45,6 @@ Given /^Существуют следующие филиалы для компа
     b.save
   end
 end
-
 
 When /^Я изменяю информацию для филиала компании "([^"]*)" с факт. названием "([^"]*)" на$/ do |cname, bname, table|
   # table is a | МУП       | Филиал рогов изменённый | Юр. имя филиала рогов изменённое |pending
