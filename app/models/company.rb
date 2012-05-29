@@ -4,6 +4,8 @@ class Company < ActiveRecord::Base
   belongs_to :company_source
   belongs_to :user
   has_many :branches
+  has_many :company_rubrics
+  has_many :rubrics, :through => :company_rubrics
   validates_presence_of :title
   before_save :check_fields
   scope :suspended, where(:company_status_id => CompanyStatus.suspended.id)

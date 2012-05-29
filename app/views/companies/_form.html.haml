@@ -26,6 +26,10 @@
       = f.label :agent_id, 'Агент'
       = f.select(:agent_id, options_for_select(User.agents.collect{ |u| [u.username, u.id] },
       @company.agent_id), {:prompt => 'Выберите агента'})
-
+  #rubrics
+    -if @company.rubrics
+      #rubrics_table
+    -else
+      Рубрик не назначено.
   .actions
     = f.submit 'Сохранить'
