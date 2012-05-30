@@ -3,25 +3,15 @@ require 'spec_helper'
 
 describe CompanyStatus do
 
-  before(:each) do
-    @company_status = CompanyStatus.new
-  end
-
   describe "должен возвращать предопределённые объекты статуса" do
     it "Активный статус" do
-      @company_status.name = "Активна"
-      @company_status.save
-      assert CompanyStatus.active == @company_status, "Активный статус не возвращается"
+      assert CompanyStatus.active.name == "Активна", "Активный статус не возвращается"
     end
     it "На рассмотрении" do
-      @company_status.name = "На рассмотрении"
-      @company_status.save
-      assert CompanyStatus.suspended == @company_status, "Статус на рассмотрении не возвращается"
+      assert CompanyStatus.suspended.name == "На рассмотрении", "Статус на рассмотрении не возвращается"
     end
     it "Архивный статус" do
-      @company_status.name = "В архиве"
-      @company_status.save
-      assert CompanyStatus.archived == @company_status, "Архивный статус не возвращается"
+      assert CompanyStatus.archived.name == "В архиве", "Архивный статус не возвращается"
     end
   end
 

@@ -147,4 +147,19 @@ class CompaniesController < ApplicationController
       format.js { render :layout => false }
     end
   end
+
+  ##
+  #
+  # Удаляет компанию из рубрики
+  # GET /companies/1/delete_rubric/2
+  def delete_rubric
+    @company = Company.find params[:id]
+    rub = Rubric.find params[:rub_id]
+    if @company.rubrics.include? rub
+      @company.rubrics.delete rub
+    end
+    respond_to do |format|
+      format.js { render :action => "add_rubric" }
+    end
+  end
 end

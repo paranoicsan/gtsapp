@@ -48,8 +48,8 @@ Spork.prefork do
     config.infer_base_class_for_anonymous_controllers = true
 
     config.before(:suite) do
-      DatabaseCleaner.strategy = :transaction
-      DatabaseCleaner.clean_with(:truncation)
+      DatabaseCleaner.strategy = :transaction, {:except => %w[company_sources company_statuses]}
+      #DatabaseCleaner.clean_with(:truncation)
     end
 
     config.before(:each) do
@@ -69,12 +69,12 @@ Spork.each_run do
     SimpleCov.start 'rails'
   end
 
-  ["Активна", "На рассмотрении", "В архиве"].each do |status|
-    CompanyStatus.create! :name => status
-  end
-  ["Заявка с сайта", "От агента"].each do |source|
-    CompanySource.create :name => source
-  end
+  #["Активна", "На рассмотрении", "В архиве"].each do |status|
+  #  CompanyStatus.create! :name => status
+  #end
+  #["Заявка с сайта", "От агента"].each do |source|
+  #  CompanySource.create :name => source
+  #end
 end
 
 # --- Instructions ---

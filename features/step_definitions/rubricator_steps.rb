@@ -35,3 +35,12 @@ Then /^Я вижу "([^"]*)" в ряду (\d+) таблице "([^"]*)"$/ do |ru
     find(:xpath, "//tr[#{row_num}]/td[1]").text.should == rub_name
   end
 end
+
+When /^Я удаляю рубрику "([^"]*)" для компании "([^"]*)"$/ do |rub_name, cname|
+  company = Company.find_by_title cname
+  rub = Rubric.find_by_name rub_name
+  #noinspection RubyResolve
+  s = company_delete_rubric_path company, rub
+  page.find(%{a[href = "#{s}"]}).click
+  page.driver.browser.switch_to.alert.accept
+end
