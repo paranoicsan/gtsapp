@@ -44,3 +44,13 @@ When /^Я удаляю рубрику "([^"]*)" для компании "([^"]*)
   page.find(%{a[href = "#{s}"]}).click
   page.driver.browser.switch_to.alert.accept
 end
+
+When /^Выпадающее меню "([^"]*)" содержит только следующие элементы$/ do |select_id, table|
+  idx = 2 # первый вариант занимает предложение о выборе рубрики
+  within :xpath, "//select[@id='#{select_id}']" do
+    table.hashes.each do |sel|
+      find(:xpath, "//option[#{idx}]").text.should == sel[:name]
+      idx += 1
+    end
+  end
+end

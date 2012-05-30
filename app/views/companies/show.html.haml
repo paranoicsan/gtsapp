@@ -74,7 +74,7 @@
 
 %div
   Рубрики
-  = select_tag("select_rubrics", options_for_select(Rubric.all.collect{ |s| [s.name, s.id] }),
+  = select_tag("select_rubrics", options_for_select(Rubric.by_rubricator(@company.rubricator).collect{ |s| [s.name, s.id] }),
   {:prompt => "Выберите рубрику", :onChange => "onRubSelect()", :id => "select_rubrics_id"})
   = link_to "Добавить рубрику", "#", :id => "add_rub_link", :remote => true,
   :onClick => "$('select option:first').attr('selected','1');"
