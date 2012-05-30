@@ -7,7 +7,7 @@
     -@company.rubrics.each do |rub|
       %tr
         %td= rub.name
-        %td= check_box_tag("social", 1, rub.social?, {:enabled => false})
+        %td= check_box_tag("social", 1, rub.social?, { :disabled => "disabled" })
         %td
   -else
     %tr
