@@ -1,8 +1,8 @@
-# encoding: utf-8
+# encoding: UTF-8
 include ApplicationHelper
 
 When /^Я нажимаю на ссылку "([^"]*)"$/ do |link_text|
-  save_and_open_page
+  assert find_link(link_text).visible?, "Ссылка не видна."
   click_link link_text
 end
 
@@ -48,8 +48,7 @@ When /^Я перехожу на страницу "([^"]*)"$/ do |title|
 end
 
 Then /^Я не вижу ссылки "([^"]*)"$/ do |title|
-  save_and_open_page
-  assert !find_link(title).visible?, "Ссылка видна на странице."
+  page.should_not have_content(title), "Ссылка видна на странице."
 end
 
 Then /^Я попадаю на страницу "([^"]*)"$/ do |page_title|

@@ -137,12 +137,14 @@ class CompaniesController < ApplicationController
   # Добавляет рубрику к компании
   # GET /companies/1/add_rubric/2
   def add_rubric
-    company = Company.find params[:id]
+    @company = Company.find params[:id]
     rub = Rubric.find params[:rub_id]
-    company.rubrics << rub
+    # проверяем, не добавляли ли раньше эту рубрику
+    unless @company.rubrics.include? rub
+      @company.rubrics << rub
+    end
     respond_to do |format|
-      format.js
+      format.js { render :layout => false }
     end
   end
-
 end

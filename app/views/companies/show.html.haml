@@ -68,3 +68,19 @@
           = link_to 'Сделать головным', branch_make_main_path(branch)
 
 %p= link_to 'Добавить филиал', new_company_branch_path(@company)
+
+
+%h2 Рубрики
+
+%div
+  Рубрики
+  = select_tag("select_rubrics", options_for_select(Rubric.all.collect{ |s| [s.name, s.id] }),
+  {:prompt => "Выберите рубрику", :onChange => "onRubSelect()", :id => "select_rubrics_id"})
+  = link_to "Добавить рубрику", "#", :id => "add_rub_link", :remote => true,
+  :onClick => "$('select option:first').attr('selected','1');"
+
+  :javascript
+    gts_company.id = "#{@company.id}";
+
+  #rubrics_list
+    = render :partial => "rubrics_list"
