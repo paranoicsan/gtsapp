@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120525061000) do
+ActiveRecord::Schema.define(:version => 20120601180738) do
 
   create_table "addresses", :force => true do |t|
     t.string   "house"
@@ -30,6 +30,11 @@ ActiveRecord::Schema.define(:version => 20120525061000) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "branch_id"
+  end
+
+  create_table "branch_websites", :force => true do |t|
+    t.integer "website_id"
+    t.integer "branch_id"
   end
 
   create_table "branches", :force => true do |t|
@@ -155,11 +160,18 @@ ActiveRecord::Schema.define(:version => 20120525061000) do
     t.string   "roles",             :default => "--- []"
   end
 
+  create_table "websites", :force => true do |t|
+    t.string "name"
+  end
+
   add_foreign_key "addresses", "branches", :name => "addresses_branch_id_fk"
   add_foreign_key "addresses", "cities", :name => "addresses_city_id_fk"
   add_foreign_key "addresses", "districts", :name => "addresses_district_id_fk"
   add_foreign_key "addresses", "post_indices", :name => "addresses_post_index_id_fk"
   add_foreign_key "addresses", "streets", :name => "addresses_street_id_fk"
+
+  add_foreign_key "branch_websites", "branches", :name => "branch_websites_branch_id_fk"
+  add_foreign_key "branch_websites", "websites", :name => "branch_websites_website_id_fk"
 
   add_foreign_key "branches", "companies", :name => "branches_company_id_fk"
   add_foreign_key "branches", "form_types", :name => "branches_form_type_id_fk"
