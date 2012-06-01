@@ -101,4 +101,11 @@ class BranchesController < ApplicationController
     company_id = @branch.company_id
     redirect_to company_url company_id
   end
+
+  ##
+  #
+  # Добавляет указанный веб-сайт к филиалу
+  def add_website
+
+  end
 end

@@ -8,6 +8,7 @@ When /^Я создаю филиал с фактическим названием
   fill_in "branch_fact_name", :with => bname
   select "МУП", :from => "branch_form_type_id"
   click_button "Сохранить"
+  #noinspection RubyResolve
   @branch = Branch.find_by_fact_name bname
 end
 
@@ -34,13 +35,14 @@ Given /^Существуют следующие филиалы для компа
   # table is a | ООО       | Филиал рогов   | Юр. имя филиала рогов   |pending
   table.hashes.each do |branch|
     c_id = Company.find_by_title(cname).id
-    ft_id = FormType.find_by_name(branch[:form_type]).id
     params = {
         :fact_name => branch[:fact_name],
         :legel_name => branch[:legel_name],
         :company_id => c_id,
-        :form_type_id => ft_id
     }
+    if branch[:form_type]
+      params[:form_type_id]  = FormType.find_by_name(branch[:form_type]).id
+    end
     b = Branch.create! params
     b.save
   end
@@ -113,4 +115,30 @@ Then /^Филиал с факт. название "([^"]*)" находится �
     find(:xpath, "//td[3]").text.should == bname
     find(:xpath, "//td[1]").text.should == "Головной филиал"
   end
+end
+
+When /^Я ввожу "([^"]*)" в поле "([^"]*)"$/ do |wname, field_id|
+  fill_in field_id, :with => wname
+end
+
+When /^Я вижу таблицу "([^"]*)" с веб-сайтами$/ do |table_id, table|
+  xpth = "//table[@id='#{table_id}']"
+  page.should have_selector :xpath, xpth
+  idx = 2 # Первый ряд занимает заголовок
+  table.hashes.each do |row|
+    within :xpath, xpth do
+      row_xpth = "//tr[#{idx}]/td[1]"
+      find(:xpath, row_xpth).text.should == row[:name]
+    end
+    idx += 1
+  end
+end
+
+When /^Кнопка "([^"]*)" - "(активна|не активна)"$/ do |button_id, status|
+  s = status.eql?("активна") ? "" : "disabled"
+  find(:xpath, "//input[@id='#{button_id}']")['disabled'] == s
+end
+
+When /^Я нажимаю на кнопку "([^"]*)"$/ do |elem_id|
+  click_button elem_id
 end

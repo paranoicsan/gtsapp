@@ -26,7 +26,8 @@ class Branch < ActiveRecord::Base
   def make_main
     c_id = self.company_id
     Branch.find_all_by_company_id(c_id).each do |b|
-      b.is_main? = b.eql?(self)
+      #noinspection RubyResolve
+      b.is_main = b.eql?(self)
       b.save
     end
   end

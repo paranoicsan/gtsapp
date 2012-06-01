@@ -12,7 +12,7 @@
     %strong Головной филиал
 %p
   %strong Форма  собственности:
-  = @branch.form_type.name
+  = @branch.form_type.name if @branch.form_type
 %p
   %strong Фактическое название:
   = @branch.fact_name
@@ -73,3 +73,12 @@
 
 = link_to 'Добавить телефон', new_branch_phone_path(@branch)
 
+%h2 Веб-сайты
+
+%div
+  = form_tag branch_add_website_path(@branch), {:remote => true, :method => :post}
+  = text_field_tag "branch_website", "", :placeholder => "http://www.example.com", :size => 70
+  = submit_tag "Добавить", {:id => "branch_add_website"}
+
+  #rubrics_list
+    = render :partial => "websites_list"
