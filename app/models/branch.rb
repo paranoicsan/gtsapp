@@ -1,6 +1,8 @@
 class Branch < ActiveRecord::Base
   has_one :address
   has_many :phones
+  has_many :branch_websites
+  has_many :websites, :through => :branch_websites
   belongs_to :form_type
   belongs_to :company
   before_save :check_is_main
@@ -24,7 +26,7 @@ class Branch < ActiveRecord::Base
   def make_main
     c_id = self.company_id
     Branch.find_all_by_company_id(c_id).each do |b|
-      b.is_main = b.eql?(self)
+      b.is_main? = b.eql?(self)
       b.save
     end
   end
