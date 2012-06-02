@@ -113,16 +113,20 @@ class BranchesController < ApplicationController
       ws_name = params[:branch_website]
       ws = Website.find_by_name ws_name
 
-      unless ws
+      if ws
+        flash[:website_error] = "Такой веб-сайт уже существует!"
+      else
         ws = Website.create! :name => ws_name
+
+        # Если такой сайт есть в БД, но не привязан к филиалу
+        # привязываем его, иначе, сначала добавляем в БД, и потом
+        # привязываем
+        unless @branch.websites.include? ws
+          @branch.websites << ws
+        end
       end
 
-      # Если такой сайт есть в БД, но не привязан к филиалу
-      # привязываем его, иначе, сначала добавляем в БД, и потом
-      # привязываем
-      unless @branch.websites.include? ws
-        @branch.websites << ws
-      end
+
     end
 
     respond_to do |format|

@@ -1,3 +1,7 @@
+- if flash[:website_error]
+  #warning
+    -#Ошибка:
+    = flash[:website_error]
 %table#websites.sub-index.websites_list
   %tr
     %th Веб-сайт

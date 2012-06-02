@@ -31,8 +31,18 @@ Feature: К филиалу может быть привязано множест
       | name                    |
       | http://wwww.example.com |
       | http://wwww.example2.com |
-
+#
+  @javascript
   Scenario: Один и тот же веб-сайт нельзя добавить в систему дважды
+    Given Я - пользователь "t_admin" с паролем "1111"
+    And Существуют следующие веб-сайты дял филиала "Филиал рогов"
+      | name                    |
+      | http://wwww.example.com |
+      | http://wwww.example2.com |
+    And Я нахожусь на странице филиала "Филиал рогов" компании "Рога и копыта"
+    When Я ввожу "http://wwww.example.com" в поле "branch_website"
+    And Я нажимаю на кнопку "branch_add_website"
+    Then Я вижу сообщение "Такой веб-сайт уже существует!"
 
   @javascript
   Scenario: Администратор может удалить веб-сайт из филиала
@@ -66,5 +76,5 @@ Feature: К филиалу может быть привязано множест
     And Я нахожусь на странице филиала "Филиал рогов" компании "Рога и копыта"
     When Я удаляю веб-сайт "http://wwww.example.com" из филиала "Филиал рогов"
     Then Я вижу таблицу "websites" с веб-сайтами
-      | name                    |
+      | name                     |
       | http://wwww.example2.com |
