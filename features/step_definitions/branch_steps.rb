@@ -144,3 +144,21 @@ When /^Я нажимаю на кнопку "([^"]*)"$/ do |elem_id|
   find(:xpath, "//input[@id='#{elem_id}']")['disabled'] == ""
   click_button elem_id
 end
+
+When /^Существуют следующие веб-сайты дял филиала "([^"]*)"$/ do |bname, table|
+  branch = Branch.find_by_fact_name bname
+  table.hashes.each do |row|
+    ws = Website.create! { row[:name] }
+    ws.save!
+    branch.websites << ws
+  end
+  branch.save!
+end
+
+Then /^Я не вижу ссылки "([^"]*)" в таблице "([^"]*)"$/ do |link_title, table_id|
+  xpth = "//table[@id='#{table_id}']"
+  page.should have_selector :xpath, xpth
+  within :xpath, xpth do
+    find(:xpath, "//td").should_not have_content link_title
+  end
+end
