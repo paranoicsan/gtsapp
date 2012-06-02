@@ -16,7 +16,7 @@ Gtsapp::Application.routes.draw do
   end
 
   match 'branches/:id/make_main' => 'branches#make_main', :as => :branch_make_main
-  match 'branches/:id/add_website' => 'branches#add_website', :as => :branch_add_website
+  match 'branches/:id/add_website' => 'branches#add_website', :as => :branch_add_website, :method => :post
   match 'companies/:id/activate' =>'companies#activate', :as => :activate_company
   match 'companies/:id/add_rubric/:rub_id' => 'companies#add_rubric', :as => :company_add_rubric
   match 'companies/:id/delete_rubric/:rub_id' => 'companies#delete_rubric', :as => :company_delete_rubric

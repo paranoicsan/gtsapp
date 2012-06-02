@@ -129,6 +129,7 @@ When /^Я вижу таблицу "([^"]*)" с веб-сайтами$/ do |table
     within :xpath, xpth do
       row_xpth = "//tr[#{idx}]/td[1]"
       find(:xpath, row_xpth).text.should == row[:name]
+      #find(:xpath, row_xpth).has_text? row[:name]
     end
     idx += 1
   end
@@ -140,5 +141,6 @@ When /^Кнопка "([^"]*)" - "(активна|не активна)"$/ do |but
 end
 
 When /^Я нажимаю на кнопку "([^"]*)"$/ do |elem_id|
+  find(:xpath, "//input[@id='#{elem_id}']")['disabled'] == ""
   click_button elem_id
 end

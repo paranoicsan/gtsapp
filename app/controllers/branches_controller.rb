@@ -105,7 +105,25 @@ class BranchesController < ApplicationController
   ##
   #
   # Добавляет указанный веб-сайт к филиалу
+  #
   def add_website
+    @branch = Branch.find params[:id]
+    ws_name = params[:branch_website]
+    ws = Website.find_by_name ws_name
 
+    unless ws
+      ws = Website.create! :name => ws_name
+    end
+
+    # Если такой сайт есть в БД, но не привязан к филиалу
+    # привязываем его, иначе, сначала добавляем в БД, и потом
+    # привязываем
+    unless @branch.websites.include? ws
+      @branch.websites << ws
+    end
+
+    respond_to do |format|
+      format.js { render :layout => false }
+    end
   end
 end

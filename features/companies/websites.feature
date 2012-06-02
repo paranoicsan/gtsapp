@@ -14,11 +14,13 @@ Feature: К филиалу может быть привязано множест
     Given Я авторизован в системе
     And Я нахожусь на странице филиала "Филиал рогов" компании "Рога и копыта"
     And Кнопка "branch_add_website" - "не активна"
+    And Я вижу надпись "Нет данных"
     When Я ввожу "http://wwww.example.com" в поле "branch_website"
+    And Я нажимаю на кнопку "branch_add_website"
     And Я ввожу "http://wwww.example2.com" в поле "branch_website"
     And Кнопка "branch_add_website" - "активна"
     And Я нажимаю на кнопку "branch_add_website"
-    And Я вижу таблицу "branch_websites" с веб-сайтами
+    And Я вижу таблицу "websites" с веб-сайтами
       | name                    |
       | http://wwww.example.com |
       | http://wwww.example2.com |

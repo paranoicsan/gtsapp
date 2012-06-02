@@ -45,7 +45,7 @@ describe RubricsController do
 
   describe "GET new" do
     it "assigns a new rubric as @rubric" do
-      make_user_operator
+      make_user_system
       get :new, {}, valid_session
       assigns(:rubric).should be_a_new(Rubric)
     end
@@ -53,7 +53,7 @@ describe RubricsController do
 
   describe "GET edit" do
     it "assigns the requested rubric as @rubric" do
-      make_user_operator
+      make_user_system
       rubric = Rubric.create! valid_attributes
       get :edit, {:id => rubric.to_param}, valid_session
       assigns(:rubric).should eq(rubric)
@@ -62,7 +62,7 @@ describe RubricsController do
 
   describe "POST create" do
     before(:each) do
-      make_user_operator
+      make_user_system
     end
     describe "with valid params" do
       it "creates a new Rubric" do
@@ -103,7 +103,7 @@ describe RubricsController do
 
   describe "PUT update" do
     before(:each) do
-      make_user_operator
+      make_user_system
     end
     describe "with valid params" do
       it "updates the requested rubric" do
@@ -150,7 +150,7 @@ describe RubricsController do
 
   describe "DELETE destroy" do
     before(:each) do
-      make_user_operator
+      make_user_system
     end
     it "destroys the requested rubric" do
       rubric = Rubric.create! valid_attributes

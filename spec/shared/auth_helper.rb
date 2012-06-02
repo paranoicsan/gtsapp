@@ -32,4 +32,10 @@ module AuthHelper
     controller.stub(:require_admin).and_return(true)
   end
 
+  # подмена системных пользователй
+  def make_user_system
+    authorize_user
+    controller.stub(:require_system_users).and_return(true)
+  end
+
 end

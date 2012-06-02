@@ -4,4 +4,14 @@
 
 # прячем ссылку для добавления веб-сайта
 $ ->
-  $('#branch_add_website').attr('disabled', 'disabled');
+  el = $('#branch_add_website')
+  el.attr('disabled', 'disabled')
+  $('#branch_website').keyup ->
+    wsChange()
+
+wsChange = ->
+  el = $('#branch_add_website')
+  if $('#branch_website').val().length > 0
+    el.removeAttr 'disabled'
+  else
+    el.attr('disabled', 'disabled')

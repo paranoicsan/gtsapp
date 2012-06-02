@@ -1,7 +1,7 @@
 class RubricsController < ApplicationController
   helper :application
   before_filter :require_user
-  before_filter :require_operator, :only => [:new, :edit, :update, :create, :destroy]
+  before_filter :require_system_users, :only => [:new, :edit, :update, :create, :destroy]
 
   # GET /rubrics
   # GET /rubrics.json

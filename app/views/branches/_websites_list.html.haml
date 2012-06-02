@@ -1,0 +1,11 @@
+%table#websites.sub-index.websites_list
+  %tr
+    %th Веб-сайт
+  -if @branch.websites.count > 0
+    -@branch.websites.each do |ws|
+      %tr
+        %td= ws.name
+  -else
+    %tr
+      %td
+        Нет данных
