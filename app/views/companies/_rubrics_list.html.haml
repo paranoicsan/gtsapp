@@ -8,7 +8,7 @@
       %tr
         %td= rub.name
         %td= check_box_tag("social", 1, rub.social?, { :disabled => "disabled" })
-        %td= link_to "Удалить", company_delete_rubric_path(@company, rub), :confirm => 'Are you sure?', :remote => true
+        %td= link_to "Удалить", company_delete_rubric_path(@company, rub), :confirm => 'Вы уверены?', :remote => true
   -else
     %tr
       %td{:colspan => 3}

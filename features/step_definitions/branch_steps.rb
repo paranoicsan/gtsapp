@@ -62,6 +62,7 @@ When /^Я изменяю информацию для филиала компан
     break
   end
 end
+
 When /^Я вижу филиал со следующей информацией$/ do |table|
   # table is a | МУП       | Филиал рогов изменённый | Юр. имя филиала рогов изменённое | лишнее   |pending
   table.hashes.each do |info|
@@ -72,14 +73,17 @@ When /^Я вижу филиал со следующей информацией$/
     break
   end
 end
+
 When /^Я нахожусь на странице филиала "([^"]*)" компании "([^"]*)"$/ do |bname, cname|
   @branch = find_branch bname, cname
   #noinspection RubyResolve
   visit branch_path(@branch)
 end
+
 When /^Я вижу текст "([^"]*)"$/ do |title|
   page.should have_content title
 end
+
 When /^Я вижу пометку "([^"]*)" в списке для этого филиала$/ do |title|
   xpth_row = "//table[@id='branches']/tr[1]" # первый ряд с данными
   within :xpath, xpth_row do
@@ -148,8 +152,9 @@ end
 When /^Существуют следующие веб-сайты дял филиала "([^"]*)"$/ do |bname, table|
   branch = Branch.find_by_fact_name bname
   table.hashes.each do |row|
-    ws = Website.create! { row[:name] }
+    ws = Website.create! :name => row[:name]
     ws.save!
+    #noinspection RubyResolve
     branch.websites << ws
   end
   branch.save!
@@ -161,4 +166,13 @@ Then /^Я не вижу ссылки "([^"]*)" в таблице "([^"]*)"$/ do 
   within :xpath, xpth do
     find(:xpath, "//td").should_not have_content link_title
   end
+end
+
+When /^Я удаляю веб-сайт "([^"]*)" из филиала "([^"]*)"$/ do |ws_name, bname|
+  b = Branch.find_by_fact_name bname
+  ws = b.websites.find_by_name ws_name
+  #noinspection RubyResolve
+  s = branch_delete_website_path b, ws
+  page.find(%{a[href = "#{s}"]}).click
+  page.driver.browser.switch_to.alert.accept
 end

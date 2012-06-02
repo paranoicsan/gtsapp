@@ -2,6 +2,7 @@
 class BranchesController < ApplicationController
   helper :application
   before_filter :require_user
+  before_filter :require_system_users, :only => [:delete_website]
   before_filter :get_company
 
   def index
@@ -108,22 +109,40 @@ class BranchesController < ApplicationController
   #
   def add_website
     @branch = Branch.find params[:id]
-    ws_name = params[:branch_website]
-    ws = Website.find_by_name ws_name
+    if params[:branch_website]
+      ws_name = params[:branch_website]
+      ws = Website.find_by_name ws_name
 
-    unless ws
-      ws = Website.create! :name => ws_name
-    end
+      unless ws
+        ws = Website.create! :name => ws_name
+      end
 
-    # Если такой сайт есть в БД, но не привязан к филиалу
-    # привязываем его, иначе, сначала добавляем в БД, и потом
-    # привязываем
-    unless @branch.websites.include? ws
-      @branch.websites << ws
+      # Если такой сайт есть в БД, но не привязан к филиалу
+      # привязываем его, иначе, сначала добавляем в БД, и потом
+      # привязываем
+      unless @branch.websites.include? ws
+        @branch.websites << ws
+      end
     end
 
     respond_to do |format|
       format.js { render :layout => false }
+    end
+  end
+
+  ##
+  #
+  # Удаляет веб-сайт от филиала и вообще из системы
+  #
+  def delete_website
+    @branch = Branch.find params[:id]
+    ws = Website.find params[:website_id]
+    if @branch.websites.include? ws
+      @branch.websites.delete ws
+    end
+    Website.delete ws
+    respond_to do |format|
+      format.js { render :action => "add_website" }
     end
   end
 end
