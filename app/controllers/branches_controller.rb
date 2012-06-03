@@ -110,23 +110,29 @@ class BranchesController < ApplicationController
   def add_website
     @branch = Branch.find params[:id]
     if params[:branch_website]
-      ws_name = params[:branch_website]
-      ws = Website.find_by_name ws_name
+      ws_name = params[:branch_website].strip
 
-      if ws
-        flash[:website_error] = "Такой веб-сайт уже существует!"
-      else
-        ws = Website.create! :name => ws_name
+      if Website.valid? ws_name
 
-        # Если такой сайт есть в БД, но не привязан к филиалу
-        # привязываем его, иначе, сначала добавляем в БД, и потом
-        # привязываем
-        unless @branch.websites.include? ws
-          @branch.websites << ws
+        ws = Website.find_by_name ws_name
+
+        if ws
+          flash[:website_error] = "Такой веб-сайт уже существует!"
+        else
+          ws = Website.new :name => ws_name
+
+          # Если такой сайт есть в БД, но не привязан к филиалу
+          # привязываем его, иначе, сначала добавляем в БД, и потом
+          # привязываем
+          unless @branch.websites.include? ws
+            @branch.websites << ws
+          end
+
         end
+
+      else
+        flash[:website_error] = "Неверный формат веб-сайта."
       end
-
-
     end
 
     respond_to do |format|

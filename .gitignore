@@ -6,3 +6,5 @@ tmp/
 .idea/dataSources.xml
 .idea/gtsapp.iml
 .idea/misc.xml
+coverage/*
+public/assets/*
