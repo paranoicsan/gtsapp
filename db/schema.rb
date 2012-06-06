@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120601180738) do
+ActiveRecord::Schema.define(:version => 20120606082244) do
 
   create_table "addresses", :force => true do |t|
     t.string   "house"
@@ -84,6 +84,26 @@ ActiveRecord::Schema.define(:version => 20120601180738) do
     t.datetime "updated_at"
   end
 
+  create_table "contract_statuses", :force => true do |t|
+    t.string "CreateContracts"
+  end
+
+  create_table "contracts", :force => true do |t|
+    t.integer  "contract_status_id"
+    t.integer  "project_code_id"
+    t.date     "date_sign"
+    t.string   "number"
+    t.integer  "amount"
+    t.boolean  "bonus"
+    t.string   "company_legel_name"
+    t.string   "person"
+    t.string   "company_details"
+    t.integer  "number_of_dicts"
+    t.integer  "company_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "districts", :force => true do |t|
     t.string   "name"
     t.integer  "old_id"
@@ -122,6 +142,10 @@ ActiveRecord::Schema.define(:version => 20120601180738) do
     t.integer  "old_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "project_codes", :force => true do |t|
+    t.string "CreateContracts"
   end
 
   create_table "rubric_keywords", :force => true do |t|
@@ -185,6 +209,10 @@ ActiveRecord::Schema.define(:version => 20120601180738) do
   add_foreign_key "company_rubrics", "rubrics", :name => "company_rubrics_rubric_id_fk"
 
   add_foreign_key "phones", "branches", :name => "phones_branch_id_fk"
+
+  add_foreign_key "contracts", "companies", :name => "contracts_company_id_fk"
+  add_foreign_key "contracts", "contract_statuses", :name => "contracts_contract_status_id_fk"
+  add_foreign_key "contracts", "project_codes", :name => "contracts_project_code_id_fk"
 
   add_foreign_key "rubric_keywords", "keywords", :name => "rubric_keywords_keyword_id_fk"
   add_foreign_key "rubric_keywords", "rubrics", :name => "rubric_keywords_rubric_id_fk"
