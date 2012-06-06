@@ -63,13 +63,13 @@ Feature: К филиалу может быть привязано множест
     And Я нахожусь на странице филиала "Филиал рогов" компании "Рога и копыта"
     When Я ввожу "www.example.com" в поле "branch_website"
     And Я нажимаю на кнопку "branch_add_website"
-    Then Я вижу сообщение "Неверный формат веб-сайта."
+    Then Я вижу сообщение "Требуемый формат: http://www.example.com."
     And Я ввожу "http://example.m" в поле "branch_website"
     And Я нажимаю на кнопку "branch_add_website"
-    And Я вижу сообщение "Неверный формат веб-сайта."
+    And Я вижу сообщение "Требуемый формат: http://www.example.com."
     And Я ввожу "example.com" в поле "branch_website"
     And Я нажимаю на кнопку "branch_add_website"
-    And Я вижу сообщение "Неверный формат веб-сайта."
+    And Я вижу сообщение "Требуемый формат: http://www.example.com."
 
   Scenario: Пользователь не может удалить веб-сайт из филиала
     Given Я - пользователь "t_agent" с паролем "1111"

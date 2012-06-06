@@ -124,14 +124,16 @@ class BranchesController < ApplicationController
           # Если такой сайт есть в БД, но не привязан к филиалу
           # привязываем его, иначе, сначала добавляем в БД, и потом
           # привязываем
+          #noinspection RubyResolve
           unless @branch.websites.include? ws
+            #noinspection RubyResolve
             @branch.websites << ws
           end
 
         end
 
       else
-        flash[:website_error] = "Неверный формат веб-сайта."
+        flash[:website_error] = "Требуемый формат: http://www.example.com."
       end
     end
 
