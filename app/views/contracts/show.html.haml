@@ -1,0 +1,57 @@
+
+= render :partial => "shared/top_menu"
+= render :partial => "shared/messages"
+
+%h1#title
+  Договор
+  =@contract.number
+
+= link_to @company.title, company_path(@company)
+
+%p
+  %strong Статус:
+  = @contract.contract_status.name if @contract.contract_status
+
+%p
+  %strong Код проекта:
+  = @contract.project_code.name if @contract.project_code
+
+%p
+  %strong Заключён:
+  - if @contract.date_sign
+    = @contract.date_sign.strftime("%d.%m.%Y")
+
+%p
+  %strong Сумма:
+  = @contract.amount
+
+%p
+  %strong Бонусы:
+  - if @contract.bonus?
+    Есть
+  - else
+    Нет
+
+%p
+  %strong Юр. имя заказчика:
+  = @contract.company_legel_name
+
+%p
+  %strong Представитель заказчика:
+  = @contract.person
+
+%p
+  %strong Реквизиты заказчика:
+  = @contract.company_details
+
+%p
+  %strong Количество справочников:
+  = @contract.number_of_dicts
+
+%p
+  %strong Добавлен в систему:
+  = @contract.created_at.strftime("%d.%m.%Y")
+
+= link_to 'Изменить', edit_contract_path(@contract)
+\|
+= link_to 'К компании', company_path(@company)

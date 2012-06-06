@@ -9,6 +9,7 @@ Gtsapp::Application.routes.draw do
   resources :form_types
 
   resources :companies, :shallow => true do
+    resources :contracts
     resources :branches do
       resources :addresses
       resources :phones

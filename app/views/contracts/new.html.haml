@@ -1,0 +1,10 @@
+
+= render :partial => "shared/top_menu"
+= render :partial => "shared/messages"
+
+%h1#title
+  Новый договор
+
+= render 'form'
+
+= link_to 'Отмена', company_path(@company)
