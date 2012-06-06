@@ -33,7 +33,10 @@ describe ContractsController do
   end
 
   def valid_attributes
-    {:company_id => 1}
+    {
+        :company_id => 1,
+        :number => "ДОГ-1"
+    }
   end
   
   # This should return the minimal set of values that should be in the session

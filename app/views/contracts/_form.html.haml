@@ -1,10 +1,44 @@
-= form_for @contract do |f|
+-form_params = @company ? [@company, @contract] : @contract
+= form_for (form_params) do |f|
   -if @contract.errors.any?
     #error_explanation
-      %h2= "#{pluralize(@contract.errors.count, "error")} prohibited this contract from being saved:"
+      %h2= "#{pluralize(@contract.errors.count, "error")} prohibited this branch from being saved:"
       %ul
         - @contract.errors.full_messages.each do |msg|
           %li= msg
 
+  .field
+    = f.label :number, 'Номер договора'
+    = f.text_field :number
+  -if @contract.contract_status
+    .field
+      = label_tag "Статус"
+      = @contract.contract_status.name
+  .field
+    = f.label :project_code_id, 'Код проекта'
+    = f.select(:project_code_id, options_for_select(ProjectCode.all.collect{ |i| [i.name, i.id] },
+      @contract.project_code_id))
+  .field
+    = f.label :amount, 'Сумма'
+    = f.text_field :amount
+  .filed
+    = f.label :date_sign, 'Дата подписания'
+    = f.date_select :date_sign
+  .field
+    = f.label :bonus, "Бонусы"
+    = f.check_box :bonus, {}, 1, @contract.bonus?
+  .field
+    = f.label :company_legel_name, 'Юр. имя заказчика'
+    = f.text_field :company_legel_name
+  .field
+    = f.label :person, 'Представитель заказчика'
+    = f.text_field :person
+  .field
+    = f.label :company_details, 'Реквизиты заказчика'
+    = f.text_field :company_details
+  .field
+    = f.label :number_of_dicts, 'Количество справочников'
+    = f.text_field :number_of_dicts
+
   .actions
-    = f.submit 'Save'
+    = f.submit 'Сохранить'

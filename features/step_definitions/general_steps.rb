@@ -28,3 +28,7 @@ end
 When /^Я вижу разбивку на страницы$/ do
   page.should have_selector("div.pagination")
 end
+
+When /^Я вижу параметр "([^"]*)" как "([^"]*)"$/ do |arg1, arg2|
+  page.should have_content "#{arg1} #{arg2}"
+end

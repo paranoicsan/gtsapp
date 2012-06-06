@@ -30,6 +30,7 @@ class ContractsController < ApplicationController
   # GET /contracts/new.json
   def new
     @contract = Contract.new
+    @company = Company.find params[:company_id]
 
     respond_to do |format|
       format.html # new.html.erb
@@ -46,7 +47,12 @@ class ContractsController < ApplicationController
   # POST /contracts.json
   def create
     params[:contract][:company_id] = params[:company_id]
+
     @contract = Contract.new(params[:contract])
+    #noinspection RubyResolve
+    if @current_user.is_admin?
+       @contract.contract_status = ContractStatus.active
+    end
 
     respond_to do |format|
       if @contract.save

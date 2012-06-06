@@ -27,6 +27,7 @@ class BranchesController < ApplicationController
 
   def new
     @branch = Branch.new
+    @company = Company.find params[:company_id]
 
     respond_to do |format|
       format.html # new.html.erb

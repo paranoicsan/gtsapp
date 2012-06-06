@@ -84,3 +84,17 @@
 
   #rubrics_list
     = render :partial => "rubrics_list"
+
+%h2 Договоры
+
+%p= link_to 'Создать договор', new_company_contract_path(@company)
+
+Договоров нет.
+
+-#%p= link_to 'Создать договор', new_company_contract_path(@company)
+-#
+-#- if @company.contracts.count > 0
+-#- else
+-#  Договоров нет.
+-#
+-#%p= link_to 'Создать договор', new_company_contract_path(@company)
