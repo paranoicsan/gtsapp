@@ -1,11 +1,11 @@
 class CreateContracts < ActiveRecord::Migration
   def change
     create_table :contract_statuses do |t|
-      t.string name
+      t.string :name
     end
 
     create_table :project_codes do |t|
-      t.string name
+      t.string :name
     end
 
     create_table :contracts do |t|
@@ -26,5 +26,9 @@ class CreateContracts < ActiveRecord::Migration
     add_foreign_key :contracts, :companies
     add_foreign_key :contracts, :project_codes
     add_foreign_key :contracts, :contract_statuses
+
+    # Статусы договоров
+    ContractStatus.create(name: 'активен').save!
+    ContractStatus.create(name: 'не активен').save!
   end
 end

@@ -85,7 +85,7 @@ ActiveRecord::Schema.define(:version => 20120606082244) do
   end
 
   create_table "contract_statuses", :force => true do |t|
-    t.string "CreateContracts"
+    t.string "name"
   end
 
   create_table "contracts", :force => true do |t|
@@ -145,7 +145,7 @@ ActiveRecord::Schema.define(:version => 20120606082244) do
   end
 
   create_table "project_codes", :force => true do |t|
-    t.string "CreateContracts"
+    t.string "name"
   end
 
   create_table "rubric_keywords", :force => true do |t|
