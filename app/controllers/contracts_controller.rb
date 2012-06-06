@@ -50,7 +50,7 @@ class ContractsController < ApplicationController
 
     @contract = Contract.new(params[:contract])
     #noinspection RubyResolve
-    if @current_user.is_admin?
+    if current_user.is_admin?
        @contract.contract_status = ContractStatus.active
     end
 

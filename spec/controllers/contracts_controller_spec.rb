@@ -86,6 +86,9 @@ describe ContractsController do
   describe "POST create" do
     before(:each) do
       make_user_admin
+      @user = mock(User)
+      @user.stub(:is_admin?).and_return(true)
+      controller.stub(:current_user).and_return(@user) # подмена текущего пользователя
     end
     describe "with valid params" do
       it "creates a new Contract" do
