@@ -133,7 +133,7 @@ class BranchesController < ApplicationController
         end
 
       else
-        flash[:website_error] = "Требуемый формат: http://www.example.com."
+        flash[:website_error] = "Формат: http://www.example.com и ВашСайт.рф."
       end
     end
 

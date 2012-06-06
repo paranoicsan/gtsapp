@@ -7,6 +7,8 @@ class Website < ActiveRecord::Base
   # Проверяет введённый адрес на корректность
   #
   def self.valid?(url)
-    url.match(/(^$)|(^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(([0-9]{1,5})?\/.*)?$)/ix)
+    re = /(^$)|(^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(([0-9]{1,5})?\/.*)?$)/ix
+    re_cyr = /^(([0-9а-яА-ЯёЁ]*[^\.])\.рф)$/
+    url.match(re) || url.match(re_cyr)
   end
 end
