@@ -1,0 +1,28 @@
+Feature: Система просмотра договоров.
+  Как пользователь, я хочу иметь возможность просматривать заключенные договора.
+
+  Background:
+    Given Существуют следующие компании
+      | title         |
+      | Рога и копыта |
+    And Существуют следующие пользователи
+      | username   | password | email               | roles    |
+      | t_admin    | 1111     | t_admin@test.com    | admin    |
+      | t_operator | 1111     | t_operator@test.com | operator |
+      | t_agent    | 1111     | t_agent@test.com    | agent    |
+    And Существуют следующие коды проекта
+      | name  |
+      | КОД-1 |
+    And Существуют следующие договора
+      | number | project_code_id | date_sign  | amount | contract_status_id | company_id |
+      | ДОГ-01 | 1               | 23.08.2010 | 3450.8 | 1                  | 1          |
+      | ДОГ-01 | 1               | 23.08.2010 | 3450.8 | 2                  | 1          |
+
+  Scenario: Пользователь види заключенные договора на странице компании.
+    Given Я - пользователь "t_agent" с паролем "1111"
+    When Я нахожусь на странице компании "Рога и копыта"
+    Then Я вижу таблицу "contracts" с договорами
+      | number | project_code | date_sign  | amount | contract_status_id |
+      | ДОГ-01 | КОД-1        | 23.08.2010 | 3450.8 | true               |
+      | ДОГ-01 | КОД-1        | 23.08.2010 | 3450.8 | false              |
+

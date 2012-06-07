@@ -89,12 +89,24 @@
 
 %p= link_to 'Создать договор', new_company_contract_path(@company)
 
-Договоров нет.
+-if @company.contracts.count > 0
+  -# | number | project_code | date_sign  | amount | contract_status_id |
+  %table#contracts.sub-index
+    %tr
+      %th №
+      %th Код проекта
+      %th Дата подписания
+      %th Сумма
+      %th Активен?
+    -@company.contracts.each do |contract|
+      %tr
+        %td= contract.number
+        %td= contract.project_code.name if contract.project_code
+        %td= contract.date_sign.strftime("%d.%m.%Y") if contract.date_sign
+        %td= contract.amount
+        %td= check_box_tag("active", 1, contract.contract_status == ContractStatus.active, { :disabled => "disabled" })
 
--#%p= link_to 'Создать договор', new_company_contract_path(@company)
--#
--#- if @company.contracts.count > 0
--#- else
--#  Договоров нет.
--#
--#%p= link_to 'Создать договор', new_company_contract_path(@company)
+  %p= link_to 'Создать договор', new_company_contract_path(@company)
+
+-else
+  Договоров нет.
