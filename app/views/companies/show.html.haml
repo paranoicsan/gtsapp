@@ -100,7 +100,7 @@
       %th Активен?
     -@company.contracts.each do |contract|
       %tr
-        %td= contract.number
+        %td= link_to contract.number, contract_path(contract)
         %td= contract.project_code.name if contract.project_code
         %td= contract.date_sign.strftime("%d.%m.%Y") if contract.date_sign
         %td= contract.amount

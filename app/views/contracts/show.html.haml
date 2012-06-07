@@ -53,6 +53,7 @@
   %strong Добавлен в систему:
   = @contract.created_at.strftime("%d.%m.%Y")
 
-= link_to 'Изменить', edit_contract_path(@contract)
-\|
+-if @current_user.is_admin?
+  = link_to 'Изменить', edit_contract_path(@contract)
+  \|
 = link_to 'К компании', company_path(@company)
