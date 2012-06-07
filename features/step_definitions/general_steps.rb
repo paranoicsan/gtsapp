@@ -32,3 +32,18 @@ end
 When /^Я вижу параметр "([^"]*)" как "([^"]*)"$/ do |arg1, arg2|
   page.should have_content "#{arg1} #{arg2}"
 end
+
+When /^Существуют следующие коды проекта$/ do |table|
+  table.hashes.each do |row|
+
+    ProjectCode.create!({:name => row[:name]})
+  end
+end
+
+When /^Я вижу следующую информацию$/ do |table|
+  table.hashes.each do |row|
+    row.each do |key, value|
+      find(:xpath, "//div[@id='#{key}']").should have_content value
+    end
+  end
+end

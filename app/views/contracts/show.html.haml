@@ -3,52 +3,53 @@
 = render :partial => "shared/messages"
 
 %h1#title
-  Договор
-  =@contract.number
+  #contract_number
+    Договор
+    =@contract.number
 
 = link_to @company.title, company_path(@company)
 
-%p
+#contract_status
   %strong Статус:
   = @contract.contract_status.name if @contract.contract_status
 
-%p
+#contract_project_code
   %strong Код проекта:
   = @contract.project_code.name if @contract.project_code
 
-%p
+#contract_date_sign
   %strong Заключён:
   - if @contract.date_sign
     = @contract.date_sign.strftime("%d.%m.%Y")
 
-%p
+#contract_amount
   %strong Сумма:
   = @contract.amount
 
-%p
+#contract_bonus
   %strong Бонусы:
   - if @contract.bonus?
     Есть
   - else
     Нет
 
-%p
+#contract_company_legel_name
   %strong Юр. имя заказчика:
   = @contract.company_legel_name
 
-%p
+#contract_person
   %strong Представитель заказчика:
   = @contract.person
 
-%p
+#contract_company_details
   %strong Реквизиты заказчика:
   = @contract.company_details
 
-%p
+#contract_number_of_dicts
   %strong Количество справочников:
   = @contract.number_of_dicts
 
-%p
+#contract_date_added
   %strong Добавлен в систему:
   = @contract.created_at.strftime("%d.%m.%Y")
 

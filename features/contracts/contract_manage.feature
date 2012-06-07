@@ -11,16 +11,22 @@ Feature: Система договоров для компаний
       | t_admin    | 1111     | t_admin@test.com    | admin    |
       | t_operator | 1111     | t_operator@test.com | operator |
       | t_agent    | 1111     | t_agent@test.com    | agent    |
+    And Существуют следующие коды проекта
+      | name  |
+      | КОД-1 |
 
-#  Scenario: Администратор может создать договор
-#    Given Я - пользователь "t_admin" с паролем "1111"
-#    And Я нахожусь на странице компании "Рога и копыта"
-#    And Я вижу надпись "Договоров нет."
-#    And Я нажимаю на ссылку "Создать договор"
-#    When Я создаю договор через веб-интерфейс с параметрами
-#      | number | project_code | date_sign | amount | bonus | company_legel_name | person | company_details | number_of_dicts |
-#      | ДОГ-01 |
-#    Then Я вижу текущую дату для поля "Добавлен в систему:"
+  Scenario: Администратор может создать договор
+    Given Я - пользователь "t_admin" с паролем "1111"
+    And Я нахожусь на странице компании "Рога и копыта"
+    And Я вижу надпись "Договоров нет."
+    And Я нажимаю на ссылку "Создать договор"
+    When Я создаю договор через веб-интерфейс с параметрами
+      | number | project_code | date_sign  | amount | bonus | company_legel_name | person | company_details | number_of_dicts |
+      | ДОГ-01 | КОД-1        | 23.08.2010 | 3450.8 | true  | Рога и копыта Юр.  | Пупкин | Реквизиты здесь | 23              |
+    Then Я нахожусь на странице договора с номером "ДОГ-01"
+    And Я вижу следующую информацию
+      | contract_number | contract_status | contract_project_code | contract_date_sign | contract_amount | contract_bonus | contract_company_legel_name | contract_person | contract_company_details | contract_number_of_dicts |
+      | ДОГ-01          | активен         | КОД-1                 | 23.08.2010         | 3450.8          | Есть           | Рога и копыта Юр.           | Пупкин          | Реквизиты здесь          | 23                       |
 
   Scenario: Администратор создаёт договор, и он сразу становится активным
     Given Я - пользователь "t_admin" с паролем "1111"
