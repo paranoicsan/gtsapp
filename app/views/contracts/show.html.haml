@@ -7,7 +7,7 @@
     Договор
     =@contract.number
 
-= link_to @company.title, company_path(@company)
+= link_to @contract.company.title, company_path(@contract.company)
 
 #contract_status
   %strong Статус:
@@ -56,4 +56,4 @@
 -if @current_user.is_admin?
   = link_to 'Изменить', edit_contract_path(@contract)
   \|
-= link_to 'К компании', company_path(@company)
+= link_to 'К компании', company_path(@contract.company)
