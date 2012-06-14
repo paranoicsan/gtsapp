@@ -64,7 +64,7 @@ describe ContractsController do
 
   describe "GET new" do
     before(:each) do
-      make_user_admin
+      make_user_system
     end
     it "assigns a new contract as @contract" do
       get :new, {:company_id => 1}, valid_session
@@ -85,7 +85,7 @@ describe ContractsController do
 
   describe "POST create" do
     before(:each) do
-      make_user_admin
+      make_user_system
       @user = mock(User)
       @user.stub(:is_admin?).and_return(true)
       controller.stub(:current_user).and_return(@user) # подмена текущего пользователя

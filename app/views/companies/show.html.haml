@@ -97,7 +97,7 @@
       %th Код проекта
       %th Дата подписания
       %th Сумма
-      %th Активен?
+      %th Статус
       %th
     -@company.contracts.each do |contract|
       %tr
@@ -105,7 +105,7 @@
         %td= contract.project_code.name if contract.project_code
         %td= contract.date_sign.strftime("%d.%m.%Y") if contract.date_sign
         %td= contract.amount
-        %td= check_box_tag("active", 1, contract.contract_status == ContractStatus.active, { :disabled => "disabled" })
+        %td= contract.contract_status.name if contract.contract_status
         -if contract.can_delete?(@current_user)
           %td
             =link_to 'Удалить', contract, :confirm => 'Вы уверены?', :method => :delete

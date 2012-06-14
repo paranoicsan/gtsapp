@@ -6,21 +6,43 @@
   Сводка
 
 #suspend_box
-  %h2#dashboard_title Компании на рассмотрении
-  %table#suspended_list.sub-index
+  %table
     %tr
-      %th Название
-      %th Добавлена
-      %th Операции
-    - if @suspended_companies
-      - @suspended_companies.each do |company|
-        %tr
-          %td= link_to company.title, company_path(company)
-          %td
-            = company.date_added.strftime("%d.%m.%Y")
-            = company.author_name
-          %td
-            -if current_user.is_admin? || current_user.is_operator?
-              = link_to "Активировать", activate_company_path(company)
+      %td
+        %h2#dashboard_title Компании на рассмотрении
+        %table#suspended_companies_list.sub-index
+          %tr
+            %th Название
+            %th Добавлена
+            %th Операции
+          - if @suspended_companies
+            - @suspended_companies.each do |company|
+              %tr
+                %td= link_to company.title, company_path(company)
+                %td
+                  = company.date_added.strftime("%d.%m.%Y")
+                  = company.author_name
+                %td
+                  -if current_user.is_admin? || current_user.is_operator?
+                    = link_to "Активировать", activate_company_path(company)
 
-  = will_paginate @suspended_companies
+        = will_paginate @suspended_companies
+      %td
+        %h2#dashboard_title Компании на рассмотрении
+        %table#suspended_contracts_list.sub-index
+          %tr
+            %th Номер
+            %th Добавлена
+            %th Операции
+          - if @suspended_companies
+            - @suspended_companies.each do |company|
+              %tr
+                %td= link_to company.title, company_path(company)
+                %td
+                  = company.date_added.strftime("%d.%m.%Y")
+                  = company.author_name
+                %td
+                  -if current_user.is_admin? || current_user.is_operator?
+                    = link_to "Активировать", activate_company_path(company)
+
+          = will_paginate @suspended_companies

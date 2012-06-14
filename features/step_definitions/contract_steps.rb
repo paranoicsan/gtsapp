@@ -50,11 +50,7 @@ Then /^Я вижу таблицу "([^"]*)" с договорами$/ do |table_
   table.hashes.each do |row|
     row.each_with_index do |data, i|
       row_xpth = "//table[@id='#{table_id}']/tr[#{idx}]//td[#{i+1}]"
-      if data[0].eql? "contract_status_id"
-        find(:xpath, row_xpth).find(:xpath, "*[@id='active']").checked? == data[1]
-      else
-        find(:xpath, row_xpth).text.should == data[1]
-      end
+      find(:xpath, row_xpth).text.should == data[1]
     end
     idx += 1
   end

@@ -2,8 +2,8 @@
 class ContractsController < ApplicationController
   helper :application
   before_filter :require_user
-  before_filter :require_admin, :only => [:new, :create, :update, :edit]
-  before_filter :require_system_users, :only => [:destroy]
+  before_filter :require_admin, :only => [:update, :edit]
+  before_filter :require_system_users, :only => [:new, :create, :destroy]
   # GET /contracts
   # GET /contracts.json
   def index
@@ -51,10 +51,10 @@ class ContractsController < ApplicationController
 
     @contract = Contract.new(params[:contract])
     @company = Company.find params[:company_id]
+
+    # Определяем состояние создаваемого договора
     #noinspection RubyResolve
-    if current_user.is_admin?
-       @contract.contract_status = ContractStatus.active
-    end
+    @contract.contract_status = current_user.is_admin? ? ContractStatus.active : ContractStatus.pending
 
     respond_to do |format|
       if @contract.save
