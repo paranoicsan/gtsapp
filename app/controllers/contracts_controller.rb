@@ -49,6 +49,7 @@ class ContractsController < ApplicationController
     params[:contract][:company_id] = params[:company_id]
 
     @contract = Contract.new(params[:contract])
+    @company = Company.find params[:company_id]
     #noinspection RubyResolve
     if current_user.is_admin?
        @contract.contract_status = ContractStatus.active

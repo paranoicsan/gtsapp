@@ -2,10 +2,15 @@
 = form_for (form_params) do |f|
   -if @contract.errors.any?
     #error_explanation
-      %h2= "#{pluralize(@contract.errors.count, "error")} prohibited this branch from being saved:"
+      %h2= "Возникшие ошибки:"
       %ul
-        - @contract.errors.full_messages.each do |msg|
-          %li= msg
+        -#%li
+        -#  =@contract.errors.messages.inspect
+        -@contract.errors.messages.each do |errs|
+          -errs.each do |e|
+            -if e.is_a?(Array)
+              %li
+                =e[0]
 
   .field
     = f.label :number, 'Номер договора'
