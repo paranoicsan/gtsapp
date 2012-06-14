@@ -13,6 +13,11 @@ describe ContractStatus do
       s = "не активен"
       assert ContractStatus.find_by_name(s) == ContractStatus.inactive, "Объект неактивного статуса не возвращён"
     end
+
+    it "возвращает объект статуса на рассмотрении" do
+      s = "на рассмотрении"
+      assert ContractStatus.find_by_name(s) == ContractStatus.pending, "Объект статуса на рассмотрении не возвращён"
+    end
   end
 
 end

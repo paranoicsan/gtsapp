@@ -10,4 +10,8 @@ class ContractStatus < ActiveRecord::Base
     ContractStatus.find_by_name "не активен"
   end
 
+  def self.pending
+    ContractStatus.find_by_name "на рассмотрении"
+  end
+
 end
