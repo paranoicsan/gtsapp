@@ -16,7 +16,7 @@ class Contract < ActiveRecord::Base
     if user.is_admin?
       true
     elsif user.is_operator?
-      self.contract_status == ContractStatus.active
+      self.contract_status != ContractStatus.inactive
     else
       false
     end
