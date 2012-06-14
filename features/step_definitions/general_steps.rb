@@ -47,3 +47,11 @@ When /^Я вижу следующую информацию$/ do |table|
     end
   end
 end
+
+Then /^Я (не|) вижу ссылки "([^"]*)" в таблице "([^"]*)" в ряду "([^"]*)"$/ do |arg, link_text, table_id, row_num|
+  if arg.eql?("не")
+    page.find(:xpath, "//table[@id='#{table_id}']/tr[#{row_num}]").should_not have_content(link_text)
+  else
+    page.find(:xpath, "//table[@id='#{table_id}']/tr[#{row_num}]").should have_content(link_text)
+  end
+end

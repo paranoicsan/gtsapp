@@ -176,7 +176,7 @@ describe ContractsController do
 
   describe "DELETE destroy" do
     before(:each) do
-      make_user_admin
+      make_user_system
     end
     it "destroys the requested contract" do
       contract = Contract.create! valid_attributes

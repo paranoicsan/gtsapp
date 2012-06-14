@@ -2,7 +2,8 @@
 class ContractsController < ApplicationController
   helper :application
   before_filter :require_user
-  before_filter :require_admin, :only => [:new, :create, :update, :edit, :destroy]
+  before_filter :require_admin, :only => [:new, :create, :update, :edit]
+  before_filter :require_system_users, :only => [:destroy]
   # GET /contracts
   # GET /contracts.json
   def index

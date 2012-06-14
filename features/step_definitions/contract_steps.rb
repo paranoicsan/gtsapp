@@ -59,3 +59,10 @@ Then /^Я вижу таблицу "([^"]*)" с договорами$/ do |table_
     idx += 1
   end
 end
+
+When /^Я удаляю договор с номером "([^"]*)"$/ do |cnumber|
+  c = Contract.find_by_number cnumber
+  #noinspection RubyResolve
+  s = contract_path c
+  page.find(%{a[href = "#{s}"][data-method = "delete"]}).click
+end
