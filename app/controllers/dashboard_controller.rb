@@ -12,8 +12,10 @@ class DashboardController < ApplicationController
       else
         @suspended_companies = Company.suspended.paginate(:page => params[:page], :per_page => 25)
       end
-
     end
+
+    # Договора на рассмотрении
+    @suspended_contracts = Contract.find_all_by_contract_status_id ContractStatus.pending
 
     respond_to do |format|
       format.html # index.html.haml
