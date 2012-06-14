@@ -54,6 +54,9 @@
   = @contract.created_at.strftime("%d.%m.%Y")
 
 -if @current_user.is_admin?
+  -unless @contract.active?
+    = link_to 'Активировать', activate_contract_path(@contract)
+    \|
   = link_to 'Изменить', edit_contract_path(@contract)
   \|
 = link_to 'К компании', company_path(@contract.company)

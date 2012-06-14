@@ -62,3 +62,10 @@ When /^Я удаляю договор с номером "([^"]*)"$/ do |cnumber|
   s = contract_path c
   page.find(%{a[href = "#{s}"][data-method = "delete"]}).click
 end
+
+When /^Я актвирую договор с номером "([^"]*)"$/ do |cnumber|
+  c = Contract.find_by_number cnumber
+  #noinspection RubyResolve
+  s = activate_contract_path c
+  page.find(%{a[href = "#{s}"]}).click
+end

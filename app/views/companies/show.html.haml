@@ -109,6 +109,9 @@
         -if contract.can_delete?(@current_user)
           %td
             =link_to 'Удалить', contract, :confirm => 'Вы уверены?', :method => :delete
+            -if @current_user.is_admin?
+              \|
+              =link_to 'Активировать', activate_contract_path(contract)
         -else
           %td
 

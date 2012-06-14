@@ -21,4 +21,23 @@ class Contract < ActiveRecord::Base
       false
     end
   end
+
+  ##
+  #
+  # Активирует указанный договор
+  #
+  # @param [Integer] Ключ договора
+  def self.activate(contract_id)
+    c = Contract.find contract_id
+    c.update_attribute :contract_status, ContractStatus.active
+    c.save
+  end
+
+  ##
+  # Определяет, активный ли договор
+  #
+  # @return [Boolean] Истина, если договор активен
+  def active?
+    contract_status == ContractStatus.active
+  end
 end

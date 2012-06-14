@@ -2,7 +2,7 @@
 class ContractsController < ApplicationController
   helper :application
   before_filter :require_user
-  before_filter :require_admin, :only => [:update, :edit]
+  before_filter :require_admin, :only => [:update, :edit, :activate]
   before_filter :require_system_users, :only => [:new, :create, :destroy]
   # GET /contracts
   # GET /contracts.json
@@ -94,5 +94,16 @@ class ContractsController < ApplicationController
       format.html { redirect_to company_url company_id }
       format.json { head :ok }
     end
+  end
+
+  ##
+  # Активирует указанный договор
+  #
+  # GET /contracts/1/activate
+  def activate
+    Contract.activate params[:id]
+    # перебрасываем туда, откуда пришли
+    #redirect_to dashboard_url
+    redirect_to request.referer
   end
 end
