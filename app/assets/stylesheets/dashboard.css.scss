@@ -2,11 +2,11 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-#suspend_box {
+#suspend_box tr{
   margin: 1em;
   vertical-align: top;
 }
-#dashboard_title {
+.dashboard_title {
   font-family: verdana, sans-serif;
   color: #963521;
   background-color: #F0E1D5;

@@ -9,7 +9,7 @@
   %table
     %tr
       %td
-        %h2#dashboard_title Компании на рассмотрении
+        %h2.dashboard_title Компании на рассмотрении
         %table#suspended_companies_list.sub-index
           %tr
             %th Название
@@ -28,14 +28,13 @@
 
         = will_paginate @suspended_companies
       %td
-        -if current_user.is_admin?
-          %h2#dashboard_title Договора на рассмотрении
+        -if current_user.is_admin? && @suspended_contracts.any?
+          %h2.dashboard_title Договора на рассмотрении
           %table#suspended_contracts_list.sub-index
             %tr
               %th Номер
               %th Компания
               %th
-            - if @suspended_contracts
               - @suspended_contracts.each do |contract|
                 %tr
                   %td= link_to contract.number, contract_path(contract)
