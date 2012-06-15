@@ -34,12 +34,10 @@
             %tr
               %th Номер
               %th Компания
-              %th Агент
               %th
             - if @suspended_contracts
               - @suspended_contracts.each do |contract|
                 %tr
                   %td= contract.number
                   %td= contract.company.title
-                  %td= contract.company.author_name
                   %td= link_to 'Активировать', activate_contract_path(contract)

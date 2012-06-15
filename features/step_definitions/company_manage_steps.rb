@@ -25,6 +25,9 @@ Given /^Существуют следующие компании$/ do |table|
     if company[:rubricator]
       params[:rubricator] = company[:rubricator]
     end
+    if company[:author_user_id]
+      params[:author_user_id] = company[:author_user_id]
+    end
     params[:company_status_id] = company[:status_id] ? company[:status_id] : 1
     Company.create! params
   end

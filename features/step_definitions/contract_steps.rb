@@ -44,7 +44,6 @@ When /^Существуют следующие договора$/ do |table|
 end
 
 Then /^Я вижу таблицу "([^"]*)" с договорами$/ do |table_id, table|
-  save_and_open_page
   xpth = "//table[@id='#{table_id}']"
   page.should have_selector :xpath, xpth
   idx = 2 # Первый ряд занимает заголовок
