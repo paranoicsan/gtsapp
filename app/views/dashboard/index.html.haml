@@ -38,6 +38,6 @@
             - if @suspended_contracts
               - @suspended_contracts.each do |contract|
                 %tr
-                  %td= contract.number
-                  %td= contract.company.title
+                  %td= link_to contract.number, contract_path(contract)
+                  %td= link_to contract.company.title, company_path(contract.company)
                   %td= link_to 'Активировать', activate_contract_path(contract)
