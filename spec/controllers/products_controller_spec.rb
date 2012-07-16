@@ -1,3 +1,4 @@
+#encoding: utf-8
 require 'spec_helper'
 require 'shared/auth_helper'
 
@@ -63,9 +64,10 @@ describe ProductsController do
         assigns(:product).should be_persisted
       end
 
-      it "redirects to the created product" do
+      it "направляет на список продуктов" do
         post :create, {:product => valid_attributes}, valid_session
-        response.should redirect_to(Product.last)
+        #noinspection RubyResolve
+        response.should redirect_to(products_url)
       end
     end
 
@@ -104,10 +106,11 @@ describe ProductsController do
         assigns(:product).should eq(product)
       end
 
-      it "redirects to the product" do
+      it "направляет на список продуктов" do
         product = Product.create! valid_attributes
         put :update, {:id => product.to_param, :product => valid_attributes}, valid_session
-        response.should redirect_to(product)
+        #noinspection RubyResolve
+        response.should redirect_to(products_url)
       end
     end
 
