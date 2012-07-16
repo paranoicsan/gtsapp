@@ -5,7 +5,10 @@
 %h1.section-title#title
   Продукты
 
-%table
+%p
+  = link_to 'Добавить продукт', new_product_path
+
+%table#index
   %tr
     %th Наименование
     %th Размер, мм
@@ -16,18 +19,16 @@
 
   - @products.each do |product|
     %tr
-      %td= product.name
+      %td= link_to product.name, edit_product_path(product)
       %td
         =product.size_width
         x
         =product.size_height
-      %td= product.bonus_product_id
+      %td= product.bonus_product.name if product.bonus_product
       %td= product.bonus_site
       %td= product.price
-      %td= link_to 'Show', product
-      %td= link_to 'Edit', edit_product_path(product)
-      %td= link_to 'Destroy', product, :confirm => 'Are you sure?', :method => :delete
+      %td= link_to 'Destroy', product, :confirm => 'Вы уверены?', :method => :delete
 
-%br
+%p
+  = link_to 'Добавить продукт', new_product_path
 
-= link_to 'New Product', new_product_path

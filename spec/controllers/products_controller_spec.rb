@@ -33,14 +33,6 @@ describe ProductsController do
     end
   end
 
-  describe "GET show" do
-    it "assigns the requested product as @product" do
-      product = Product.create! valid_attributes
-      get :show, {:id => product.to_param}, valid_session
-      assigns(:product).should eq(product)
-    end
-  end
-
   describe "GET new" do
     it "assigns a new product as @product" do
       get :new, {}, valid_session
