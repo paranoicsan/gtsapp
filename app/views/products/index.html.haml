@@ -1,22 +1,26 @@
-%h1 Listing products
+# encoding: utf-8
+= render :partial => "shared/top_menu"
+= render :partial => "shared/messages"
+
+%h1.section-title#title
+  Продукты
 
 %table
   %tr
-    %th Name
-    %th Size width
-    %th Size height
-    %th Bonus product
-    %th Bonus site
-    %th Price
-    %th
-    %th
-    %th
+    %th Наименование
+    %th Размер, мм
+    %th Бонус
+    %th Бонус для сайта
+    %th Цена
+    %th Операции
 
   - @products.each do |product|
     %tr
       %td= product.name
-      %td= product.size_width
-      %td= product.size_height
+      %td
+        =product.size_width
+        x
+        =product.size_height
       %td= product.bonus_product_id
       %td= product.bonus_site
       %td= product.price
