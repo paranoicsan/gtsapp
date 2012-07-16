@@ -4,8 +4,6 @@
     #error_explanation
       %h2= "Возникшие ошибки:"
       %ul
-        -#%li
-        -#  =@contract.errors.messages.inspect
         -@contract.errors.messages.each do |errs|
           -errs.each do |e|
             -if e.is_a?(Array)
