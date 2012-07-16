@@ -20,7 +20,8 @@
     = f.text_field :size_height
   .field
     = f.label :bonus_product_id, 'Бонусный продукт'
-    = f.number_field :bonus_product_id
+    = f.select(:bonus_product_id, options_for_select(Product.all.collect{ |p| [p.name, p.id] },
+      @product.bonus_product_id), {:prompt => 'Выберите продукт'})
   .field
     = f.label :bonus_site, 'Бонус для сайта'
     = f.text_field :bonus_site
