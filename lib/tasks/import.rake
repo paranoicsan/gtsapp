@@ -3,6 +3,34 @@ require 'csv'
 
 namespace :db do
 
+  def products
+    prods = Hash.new
+    # первый проход - наполнение таблицы
+    CSV.foreach('db/data/products.csv', { :col_sep => ',', :quote_char =>'"', :headers => true }) do |row|
+      params = {
+        :name => row[0],
+        :size_width => row[1],
+        :size_height => row[2],
+        :bonus_site => row[4],
+        :price => row[5]
+      }
+      p = Product.create!(params)
+      p.save!
+      prods[p.id] = row[3]
+    end
+
+    # повторный проход с сохранением ссылок на бонусный продукт
+    prods.each do |k,v|
+      if v
+        puts v
+        p = Product.find k
+        puts p.inspect
+        p.update_attribute 'bonus_product_id', Product.find_by_name(v).id
+        p.save!
+      end
+    end
+  end
+
   def form_types
     CSV.foreach('db/data/form_type.csv', { :col_sep => ',', :quote_char =>'"', :headers => true }) do |row|
       FormType.create(:old_id => row[0], :name => row[1])
@@ -83,6 +111,7 @@ namespace :db do
     streets
     street_indexes
     rubrics
+    products
   end
   
   desc 'Загрузка Формы собственности'
@@ -118,5 +147,10 @@ namespace :db do
   desc 'Рубрик'
   task :load_rubrics  => :environment do
     rubrics
+  end
+
+  desc 'Загрузка списка продуктов'
+  task :load_products => :environment do
+    products
   end
 end
