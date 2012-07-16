@@ -27,7 +27,7 @@
       %td= product.bonus_product.name if product.bonus_product
       %td= product.bonus_site
       %td= product.price
-      %td= link_to 'Destroy', product, :confirm => 'Вы уверены?', :method => :delete
+      %td= link_to 'Удалить', product, :confirm => 'Вы уверены?', :method => :delete
 
 %p
   = link_to 'Добавить продукт', new_product_path

@@ -1,5 +1,7 @@
+#encoding: utf-8
 class ProductsController < ApplicationController
   helper :application
+  before_filter :require_user
   before_filter :require_admin
 
   # GET /products
@@ -20,7 +22,7 @@ class ProductsController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.json { render json: @product }
+      format.json { render json: products_url }
     end
   end
 
@@ -36,8 +38,8 @@ class ProductsController < ApplicationController
 
     respond_to do |format|
       if @product.save
-        format.html { redirect_to @product, notice: 'Product was successfully created.' }
-        format.json { render json: @product, status: :created, location: @product }
+        format.html { redirect_to products_url, notice: 'Product was successfully created.' }
+        format.json { render json: products_url, status: :created, location: @product }
       else
         format.html { render action: "new" }
         format.json { render json: @product.errors, status: :unprocessable_entity }
@@ -52,7 +54,7 @@ class ProductsController < ApplicationController
 
     respond_to do |format|
       if @product.update_attributes(params[:product])
-        format.html { redirect_to @product, notice: 'Product was successfully updated.' }
+        format.html { redirect_to products_url, notice: 'Product was successfully updated.' }
         format.json { head :ok }
       else
         format.html { render action: "edit" }
