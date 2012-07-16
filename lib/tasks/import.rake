@@ -22,9 +22,7 @@ namespace :db do
     # повторный проход с сохранением ссылок на бонусный продукт
     prods.each do |k,v|
       if v
-        puts v
         p = Product.find k
-        puts p.inspect
         p.update_attribute 'bonus_product_id', Product.find_by_name(v).id
         p.save!
       end
@@ -34,7 +32,7 @@ namespace :db do
   def form_types
     CSV.foreach('db/data/form_type.csv', { :col_sep => ',', :quote_char =>'"', :headers => true }) do |row|
       FormType.create(:old_id => row[0], :name => row[1])
-    end  
+    end
   end
 
   def cities
@@ -113,10 +111,10 @@ namespace :db do
     rubrics
     products
   end
-  
+
   desc 'Загрузка Формы собственности'
   task :load_form_types  => :environment do
-    form_types  
+    form_types
   end
 
   desc 'Загрузка Городов'
