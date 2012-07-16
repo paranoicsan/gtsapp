@@ -26,7 +26,7 @@ module AuthHelper
     controller.stub(:require_operator).and_return(true)
   end
 
-  # подмена админстратора
+  # подмена администратора
   def make_user_admin
     authorize_user
     controller.stub(:require_admin).and_return(true)
