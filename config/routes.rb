@@ -23,6 +23,7 @@ Gtsapp::Application.routes.draw do
   match 'companies/:id/add_rubric/:rub_id' => 'companies#add_rubric', :as => :company_add_rubric
   match 'companies/:id/delete_rubric/:rub_id' => 'companies#delete_rubric', :as => :company_delete_rubric
   match 'contracts/:id/activate' =>'contracts#activate', :as => :activate_contract
+  match 'contracts/:id/add_product/:prod_id' =>'contracts#add_product', :as => :contract_add_product
 
   resources :users
   resources :user_sessions

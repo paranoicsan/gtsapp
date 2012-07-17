@@ -106,4 +106,18 @@ class ContractsController < ApplicationController
     #redirect_to dashboard_url
     redirect_to request.referer
   end
+
+  ##
+  # Добавляет указанный продукт к договору
+  #
+  # GET /contracts/1/add_product/2
+  def add_product
+    @contract = Contract.find params[:id]
+    prod = Product.find params[:prod_id]
+    @contract.products << prod
+
+    respond_to do |format|
+      format.js { render :layout => false }
+    end
+  end
 end

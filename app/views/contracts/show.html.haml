@@ -65,13 +65,13 @@
 
 %div
   Продукты
-  -#= select_tag("select_rubrics", options_for_select(Rubric.by_rubricator(@company.rubricator).collect{ |s| [s.name, s.id] }),
-  -#{:prompt => "Выберите рубрику", :onChange => "onRubSelect()", :id => "select_rubrics_id"})
-  -#= link_to "Добавить рубрику", "#", :id => "add_rub_link", :remote => true,
-  -#:onClick => "$('select option:first').attr('selected','1');"
-  -#
-  -#:javascript
-  -#  gts_company.id = "#{@company.id}";
+  = select_tag("select_products", options_for_select(Product.all.sort.collect{ |p| [p.name, p.id] }),
+  {:prompt => "Выберите продукт", :onChange => "onProdSelect()", :id => "select_product_id"})
+  = link_to "Добавить продукт", "#", :id => "add_prod_link", :remote => true,
+  :onClick => "$('select option:first').attr('selected','1');"
+
+  :javascript
+    gts_contract.id = "#{@contract.id}";
 
   #products_list
     = render :partial => "products_list"

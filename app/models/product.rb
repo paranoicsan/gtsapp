@@ -1,4 +1,5 @@
 class Product < ActiveRecord::Base
+  has_many :contract_products
   ##
   # Вовзращает объект бонусного продукта
   # @return Product

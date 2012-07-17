@@ -88,3 +88,7 @@ When /^Существуют следующие продукты$/ do |table|
     Product.create! :name => row[:name]
   end
 end
+
+When /^Я выбираю продукт "([^"]*)"$/ do |prod_name|
+  select prod_name, :from => "select_products"
+end
