@@ -112,12 +112,21 @@ class ContractsController < ApplicationController
   #
   # GET /contracts/1/add_product/2
   def add_product
-    @contract = Contract.find params[:id]
-    prod = Product.find params[:prod_id]
-    @contract.products << prod
 
-    respond_to do |format|
-      format.js { render :layout => false }
+    @contract = Contract.find params[:id]
+
+    # проверяем, чтобы это был активный договор
+    if @contract.active?
+      prod = Product.find params[:prod_id]
+      @contract.products << prod
+
+      respond_to do |format|
+        format.js { render :layout => false }
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to @contract, notice: 'Операция возможна только для активных договоров.' }
+      end
     end
   end
 end
