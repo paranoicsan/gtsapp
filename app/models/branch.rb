@@ -3,6 +3,7 @@ class Branch < ActiveRecord::Base
   has_many :phones
   has_many :branch_websites
   has_many :websites, :through => :branch_websites
+  has_many :emails
   belongs_to :form_type
   belongs_to :company
   before_save :check_is_main
