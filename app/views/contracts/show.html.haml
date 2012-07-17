@@ -65,10 +65,11 @@
 
 %div
   Продукты
-  = select_tag("select_products", options_for_select(Product.all.sort.collect{ |p| [p.name, p.id] }),
-  {:prompt => "Выберите продукт", :onChange => "onProdSelect()", :id => "select_product_id"})
-  = link_to "Добавить продукт", "#", :id => "add_prod_link", :remote => true,
-  :onClick => "$('select option:first').attr('selected','1');"
+  -if @current_user.is_admin? || @current_user.is_agent?
+    = select_tag("select_products", options_for_select(Product.all.sort.collect{ |p| [p.name, p.id] }),
+    {:prompt => "Выберите продукт", :onChange => "onProdSelect()", :id => "select_product_id"})
+    = link_to "Добавить продукт", "#", :id => "add_prod_link", :remote => true,
+    :onClick => "$('select option:first').attr('selected','1');"
 
   :javascript
     gts_contract.id = "#{@contract.id}";

@@ -92,3 +92,10 @@ end
 When /^Я выбираю продукт "([^"]*)"$/ do |prod_name|
   select prod_name, :from => "select_products"
 end
+
+When /^Я добавляю продукт "([^"]*)" к договору "([^"]*)" по прямой ссылке$/ do |prod_name, cname|
+  p = Product.find_by_name prod_name
+  c = Contract.find_by_number cname
+  #noinspection RubyResolve
+  visit contract_add_product_path c, p
+end

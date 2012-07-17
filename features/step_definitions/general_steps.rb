@@ -55,3 +55,7 @@ Then /^Я (не|) вижу ссылки "([^"]*)" в таблице "([^"]*)" в
     page.find(:xpath, "//table[@id='#{table_id}']/tr[#{row_num}]").should have_content(link_text)
   end
 end
+
+Then /^Я не вижу элемент "([^"]*)"$/ do |elem_id|
+  page.should_not have_selector(:xpath, "id('#{elem_id}')")
+end
