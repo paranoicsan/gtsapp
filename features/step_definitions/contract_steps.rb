@@ -82,3 +82,9 @@ When /^Я вижу таблицу "([^"]*)" c продуктами$/ do |table_i
     idx += 1
   end
 end
+
+When /^Существуют следующие продукты$/ do |table|
+  table.hashes.each do |row|
+    Product.create! :name => row[:name]
+  end
+end

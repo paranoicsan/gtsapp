@@ -60,3 +60,18 @@
   = link_to 'Изменить', edit_contract_path(@contract)
   \|
 = link_to 'К компании', company_path(@contract.company)
+
+%h2 Продукты
+
+%div
+  Продукты
+  -#= select_tag("select_rubrics", options_for_select(Rubric.by_rubricator(@company.rubricator).collect{ |s| [s.name, s.id] }),
+  -#{:prompt => "Выберите рубрику", :onChange => "onRubSelect()", :id => "select_rubrics_id"})
+  -#= link_to "Добавить рубрику", "#", :id => "add_rub_link", :remote => true,
+  -#:onClick => "$('select option:first').attr('selected','1');"
+  -#
+  -#:javascript
+  -#  gts_company.id = "#{@company.id}";
+
+  #products_list
+    = render :partial => "products_list"
