@@ -69,3 +69,16 @@ When /^Я актвирую договор с номером "([^"]*)"$/ do |cnum
   s = activate_contract_path c
   page.find(%{a[href = "#{s}"]}).click
 end
+
+When /^Я вижу таблицу "([^"]*)" c продуктами$/ do |table_id, table|
+  xpth = "//table[@id='#{table_id}']"
+  page.should have_selector :xpath, xpth
+  idx = 2 # Первый ряд занимает заголовок
+  table.hashes.each do |row|
+    row.each_with_index do |data, i|
+      row_xpth = "//table[@id='#{table_id}']/tr[#{idx}]//td[#{i+1}]"
+      find(:xpath, row_xpth).text.should == data[1]
+    end
+    idx += 1
+  end
+end
