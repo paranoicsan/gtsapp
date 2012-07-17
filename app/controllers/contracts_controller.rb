@@ -3,7 +3,7 @@ class ContractsController < ApplicationController
   helper :application
   before_filter :require_user
   before_filter :require_admin, :only => [:update, :edit, :activate]
-  before_filter :require_system_users, :only => [:new, :create, :destroy, :add_product]
+  before_filter :require_system_users, :only => [:new, :create, :destroy, :add_product, :delete_product]
   # GET /contracts
   # GET /contracts.json
   def index
@@ -118,7 +118,9 @@ class ContractsController < ApplicationController
     # проверяем, чтобы это был активный договор
     if @contract.active?
       prod = Product.find params[:prod_id]
-      @contract.products << prod
+      unless @contract.products.include? prod
+        @contract.products << prod
+      end
 
       respond_to do |format|
         format.js { render :layout => false }
@@ -129,4 +131,30 @@ class ContractsController < ApplicationController
       end
     end
   end
+
+  ##
+  # Удаляет указанный продукт из договору
+  #
+  # GET /contracts/1/delete_product/2
+  def delete_product
+    @contract = Contract.find params[:id]
+    # проверяем, чтобы это был активный договор
+    if @contract.active?
+      prod = Product.find params[:prod_id]
+
+      if prod && @contract.products.include?(prod)
+        @contract.products.delete prod
+      end
+
+      respond_to do |format|
+        format.js { render :action => "add_product" }
+      end
+
+    else
+      respond_to do |format|
+        format.html { redirect_to @contract, notice: 'Операция возможна только для активных договоров.' }
+      end
+    end
+  end
+
 end

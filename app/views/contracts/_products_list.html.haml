@@ -6,8 +6,7 @@
     -@contract.products.each do |prod|
       %tr
         %td= prod.name
-        -#%td= link_to "Удалить", company_delete_rubric_path(@company, rub), :confirm => 'Вы уверены?', :remote => true
-        %td= link_to "Удалить", ""
+        %td= link_to "Удалить", contract_delete_product_path(@contract, prod), :confirm => 'Вы уверены?', :remote => true
   -else
     %tr
       %td{:colspan => 2}

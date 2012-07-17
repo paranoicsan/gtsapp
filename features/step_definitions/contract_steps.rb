@@ -76,8 +76,8 @@ When /^Я вижу таблицу "([^"]*)" c продуктами$/ do |table_i
   idx = 2 # Первый ряд занимает заголовок
   table.hashes.each do |row|
     row.each_with_index do |data, i|
-      row_xpth = "//table[@id='#{table_id}']/tr[#{idx}]//td[#{i+1}]"
-      find(:xpath, row_xpth).text.should == data[1]
+      row_xpth = "//table[@id='#{table_id}']//tr[#{idx}]//td[#{i+1}]"
+      page.find(:xpath, row_xpth).text.should == data[1]
     end
     idx += 1
   end
@@ -98,4 +98,27 @@ When /^Я добавляю продукт "([^"]*)" к договору "([^"]*)
   c = Contract.find_by_number cname
   #noinspection RubyResolve
   visit contract_add_product_path c, p
+end
+
+When /^Существуют следующие продукты для договора "([^"]*)"$/ do |cname, table|
+  c = Contract.find_by_number cname
+  table.hashes.each do |row|
+    prod_name = row[:name]
+    # Если такой продукт уже есть, не создаем дубликат
+    p = Product.find_by_name prod_name
+    if p
+      c.products << p
+    else
+      c.products << Product.create(:name => prod_name)
+    end
+  end
+end
+
+When /^Я удаляю продукт с названием "([^"]*)" из договора "([^"]*)"$/ do |prod_name, cname|
+  p = Product.find_by_name prod_name
+  c = Contract.find_by_number cname
+  #noinspection RubyResolve
+  s = contract_delete_product_path c, p
+  page.find(%{a[href = "#{s}"]}).click
+  page.driver.browser.switch_to.alert.accept
 end

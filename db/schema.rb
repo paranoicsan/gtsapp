@@ -206,4 +206,24 @@ ActiveRecord::Schema.define(:version => 20120717111009) do
     t.string "name"
   end
 
+  add_foreign_key "branch_websites", "branches", :name => "branch_websites_branch_id_fk"
+  add_foreign_key "branch_websites", "websites", :name => "branch_websites_website_id_fk"
+
+  add_foreign_key "companies", "users", :name => "companies_agent_id_fk", :column => "agent_id"
+
+  add_foreign_key "company_rubrics", "companies", :name => "company_rubrics_company_id_fk"
+  add_foreign_key "company_rubrics", "rubrics", :name => "company_rubrics_rubric_id_fk"
+
+  add_foreign_key "contract_products", "contracts", :name => "contract_products_contract_id_fk"
+  add_foreign_key "contract_products", "products", :name => "contract_products_product_id_fk"
+
+  add_foreign_key "contracts", "companies", :name => "contracts_company_id_fk"
+  add_foreign_key "contracts", "contract_statuses", :name => "contracts_contract_status_id_fk"
+  add_foreign_key "contracts", "project_codes", :name => "contracts_project_code_id_fk"
+
+  add_foreign_key "products", "products", :name => "products_bonus_product_id_fk", :column => "bonus_product_id"
+
+  add_foreign_key "rubric_keywords", "keywords", :name => "rubric_keywords_keyword_id_fk"
+  add_foreign_key "rubric_keywords", "rubrics", :name => "rubric_keywords_rubric_id_fk"
+
 end
