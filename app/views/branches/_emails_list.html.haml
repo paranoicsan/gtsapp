@@ -1,0 +1,21 @@
+- if flash[:email_error]
+  #warning
+    -#Ошибка:
+    = flash[:email_error]
+    -flash[:email_error] = ""
+%table#emails.sub-index.emails_list
+  %tr
+    %th Электронная почта
+    %th{:width => "20%" }
+  -if @branch.emails.any?
+    -@branch.emails.each do |em|
+      %tr
+        %td= em.name
+        %td
+          -unless @current_user.is_agent?
+            =link_to "Удалить", branch_delete_email_path(@branch, em), :confirm => 'Вы уверены?', :remote => true
+
+  -else
+    %tr
+      %td{:colspan => 2}
+        Нет данных

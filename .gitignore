@@ -8,3 +8,8 @@ tmp/
 .idea/misc.xml
 coverage/*
 public/assets/*
+.idea/.generators
+.idea/.rakeTasks
+.idea/dataSources.ids
+.idea/workspace.xml
+chromedriver.log

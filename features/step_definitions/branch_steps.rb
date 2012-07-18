@@ -176,3 +176,31 @@ When /^Я удаляю веб-сайт "([^"]*)" из филиала "([^"]*)"$/
   page.find(%{a[href = "#{s}"]}).click
   page.driver.browser.switch_to.alert.accept
 end
+
+When /^Я вижу таблицу "([^"]*)" с адресами$/ do |table_id, table|
+  xpth = "//table[@id='#{table_id}']"
+  page.should have_selector :xpath, xpth
+  idx = 2 # Первый ряд занимает заголовок
+  table.hashes.each do |row|
+    row_xpth = "//table[@id='#{table_id}']/*/tr[#{idx}]/td[1]"
+    page.find(:xpath, row_xpth).text.should == row[:name]
+    idx += 1
+  end
+end
+
+When /^Существуют следующие адреса электронной почты для филиала "([^"]*)" компании "([^"]*)"$/ do |bname, cname, table|
+  b = find_branch bname, cname
+  table.hashes.each do |row|
+    em = Email.create :name => row[:name]
+    b.emails << em
+  end
+end
+
+When /^Я удаляю электронный адрес "([^"]*)" из филиала "([^"]*)" компании "([^"]*)"$/ do |email, bname, cname|
+  b = find_branch bname, cname
+  em = Email.find_by_name email
+  #noinspection RubyResolve
+  s = branch_delete_email_path b, em
+  page.find(%{a[href = "#{s}"]}).click
+  page.driver.browser.switch_to.alert.accept
+end

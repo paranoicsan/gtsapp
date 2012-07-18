@@ -76,9 +76,17 @@
 %h2 Веб-сайты
 
 %div
-  = form_tag branch_add_website_path(@branch), {:remote => true, :method => :post}
-  = text_field_tag "branch_website", "", :placeholder => "http://www.example.com", :size => 70
-  = submit_tag "Добавить", {:id => "branch_add_website"}
-
+  = form_tag branch_add_website_path(@branch), {:remote => true, :method => :post} do
+    = text_field_tag "branch_website", "", :placeholder => "http://www.example.com", :size => 70
+    = submit_tag "Добавить", {:id => "branch_add_website"}
   #websites_list
     = render :partial => "websites_list"
+
+%h2 Электронная почта
+
+%div
+  = form_tag branch_add_email_path(@branch), {:remote => true, :method => :post} do
+    = text_field_tag "branch_email", "", :placeholder => "test@test.com", :size => 70
+    = submit_tag "Добавить", {:id => "branch_add_email"}
+  #emails_list
+    = render :partial => "emails_list"

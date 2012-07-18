@@ -158,4 +158,46 @@ class BranchesController < ApplicationController
       format.js { render :action => "add_website" }
     end
   end
+
+  ##
+  #
+  # Добавляет указанный адрес электронной почты к филиалу
+  #
+  def add_email
+    @branch = Branch.find params[:id]
+
+    if params[:branch_email]
+      em_name = params[:branch_email].strip
+      if Email.valid? em_name
+        em = Email.find_by_name em_name
+        if em
+          flash[:email_error] = "Такой адрес электронной почты уже существует."
+        else
+          em = Email.new :name => em_name
+          @branch.emails << em
+        end
+      else
+        flash[:email_error] = "Неверный адрес электронной почты."
+      end
+    end
+    respond_to do |format|
+      format.js { render :layout => false }
+    end
+  end
+
+  ##
+  #
+  # Удаляет адрес электронной почты от филиала и вообще из системы
+  #
+  def delete_email
+    @branch = Branch.find params[:id]
+    em = Email.find params[:email_id]
+    if @branch.emails.include? em
+      @branch.emails.delete em
+    end
+    Email.delete em
+    respond_to do |format|
+      format.js { render :action => "add_email" }
+    end
+  end
 end
