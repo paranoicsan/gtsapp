@@ -169,19 +169,17 @@ class BranchesController < ApplicationController
     if params[:branch_email]
       em_name = params[:branch_email].strip
       if Email.valid? em_name
-        em = Website.find_by_name em_name
+        em = Email.find_by_name em_name
         if em
           flash[:email_error] = "Такой адрес электронной почты уже существует."
         else
           em = Email.new :name => em_name
           @branch.emails << em
         end
-
       else
         flash[:email_error] = "Неверный адрес электронной почты."
       end
     end
-
     respond_to do |format|
       format.js { render :layout => false }
     end

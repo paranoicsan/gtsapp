@@ -188,3 +188,19 @@ When /^Я вижу таблицу "([^"]*)" с адресами$/ do |table_id, 
   end
 end
 
+When /^Существуют следующие адреса электронной почты для филиала "([^"]*)" компании "([^"]*)"$/ do |bname, cname, table|
+  b = find_branch bname, cname
+  table.hashes.each do |row|
+    em = Email.create :name => row[:name]
+    b.emails << em
+  end
+end
+
+When /^Я удаляю электронный адрес "([^"]*)" из филиала "([^"]*)" компании "([^"]*)"$/ do |email, bname, cname|
+  b = find_branch bname, cname
+  em = Email.find_by_name email
+  #noinspection RubyResolve
+  s = branch_delete_email_path b, em
+  page.find(%{a[href = "#{s}"]}).click
+  page.driver.browser.switch_to.alert.accept
+end
