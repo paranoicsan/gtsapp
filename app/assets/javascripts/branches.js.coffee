@@ -9,9 +9,23 @@ $ ->
   $('#branch_website').keyup ->
     wsChange()
 
+  el = $('#branch_add_email')
+  el.attr('disabled', 'disabled')
+  $('#branch_email').keyup ->
+    emChange()
+
+# Обработка изменений в строке с веб-адресом филиала
 wsChange = ->
   el = $('#branch_add_website')
   if $('#branch_website').val().length > 0
+    el.removeAttr 'disabled'
+  else
+    el.attr('disabled', 'disabled')
+
+# Обработка изменений в строке с адресом электронной почты
+emChange = ->
+  el = $('#branch_add_email')
+  if $('#branch_email').val().length > 0
     el.removeAttr 'disabled'
   else
     el.attr('disabled', 'disabled')
