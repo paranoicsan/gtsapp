@@ -37,6 +37,7 @@ Gtsapp::Application.routes.draw do
   resources :user_sessions
 
   match 'dashboard' => 'dashboard#index', :as => :dashboard
+  match 'search' => 'search#index', :as => :search
   match 'login' => 'user_sessions#new', :as => :login
   match 'logout' => 'user_sessions#destroy', :as => :logout
 
