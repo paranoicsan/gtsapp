@@ -145,6 +145,7 @@ When /^Кнопка "([^"]*)" - "(активна|не активна)"$/ do |but
 end
 
 When /^Я нажимаю на кнопку "([^"]*)"$/ do |elem_id|
+  save_and_open_page
   find(:xpath, "//input[@id='#{elem_id}']")['disabled'] == ""
   click_button elem_id
 end

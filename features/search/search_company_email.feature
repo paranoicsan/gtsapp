@@ -20,12 +20,13 @@ Feature: Должна быть возможность для поиска ком
       | test@test.com  |
       | test2@test.com |
 
+    @javascript
     Scenario: Пользователь может искать компанию по адресу электронной почты
       Given Я авторизован в системе
       And Я нажимаю на ссылку "Поиск"
       And Я нахожусь на странице "Поиск"
       When Я ввожу "test2@test.com" в поле "search_email"
-      And Я нажимаю на кнопку "Искать"
-      Then Я вижу таблицу "found_companies" с компаниями
-        | fact_name     |
-        | Рога и копыта |
+      And Я нажимаю на кнопку "do_search"
+      Then Я вижу таблицу "search_results_table" с компаниями
+        | status  | title         |
+        | Активна | Рога и копыта |
