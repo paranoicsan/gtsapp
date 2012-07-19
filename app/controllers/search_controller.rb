@@ -6,7 +6,6 @@ class SearchController < ApplicationController
   #
   # GET /search
   def index
-    @search_result = []
     respond_to do |format|
       format.html # index.html.haml
       format.json { head :ok }

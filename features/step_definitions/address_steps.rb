@@ -52,7 +52,6 @@ Then /^Я удаляю адрес на странице филиала "([^"]*)"
   click_link "Удалить адрес"
 end
 When /^Я вижу ссылку "([^"]*)"$/ do |link_name|
-  #save_and_open_page
   page.should have_content link_name
 end
 When /^Я изменяю его со следующей информацией$/ do |table|
