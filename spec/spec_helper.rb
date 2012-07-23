@@ -48,7 +48,7 @@ Spork.prefork do
     config.infer_base_class_for_anonymous_controllers = true
 
     config.before(:suite) do
-      DatabaseCleaner.strategy = :transaction, {:except => %w[company_sources company_statuses contract_statuses]}
+      DatabaseCleaner.strategy = :transaction
       #DatabaseCleaner.clean_with(:truncation)
     end
 
