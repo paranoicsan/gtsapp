@@ -51,7 +51,6 @@ Then /^Я попадаю на страницу созданного телефо
   assert current_path == phone_path(@phone), 'Нет перехода на страницу телефона после создания'
 end
 When /^Я вижу информацию ведённого телефона$/ do
-  #save_and_open_page
   within('div#phone_info') do
     page.should have_content(@phone.name)
     #noinspection RubyResolve

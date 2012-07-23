@@ -1,0 +1,15 @@
+# encoding: utf-8
+= render :partial => "shared/messages"
+= render :partial => "shared/top_menu"
+
+%h1.section-title#title
+  Поиск
+
+%div
+  = form_tag search_company_path, {:remote => true, :method => :post} do
+    Email:
+    = text_field_tag "search_email", "", :placeholder => "test@test.com", :size => 70
+    = submit_tag "Искать", {:id => "do_search"}
+
+  #search_results
+    = render :partial => "search_results"

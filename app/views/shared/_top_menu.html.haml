@@ -3,4 +3,5 @@
   = link_to "Компании", companies_path
   - if @current_user.is_admin?
     = link_to "Пользователи", users_path
+  = link_to "Поиск", search_path
   = link_to "Выйти", logout_path

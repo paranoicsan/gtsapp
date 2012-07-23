@@ -1,0 +1,21 @@
+- if @search_result
+  - if @search_result.any?
+    %table#search_results_table.sub-index
+      %tr
+        %th Статус
+        %th Название
+        %th Добавлена
+        %th Изменена
+      - @search_result.each do |company|
+        %tr
+          %td= company.company_status.name
+          %td= link_to company.title, company
+          %td
+            - if company.date_added
+              = company.date_added.strftime("%d.%m.%Y")
+              = company.author_name
+          %td
+            = company.updated_at.strftime("%d.%m.%Y %H:%M")
+            = company.editor_name
+  -else
+    Ничего не найдено

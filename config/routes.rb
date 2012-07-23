@@ -40,6 +40,9 @@ Gtsapp::Application.routes.draw do
   match 'login' => 'user_sessions#new', :as => :login
   match 'logout' => 'user_sessions#destroy', :as => :logout
 
+  match 'search' => 'search#index', :as => :search
+  match 'search/company/do' => 'search#search_company', :as => :search_company
+
   root :to => 'user_sessions#new'
 
   # The priority is based upon order of creation:

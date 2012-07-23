@@ -17,9 +17,9 @@ Then /^Я вижу таблицу "([^"]*)" с компаниями$/ do |table_
   page.should have_selector :xpath, xpth
   idx = 2 # Первый ряд занимает заголовок
   table.hashes.each do |row|
-    within :xpath, xpth do
-      row_xpth = "//tr[#{idx}]/td[1]"
-      find(:xpath, row_xpth).text.should == row[:fact_name]
+    row.each_with_index do |data, i|
+      row_xpth = "//table[@id='#{table_id}']/*/tr[#{idx}]/td[#{i+1}]"
+      find(:xpath, row_xpth).text.should == data[1]
     end
     idx += 1
   end
