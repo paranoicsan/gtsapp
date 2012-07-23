@@ -12,7 +12,7 @@ gem 'easy_roles'
 gem 'will_paginate', '~> 3.0'
 
 group :development, :test do
-  gem 'ruby-debug19', :require => 'ruby-debug'
+  gem 'debugger', :require => 'ruby-debug'
   gem 'simplecov', :require => false
   gem 'rspec'
   gem 'rspec-rails'
