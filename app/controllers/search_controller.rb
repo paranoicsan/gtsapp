@@ -28,12 +28,13 @@ class SearchController < ApplicationController
     end
 
     # Прямое название
-    res = SearchController.search_by_name(params[:search_name])
-    @search_result.concat(res)  if res.any?
+    @search_result.concat SearchController.search_by_name(params[:search_name])
 
     # Фактическое название по филиалу
-    #res = SearchController.search_by_branch_factname(params[:search_name])
-    #@search_result.concat(res)  if res.any?
+    @search_result.concat SearchController.search_by_branch_factname(params[:search_name])
+
+    # Юридическое название по филиалу
+    @search_result.concat SearchController.search_by_branch_legelname(params[:search_name])
 
     # убираем дубликаты
     @search_result = @search_result.uniq
@@ -53,7 +54,7 @@ class SearchController < ApplicationController
     if s.length > 0
       s = '%' + s + '%'
       res = Company.where('LOWER(title) LIKE ?', s)
-      ar.concat(res) if res.any?
+      res.each { |c| ar << c }
     end
     ar
   end
@@ -68,9 +69,25 @@ class SearchController < ApplicationController
     if s.length > 0
       s = '%' + s + '%'
       res = Branch.where('LOWER(fact_name) LIKE ?', s)
-      ar.concat(res) if res.any?
+      res.each { |c| ar << c.company }
     end
     ar
   end
+
+  ##
+  # Ищет по юридическому названию филиала
+  # @param {String} Введённое имя
+  # @return {Array} Коллекция найденных компаний
+  def self.search_by_branch_legelname(name)
+    ar = []
+    s = name.strip.mb_chars.downcase.gsub('%', '\%').gsub('_', '\_')
+    if s.length > 0
+      s = '%' + s + '%'
+      res = Branch.where('LOWER(legel_name) LIKE ?', s)
+      res.each { |c| ar << c.company }
+    end
+    ar
+  end
+
 
 end
