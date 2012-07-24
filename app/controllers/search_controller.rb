@@ -27,9 +27,16 @@ class SearchController < ApplicationController
       end
     end
 
-    # Ищем по названиям
-    @search_result.concat SearchController.search_by_name(params[:search_name])
-    puts @search_result.inspect
+    # Прямое название
+    res = SearchController.search_by_name(params[:search_name])
+    @search_result.concat(res)  if res.any?
+
+    # Фактическое название по филиалу
+    #res = SearchController.search_by_branch_factname(params[:search_name])
+    #@search_result.concat(res)  if res.any?
+
+    # убираем дубликаты
+    @search_result = @search_result.uniq
 
     respond_to do |format|
       format.js { render :layout => false }
@@ -37,7 +44,7 @@ class SearchController < ApplicationController
   end
 
   ##
-  #
+  # Ищет по прямому названию
   # @param {String} Введённое имя
   # @return {Array} Коллекция найденных компаний
   def self.search_by_name(name)
@@ -45,7 +52,23 @@ class SearchController < ApplicationController
     s = name.strip.mb_chars.downcase.gsub('%', '\%').gsub('_', '\_')
     if s.length > 0
       s = '%' + s + '%'
-      ar << Company.where('LOWER(title) LIKE ?', s)
+      res = Company.where('LOWER(title) LIKE ?', s)
+      ar.concat(res) if res.any?
+    end
+    ar
+  end
+
+  ##
+  # Ищет по фактическому названию филиала
+  # @param {String} Введённое имя
+  # @return {Array} Коллекция найденных компаний
+  def self.search_by_branch_factname(name)
+    ar = []
+    s = name.strip.mb_chars.downcase.gsub('%', '\%').gsub('_', '\_')
+    if s.length > 0
+      s = '%' + s + '%'
+      res = Branch.where('LOWER(fact_name) LIKE ?', s)
+      ar.concat(res) if res.any?
     end
     ar
   end
