@@ -28,8 +28,9 @@ Feature: Должна быть возможность для поиска ком
     When Я ввожу "est" в поле "search_name"
     And Я нажимаю на кнопку "do_search"
     Then Я вижу таблицу "search_results_table" с компаниями
-      | status  | title         |
+      | status  | title       |
       | Активна | TestCompany |
+      | Активна | WestCompany |
 
   @javascript
   Scenario: Пользователь может искать компанию по фактическому названию филиала

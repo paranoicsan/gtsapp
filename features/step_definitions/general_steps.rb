@@ -23,6 +23,8 @@ Then /^Я вижу таблицу "([^"]*)" с компаниями$/ do |table_
     end
     idx += 1
   end
+  # здесь проверяем на количество рядом
+  page.should_not have_selector(:xpath, "//table[@id='#{table_id}']/*/tr[#{idx}]")
 end
 
 When /^Я вижу разбивку на страницы$/ do
