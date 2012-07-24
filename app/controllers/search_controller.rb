@@ -17,27 +17,33 @@ class SearchController < ApplicationController
   #
   # GET search/search_company/do
   def search_company
-    @search_result = [] # коллекция с результатами поиска
+    res = [] # коллекция с результатами поиска
 
     # если указан адрес электронной почты
     if Email.valid? params[:search_email]
       em = Email.find_by_name params[:search_email]
-      if em && !@search_result.include?(em.branch.company)
-        @search_result << em.branch.company
+      if em && !res.include?(em.branch.company)
+        res << em.branch.company
       end
     end
 
-    # Прямое название
-    @search_result.concat SearchController.search_by_name(params[:search_name])
+    # Результаты поиска по всем типам названий НЕ ДОЛЖНЫ пересекаться
+    # между собой - т.к. они ищутся по одному вводимому пользователем полю
 
-    # Фактическое название по филиалу
-    @search_result.concat SearchController.search_by_branch_factname(params[:search_name])
+    found_by_name = []
+    found_by_name.concat SearchController.search_by_name(params[:search_name])
+    found_by_name.concat SearchController.search_by_branch_factname(params[:search_name])
+    found_by_name.concat SearchController.search_by_branch_legelname(params[:search_name])
 
-    # Юридическое название по филиалу
-    @search_result.concat SearchController.search_by_branch_legelname(params[:search_name])
+    # Проверка, есть ли уже результаты поиска по предыдущим полям
+    if res.any?
+      res = res & found_by_name if found_by_name.any?
+    else
+      res = found_by_name
+    end
 
-    # убираем дубликаты
-    @search_result = @search_result.uniq
+    # Убираем дубликаты, которые могут оставаться в массивах, которые не пересекаются
+    @search_result = res.uniq
 
     respond_to do |format|
       format.js { render :layout => false }
