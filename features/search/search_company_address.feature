@@ -36,4 +36,12 @@ Feature: Пользователь может искать компанию по 
       | form_type | fact_name      | legel_name              |
       | ООО       | Филиал рогов   | Юр. имя филиала рогов   |
       | МУП       | Филиал рогов 2 | Юр. имя филиала рогов 2 |
-  #  And Существует следующий адрес для филиала "Филиал рогов" компании "Рога и копыта"
+    And Существуют следующие филиалы для компании "Пельменная"
+      | form_type | fact_name      | legel_name              |
+      | ООО       | Пельмени       | Юр. имя филиала рогов   |
+    And Существует следующий адрес для филиала "Филиал рогов" компании "Рога и копыта"
+      | city_name   | district_name | street_name | house | office | cabinet |
+      | Kaliningrad | Western       | Krasnaya    | 34    | 5      |         |
+    And Существует следующий адрес для филиала "Пельмени" компании "Пельменная"
+      | city_name   | district_name | street_name | house | office | cabinet |
+      | Kaliningrad | Western       | Krasnaya    | 34    |        | 22      |

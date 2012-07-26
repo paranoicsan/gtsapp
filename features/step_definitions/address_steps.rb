@@ -107,3 +107,28 @@ When /^Существуют следующие районы$/ do |table|
     District.create! name:row[:name]
   end
 end
+
+When /^Существует следующий адрес для филиала "([^"]*)" компании "([^"]*)"$/ do |bname, cname, table|
+  b = find_branch bname, cname
+  table.hashes.each do |row|
+    #| city_name   | district_name | street_name | house | office | cabinet |
+
+    params = {
+        house: row[:house],
+        office: row[:office],
+        cabinet: row[:cabinet]
+    }
+
+    obj = City.find_by_name row[:city_name]
+    params[:city_id] = obj.id if obj
+    obj = District.find_by_name row[:district_name]
+    params[:district_id] = obj.id if obj
+    obj = Street.find_by_name row[:street_name]
+    params[:street_id] = obj.id if obj
+
+    a = Address.create params
+    b.address = a
+    b.save!
+  end
+
+end

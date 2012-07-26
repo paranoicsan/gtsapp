@@ -7,6 +7,7 @@ module CompanyManageHelpers
   #
   # @param [String] bname Имя филиала
   # @param [String] cname Имя компании
+  # @return [Branch]
   #noinspection RubyResolve
   def find_branch(bname, cname)
     company = Company.find_by_title cname
