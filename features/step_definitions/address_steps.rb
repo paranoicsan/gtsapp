@@ -83,7 +83,27 @@ Then /^Я вижу адрес с новой информацией$/ do
     page.should have_content v
   end
 end
+
 When /^Я перехожу на страницу филиала$/ do
   #noinspection RubyResolve
   visit branch_path @branch
+end
+
+When /^Существуют следующие города$/ do |table|
+  table.hashes.each do |row|
+    City.create! :name => row[:name]
+  end
+end
+
+When /^Существуют следующие улицы$/ do |table|
+  table.hashes.each do |row|
+    c = City.find_by_name row[:city_name]
+    Street.create! name: row[:name], city_id: c.name
+  end
+end
+
+When /^Существуют следующие районы$/ do |table|
+  table.hashes.each do |row|
+    District.create! name:row[:name]
+  end
 end
