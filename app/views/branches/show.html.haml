@@ -58,11 +58,11 @@
     -@branch.phones.each do |phone|
       %tr
         %td= phone.name
-        %td= phone.mobile.to_s
+        %td= check_box_tag("cb_mobile", 1, phone.mobile?, { :disabled => "disabled" })
         %td= phone.mobile_refix.to_s
-        %td= phone.contact.to_s
-        %td= phone.director.to_s
-        %td= phone.fax.to_s
+        %td= check_box_tag("cb_contact", 1, phone.contact?, { :disabled => "disabled" })
+        %td= check_box_tag("cb_director", 1, phone.director?, { :disabled => "disabled" })
+        %td= check_box_tag("cb_fax", 1, phone.fax?, { :disabled => "disabled" })
         %td= phone.order_num.to_s
         %td= phone.publishable.to_s
         %td= link_to 'Изменить', edit_phone_path(phone)

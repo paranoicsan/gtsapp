@@ -55,4 +55,7 @@ Feature: У филиалов может быть несколько телефо
       |contact|director|fax|mobile|mobile_refix|name|order_num|publishable|
       |true   |true    |true|false|             |521627|1      |true       |
     When Я нахожусь на странице филиала "Филиал рогов" компании "Рога и копыта"
-    Then Я вижу информацию этого телефона
+    Then Я вижу таблицу "phones" с телефонами
+      | name  | cb_mobile | mobile_prefix | cb_contact | cb_director | cb_fax | order_num | cb_publishable |
+      | 521627| false     |               | true       | true        |true    |1          | true           |
+

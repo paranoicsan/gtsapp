@@ -83,3 +83,33 @@ When /^Изменяю телефон новой информацией$/ do |tab
   end
   @phone = @branch.phones.first
 end
+
+Then /^Я вижу таблицу "([^"]*)" с телефонами$/ do |table_id, table|
+  xpth = "//table[@id='#{table_id}']"
+  page.should have_selector :xpath, xpth
+  idx = 2 # Первый ряд занимает заголовок
+  table.hashes.each do |row|
+    row.each_with_index do |data, i|
+
+      re = /^cb_(.*)/
+      if re.match(data[0])
+        row_xpth = "//table[@id='#{table_id}']/tr[#{idx}]/td[#{i+1}]"
+        within :xpath, row_xpth do
+          cb = find(:xpath, "//input[@id='#{data[0]}' and @type = 'checkbox']")
+          v = data[1] == 'true' ? true : false
+          #noinspection RubyResolve
+          #puts v.inspect
+          #puts data.inspect
+          v ? cb.should(be_checked) : cb.should_not(be_checked)
+        end
+      else
+        row_xpth = "//table[@id='#{table_id}']/tr[#{idx}]/td[#{i+1}]"
+        find(:xpath, row_xpth).text.should == data[1]
+      end
+
+    end
+    idx += 1
+  end
+  # здесь проверяем на количество рядов
+  page.should_not have_selector(:xpath, "//table[@id='#{table_id}']/*/tr[#{idx}]")
+end
