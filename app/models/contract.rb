@@ -7,6 +7,13 @@ class Contract < ActiveRecord::Base
   has_many :products, :through => :contract_products
   validates_presence_of :number, :message => "Введите номер договора!"
   validates :number, :uniqueness => {:case_sensitive => false, message: "Договор с таким номером уже существует!"}
+  before_save :check_fields
+
+  ##
+  # Проверяет поля перед добавлением
+  def check_fields
+    self.created_at = Date.today
+  end
 
   ##
   # Позволяет определить, может ли указанный пользоваитель удалить договор

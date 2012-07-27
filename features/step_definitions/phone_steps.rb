@@ -91,19 +91,13 @@ Then /^Я вижу таблицу "([^"]*)" с телефонами$/ do |table_
   table.hashes.each do |row|
     row.each_with_index do |data, i|
 
+      row_xpth = "//table[@id='#{table_id}']/tr[#{idx}]/td[#{i+1}]"
+
       re = /^cb_(.*)/
       if re.match(data[0])
-        row_xpth = "//table[@id='#{table_id}']/tr[#{idx}]/td[#{i+1}]"
-        within :xpath, row_xpth do
-          cb = find(:xpath, "//input[@id='#{data[0]}' and @type = 'checkbox']")
-          v = data[1] == 'true' ? true : false
-          #noinspection RubyResolve
-          #puts v.inspect
-          #puts data.inspect
-          v ? cb.should(be_checked) : cb.should_not(be_checked)
-        end
+        v = data[1] == 'true' ? true: false
+        v ? page.has_checked_field?(data[0]) : !page.has_checked_field?(data[0])
       else
-        row_xpth = "//table[@id='#{table_id}']/tr[#{idx}]/td[#{i+1}]"
         find(:xpath, row_xpth).text.should == data[1]
       end
 

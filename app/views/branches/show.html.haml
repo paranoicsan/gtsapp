@@ -64,7 +64,7 @@
         %td= check_box_tag("cb_director", 1, phone.director?, { :disabled => "disabled" })
         %td= check_box_tag("cb_fax", 1, phone.fax?, { :disabled => "disabled" })
         %td= phone.order_num.to_s
-        %td= phone.publishable.to_s
+        %td= check_box_tag("cb_publishable", 1, phone.publishable?, { :disabled => "disabled" })
         %td= link_to 'Изменить', edit_phone_path(phone)
         %td= link_to 'Удалить', phone, :confirm => 'Вы уверены?', :method => :delete
   -else
