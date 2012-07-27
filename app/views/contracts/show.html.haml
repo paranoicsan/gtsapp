@@ -51,7 +51,7 @@
 
 #contract_date_added
   %strong Добавлен в систему:
-  = @contract.created_at.strftime("%d.%m.%Y")
+  = @contract.created_at.localtime.strftime("%d.%m.%Y")
 
 -if @current_user.is_admin?
   -unless @contract.active?
