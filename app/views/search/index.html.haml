@@ -17,7 +17,8 @@
       Адрес (поиск проводится по адресам в зарегистрированных филиалах)
       #s_address_city
         Город
-        = text_field_tag "search_city", "", :placeholder => "Введите название города или часть названия", :size => 70
+        = select_tag("select_search_city", options_for_select(City.all.collect{ |s| [s.name, s.id] }),
+                  {:prompt => "Выберите город или населённый пункт", :id => "select_search_city"})
       #s_address_district
         Район
         = select_tag("select_search_district", options_for_select(District.all.collect{ |s| [s.name, s.id] }),

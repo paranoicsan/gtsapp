@@ -51,12 +51,12 @@ Feature: Пользователь может искать компанию по 
     Given Я авторизован в системе
     And Я нажимаю на ссылку "Поиск"
     And Я нахожусь на странице "Поиск"
-    When Я ввожу "alinin" в поле "search_city"
+    When Я выбираю "Kaliningrad" из элемента "select_search_city"
     And Я нажимаю на кнопку "do_search"
     And Я вижу таблицу "search_results_table" с компаниями
       | status  | title         |
       | Активна | Рога и копыта |
-    And Я ввожу "nyah" в поле "search_city"
+    And Я выбираю "Chernyahovsk" из элемента "select_search_city"
     And Я нажимаю на кнопку "do_search"
     And Я вижу таблицу "search_results_table" с компаниями
       | status  | title      |
