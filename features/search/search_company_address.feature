@@ -43,5 +43,22 @@ Feature: Пользователь может искать компанию по 
       | city_name   | district_name | street_name | house | office | cabinet |
       | Kaliningrad | Western       | Krasnaya    | 34    | 5      |         |
     And Существует следующий адрес для филиала "Пельмени" компании "Пельменная"
-      | city_name   | district_name | street_name | house | office | cabinet |
-      | Kaliningrad | Western       | Krasnaya    | 34    |        | 22      |
+      | city_name    | district_name | street_name | house | office | cabinet |
+      | Chernyahovsk | Center        | Ushakova    | 21    |        | 3       |
+
+  @javascript
+  @focus
+  Scenario: Пользователь может искать компанию по городу
+    Given Я авторизован в системе
+    And Я нажимаю на ссылку "Поиск"
+    And Я нахожусь на странице "Поиск"
+    When Я ввожу "alinin" в поле "search_city"
+    And Я нажимаю на кнопку "do_search"
+    And Я вижу таблицу "search_results_table" с компаниями
+      | status  | title         |
+      | Активна | Рога и копыта |
+    And Я ввожу "nyah" в поле "search_city"
+    And Я нажимаю на кнопку "do_search"
+    And Я вижу таблицу "search_results_table" с компаниями
+      | status  | title      |
+      | Активна | Пельменная |

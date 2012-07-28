@@ -13,6 +13,11 @@
     #s_email
       Email:
       = text_field_tag "search_email", "", :placeholder => "test@test.com", :size => 70
+    #s_address
+      Адрес (поиск проводится по адресам в зарегистрированных филиалах)
+      #s_address_city
+        Город
+        = text_field_tag "search_city", "", :placeholder => "Калининград", :size => 70
     #s_controls
     = submit_tag "Искать", {:id => "do_search"}
 

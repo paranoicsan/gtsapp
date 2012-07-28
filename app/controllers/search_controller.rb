@@ -35,11 +35,21 @@ class SearchController < ApplicationController
     found_by_name.concat SearchController.search_by_branch_factname(params[:search_name])
     found_by_name.concat SearchController.search_by_branch_legelname(params[:search_name])
 
+    found_by_address = []
+    found_by_address.concat SearchController.search_by_address_city(params[:search_city])
+
     # Проверка, есть ли уже результаты поиска по предыдущим полям
+    # Полный набор получаем пересечением массивов
     if res.any?
       res = res & found_by_name if found_by_name.any?
+      res = res & found_by_address if found_by_address.any?
     else
       res = found_by_name
+      if res.any?
+        res = res & found_by_address if found_by_address.any?
+      else
+        res = found_by_address
+      end
     end
 
     # Убираем дубликаты, которые могут оставаться в массивах, которые не пересекаются
@@ -95,5 +105,29 @@ class SearchController < ApplicationController
     ar
   end
 
+  ##
+  # Ищет по названию города в зарегистрированных филиалах
+  # @param {String} Название города
+  # @return {Array} Коллекция найденных компаний
+  def self.search_by_address_city(name)
+    ar = []
+    city_name = name.strip.mb_chars.downcase.gsub('%', '\%').gsub('_', '\_')
+    if city_name.length > 0
+
+      city_name = '%' + city_name + '%'
+      cities = City.where('LOWER(name) LIKE ?', city_name) # все города с похожим названием
+
+      addresses = [] # здесь лежат все адреса, связанные с такими городами
+      cities.each do |city|
+        addresses.concat Address.find_all_by_city_id(city.id)
+      end
+
+      branches = [] # по адресам достаём филиалы
+      addresses.each { |address| branches << address.branch }
+
+      branches.each { |b| ar << b.company }
+    end
+    ar
+  end
 
 end
