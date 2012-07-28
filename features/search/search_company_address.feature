@@ -47,7 +47,6 @@ Feature: Пользователь может искать компанию по 
       | Chernyahovsk | Center        | Ushakova    | 21    |        | 3       |
 
   @javascript
-  @focus
   Scenario: Пользователь может искать компанию по городу
     Given Я авторизован в системе
     And Я нажимаю на ссылку "Поиск"

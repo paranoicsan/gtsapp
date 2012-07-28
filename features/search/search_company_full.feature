@@ -13,6 +13,21 @@ Feature: Должна быть возможность для поиска ком
       | name |
       | ООО  |
       | МУП  |
+    And Существуют следующие города
+      | name         |
+      | Kaliningrad  |
+      | Chernyahovsk |
+    And Существуют следующие улицы
+      | city_name    | name     |
+      | Kaliningrad  | Leonova  |
+      | Kaliningrad  | Krasnaya |
+      | Chernyahovsk | Mira     |
+      | Chernyahovsk | Ushakova |
+    And Существуют следующие районы
+      | name    |
+      | Center  |
+      | Western |
+      | Eastern |
     And Существуют следующие филиалы для компании "TestCompany"
       | form_type | fact_name             | legel_name        |
       | ООО       | TestCompany branch0   | TestCompany legel |
@@ -28,14 +43,21 @@ Feature: Должна быть возможность для поиска ком
       | name                    |
       | test_branch1@test.com   |
       | test_branch1_1@test.com |
+    And Существует следующий адрес для филиала "TestCompany branch0" компании "TestCompany"
+      | city_name   | district_name | street_name | house | office | cabinet |
+      | Kaliningrad | Western       | Krasnaya    | 34    | 5      |         |
+    And Существует следующий адрес для филиала "EastCompany branch 2" компании "EastCompany"
+      | city_name    | district_name | street_name | house | office | cabinet |
+      | Chernyahovsk | Center        | Ushakova    | 21    |        | 3       |
 
   @javascript
-  Scenario: Пользователь может искать компанию по одному из названий и электронной почте
+  Scenario: Пользователь может искать компанию по всем возможным параметрам
     Given Я авторизован в системе
     And Я нажимаю на ссылку "Поиск"
     And Я нахожусь на странице "Поиск"
     When Я ввожу "est" в поле "search_name"
     And Я ввожу "test_branch0@test.com" в поле "search_email"
+    And Я ввожу "alinin" в поле "search_city"
     And Я нажимаю на кнопку "do_search"
     Then Я вижу таблицу "search_results_table" с компаниями
       | status  | title       |
@@ -48,6 +70,7 @@ Feature: Должна быть возможность для поиска ком
     And Я нахожусь на странице "Поиск"
     When Я ввожу "est" в поле "search_name"
     And Я ввожу "test_branch1@test.com" в поле "search_email"
+    And Я ввожу "nyah" в поле "search_city"
     And Я нажимаю на кнопку "do_search"
     Then Я вижу сообщение "Ничего не найдено"
 
