@@ -61,3 +61,7 @@ end
 Then /^Я не вижу элемент "([^"]*)"$/ do |elem_id|
   page.should_not have_selector(:xpath, "id('#{elem_id}')")
 end
+
+When /^Я выбираю "([^"]*)" из элемента "([^"]*)"$/ do |select_value, select_id|
+  page.select select_value, from: select_id
+end

@@ -37,6 +37,7 @@ class SearchController < ApplicationController
 
     found_by_address = []
     found_by_address.concat SearchController.search_by_address_city(params[:search_city])
+    found_by_address.concat SearchController.search_by_address_district(params[:select_search_district])
 
     # Проверка, есть ли уже результаты поиска по предыдущим полям
     # Полный набор получаем пересечением массивов
@@ -126,6 +127,19 @@ class SearchController < ApplicationController
       addresses.each { |address| branches << address.branch }
 
       branches.each { |b| ar << b.company }
+    end
+    ar
+  end
+
+  ##
+  # Ищет все компании, филиалы которых имеют адрес в указанному районе
+  # @param {Integer} Ключ района
+  # @return {Array} Коллекция найденных компаний
+  def self.search_by_address_district(id)
+    ar = []
+    addresses = Address.find_all_by_district_id id
+    addresses.each do |address|
+      ar << address.branch.company
     end
     ar
   end
