@@ -77,3 +77,19 @@ Feature: Пользователь может искать компанию по 
     And Я вижу таблицу "search_results_table" с компаниями
       | status  | title      |
       | Активна | Пельменная |
+
+  @javascript
+  Scenario: Пользователь может искать компанию по улице
+    Given Я авторизован в системе
+    And Я нажимаю на ссылку "Поиск"
+    And Я нахожусь на странице "Поиск"
+    When Я выбираю "Krasnaya (Kaliningrad)" из элемента "select_search_street"
+    And Я нажимаю на кнопку "do_search"
+    And Я вижу таблицу "search_results_table" с компаниями
+      | status  | title         |
+      | Активна | Рога и копыта |
+    When Я выбираю "Ushakova (Chernyahovsk)" из элемента "select_search_street"
+    And Я нажимаю на кнопку "do_search"
+    And Я вижу таблицу "search_results_table" с компаниями
+      | status  | title      |
+      | Активна | Пельменная |

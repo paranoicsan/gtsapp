@@ -98,7 +98,7 @@ end
 When /^Существуют следующие улицы$/ do |table|
   table.hashes.each do |row|
     c = City.find_by_name row[:city_name]
-    Street.create! name: row[:name], city_id: c.name
+    Street.create! name: row[:name], city: c
   end
 end
 

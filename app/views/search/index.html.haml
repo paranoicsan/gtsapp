@@ -23,6 +23,10 @@
         Район
         = select_tag("select_search_district", options_for_select(District.all.collect{ |s| [s.name, s.id] }),
           {:prompt => "Выберите район", :id => "select_search_district"})
+      #s_address_district
+        Улица
+        = select_tag("select_search_street", options_for_select(Street.name_with_city.collect{ |s| [s[:name], s[:id]] }),
+          {:prompt => "Выберите улицу", :id => "select_search_street"})
     #s_controls
     = submit_tag "Искать", {:id => "do_search"}
 
