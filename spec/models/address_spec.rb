@@ -98,8 +98,6 @@ describe Address do
       @address.street = @ss_
 
       s = get_formatted_str params
-      puts @address.full_address
-      puts s
       assert @address.full_address == s, "Форматрование адреса не работает"
     end
 

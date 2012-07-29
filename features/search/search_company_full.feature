@@ -60,6 +60,8 @@ Feature: Должна быть возможность для поиска ком
     And Я выбираю "Kaliningrad" из элемента "select_search_city"
     And Я выбираю "Western" из элемента "select_search_district"
     And Я выбираю "Krasnaya (Kaliningrad)" из элемента "select_search_street"
+    And Я ввожу "34" в поле "search_house"
+    And Я ввожу "5" в поле "search_office"
     And Я нажимаю на кнопку "do_search"
     Then Я вижу таблицу "search_results_table" с компаниями
       | status  | title       |
@@ -75,6 +77,7 @@ Feature: Должна быть возможность для поиска ком
     And Я выбираю "Chernyahovsk" из элемента "select_search_city"
     And Я выбираю "Western" из элемента "select_search_district"
     And Я выбираю "Ushakova (Chernyahovsk)" из элемента "select_search_street"
+    And Я ввожу "3" в поле "search_cabinet"
     And Я нажимаю на кнопку "do_search"
     Then Я вижу сообщение "Ничего не найдено"
 
