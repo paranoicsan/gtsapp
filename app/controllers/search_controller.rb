@@ -39,6 +39,9 @@ class SearchController < ApplicationController
     found_by_address.concat SearchController.search_by_address_city(params[:select_search_city])
     found_by_address.concat SearchController.search_by_address_district(params[:select_search_district])
     found_by_address.concat SearchController.search_by_address_street(params[:select_search_street])
+    found_by_address.concat SearchController.search_by_address_house(params[:search_house])
+    found_by_address.concat SearchController.search_by_address_office(params[:search_office])
+    found_by_address.concat SearchController.search_by_address_cabinet(params[:search_cabinet])
 
     # Проверка, есть ли уже результаты поиска по предыдущим полям
     # Полный набор получаем пересечением массивов
@@ -142,6 +145,54 @@ class SearchController < ApplicationController
     addresses = Address.find_all_by_street_id id
     addresses.each do |address|
       ar << address.branch.company
+    end
+    ar
+  end
+
+  ##
+  # Ищет по номеру дома в адресах, зарегистрированных в филиалах компаний
+  # @param {String} Введённый номер дома для поиска
+  # @return {Array} Коллекция найденных компаний
+  def self.search_by_address_house(name)
+    ar = []
+    house = name.strip.mb_chars.downcase.gsub('%', '\%').gsub('_', '\_')
+    if house.length > 0
+      addresses = Address.find_all_by_house house
+      addresses.each do |address|
+        ar << address.branch.company
+      end
+    end
+    ar
+  end
+
+  ##
+  # Ищет по номеру офиса в адресах, зарегистрированных в филиалах компаний
+  # @param {String} Введённый номер
+  # @return {Array} Коллекция найденных компаний
+  def self.search_by_address_office(name)
+    ar = []
+    office = name.strip.mb_chars.downcase.gsub('%', '\%').gsub('_', '\_')
+    if office.length > 0
+      addresses = Address.find_all_by_office office
+      addresses.each do |address|
+        ar << address.branch.company
+      end
+    end
+    ar
+  end
+
+  ##
+  # Ищет по номеру кабинета в адресах, зарегистрированных в филиалах компаний
+  # @param {String} Введённый номер
+  # @return {Array} Коллекция найденных компаний
+  def self.search_by_address_cabinet(name)
+    ar = []
+    cabinet = name.strip.mb_chars.downcase.gsub('%', '\%').gsub('_', '\_')
+    if cabinet.length > 0
+      addresses = Address.find_all_by_cabinet cabinet
+      addresses.each do |address|
+        ar << address.branch.company
+      end
     end
     ar
   end
