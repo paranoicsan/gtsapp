@@ -27,6 +27,9 @@ class SearchController < ApplicationController
       end
     end
 
+    # поиск по телефону
+    res.concat SearchController.search_by_phone(params[:search_phone])
+
     # Результаты поиска по всем типам названий НЕ ДОЛЖНЫ пересекаться
     # между собой - т.к. они ищутся по одному вводимому пользователем полю
 
@@ -42,6 +45,8 @@ class SearchController < ApplicationController
     found_by_address.concat SearchController.search_by_address_house(params[:search_house])
     found_by_address.concat SearchController.search_by_address_office(params[:search_office])
     found_by_address.concat SearchController.search_by_address_cabinet(params[:search_cabinet])
+
+
 
     # Проверка, есть ли уже результаты поиска по предыдущим полям
     # Полный набор получаем пересечением массивов
@@ -193,6 +198,21 @@ class SearchController < ApplicationController
       addresses.each do |address|
         ar << address.branch.company
       end
+    end
+    ar
+  end
+
+  ##
+  # Ищет по номеру телефона в филиалах компаний
+  # @param {String} Введённый номер
+  # @return {Array} Коллекция найденных компаний
+  def self.search_by_phone(name)
+    ar = []
+    s = name.strip.mb_chars.downcase.gsub('%', '\%').gsub('_', '\_')
+    if s.length > 0
+      s = s + '%'
+      phones = Phone.where('LOWER(name) LIKE ?', s)
+      phones.each { |p| ar << p.branch.company}
     end
     ar
   end

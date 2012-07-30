@@ -65,3 +65,7 @@ end
 When /^Я выбираю "([^"]*)" из элемента "([^"]*)"$/ do |select_value, select_id|
   page.select select_value, from: select_id
 end
+
+When /^Я жду (\d+) секунд$/ do |sec|
+  sleep sec.to_i
+end

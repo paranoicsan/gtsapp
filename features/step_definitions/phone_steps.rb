@@ -9,6 +9,15 @@ When /^Для филиала "([^"]*)" компании "([^"]*)" существ
     break
   end
 end
+When /^Для филиала "([^"]*)" компании "([^"]*)" существуют телефоны$/ do |bname, cname, table|
+  # table is a |true   |true    |true|false|             |521627|1      |true       |pending
+  #|contact|director|fax|mobile|mobile_prefix|name|order_num|publishable|
+  @branch = find_branch bname, cname
+  table.hashes.each do |ph|
+    ph[:branch_id] = @branch.id
+    @phone = create_phone ph
+  end
+end
 Then /^Я вижу информацию этого телефона$/ do
   # определяем порядок, в котором отображается телефонная информация
   #noinspection RubyResolve

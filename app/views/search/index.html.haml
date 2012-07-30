@@ -36,6 +36,9 @@
       #s_address_cabinet
         Номер кабинета:
         = text_field_tag "search_cabinet", "", :placeholder => "точное соответствие"
+    #s_phone
+      Телефон:
+      = text_field_tag "search_phone", "", :placeholder => "введите первые цифры номера"
     #s_controls
     = submit_tag "Искать", {:id => "do_search"}
 
