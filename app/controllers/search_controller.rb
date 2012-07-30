@@ -17,50 +17,59 @@ class SearchController < ApplicationController
   #
   # GET search/search_company/do
   def search_company
-    res = [] # коллекция с результатами поиска
+
+    res = []
+
+    # Флаги, какие поля поиска работают    
+    fls = {
+      email: params[:search_email].length > 0,         
+      name: params[:search_name].length > 0,         
+      phone: params[:search_phone].length > 0,
+      address: {
+        city: params[:select_search_city].length > 0,
+        district: params[:select_search_district].length > 0,
+        street: params[:select_search_street].length > 0,
+        house: params[:search_house].length > 0,
+        office: params[:search_office].length > 0,
+        cabinet: params[:search_cabinet].length > 0
+        }
+    }
+
+    search_by_address = fls[:address][:city] || fls[:address][:district] || fls[:address][:street] ||
+      fls[:address][:house] || fls[:address][:office] || fls[:address][:cabinet]
 
     # если указан адрес электронной почты
-    if Email.valid? params[:search_email]
+    found_by_email = []
+    if  fls[:email] && Email.valid?(params[:search_email])
       em = Email.find_by_name params[:search_email]
-      if em && !res.include?(em.branch.company)
-        res << em.branch.company
+      if em && !found_by_email.include?(em.branch.company)
+        found_by_email << em.branch.company
       end
     end
-
-    # поиск по телефону
-    res.concat SearchController.search_by_phone(params[:search_phone])
 
     # Результаты поиска по всем типам названий НЕ ДОЛЖНЫ пересекаться
     # между собой - т.к. они ищутся по одному вводимому пользователем полю
-
     found_by_name = []
-    found_by_name.concat SearchController.search_by_name(params[:search_name])
-    found_by_name.concat SearchController.search_by_branch_factname(params[:search_name])
-    found_by_name.concat SearchController.search_by_branch_legelname(params[:search_name])
-
-    found_by_address = []
-    found_by_address.concat SearchController.search_by_address_city(params[:select_search_city])
-    found_by_address.concat SearchController.search_by_address_district(params[:select_search_district])
-    found_by_address.concat SearchController.search_by_address_street(params[:select_search_street])
-    found_by_address.concat SearchController.search_by_address_house(params[:search_house])
-    found_by_address.concat SearchController.search_by_address_office(params[:search_office])
-    found_by_address.concat SearchController.search_by_address_cabinet(params[:search_cabinet])
-
-
-
-    # Проверка, есть ли уже результаты поиска по предыдущим полям
-    # Полный набор получаем пересечением массивов
-    if res.any?
-      res = res & found_by_name if found_by_name.any?
-      res = res & found_by_address if found_by_address.any?
-    else
-      res = found_by_name
-      if res.any?
-        res = res & found_by_address if found_by_address.any?
-      else
-        res = found_by_address
-      end
+    if fls[:name]
+      found_by_name.concat SearchController.search_by_name(params[:search_name])
+      found_by_name.concat SearchController.search_by_branch_factname(params[:search_name])
+      found_by_name.concat SearchController.search_by_branch_legelname(params[:search_name])
     end
+
+    found_by_address = search_by_address(params, fls[:address])
+
+    found_by_phone = []
+    found_by_phone = SearchController.search_by_phone(params[:search_phone]) if fls[:phone]
+
+    #res = array_intersect(res, found_by_email) if fls[:email]
+    #res = array_intersect(res, found_by_name) if fls[:name]
+    #res = array_intersect(res, found_by_address) if search_by_address
+    #res = array_intersect(res, found_by_phone) if fls[:phone]
+
+    res = fls[:email] ? found_by_email : res
+    res = fls[:name] ? fls[:email] ? res & found_by_name : found_by_name : res
+    res = fls[:name] ? fls[:email] ? search_by_address ? res & found_by_address : found_by_address : res : res
+    res = fls[:name] ? fls[:email] ? search_by_address ? fls[:phone] ? res & found_by_phone : found_by_phone : res : res : res
 
     # Убираем дубликаты, которые могут оставаться в массивах, которые не пересекаются
     @search_result = res.uniq
@@ -68,6 +77,45 @@ class SearchController < ApplicationController
     respond_to do |format|
       format.js { render :layout => false }
     end
+  end
+
+  ## Пересекает массивы с сохранением при умножении на 0
+  def array_intersect(array_first, array_second)
+    if array_first.any?
+      ar = array_second.any? ? array_first & array_second : array_first
+    else
+      ar = array_second
+    end
+    ar
+  end
+
+  def search_by_address(params, flags)
+    ar = []
+    
+    # город
+    ar = SearchController.search_by_address_city(params[:select_search_city]) if flags[:city]
+
+    # район
+    found = SearchController.search_by_address_district(params[:select_search_district])
+    ar = array_intersect(ar, found) if flags[:district]
+
+    # улица
+    found = SearchController.search_by_address_district(params[:select_search_street])
+    ar = array_intersect(ar, found) if flags[:street]
+
+    # дом
+    found = SearchController.search_by_address_district(params[:search_house])
+    ar = array_intersect(ar, found) if flags[:house]
+
+    # офис
+    found = SearchController.search_by_address_district(params[:search_office])
+    ar = array_intersect(ar, found) if flags[:office]
+
+    # кабинет
+    found = SearchController.search_by_address_district(params[:search_cabinet])
+    ar = array_intersect(ar, found) if flags[:cabinet]
+
+    ar
   end
 
   ##

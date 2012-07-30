@@ -49,6 +49,13 @@ Feature: Должна быть возможность для поиска ком
     And Существует следующий адрес для филиала "EastCompany branch 2" компании "EastCompany"
       | city_name    | district_name | street_name | house | office | cabinet |
       | Chernyahovsk | Center        | Ushakova    | 21    |        | 3       |
+    And Для филиала "EastCompany branch 1" компании "EastCompany" существуют телефоны
+      | contact | director | fax  | mobile | mobile_refix | name   | order_num | publishable |
+      | true    | true     | true | false  |              | 123456 | 1         | true        |
+    And Для филиала "TestCompany branch0" компании "TestCompany" существуют телефоны
+      | contact | director | fax   | mobile | mobile_refix | name    | order_num | publishable |
+      | true    | false    | false | true   | 921          | 7987654 | 1         | false       |
+      | true    | true     | true  | false  |              | 123222  | 1         | true        |
 
   @javascript
   Scenario: Пользователь может искать компанию по всем возможным параметрам
@@ -62,6 +69,7 @@ Feature: Должна быть возможность для поиска ком
     And Я выбираю "Krasnaya (Kaliningrad)" из элемента "select_search_street"
     And Я ввожу "34" в поле "search_house"
     And Я ввожу "5" в поле "search_office"
+    And Я ввожу "123" в поле "search_phone"
     And Я нажимаю на кнопку "do_search"
     Then Я вижу таблицу "search_results_table" с компаниями
       | status  | title       |
@@ -78,6 +86,7 @@ Feature: Должна быть возможность для поиска ком
     And Я выбираю "Western" из элемента "select_search_district"
     And Я выбираю "Ushakova (Chernyahovsk)" из элемента "select_search_street"
     And Я ввожу "3" в поле "search_cabinet"
+    And Я ввожу "1234" в поле "search_phone"
     And Я нажимаю на кнопку "do_search"
     Then Я вижу сообщение "Ничего не найдено"
 
