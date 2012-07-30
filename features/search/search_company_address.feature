@@ -90,7 +90,7 @@ Feature: Пользователь может искать компанию по 
       | Активна | Рога и копыта |
     When Я выбираю "Ushakova (Chernyahovsk)" из элемента "select_search_street"
     And Я нажимаю на кнопку "do_search"
-    And Я вижу таблицу "search_results_table" с компаниями
+    Then Я вижу таблицу "search_results_table" с компаниями
       | status  | title      |
       | Активна | Пельменная |
 

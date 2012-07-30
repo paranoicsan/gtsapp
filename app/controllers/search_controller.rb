@@ -20,6 +20,9 @@ class SearchController < ApplicationController
 
     res = []
 
+    # флаг, что какой-то поиск уже был
+    searched = false
+
     # Флаги, какие поля поиска работают    
     fls = {
       email: params[:search_email].length > 0,         
@@ -35,41 +38,44 @@ class SearchController < ApplicationController
         }
     }
 
-    search_by_address = fls[:address][:city] || fls[:address][:district] || fls[:address][:street] ||
-      fls[:address][:house] || fls[:address][:office] || fls[:address][:cabinet]
+    search_by_address = fls[:address][:city] ||
+        fls[:address][:district] ||
+        fls[:address][:street] ||
+        fls[:address][:house] ||
+        fls[:address][:office] ||
+        fls[:address][:cabinet]
 
     # если указан адрес электронной почты
-    found_by_email = []
     if  fls[:email] && Email.valid?(params[:search_email])
       em = Email.find_by_name params[:search_email]
-      if em && !found_by_email.include?(em.branch.company)
-        found_by_email << em.branch.company
+      if em
+        res << em.branch.company
       end
+      searched = true
     end
 
     # Результаты поиска по всем типам названий НЕ ДОЛЖНЫ пересекаться
     # между собой - т.к. они ищутся по одному вводимому пользователем полю
-    found_by_name = []
     if fls[:name]
+      found_by_name = []
       found_by_name.concat SearchController.search_by_name(params[:search_name])
       found_by_name.concat SearchController.search_by_branch_factname(params[:search_name])
       found_by_name.concat SearchController.search_by_branch_legelname(params[:search_name])
+      found_by_name = found_by_name.uniq
+      res = searched ? res & found_by_name : found_by_name
+      searched = true
     end
 
-    found_by_address = search_by_address(params, fls[:address])
+    if search_by_address
+      found_by_address = search_by_address(params, fls[:address])
+      res = searched ? res & found_by_address : found_by_address
+      searched = true
+    end
 
-    found_by_phone = []
-    found_by_phone = SearchController.search_by_phone(params[:search_phone]) if fls[:phone]
-
-    #res = array_intersect(res, found_by_email) if fls[:email]
-    #res = array_intersect(res, found_by_name) if fls[:name]
-    #res = array_intersect(res, found_by_address) if search_by_address
-    #res = array_intersect(res, found_by_phone) if fls[:phone]
-
-    res = fls[:email] ? found_by_email : res
-    res = fls[:name] ? fls[:email] ? res & found_by_name : found_by_name : res
-    res = fls[:name] ? fls[:email] ? search_by_address ? res & found_by_address : found_by_address : res : res
-    res = fls[:name] ? fls[:email] ? search_by_address ? fls[:phone] ? res & found_by_phone : found_by_phone : res : res : res
+    if fls[:phone]
+      found_by_phone = SearchController.search_by_phone(params[:search_phone])
+      res = searched ? res & found_by_phone : found_by_phone
+    end
 
     # Убираем дубликаты, которые могут оставаться в массивах, которые не пересекаются
     @search_result = res.uniq
@@ -91,29 +97,51 @@ class SearchController < ApplicationController
 
   def search_by_address(params, flags)
     ar = []
-    
+
+    # Флаг, что какой-либо поиск уже проводился. Отсюда можно судить, первоначальный массив
+    # просто пустой или ничего не найдено.
+    searched = false
+
     # город
-    ar = SearchController.search_by_address_city(params[:select_search_city]) if flags[:city]
+    if flags[:city]
+      found_by_city = SearchController.search_by_address_city(params[:select_search_city])
+      ar = found_by_city
+      searched = true
+    end
 
     # район
-    found = SearchController.search_by_address_district(params[:select_search_district])
-    ar = array_intersect(ar, found) if flags[:district]
+    if flags[:district]
+      found_by_district = SearchController.search_by_address_district(params[:select_search_district])
+      ar = searched ? ar & found_by_district : found_by_district
+      searched = true
+    end
 
     # улица
-    found = SearchController.search_by_address_district(params[:select_search_street])
-    ar = array_intersect(ar, found) if flags[:street]
+    if flags[:street]
+      found_by_street = SearchController.search_by_address_street(params[:select_search_street])
+      ar = searched ? ar & found_by_street : found_by_street
+      searched = true
+    end
 
     # дом
-    found = SearchController.search_by_address_district(params[:search_house])
-    ar = array_intersect(ar, found) if flags[:house]
+    if flags[:house]
+      found_by_house = SearchController.search_by_address_house(params[:search_house])
+      ar = searched ? ar & found_by_house : found_by_house
+      searched = true
+    end
 
     # офис
-    found = SearchController.search_by_address_district(params[:search_office])
-    ar = array_intersect(ar, found) if flags[:office]
+    if flags[:office]
+      found_by_office = SearchController.search_by_address_office(params[:search_office])
+      ar = searched ? ar & found_by_office : found_by_office
+      searched = true
+    end
 
     # кабинет
-    found = SearchController.search_by_address_district(params[:search_cabinet])
-    ar = array_intersect(ar, found) if flags[:cabinet]
+    if flags[:cabinet]
+      found_by_cabinet = SearchController.search_by_address_cabinet(params[:search_cabinet])
+      ar = searched ? ar & found_by_cabinet : found_by_cabinet
+    end
 
     ar
   end
