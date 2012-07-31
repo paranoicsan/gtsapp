@@ -85,16 +85,6 @@ class SearchController < ApplicationController
     end
   end
 
-  ## Пересекает массивы с сохранением при умножении на 0
-  def array_intersect(array_first, array_second)
-    if array_first.any?
-      ar = array_second.any? ? array_first & array_second : array_first
-    else
-      ar = array_second
-    end
-    ar
-  end
-
   def search_by_address(params, flags)
     ar = []
 
