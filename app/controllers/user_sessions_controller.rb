@@ -20,7 +20,6 @@ class UserSessionsController < ApplicationController
 
     respond_to do |format|
       if @user_session.save
-        flash[:notice] = "Вы вошли в систему."
         format.html { redirect_back_or_default(dashboard_url) }
         format.json { render json: @user_session, status: :created, location: @user_session }
       else
@@ -40,7 +39,6 @@ class UserSessionsController < ApplicationController
       @user_session.destroy
 
       respond_to do |format|
-        flash[:notice] = "Выполнен выход."
         format.html { redirect_to login_path }
         #format.json { head :ok }
       end
