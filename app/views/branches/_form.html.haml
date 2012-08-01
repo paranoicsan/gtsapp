@@ -1,24 +1,28 @@
--form_params = @company ? [@company, @branch] : @branch
-= form_for (form_params) do |f|
-  -if @branch.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@branch.errors.count, "error")} prohibited this branch from being saved:"
-      %ul
-        - @branch.errors.full_messages.each do |msg|
-          %li= msg
-
-  .field
-    = f.label :form_type_id, 'Форма собственности'
-    = f.select(:form_type_id, options_for_select(FormType.all.collect{ |ftype| [ftype.name, ftype.id] },
-      @branch.form_type_id))
-  .field
-    = f.label :fact_name, 'Фактическое название'
-    = f.text_field :fact_name
-  .field
-    = f.label :legel_name, 'Юридическое название'
-    = f.text_field :legel_name
-  .field
-    = f.label :comments, 'Примечание'
-    = f.text_field :comments
-  .actions
-    = f.submit 'Сохранить'
+= form_for @branch, :html => { :class => 'form-horizontal' } do |f|
+  .control-group
+    = f.label :form_type_id, :class => 'control-label'
+    .controls
+      = f.number_field :form_type_id, :class => 'number_field'
+  .control-group
+    = f.label :fact_name, :class => 'control-label'
+    .controls
+      = f.text_field :fact_name, :class => 'text_field'
+  .control-group
+    = f.label :legel_name, :class => 'control-label'
+    .controls
+      = f.text_field :legel_name, :class => 'text_field'
+  .control-group
+    = f.label :company_id, :class => 'control-label'
+    .controls
+      = f.number_field :company_id, :class => 'number_field'
+  .control-group
+    = f.label :comments, :class => 'control-label'
+    .controls
+      = f.text_field :comments, :class => 'text_field'
+  .control-group
+    = f.label :is_main, :class => 'control-label'
+    .controls
+      = f.check_box :is_main, :class => 'check_box'
+  .form-actions
+    = f.submit nil, :class => 'btn btn-primary'
+    = link_to t('.cancel', :default => t("helpers.links.cancel")), branches_path, :class => 'btn'

@@ -1,36 +1,53 @@
+- model_class = Phone
+.page-header
+  %h1=t '.title', :default => model_class.model_name.human
 
-= render :partial => "shared/top_menu"
-= render :partial => "shared/messages"
+%p
+  %strong= model_class.human_attribute_name(:mobile_refix) + ':'
+  %br
+  = @phone.mobile_refix
+%p
+  %strong= model_class.human_attribute_name(:publishable) + ':'
+  %br
+  = @phone.publishable
+%p
+  %strong= model_class.human_attribute_name(:fax) + ':'
+  %br
+  = @phone.fax
+%p
+  %strong= model_class.human_attribute_name(:director) + ':'
+  %br
+  = @phone.director
+%p
+  %strong= model_class.human_attribute_name(:mobile) + ':'
+  %br
+  = @phone.mobile
+%p
+  %strong= model_class.human_attribute_name(:description) + ':'
+  %br
+  = @phone.description
+%p
+  %strong= model_class.human_attribute_name(:name) + ':'
+  %br
+  = @phone.name
+%p
+  %strong= model_class.human_attribute_name(:contact) + ':'
+  %br
+  = @phone.contact
+%p
+  %strong= model_class.human_attribute_name(:order_num) + ':'
+  %br
+  = @phone.order_num
+%p
+  %strong= model_class.human_attribute_name(:branch_id) + ':'
+  %br
+  = @phone.branch_id
+%p
+  %strong= model_class.human_attribute_name(:old_id) + ':'
+  %br
+  = @phone.old_id
 
-%h1#title
-  Телефон
-
-= link_to @branch.fact_name, branch_path(@branch)
-
-#phone_info
-  %p
-    %strong № телефона
-    = @phone.name
-  %p
-    %strong Мобильный:
-    = @phone.mobile
-  -if @phone.mobile
-    %p
-      %strong Префикс сотового оператора:
-      = @phone.mobile_refix
-  %p
-    %strong Для печати:
-    = @phone.publishable
-  %p
-    %strong Факс:
-    = @phone.fax
-  %p
-    %strong Директор:
-    = @phone.director
-  %p
-    %strong Контактный:
-    = @phone.contact
-
-= link_to 'Изменить', edit_phone_path(@phone)
-\|
-= link_to 'К филиалу', branch_path(@branch)
+.form-actions
+  = link_to t('.back', :default => t("helpers.links.back")), phones_path, :class => 'btn'
+  = link_to t('.edit', :default => t("helpers.links.edit")), edit_phone_path(@phone), :class => 'btn'
+  = link_to t('.destroy', :default => t("helpers.links.destroy")), phone_path(@phone), :method => "delete", :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')), :class => 'btn btn-danger'

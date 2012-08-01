@@ -1,21 +1,23 @@
-%h1 Listing form_types
-
-%table
-  %tr
-    %th Name
-    %th Old
-    %th
-    %th
-    %th
-
-  - @form_types.each do |form_type|
+- model_class = FormType
+.page-header
+  %h1=t '.title', :default => model_class.model_name.human.pluralize
+%table.table.table-striped
+  %thead
     %tr
-      %td= form_type.name
-      %td= form_type.old_id
-      %td= link_to 'Show', form_type
-      %td= link_to 'Edit', edit_form_type_path(form_type)
-      %td= link_to 'Destroy', form_type, :confirm => 'Are you sure?', :method => :delete
+      %th= model_class.human_attribute_name(:id)
+      %th= model_class.human_attribute_name(:name)
+      %th= model_class.human_attribute_name(:old_id)
+      %th= model_class.human_attribute_name(:created_at)
+      %th=t '.actions', :default => t("helpers.actions")
+  %tbody
+    - @form_types.each do |form_type|
+      %tr
+        %td= link_to form_type.id, form_type_path(form_type)
+        %td= form_type.name
+        %td= form_type.old_id
+        %td=l form_type.created_at
+        %td
+          = link_to t('.edit', :default => t("helpers.links.edit")), edit_form_type_path(form_type), :class => 'btn btn-mini'
+          = link_to t('.destroy', :default => t("helpers.links.destroy")), form_type_path(form_type), :method => :delete, :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')), :class => 'btn btn-mini btn-danger'
 
-%br
-
-= link_to 'New Form type', new_form_type_path
+= link_to t('.new', :default => t("helpers.links.new")), new_form_type_path, :class => 'btn btn-primary'

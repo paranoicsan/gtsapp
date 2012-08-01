@@ -1,6 +1,4 @@
-# encoding: utf-8
-= render :partial => "shared/top_menu"
-= render :partial => "shared/messages"
-
-%h1.section-title#title
-  Редактирование пользователя
+- model_class = User
+.page-header
+  %h1=t '.title', :default => t('helpers.titles.edit', :model => model_class.model_name.human, :default => "Edit #{model_class.model_name.human}")
+= render :partial => "form"

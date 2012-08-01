@@ -1,38 +1,35 @@
-# encoding: utf-8
-= render :partial => "shared/top_menu"
-= render :partial => "shared/messages"
-
-%h1.section-title#title
-  Компании
-
-%p
-  = link_to 'Добавить компанию', new_company_path
-
-%table#index
-  %tr
-    %th Статус
-    %th Название
-    %th Добавлена
-    %th Изменена
-    %th Рубрикатор
-    %th Операции
-
-  - @companies.each do |company|
+- model_class = Company
+.page-header
+  %h1=t '.title', :default => model_class.model_name.human.pluralize
+%table.table.table-striped
+  %thead
     %tr
-      %td= company.company_status.name
-      %td= link_to company.title, company
-      %td
-        - if company.date_added
-          = company.date_added.strftime("%d.%m.%Y")
-          = company.author_name
-      %td
-        = company.updated_at.strftime("%d.%m.%Y %H:%M")
-        = company.editor_name
-      %td= company.rubricator_name
-      %td= link_to 'Удалить', company, :confirm => 'Are you sure?', :method => :delete
+      %th= model_class.human_attribute_name(:id)
+      %th= model_class.human_attribute_name(:title)
+      %th= model_class.human_attribute_name(:date_added)
+      %th= model_class.human_attribute_name(:rubricator)
+      %th= model_class.human_attribute_name(:company_status_id)
+      %th= model_class.human_attribute_name(:author_user_id)
+      %th= model_class.human_attribute_name(:editor_user_id)
+      %th= model_class.human_attribute_name(:company_source_id)
+      %th= model_class.human_attribute_name(:agent_id)
+      %th= model_class.human_attribute_name(:created_at)
+      %th=t '.actions', :default => t("helpers.actions")
+  %tbody
+    - @companies.each do |company|
+      %tr
+        %td= link_to company.id, company_path(company)
+        %td= company.title
+        %td= company.date_added
+        %td= company.rubricator
+        %td= company.company_status_id
+        %td= company.author_user_id
+        %td= company.editor_user_id
+        %td= company.company_source_id
+        %td= company.agent_id
+        %td=l company.created_at
+        %td
+          = link_to t('.edit', :default => t("helpers.links.edit")), edit_company_path(company), :class => 'btn btn-mini'
+          = link_to t('.destroy', :default => t("helpers.links.destroy")), company_path(company), :method => :delete, :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')), :class => 'btn btn-mini btn-danger'
 
-%br
-= will_paginate
-= link_to 'Добавить компанию', new_company_path
-
-
+= link_to t('.new', :default => t("helpers.links.new")), new_company_path, :class => 'btn btn-primary'

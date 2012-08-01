@@ -1,10 +1,4 @@
-
-= render :partial => "shared/top_menu"
-= render :partial => "shared/messages"
-
-%h1#title
-  Новый филиал
-
-= render 'form'
-
-= link_to 'Отмена', company_path(@company)
+- model_class = Branch
+.page-header
+  %h1=t '.title', :default => t('helpers.titles.new', :model => model_class.model_name.human, :default => "New #{model_class.model_name.human}")
+= render :partial => "form"

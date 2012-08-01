@@ -7,14 +7,32 @@
     = csrf_meta_tags
 
   %body
-    #container
-      #header ГТС. Управление каталогом компаний
-      #body
+    - if @current_user
+      #div.navbar.navbar-fixed-top
+        #div.navbar-inner
+          #div.container
+            %a.btn.btn-navbar{"data-toggle" => "collapse", "data-target" => ".nav-collapse"}
+              %span.icon-bar
+              %span.icon-bar
+              %span.icon-bar
 
-        = yield
+            =link_to "ГТС", root_path, "class" => "brand"
+            #div.nav-collapse
+              %ul.nav
+                %li
+                  = link_to "Главная", dashboard_path
+                %li
+                  = link_to "Компании", companies_path
+                - if @current_user && @current_user.is_admin?
+                  %li
+                    = link_to "Пользователи", users_path
+                %li
+                  = link_to "Поиск", search_path
+                %li
+                  = link_to "Выйти", logout_path
 
-      #footer
-        #footer_inner_left Сообщить об ошибке
-        #footer_inner_right
-          ="gtsapp #{ApplicationHelper::APP_VERSION}"
+    #div.container-fluid
+      #div.row-fluid
+        #div.span12
+          = yield
 

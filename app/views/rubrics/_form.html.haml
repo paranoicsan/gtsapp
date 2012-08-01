@@ -1,19 +1,16 @@
-= form_for @rubric do |f|
-  -if @rubric.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@rubric.errors.count, "error")} prohibited this rubric from being saved:"
-      %ul
-        - @rubric.errors.full_messages.each do |msg|
-          %li= msg
-
-  .field
-    = f.label :old_id
-    = f.number_field :old_id
-  .field
-    = f.label :name
-    = f.text_field :name
-  .field
-    = f.label :social
-    = f.check_box :social
-  .actions
-    = f.submit 'Save'
+= form_for @rubric, :html => { :class => 'form-horizontal' } do |f|
+  .control-group
+    = f.label :old_id, :class => 'control-label'
+    .controls
+      = f.number_field :old_id, :class => 'number_field'
+  .control-group
+    = f.label :name, :class => 'control-label'
+    .controls
+      = f.text_field :name, :class => 'text_field'
+  .control-group
+    = f.label :social, :class => 'control-label'
+    .controls
+      = f.check_box :social, :class => 'check_box'
+  .form-actions
+    = f.submit nil, :class => 'btn btn-primary'
+    = link_to t('.cancel', :default => t("helpers.links.cancel")), rubrics_path, :class => 'btn'

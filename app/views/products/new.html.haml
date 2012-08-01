@@ -1,10 +1,4 @@
-# encoding: utf-8
-= render :partial => "shared/top_menu"
-= render :partial => "shared/messages"
-
-%h1.section-title#title
-  Добавление продукта
-
-= render 'form'
-
-= link_to 'К списку', products_path
+- model_class = Product
+.page-header
+  %h1=t '.title', :default => t('helpers.titles.new', :model => model_class.model_name.human, :default => "New #{model_class.model_name.human}")
+= render :partial => "form"

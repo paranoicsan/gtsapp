@@ -1,50 +1,60 @@
--form_params = @branch ? [@branch, @address] : @address
-= form_for (form_params) do |f|
-  -if @address.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@address.errors.count, "error")} prohibited this address from being saved:"
-      %ul
-        - @address.errors.full_messages.each do |msg|
-          %li= msg
-
-  .field
-    = f.label :district_id, 'Район'
-    = f.select(:district_id, options_for_select(District.all.collect{ |el| [el.name, el.id] }))
-  .field
-    = f.label :city_id, 'Город'
-    = f.select(:city_id, options_for_select(City.all.collect{ |el| [el.name, el.id] }))
-  .field
-    = f.label :street_id, 'Улица'
-    = f.select(:street_id, options_for_select(Street.all.collect{ |el| [el.name, el.id] }))
-  .field
-    = f.label :post_index_id, 'Почтовый индекс'
-    = f.select(:post_index_id, options_for_select(PostIndex.all.collect{ |el| [el.code, el.id] }))
-  .field
-    = f.label :house, 'Дом'
-    = f.text_field :house
-  .field
-    = f.label :entrance, 'Подъезд'
-    = f.text_field :entrance
-  .field
-    = f.label :case, 'Строение'
-    = f.text_field :case
-  .field
-    = f.label :stage, 'Этаж'
-    = f.text_field :stage
-  .field
-    = f.label :office, 'Офис'
-    = f.text_field :office
-  .field
-    = f.label :cabinet, 'Кабинет'
-    = f.text_field :cabinet
-  .field
-    = f.label :other, 'Другое'
-    = f.text_field :other
-  .field
-    = f.label :pavilion, 'Павильон'
-    = f.text_field :pavilion
-  .field
-    = f.label :litera, 'Литера'
-    = f.text_field :litera
-  .actions
-    = f.submit 'Сохранить'
+= form_for @address, :html => { :class => 'form-horizontal' } do |f|
+  .control-group
+    = f.label :house, :class => 'control-label'
+    .controls
+      = f.text_field :house, :class => 'text_field'
+  .control-group
+    = f.label :entrance, :class => 'control-label'
+    .controls
+      = f.text_field :entrance, :class => 'text_field'
+  .control-group
+    = f.label :case, :class => 'control-label'
+    .controls
+      = f.text_field :case, :class => 'text_field'
+  .control-group
+    = f.label :stage, :class => 'control-label'
+    .controls
+      = f.text_field :stage, :class => 'text_field'
+  .control-group
+    = f.label :office, :class => 'control-label'
+    .controls
+      = f.text_field :office, :class => 'text_field'
+  .control-group
+    = f.label :cabinet, :class => 'control-label'
+    .controls
+      = f.text_field :cabinet, :class => 'text_field'
+  .control-group
+    = f.label :other, :class => 'control-label'
+    .controls
+      = f.text_field :other, :class => 'text_field'
+  .control-group
+    = f.label :pavilion, :class => 'control-label'
+    .controls
+      = f.text_field :pavilion, :class => 'text_field'
+  .control-group
+    = f.label :litera, :class => 'control-label'
+    .controls
+      = f.text_field :litera, :class => 'text_field'
+  .control-group
+    = f.label :district_id, :class => 'control-label'
+    .controls
+      = f.number_field :district_id, :class => 'number_field'
+  .control-group
+    = f.label :city_id, :class => 'control-label'
+    .controls
+      = f.number_field :city_id, :class => 'number_field'
+  .control-group
+    = f.label :street_id, :class => 'control-label'
+    .controls
+      = f.number_field :street_id, :class => 'number_field'
+  .control-group
+    = f.label :post_index_id, :class => 'control-label'
+    .controls
+      = f.number_field :post_index_id, :class => 'number_field'
+  .control-group
+    = f.label :branch_id, :class => 'control-label'
+    .controls
+      = f.number_field :branch_id, :class => 'number_field'
+  .form-actions
+    = f.submit nil, :class => 'btn btn-primary'
+    = link_to t('.cancel', :default => t("helpers.links.cancel")), addresses_path, :class => 'btn'

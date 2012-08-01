@@ -1,21 +1,15 @@
 # encoding: utf-8
 = render :partial => "shared/messages"
-#home
-  #home_title.section-title Авторизация
-  %br
-  #login
-    = form_tag user_sessions_path, :method => :post do
-      %table
-        %tr
-          %td.labels
-            %label{ :for => "user_session_username" } Имя пользователя
-          %td.values
-            = text_field_tag "user_session[username]"
-        %tr
-          %td.labels
-            %label{ :for => "user_session_password" } Пароль
-          %td.values
-            = password_field_tag "user_session[password]"
-        %tr
-          %td{ :colspan => 2, :class => "submit" }
-            = submit_tag "Войти", { :id => "login_bt" }
+
+#div.container
+  #div.content
+    #div.row
+      #div.login-form
+        %h2{:style => "margin-bottom: 10px;" } Авторизация
+        = form_tag user_sessions_path, :method => :post do
+          %fieldset
+            #div.control-group
+              = text_field_tag "user_session[username]", nil, { :placeholder => "Имя пользователя" }
+            #div.control-group
+              = text_field_tag "user_session[password]", nil, { :placeholder => "Пароль", :type => "password" }
+            = submit_tag "Войти", { :id => "login_bt", :class =>  "btn primary" }

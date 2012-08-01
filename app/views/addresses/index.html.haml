@@ -1,43 +1,47 @@
-%h1 Listing addresses
-
-%table
-  %tr
-    %th House
-    %th Entrance
-    %th Case
-    %th Stage
-    %th Office
-    %th Cabinet
-    %th Other
-    %th Pavilion
-    %th Litera
-    %th District
-    %th City
-    %th Street
-    %th Post index
-    %th
-    %th
-    %th
-
-  - @addresses.each do |address|
+- model_class = Addres
+.page-header
+  %h1=t '.title', :default => model_class.model_name.human.pluralize
+%table.table.table-striped
+  %thead
     %tr
-      %td= address.house
-      %td= address.entrance
-      %td= address.case
-      %td= address.stage
-      %td= address.office
-      %td= address.cabinet
-      %td= address.other
-      %td= address.pavilion
-      %td= address.litera
-      %td= address.district_id
-      %td= address.city_id
-      %td= address.street_id
-      %td= address.post_index_id
-      %td= link_to 'Show', address
-      %td= link_to 'Edit', edit_address_path(address)
-      %td= link_to 'Destroy', address, :confirm => 'Are you sure?', :method => :delete
+      %th= model_class.human_attribute_name(:id)
+      %th= model_class.human_attribute_name(:house)
+      %th= model_class.human_attribute_name(:entrance)
+      %th= model_class.human_attribute_name(:case)
+      %th= model_class.human_attribute_name(:stage)
+      %th= model_class.human_attribute_name(:office)
+      %th= model_class.human_attribute_name(:cabinet)
+      %th= model_class.human_attribute_name(:other)
+      %th= model_class.human_attribute_name(:pavilion)
+      %th= model_class.human_attribute_name(:litera)
+      %th= model_class.human_attribute_name(:district_id)
+      %th= model_class.human_attribute_name(:city_id)
+      %th= model_class.human_attribute_name(:street_id)
+      %th= model_class.human_attribute_name(:post_index_id)
+      %th= model_class.human_attribute_name(:branch_id)
+      %th= model_class.human_attribute_name(:created_at)
+      %th=t '.actions', :default => t("helpers.actions")
+  %tbody
+    - @addresses.each do |address|
+      %tr
+        %td= link_to address.id, address_path(address)
+        %td= address.house
+        %td= address.entrance
+        %td= address.case
+        %td= address.stage
+        %td= address.office
+        %td= address.cabinet
+        %td= address.other
+        %td= address.pavilion
+        %td= address.litera
+        %td= address.district_id
+        %td= address.city_id
+        %td= address.street_id
+        %td= address.post_index_id
+        %td= address.branch_id
+        %td=l address.created_at
+        %td
+          = link_to t('.edit', :default => t("helpers.links.edit")), edit_address_path(address), :class => 'btn btn-mini'
+          = link_to t('.destroy', :default => t("helpers.links.destroy")), address_path(address), :method => :delete, :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')), :class => 'btn btn-mini btn-danger'
 
-%br
-
-= link_to 'New Address', new_address_path
+= link_to t('.new', :default => t("helpers.links.new")), new_address_path, :class => 'btn btn-primary'
