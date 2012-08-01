@@ -1,4 +1,5 @@
-= form_for @contract, :html => { :class => 'form-horizontal' } do |f|
+-form_params = @company ? [@company, @contract] : @contract
+= form_for form_params, :html => { :class => 'form-horizontal' } do |f|
   .control-group
     = f.label :contract_status_id, :class => 'control-label'
     .controls
@@ -44,5 +45,5 @@
     .controls
       = f.number_field :company_id, :class => 'number_field'
   .form-actions
-    = f.submit nil, :class => 'btn btn-primary'
-    = link_to t('.cancel', :default => t("helpers.links.cancel")), contracts_path, :class => 'btn'
+    = f.submit "Сохранить", :class => 'btn btn-primary'
+    = link_to "Отмена", company_path(@company), :class => 'btn'
