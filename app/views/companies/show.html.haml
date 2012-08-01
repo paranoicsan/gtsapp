@@ -11,53 +11,65 @@
     .span4
       .well
         %h3.well-title Информация
+        %table.table.table-condensed
+          %tbody
+            %tr
+              %td
+                %p.tl.t-cell-label Статус:
+              %td
+                - if @company.company_status
+                  = @company.company_status.name
+                - else
+                  Нет статуса
+            %tr
+              %td
+                %p.tl.t-cell-label Добавлена:
+              %td
+                - if @company.date_added
+                  = @company.date_added.strftime("%d.%m.%Y %H:%M")
+                  = @company.author_name
+            %tr
+              %td
+                %p.tl.t-cell-label Изменена:
+              %td
+                = @company.updated_at.strftime("%d.%m.%Y %H:%M")
+                = @company.editor_name
+            %tr
+              %td
+                %p.tl.t-cell-label Рубрикатор:
+              %td
+                = @company.rubricator_name
+            %tr
+              %td
+                %p.tl.t-cell-label Источник:
+              %td
+                =@company.source_name
+              -if @company.from_agent?
+                %tr
+                  %td
+                    %p.tl.t-cell-label Агент:
+                  %td= @company.agent_name
 
-        #company_status.control-group
-          Статус:
-          - if @company.company_status
-            = @company.company_status.name
-          - else
-            Нет статуса
-        .control-group
-          Добавлена:
-          - if @company.date_added
-            = @company.date_added.strftime("%d.%m.%Y")
-            = @company.author_name
-        .control-group
-          Изменена:
-          = @company.updated_at.strftime("%d.%m.%Y %H:%M")
-          = @company.editor_name
-        .control-group
-          Рубрикатор:
-          = @company.rubricator_name
-        .control-group
-          Источник:
-          =@company.source_name
-        -if @company.from_agent?
-          .control-group
-            Агент:
-            =@company.agent_name
+        .form-inline
+          -if (@current_user.is_admin? || @current_user.is_operator?) && !@company.active?
+            %a{ :href => activate_company_path(@company), :class => "btn btn-small btn-success"}
+              %i.icon-ok.icon-white
+              Активировать
+          = link_to "Изменить", edit_company_path(@company), :class => 'btn btn-small'
+          = link_to "Удалить", company_path(@company), :method => "delete", :confirm => "Вы уверены?", :class => 'btn btn-danger btn-small'
 
-        .form-actions
-          = link_to t('.back', :default => t("helpers.links.back")), companies_path, :class => 'btn'
-          = link_to t('.edit', :default => t("helpers.links.edit")), edit_company_path(@company), :class => 'btn'
-          = link_to t('.destroy', :default => t("helpers.links.destroy")), company_path(@company), :method => "delete", :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')), :class => 'btn btn-danger'
 
-        -if (@current_user.is_admin? || @current_user.is_operator?) && !@company.active?
-          = link_to 'Активировать', activate_company_path(@company)
-          \|
-        = link_to 'Изменить', edit_company_path(@company)
-        \|
-        = link_to 'Назад', companies_path
 
     .span8
       .well
-        %h3.well-title Рубрики
+        %h3.well-title
+          Рубрики
+          %small Выберите из списка, чтобы добавить
         %p
-          %div
+          .form-inline
             = select_tag("select_rubrics", options_for_select(Rubric.by_rubricator(@company.rubricator).collect{ |s| [s.name, s.id] }),
             {:prompt => "Выберите рубрику", :onChange => "onRubSelect()", :id => "select_rubrics_id"})
-            = link_to "Добавить рубрику", "#", :id => "add_rub_link", :remote => true,
+            = link_to "Добавить рубрику", "#", :id => "add_rub_link", :remote => true, :class => "btn btn-small",
             :onClick => "$('select option:first').attr('selected','1');"
             %hr
             :javascript
@@ -71,7 +83,7 @@
       .well
         %h3.well-title Договоры
 
-        %p= link_to 'Создать договор', new_company_contract_path(@company)
+        %p= link_to 'Создать', new_company_contract_path(@company), class: "btn btn-mini"
 
         -if @company.contracts.count > 0
           -# | number | project_code | date_sign  | amount | contract_status_id |
@@ -96,6 +108,9 @@
                       \|
                       =link_to 'Активировать', activate_contract_path(contract),
                       :class => 'btn btn-success btn-mini'
+                    %a{ :href => edit_contract_path(contract), :class => "btn btn-small"}
+                      %i.icon-edit.icon-white
+                      Изменить
                     %a{ :href => contract_path(contract), :class => "btn btn-danger btn-small",
                     "data-confirm" => "Вы уверены?",  "data-method" => "delete", :rel => "nofollow" }
                       %i.icon-trash.icon-white
@@ -109,9 +124,10 @@
   .row-fluid
     .span12
       .well
-        %h3.well-title Филиалы
+        %h3.well-title
+          Филиалы
 
-        %p= link_to 'Добавить филиал', new_company_branch_path(@company)
+        %p= link_to 'Создать', new_company_branch_path(@company), class: "btn btn-mini"
 
         %table#branches.table.table-striped
           %tr
@@ -124,8 +140,10 @@
               %td= link_to branch.formatted_name, branch_path(branch)
               %td
                 -unless branch.is_main?
-                  = link_to 'Сделать головным', branch_make_main_path(branch), class: "btn btn-small btn-primary"
-
+                  = link_to 'Сделать головным', branch_make_main_path(branch), class: "btn btn-small"
+                %a{ :href => edit_branch_path(branch), :class => "btn btn-small"}
+                  %i.icon-edit.icon-white
+                  Изменить
                 %a{ :href => branch_path(branch), :class => "btn btn-danger btn-small",
                 "data-confirm" => "Вы уверены?",  "data-method" => "delete", :rel => "nofollow" }
                   %i.icon-trash.icon-white

@@ -9,5 +9,11 @@
     color: red;
 }
 .well-title {
-    padding-bottom: 5px;
+    padding-bottom: 15px;
+}
+.tl {
+    text-align: right;
+}
+.t-cell-label {
+    color: #999999;
 }
