@@ -5,7 +5,6 @@
   - if flash[:error]
     #warning
       Ошибка:
-      %br
       - if flash[:error].is_a?(Array)
         - flash[:error].each do |msg|
           = msg

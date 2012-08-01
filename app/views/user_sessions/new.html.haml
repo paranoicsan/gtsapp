@@ -1,10 +1,10 @@
-# encoding: utf-8
-= render :partial => "shared/messages"
-
-#div.container
+#div.container.login-container
   #div.content
     #div.row
       #div.login-form
+
+        = render :partial => 'shared/messages'
+
         %h2{:style => "margin-bottom: 10px;" } Авторизация
         = form_tag user_sessions_path, :method => :post do
           %fieldset
