@@ -1,38 +1,49 @@
 # encoding: utf-8
 = render :partial => "shared/messages"
 
-%h1.section-title#title
-  Сводка
+.page-header
+  %h1
+    Сводка
+    %p
+      %small Объекты, требующие внимания
 
-%h2.dashboard_title Компании на рассмотрении
-%table#suspended_companies_list.sub-index
-  %tbody
-    %tr
-      %th Название
-      %th Добавлена
-      %th Операции
-    - if @suspended_companies
-      - @suspended_companies.each do |company|
-        %tr
-          %td= link_to company.title, company_path(company)
-          %td
-            = company.date_added.strftime("%d.%m.%Y")
-            = company.author_name
-          %td
-            -if current_user.is_admin? || current_user.is_operator?
-              = link_to "Активировать", activate_company_path(company)
+.container-fluid
+  .row-fluid
+    .span6
+      .well
+        %h3 Компании на рассмотрении
+        %br
+        %table.table.table-striped
+          %tbody
+            %tr
+              %th Название
+              %th Добавлена
+              %th Операции
+            - if @suspended_companies
+              - @suspended_companies.each do |company|
+                %tr
+                  %td= link_to company.title, company_path(company)
+                  %td
+                    = company.date_added.strftime("%d.%m.%Y")
+                    = company.author_name
+                  %td
+                    -if current_user.is_admin? || current_user.is_operator?
+                      = link_to "Активировать", activate_company_path(company), class: "btn btn-mini btn-success"
 
-= will_paginate @suspended_companies
+        = will_paginate @suspended_companies, inner_window: 1, outer_window: 1
 
--if current_user.is_admin? && @suspended_contracts.any?
-  %h2.dashboard_title Договора на рассмотрении
-  %table#suspended_contracts_list.sub-index
-    %tr
-      %th Номер
-      %th Компания
-      %th
-      - @suspended_contracts.each do |contract|
-        %tr
-          %td= link_to contract.number, contract_path(contract)
-          %td= link_to contract.company.title, company_path(contract.company)
-          %td= link_to 'Активировать', activate_contract_path(contract)
+    .span6
+      -if current_user.is_admin? && @suspended_contracts.any?
+        .well
+          %h3 Договора на рассмотрении
+          %br
+          %table.table.table-stripped
+            %tr
+              %th Номер
+              %th Компания
+              %th Операции
+              - @suspended_contracts.each do |contract|
+                %tr
+                  %td= link_to contract.number, contract_path(contract)
+                  %td= link_to contract.company.title, company_path(contract.company)
+                  %td= link_to 'Активировать', activate_contract_path(contract), class: "btn btn-mini btn-success"
