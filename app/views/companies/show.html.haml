@@ -55,7 +55,6 @@
         %h3.well-title Рубрики
         %p
           %div
-            Рубрики
             = select_tag("select_rubrics", options_for_select(Rubric.by_rubricator(@company.rubricator).collect{ |s| [s.name, s.id] }),
             {:prompt => "Выберите рубрику", :onChange => "onRubSelect()", :id => "select_rubrics_id"})
             = link_to "Добавить рубрику", "#", :id => "add_rub_link", :remote => true,
@@ -66,6 +65,9 @@
 
             #rubrics_list
               = render :partial => "rubrics_list"
+
+  .row-fluid
+    .span12
       .well
         %h3.well-title Договоры
 
@@ -73,7 +75,7 @@
 
         -if @company.contracts.count > 0
           -# | number | project_code | date_sign  | amount | contract_status_id |
-          %table#contracts.table.table-striped.table-condensed
+          %table#contracts.table.table-striped
             %tr
               %th №
               %th Проект
@@ -94,14 +96,12 @@
                       \|
                       =link_to 'Активировать', activate_contract_path(contract),
                       :class => 'btn btn-success btn-mini'
-                    %a{ :href => contract_path(contract), :class => "btn btn-danger btn-mini",
+                    %a{ :href => contract_path(contract), :class => "btn btn-danger btn-small",
                     "data-confirm" => "Вы уверены?",  "data-method" => "delete", :rel => "nofollow" }
                       %i.icon-trash.icon-white
                       Удалить
                 -else
                   %td
-
-          %p= link_to 'Создать договор', new_company_contract_path(@company)
 
         -else
           Договоров нет.
@@ -115,24 +115,19 @@
 
         %table#branches.table.table-striped
           %tr
-            %th
-            %th Форма собственности
-            %th Фактическое название
-            %th Юридическое название
-            %th Адрес
-            %th
+            %th Головной
+            %th Информация
+            %th Операции
           -@company.branches_sorted.each do |branch|
             %tr
-              %td= branch.is_main? ? "Головной филиал" : ""
-              %td= branch.form_type.name
-              %td= link_to branch.fact_name, branch_path(branch)
-              %td= branch.legel_name
-              %td= branch.address.full_address if branch.address
+              %td= check_box_tag("cb_branch_main", 1, branch.is_main?, { :disabled => "disabled" })
+              %td= link_to branch.formatted_name, branch_path(branch)
               %td
-                = link_to 'Удалить', branch, :confirm => 'Вы уверены?', :method => :delete
                 -unless branch.is_main?
-                  \|
-                  = link_to 'Сделать головным', branch_make_main_path(branch)
+                  = link_to 'Сделать головным', branch_make_main_path(branch), class: "btn btn-small btn-primary"
 
-        %p= link_to 'Добавить филиал', new_company_branch_path(@company)
+                %a{ :href => branch_path(branch), :class => "btn btn-danger btn-small",
+                "data-confirm" => "Вы уверены?",  "data-method" => "delete", :rel => "nofollow" }
+                  %i.icon-trash.icon-white
+                  Удалить
 

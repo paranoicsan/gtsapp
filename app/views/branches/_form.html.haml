@@ -1,4 +1,5 @@
-= form_for @branch, :html => { :class => 'form-horizontal' } do |f|
+-form_params = @company ? [@company, @branch] : @branch
+= form_for form_params, :html => { :class => 'form-horizontal' } do |f|
   .control-group
     = f.label :form_type_id, :class => 'control-label'
     .controls
@@ -25,4 +26,4 @@
       = f.check_box :is_main, :class => 'check_box'
   .form-actions
     = f.submit nil, :class => 'btn btn-primary'
-    = link_to t('.cancel', :default => t("helpers.links.cancel")), branches_path, :class => 'btn'
+    = link_to t('.cancel', :default => t("helpers.links.cancel")), company_path(@company), :class => 'btn'

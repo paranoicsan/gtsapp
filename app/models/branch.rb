@@ -32,4 +32,18 @@ class Branch < ActiveRecord::Base
       b.save
     end
   end
+
+  def formatted_name
+    res = ''
+    params = {
+      ft: self.form_type ? self.form_type.name : '',
+      fn: self.fact_name? ? self.fact_name : '',
+      ln: self.legel_name? ? self.legel_name : '',
+      ad: self.address ? self.address.full_address : ''
+    }
+    params.each_value do |p|
+      res = res + p + ' ' if p.length > 0
+    end
+    res.strip
+  end
 end
