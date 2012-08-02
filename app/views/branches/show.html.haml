@@ -63,10 +63,11 @@
         = link_to 'Добавить адрес', new_branch_address_path(@branch), class: 'btn btn-small'
       -else
         = link_to 'Изменить адрес', edit_address_path(@branch.address), class: 'btn btn-small'
-        \|
         = link_to 'Удалить адрес', @branch.address, :confirm => 'Вы уверены?', :method => :delete, class: 'btn btn-small'
-        %p
-          = @branch.address.full_address
+      %br
+      %br
+
+      %p= @branch.address.full_address
   .row-fluid
     .span12.well
       %h3 Телефоны

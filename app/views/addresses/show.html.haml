@@ -1,65 +1,8 @@
-- model_class = Addres
+
+= render :partial => "shared/messages"
+
 .page-header
-  %h1=t '.title', :default => model_class.model_name.human
+  %h1 Адрес
 
-%p
-  %strong= model_class.human_attribute_name(:house) + ':'
-  %br
-  = @address.house
-%p
-  %strong= model_class.human_attribute_name(:entrance) + ':'
-  %br
-  = @address.entrance
-%p
-  %strong= model_class.human_attribute_name(:case) + ':'
-  %br
-  = @address.case
-%p
-  %strong= model_class.human_attribute_name(:stage) + ':'
-  %br
-  = @address.stage
-%p
-  %strong= model_class.human_attribute_name(:office) + ':'
-  %br
-  = @address.office
-%p
-  %strong= model_class.human_attribute_name(:cabinet) + ':'
-  %br
-  = @address.cabinet
-%p
-  %strong= model_class.human_attribute_name(:other) + ':'
-  %br
-  = @address.other
-%p
-  %strong= model_class.human_attribute_name(:pavilion) + ':'
-  %br
-  = @address.pavilion
-%p
-  %strong= model_class.human_attribute_name(:litera) + ':'
-  %br
-  = @address.litera
-%p
-  %strong= model_class.human_attribute_name(:district_id) + ':'
-  %br
-  = @address.district_id
-%p
-  %strong= model_class.human_attribute_name(:city_id) + ':'
-  %br
-  = @address.city_id
-%p
-  %strong= model_class.human_attribute_name(:street_id) + ':'
-  %br
-  = @address.street_id
-%p
-  %strong= model_class.human_attribute_name(:post_index_id) + ':'
-  %br
-  = @address.post_index_id
-%p
-  %strong= model_class.human_attribute_name(:branch_id) + ':'
-  %br
-  = @address.branch_id
+= render "shared/show_address_fields"
 
-.form-actions
-  = link_to t('.back', :default => t("helpers.links.back")), addresses_path, :class => 'btn'
-  = link_to t('.edit', :default => t("helpers.links.edit")), edit_address_path(@address), :class => 'btn'
-  = link_to t('.destroy', :default => t("helpers.links.destroy")), address_path(@address), :method => "delete", :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')), :class => 'btn btn-danger'

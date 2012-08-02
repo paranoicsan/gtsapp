@@ -1,8 +1,9 @@
 # encoding: utf-8
 = render :partial => "shared/messages"
 
-%h1.section-title#title
-  Поиск
+.page-header
+  %h1
+    Поиск
 
 %div
   = form_tag search_company_path, {:remote => true, :method => :post} do
