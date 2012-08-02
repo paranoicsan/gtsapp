@@ -12,8 +12,6 @@
     .controls
       = f.select(:form_type_id, options_for_select(FormType.all.collect{ |ftype| [ftype.name, ftype.id] },
       @branch.form_type_id), {}, {class: 'select_field input-xlarge'})
-
-
   .control-group
     = f.label :fact_name, 'Фактическое название', :class => 'control-label'
     .controls
@@ -28,4 +26,5 @@
       = f.text_area :comments, :class => 'text_area input-xlarge', :rows => 3
   .form-actions
     = f.submit 'Сохранить', :class => 'btn btn-primary'
-    = link_to 'Отмена', company_path(@company), :class => 'btn'
+    - path = @company ? company_path(@company) : company_path(@branch.company)
+    = link_to 'Отмена', path, :class => 'btn'
