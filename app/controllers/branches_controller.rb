@@ -6,11 +6,14 @@ class BranchesController < ApplicationController
   before_filter :get_company
 
   def index
-    @branches = Branch.all
+    # Не обрабатывается
+    #@branches = Branch.all
 
     respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @branches }
+      #format.html # index.html.erb
+      #format.json { render json: @branches }
+      format.html { redirect_to root_path }
+      format.json { head :ok }
     end
   end
 
