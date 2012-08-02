@@ -62,6 +62,6 @@
       = f.text_field :litera
   .form-actions
     = f.submit 'Сохранить', :class => 'btn btn-primary'
-    - path = @branch ? company_path(@branch) : address_path_path(@address)
+    - path = @branch ? branch_path(@branch) : address_path_path(@address)
     = link_to 'Отмена', path, :class => 'btn'
 
