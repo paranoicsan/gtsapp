@@ -50,13 +50,14 @@
                     %p.tl.t-cell-label Агент:
                   %td= @company.agent_name
 
-        .form-inline
-          -if (@current_user.is_admin? || @current_user.is_operator?) && !@company.active?
-            %a{ :href => activate_company_path(@company), :class => "btn btn-small btn-success"}
-              %i.icon-ok.icon-white
-              Активировать
-          = link_to "Изменить", edit_company_path(@company), :class => 'btn btn-small'
-          = link_to "Удалить", company_path(@company), :method => "delete", :confirm => "Вы уверены?", :class => 'btn btn-danger btn-small'
+        %div{style: "text-align: center;"}
+          .form-inline
+            -if (@current_user.is_admin? || @current_user.is_operator?) && !@company.active?
+              %a{ :href => activate_company_path(@company), :class => "btn btn-small btn-success"}
+                %i.icon-ok.icon-white
+                Активировать
+            = link_to "Изменить", edit_company_path(@company), :class => 'btn btn-small'
+            = link_to "Удалить", company_path(@company), :method => "delete", :confirm => "Вы уверены?", :class => 'btn btn-danger btn-small'
 
 
 
