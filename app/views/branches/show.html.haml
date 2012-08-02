@@ -55,48 +55,47 @@
       #emails_list
         = render :partial => "emails_list"
 
+  .row-fluid
+    .span12.well
+      %h3 Адрес
 
-%h2 Адрес
+      -if @branch.address.is_a?(NilClass)
+        = link_to 'Добавить адрес', new_branch_address_path(@branch), class: 'btn btn-small'
+      -else
+        = link_to 'Изменить адрес', edit_address_path(@branch.address), class: 'btn btn-small'
+        \|
+        = link_to 'Удалить адрес', @branch.address, :confirm => 'Вы уверены?', :method => :delete, class: 'btn btn-small'
+        %p
+          = @branch.address.full_address
+  .row-fluid
+    .span12.well
+      %h3 Телефоны
 
--if @branch.address.is_a?(NilClass)
-  = link_to 'Добавить адрес', new_branch_address_path(@branch)
--else
-  = link_to 'Изменить адрес', edit_address_path(@branch.address)
-  \|
-  = link_to 'Удалить адрес', @branch.address, :confirm => 'Вы уверены?', :method => :delete
-  %p
-    = @branch.address.full_address
+      = link_to 'Добавить телефон', new_branch_phone_path(@branch), class: 'btn btn-small'
 
-%h2 Телефоны
-
-= link_to 'Добавить телефон', new_branch_phone_path(@branch)
-
-%table#phones.sub-index
-  -if @branch.phones.count > 0
-    %tr
-      %th № телефона
-      %th Мобильный?
-      %th Префикс моб. оператора
-      %th Контактный?
-      %th Директор?
-      %th Факс?
-      %th Порядок
-      %th Для печати?
-      %th
-      %th
-    -@branch.phones.each do |phone|
-      %tr
-        %td= phone.name
-        %td= check_box_tag("cb_mobile", 1, phone.mobile?, { :disabled => "disabled" })
-        %td= phone.mobile_refix.to_s
-        %td= check_box_tag("cb_contact", 1, phone.contact?, { :disabled => "disabled" })
-        %td= check_box_tag("cb_director", 1, phone.director?, { :disabled => "disabled" })
-        %td= check_box_tag("cb_fax", 1, phone.fax?, { :disabled => "disabled" })
-        %td= phone.order_num.to_s
-        %td= check_box_tag("cb_publishable", 1, phone.publishable?, { :disabled => "disabled" })
-        %td= link_to 'Изменить', edit_phone_path(phone)
-        %td= link_to 'Удалить', phone, :confirm => 'Вы уверены?', :method => :delete
-  -else
-    %tr
-      %td Телефонов нет.
+      %table#phones.sub-index
+        -if @branch.phones.count > 0
+          %tr
+            %th № телефона
+            %th Мобильный?
+            %th Префикс моб. оператора
+            %th Контактный?
+            %th Директор?
+            %th Факс?
+            %th Порядок
+            %th Для печати?
+            %th
+            %th
+          -@branch.phones.each do |phone|
+            %tr
+              %td= phone.name
+              %td= check_box_tag("cb_mobile", 1, phone.mobile?, { :disabled => "disabled" })
+              %td= phone.mobile_refix.to_s
+              %td= check_box_tag("cb_contact", 1, phone.contact?, { :disabled => "disabled" })
+              %td= check_box_tag("cb_director", 1, phone.director?, { :disabled => "disabled" })
+              %td= check_box_tag("cb_fax", 1, phone.fax?, { :disabled => "disabled" })
+              %td= phone.order_num.to_s
+              %td= check_box_tag("cb_publishable", 1, phone.publishable?, { :disabled => "disabled" })
+              %td= link_to 'Изменить', edit_phone_path(phone)
+              %td= link_to 'Удалить', phone, :confirm => 'Вы уверены?', :method => :delete
 
