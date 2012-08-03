@@ -45,6 +45,8 @@ When /^Я перехожу на страницу "([^"]*)"$/ do |title|
     when "Компании"
       #noinspection RubyResolve
       visit companies_path
+    when "Поиск"
+      visit search_path
     else
       assert false, "Неизвестный путь."
   end
@@ -73,4 +75,9 @@ end
 
 When /^Я нажимаю на кнопку с именем "([^"]*)"$/ do |button_text|
   click_button button_text
+end
+
+When /^Я нажимаю на ссылку по ID "([^"]*)"$/ do |link_id|
+  page.should have_selector(link_id)
+  #page.click_link("a[@id='#{link_id}']")
 end
