@@ -54,34 +54,28 @@
     .span8.well
       %h3.well-title Телефоны
 
-      = link_to 'Добавить телефон', new_branch_phone_path(@branch), class: 'btn btn-small'
+      %p= link_to 'Добавить', new_branch_phone_path(@branch), class: 'btn btn-mini'
 
-      %table#phones.sub-index
+      %table.table.table-striped.table-condensed
         -if @branch.phones.count > 0
           %tr
-            %th № телефона
-            %th Мобильный?
-            %th Префикс моб. оператора
-            %th Контактный?
-            %th Директор?
-            %th Факс?
-            %th Порядок
-            %th Для печати?
+            %th
+            %th В печать?
             %th
             %th
           -@branch.phones.each do |phone|
             %tr
-              %td= phone.name
-              %td= check_box_tag("cb_mobile", 1, phone.mobile?, { :disabled => "disabled" })
-              %td= phone.mobile_refix.to_s
-              %td= check_box_tag("cb_contact", 1, phone.contact?, { :disabled => "disabled" })
-              %td= check_box_tag("cb_director", 1, phone.director?, { :disabled => "disabled" })
-              %td= check_box_tag("cb_fax", 1, phone.fax?, { :disabled => "disabled" })
               %td= phone.order_num.to_s
               %td= check_box_tag("cb_publishable", 1, phone.publishable?, { :disabled => "disabled" })
-              %td= link_to 'Изменить', edit_phone_path(phone)
-              %td= link_to 'Удалить', phone, :confirm => 'Вы уверены?', :method => :delete
+              %td= phone.name
+              %td
+                = link_to 'Изменить', edit_phone_path(phone), class: "btn btn-mini"
+                = link_to 'Удалить', phone, :confirm => 'Вы уверены?', :method => :delete, :class => "btn btn-mini"
 
+
+
+
+  .row-fluid
     .span4.well
       %h3.well-title Веб-сайты
       = form_tag branch_add_website_path(@branch), {:remote => true, :method => :post, class: "form-inline"} do
@@ -89,6 +83,7 @@
         = submit_tag "Добавить", {id: "branch_add_website", :class => "btn btn-small"}
       #websites_list
         = render :partial => "websites_list"
+
     .span4.well
       %h3.well-title Электронная почта
       = form_tag branch_add_email_path(@branch), {:remote => true, :method => :post, class: "form-inline"} do

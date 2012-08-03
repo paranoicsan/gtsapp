@@ -1,5 +1,5 @@
 -form_params = @branch ? [@branch, @phone] : @phone
-= form_for (form_params),:html => { :class => 'form-horizontal' } do |f|
+= form_for (form_params),:html => { :class => 'well form-inline' } do |f|
   -if @phone.errors.any?
     #error_explanation
       %h2= "#{pluralize(@phone.errors.count, "error")} prohibited this phone from being saved:"
@@ -7,30 +7,38 @@
         - @phone.errors.full_messages.each do |msg|
           %li= msg
 
-  .field
-    = f.label :name, '№ телефона'
-    = f.text_field :name
-  .field
-    = f.label :order_num, 'Порядок отображения'
-    = f.number_field :order_num
-  .field
-    = f.label :mobile, 'Мобильный'
-    = f.check_box :mobile
-  .field
-    = f.label :mobile_refix, 'Префикс мобильного оператора'
-    = f.text_field :mobile_refix
-  .field
-    = f.label :publishable, 'В печать'
-    = f.check_box :publishable
-  .field
-    = f.label :fax, 'Факс'
-    = f.check_box :fax
-  .field
-    = f.label :director, 'Директор'
-    = f.check_box :director
-  .field
-    = f.label :contact, 'Контактный'
-    = f.check_box :contact
+  .control-group
+    = f.label :name, '№ телефона', :class => 'control-label'
+    .controls
+      = f.text_field :name
+  .control-group
+    = f.label :order_num, 'Порядок отображения', :class => 'control-label'
+    .controls
+      = f.number_field :order_num
+  .control-group
+    = f.label :mobile, 'Мобильный', :class => 'control-label'
+    .controls
+      = f.check_box :mobile
+  .control-group
+    = f.label :mobile_refix, 'Префикс мобильного оператора', :class => 'control-label'
+    .controls
+      = f.text_field :mobile_refix
+  .control-group
+    = f.label :publishable, 'В печать', :class => 'control-label'
+    .controls
+      = f.check_box :publishable
+  .control-group
+    = f.label :fax, 'Факс', :class => 'control-label'
+    .controls
+      = f.check_box :fax
+  .control-group
+    = f.label :director, 'Директор', :class => 'control-label'
+    .controls
+      = f.check_box :director
+  .control-group
+    = f.label :contact, 'Контактный', :class => 'control-label'
+    .controls
+      = f.check_box :contact
   .form-actions
     = f.submit 'Сохранить', :class => 'btn btn-primary'
     = link_to 'Отмена', branch_path(@branch), :class => 'btn'

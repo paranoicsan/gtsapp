@@ -3,19 +3,16 @@
     -#Ошибка:
     = flash[:website_error]
     -flash[:website_error] = ""
-%table#websites.sub-index.websites_list
-  %tr
-    %th Веб-сайт
-    %th{:width => "20%" }
-  -if @branch.websites.count > 0
-    -@branch.websites.each do |ws|
-      %tr
-        %td= ws.name
-        %td
-          -unless @current_user.is_agent?
-            =link_to "Удалить", branch_delete_website_path(@branch, ws), :confirm => 'Вы уверены?', :remote => true
 
-  -else
-    %tr
-      %td{:colspan => 2}
-        Нет данных
+  -if @branch.websites.count > 0
+    %table.table.table-condensed.table-striped
+      %tr
+        %th Веб-сайт
+        %th{:width => "20%" }
+      -@branch.websites.each do |ws|
+        %tr
+          %td= ws.name
+          %td
+            -unless @current_user.is_agent?
+              =link_to "Удалить", branch_delete_website_path(@branch, ws), :confirm => 'Вы уверены?', :remote => true,
+              :class => "btn btn-mini"

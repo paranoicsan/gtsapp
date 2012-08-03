@@ -68,7 +68,7 @@ class PhonesController < ApplicationController
 
     respond_to do |format|
       if @phone.update_attributes(params[:phone])
-        format.html { redirect_to @phone, notice: 'Телефон изменён.' }
+        format.html { redirect_to @branch, notice: 'Телефон изменён.' }
         format.json { head :ok }
       else
         format.html { render action: "edit" }
