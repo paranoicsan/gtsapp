@@ -49,7 +49,9 @@ Then /^Я удаляю адрес на странице филиала "([^"]*)"
   branch = find_branch(bname, cname)
   #noinspection RubyResolve
   visit branch_path branch
-  click_link "Удалить адрес"
+  #noinspection RubyResolve
+  s = address_path(branch.address)
+  find("a[href='#{s}'][text()='Удалить']").click
 end
 When /^Я вижу ссылку "([^"]*)"$/ do |link_name|
   page.should have_content link_name
@@ -58,7 +60,9 @@ When /^Я изменяю его со следующей информацией$/
   # table is a |a1     |a2  |a3      |a4   |a5    |a6    |a7   |a8      |a9   |pending
   #noinspection RubyResolve
   visit branch_path @branch
-  click_link "Изменить адрес"
+  #noinspection RubyResolve
+  s = edit_address_path(@branch.address)
+  find("a[href='#{s}']").click
   table.hashes.each do |info|
     @edited_info = info # Сохраняем новую информацию для следующей проверки
 
