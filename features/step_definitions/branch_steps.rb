@@ -4,7 +4,7 @@ When /^Я создаю филиал с фактическим названием
   @company = Company.find_by_title cname
   #noinspection RubyResolve
   visit company_path @company
-  click_link "Добавить филиал"
+  find("a[href='#{new_company_branch_path(@company)}'][text()='Создать']").click
   fill_in "branch_legel_name", :with => "Legel name - #{bname}"
   fill_in "branch_fact_name", :with => bname
   select "МУП", :from => "branch_form_type_id"
@@ -111,15 +111,15 @@ When /^Я выбираю в качестве головного филиал с 
   @branch = Branch.find_by_fact_name bname
 
   # Ищем ячейку с операциями для филиала по указанному факт. названию
-  within :xpath, "//table[@id='branches']/*[(th|td)/descendant-or-self::*[contains(text(), '#{bname}')]]/td[6]" do
+  within :xpath, "//table[@id='branches']/*[(th|td)/descendant-or-self::*[contains(text(), '#{bname}')]]/td[3]" do
     click_link "Сделать головным"
   end
 end
 Then /^Филиал с факт. название "([^"]*)" находится в первом ряду списка$/ do |bname|
   xpth_row = "//table[@id='branches']/tr[2]" # первый ряд с данными
   within :xpath, xpth_row do
-    find(:xpath, "//td[3]").text.should == bname
-    find(:xpath, "//td[1]").text.should == "Головной филиал"
+    find(:xpath, "//td[2]//text()[contains(., '#{bname}')]")
+    find(:xpath, "//td[1]").has_checked_field?("cb_branch_main")
   end
 end
 
@@ -206,4 +206,10 @@ When /^Я удаляю электронный адрес "([^"]*)" из фили
   s = branch_delete_email_path b, em
   page.find(%{a[href = "#{s}"]}).click
   page.driver.browser.switch_to.alert.accept
+end
+
+When /^"([^"]*)" для компании "([^"]*)" является главным$/ do |bname, cname|
+  b = find_branch bname, cname
+  assert b.is_main? == true, "Филиал не является главным."
+  page.has_checked_field?("cb_branch_main")
 end
