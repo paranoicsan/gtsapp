@@ -28,7 +28,7 @@ When /^Я нахожусь на странице "([^"]*)"$/ do |title|
     else
       assert false, "Неизвестный путь."
   end
-  page.find("#{selector}.section-title").should have_content title
+  page.find("#{selector}").should have_content title
 end
 
 When /^Я перехожу на страницу "([^"]*)"$/ do |title|

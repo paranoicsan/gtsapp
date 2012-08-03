@@ -4,33 +4,34 @@
     %p
       %small Зарегистрированные в каталоге
 
-%div
-  = link_to "Добавить компанию", new_company_path, :class => 'btn'
-%br
-%table.table.table-striped
-  %thead
-    %tr
-      %th Статус
-      %th Название
-      %th Добавлена
-      %th Изменена
-      %th Рубрикатор
-      %th Операции
-  %tbody
-    - @companies.each do |company|
-      %tr
-        %td= company.company_status.name
-        %td= link_to company.title, company
-        %td
-          - if company.date_added
-            = company.date_added.strftime("%d.%m.%Y")
-            = company.author_name
-        %td
-          = company.updated_at.strftime("%d.%m.%Y %H:%M")
-          = company.editor_name
-        %td= company.rubricator_name
-        %td
-          = link_to "Изменить", edit_company_path(company), :class => 'btn btn-mini'
-          = link_to "Удалить", company_path(company), :method => :delete, :confirm => 'Удалить запись?', :class => 'btn btn-mini btn-danger'
+.well
 
-= will_paginate @companies, class: "pagination pagination-centered"
+  %p
+    = link_to "Добавить компанию", new_company_path, :class => 'btn'
+  %table.table.table-striped
+    %thead
+      %tr
+        %th Статус
+        %th Название
+        %th Добавлена
+        %th Изменена
+        %th Рубрикатор
+        %th Операции
+    %tbody
+      - @companies.each do |company|
+        %tr
+          %td= company.company_status.name
+          %td= link_to company.title, company
+          %td
+            - if company.date_added
+              = company.date_added.strftime("%d.%m.%Y")
+              = company.author_name
+          %td
+            = company.updated_at.strftime("%d.%m.%Y %H:%M")
+            = company.editor_name
+          %td= company.rubricator_name
+          %td
+            = link_to "Изменить", edit_company_path(company), :class => 'btn btn-mini'
+            = link_to "Удалить", company_path(company), :method => :delete, :confirm => 'Удалить запись?', :class => 'btn btn-mini btn-danger'
+
+  = will_paginate @companies, class: "pagination pagination-centered"
