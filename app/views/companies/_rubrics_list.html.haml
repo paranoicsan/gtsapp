@@ -1,20 +1,16 @@
-%table#rubrics.table.table-striped.table-condensed
-  %tr
-    %th Наименование
-    %th Социальная?
-    %th Операции
-  -if @company.rubrics.count > 0
+
+-if @company.rubrics.count > 0
+  %table#rubrics.table.table-striped.table-condensed
+    %tr
+      %th Наименование
+      %th Социальная?
+      %th Операции
     -@company.rubrics.each do |rub|
       %tr
         %td= rub.name
         %td= check_box_tag("social", 1, rub.social?, { :disabled => "disabled" })
         %td
-          %a.btn.btn-danger.btn-mini{"href" => company_delete_rubric_path(@company, rub), "data-remote" => "true",
+          %a.btn.btn-mini{"href" => company_delete_rubric_path(@company, rub), "data-remote" => "true",
           "data-confirm" => "Вы уверены?"}
             %i.icon-trash.icon-white
             Удалить
-
-  -else
-    %tr
-      %td{:colspan => 3}
-        Рубрик не назначено.

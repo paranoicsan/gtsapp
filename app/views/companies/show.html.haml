@@ -72,7 +72,6 @@
             {:prompt => "Выберите рубрику", :onChange => "onRubSelect()", :id => "select_rubrics_id"})
             = link_to "Добавить рубрику", "#", :id => "add_rub_link", :remote => true, :class => "btn btn-small",
             :onClick => "$('select option:first').attr('selected','1');"
-            %hr
             :javascript
               gts_company.id = "#{@company.id}";
 
@@ -103,11 +102,11 @@
                       = branch.address.full_address if branch.address
                 %td
                   -unless branch.is_main?
-                    = link_to 'Сделать головным', branch_make_main_path(branch), class: "btn btn-small"
-                  %a{ :href => edit_branch_path(branch), :class => "btn btn-small"}
+                    = link_to 'Сделать головным', branch_make_main_path(branch), class: "btn btn-mini"
+                  %a{ :href => edit_branch_path(branch), :class => "btn btn-mini"}
                     %i.icon-edit.icon-white
                     Изменить
-                  %a{ :href => branch_path(branch), :class => "btn btn-danger btn-small",
+                  %a{ :href => branch_path(branch), :class => "btn btn-mini",
                   "data-confirm" => "Вы уверены?",  "data-method" => "delete", :rel => "nofollow" }
                     %i.icon-trash.icon-white
                     Удалить
@@ -141,13 +140,12 @@
                 -if contract.can_delete?(@current_user)
                   %td
                     -if @current_user.is_admin? && !contract.active?
-                      \|
                       =link_to 'Активировать', activate_contract_path(contract),
                       :class => 'btn btn-success btn-mini'
-                    %a{ :href => edit_contract_path(contract), :class => "btn btn-small"}
+                    %a{ :href => edit_contract_path(contract), :class => "btn btn-mini"}
                       %i.icon-edit.icon-white
                       Изменить
-                    %a{ :href => contract_path(contract), :class => "btn btn-danger btn-small",
+                    %a{ :href => contract_path(contract), :class => "btn btn-mini",
                     "data-confirm" => "Вы уверены?",  "data-method" => "delete", :rel => "nofollow" }
                       %i.icon-trash.icon-white
                       Удалить
