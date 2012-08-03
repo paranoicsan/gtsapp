@@ -56,8 +56,8 @@
 
       %p= link_to 'Добавить', new_branch_phone_path(@branch), class: 'btn btn-mini'
 
-      %table.table.table-striped.table-condensed
-        -if @branch.phones.count > 0
+      -if @branch.phones.count > 0
+        %table.table.table-striped.table-condensed{id: 'phones'}
           %tr
             %th
             %th В печать?

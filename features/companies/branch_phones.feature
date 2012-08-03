@@ -24,9 +24,8 @@ Feature: У филиалов может быть несколько телефо
     When Я создаю телефон с информацией
       |contact|director|fax|mobile|mobile_refix|name|order_num|publishable|
       |true   |true    |true|false|             |521627|1      |true      |
-    Then Я попадаю на страницу созданного телефона
+    Then Я попадаю на страницу филиала "Филиал рогов" компании "Рога и копыта"
     And Я вижу сообщение "Телефон создан. "
-    And Я вижу информацию ведённого телефона
 
   Scenario: Пользователь может удалить телефон со страницы филиала
     Given Я авторизован в системе
@@ -34,8 +33,8 @@ Feature: У филиалов может быть несколько телефо
       |contact|director|fax|mobile|mobile_refix|name|order_num|publishable|
       |true   |true    |true|false|             |521627|1      |true      |
     When Я нахожусь на странице филиала "Филиал рогов" компании "Рога и копыта"
-    And Я удаляю адрес
-    Then Я вижу надпись "Телефонов нет."
+    And Я удаляю телефон
+    Then Я не вижу таблицу "phones"
 
   Scenario: Пользователь может изменить информацию о телефоне со страницы филиала
     Given Я авторизован в системе
@@ -46,7 +45,7 @@ Feature: У филиалов может быть несколько телефо
     And Изменяю телефон новой информацией
       |contact|director|fax|mobile|mobile_refix|name|order_num|publishable|
       |true   |true    |true|true|921           ||2      |false     |
-    Then Я вижу информацию ведённого телефона
+    And Я попадаю на страницу филиала "Филиал рогов" компании "Рога и копыта"
     And Я вижу сообщение "Телефон изменён."
 
   Scenario: Пользователь видит список телефонов на странице филиала
@@ -56,6 +55,6 @@ Feature: У филиалов может быть несколько телефо
       |true   |true    |true|false|             |521627|1      |true       |
     When Я нахожусь на странице филиала "Филиал рогов" компании "Рога и копыта"
     Then Я вижу таблицу "phones" с телефонами
-      | name  | cb_mobile | mobile_prefix | cb_contact | cb_director | cb_fax | order_num | cb_publishable |
-      | 521627| false     |               | true       | true        |true    |1          | true           |
+      | order_num | cb_publishable | name   |
+      | 1         | true           | 521627 |
 

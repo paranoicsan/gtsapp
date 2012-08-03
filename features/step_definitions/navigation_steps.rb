@@ -81,3 +81,7 @@ When /^Я нажимаю на ссылку по ID "([^"]*)"$/ do |link_id|
   page.should have_selector(link_id)
   #page.click_link("a[@id='#{link_id}']")
 end
+Then /^Я попадаю на страницу филиала "([^"]*)" компании "([^"]*)"$/ do |bname, cname|
+  b = find_branch bname, cname
+  current_path.should == branch_path(b)
+end

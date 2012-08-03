@@ -116,3 +116,6 @@ Then /^Я вижу таблицу "([^"]*)" с телефонами$/ do |table_
   # здесь проверяем на количество рядов
   page.should_not have_selector(:xpath, "//table[@id='#{table_id}']/*/tr[#{idx}]")
 end
+When /^Я удаляю телефон$/ do
+  find("a[href='#{phone_path(@phone)}'][text()='Удалить']").click
+end
