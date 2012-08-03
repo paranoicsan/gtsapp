@@ -46,6 +46,7 @@ class AddressesController < ApplicationController
   # GET /addresses/1/edit
   def edit
     @address = find_address params[:id]
+    @branch = @address.branch
   end
 
   # POST /addresses
@@ -56,7 +57,7 @@ class AddressesController < ApplicationController
 
     respond_to do |format|
       if @address.save
-        format.html { redirect_to @branch, notice: 'Адрес добавлен.' }
+        format.html { redirect_to @address.branch, notice: 'Адрес добавлен.' }
         format.json { render json: @address, status: :created, location: @address }
       else
         format.html { render action: "new" }

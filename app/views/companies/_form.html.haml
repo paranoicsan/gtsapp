@@ -1,36 +1,42 @@
-= form_for @company, :html => { :class => 'form-horizontal' } do |f|
+= form_for @company, :html => { :class => 'form-horizontal well' }  do |f|
+  -if @company.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@company.errors.count, "error")} prohibited this company from being saved:"
+      %ul
+        - @company.errors.full_messages.each do |msg|
+          %li= msg
+
   .control-group
-    = f.label :title, :class => 'control-label'
+    = f.label :title, 'Название', :class => 'control-label'
     .controls
-      = f.text_field :title, :class => 'text_field'
+      = f.text_field :title
   .control-group
-    = f.label :date_added, :class => 'control-label'
+    = f.label :date_added, 'Дата добавления', :class => 'control-label'
     .controls
-      = f.date_select :date_added, :class => 'date_select'
+      = f.date_select :date_added
   .control-group
-    = f.label :rubricator, :class => 'control-label'
-    .controls
-      = f.number_field :rubricator, :class => 'number_field'
+    .control-label
+      =f.label 'Социальный', :class => 'control-label'
+      .controls
+        = check_box_tag "company[rubricator][0]", 1, @company.social_rubricator? || @company.full_rubricator?
   .control-group
-    = f.label :company_status_id, :class => 'control-label'
-    .controls
-      = f.number_field :company_status_id, :class => 'number_field'
+    .control-label
+      =f.label 'Коммерческий', :class => 'control-label'
+      .controls
+        = check_box_tag "company[rubricator][1]", 2, @company.commercial_rubricator? || @company.full_rubricator?
   .control-group
-    = f.label :author_user_id, :class => 'control-label'
+    = f.label :company_source_id, 'Источник', :class => 'control-label'
     .controls
-      = f.number_field :author_user_id, :class => 'number_field'
-  .control-group
-    = f.label :editor_user_id, :class => 'control-label'
-    .controls
-      = f.number_field :editor_user_id, :class => 'number_field'
-  .control-group
-    = f.label :company_source_id, :class => 'control-label'
-    .controls
-      = f.number_field :company_source_id, :class => 'number_field'
-  .control-group
-    = f.label :agent_id, :class => 'control-label'
-    .controls
-      = f.number_field :agent_id, :class => 'number_field'
+      = f.select(:company_source_id, options_for_select(CompanySource.all.collect{ |s| [s.name, s.id] },
+        @company.company_source_id), {}, {:onChange => "showHideAgentList(#{CompanySource.from_agent_id})"})
+  %div{ :id => "agent_list",
+        :class => @company.company_source_id == CompanySource.from_agent_id ? "agent_list_visible" : "agent_list_hidden" }
+    .control-group
+      = f.label :agent_id, "Агент", :class => 'control-label'
+      .controls
+        = f.select(:agent_id, options_for_select(User.agents.collect{ |u| [u.username, u.id] },
+        @company.agent_id), {:prompt => "Выберите агента"})
+
   .form-actions
-    = f.submit nil, :class => 'btn btn-primary'
-    = link_to t('.cancel', :default => t("helpers.links.cancel")), companies_path, :class => 'btn'
+    = f.submit "Сохранить", :class => 'btn btn-primary'
+    = link_to "Отмена", companies_path, :class => 'btn'

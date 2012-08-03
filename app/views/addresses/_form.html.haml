@@ -1,5 +1,4 @@
--form_params = @branch ? [@branch, @address] : @address
-= form_for (form_params), :html => { :class => 'well form-horizontal' }  do |f|
+= form_for @address, :html => { :class => 'well form-horizontal' }  do |f|
   -if @address.errors.any?
     #error_explanation
       %h2= "#{pluralize(@address.errors.count, "error")} prohibited this address from being saved:"
