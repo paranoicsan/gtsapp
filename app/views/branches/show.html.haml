@@ -19,16 +19,16 @@
                 %p.tl Головной филиал
           %tr
             %td
-              %p.tl.t-cell-label Форма собственности:
+              %p.tl.t-cell-label Форма собств.:
             %td
               = @branch.form_type.name if @branch.form_type
           %tr
             %td
-              %p.tl.t-cell-label Фактическое название:
+              %p.tl.t-cell-label Факт. название:
             %td= @branch.fact_name
           %tr
             %td
-              %p.tl.t-cell-label Юридическое название:
+              %p.tl.t-cell-label Юр. название:
             %td= @branch.legel_name
           -if @branch.comments
             %tr
@@ -40,41 +40,19 @@
           = link_to "Изменить", edit_branch_path(@branch), :class => 'btn btn-small'
           = link_to "Удалить", company_path(@company), :method => "delete", :confirm => "Вы уверены?", :class => 'btn btn-danger btn-small'
 
-    .span4.well
-      %h3.well-title Веб-сайты
-      = form_tag branch_add_website_path(@branch), {:remote => true, :method => :post, class: "form-inline"} do
-        = text_field_tag "branch_website", "", :placeholder => "http://www.example.com", :size => 70
-        = submit_tag "Добавить", {id: "branch_add_website", :class => "btn btn-small"}
-      #websites_list
-        = render :partial => "websites_list"
-    .span4.well
-      %h3.well-title Электронная почта
-      = form_tag branch_add_email_path(@branch), {:remote => true, :method => :post, class: "form-inline"} do
-        = text_field_tag "branch_email", "", :placeholder => "test@test.com", :size => 70
-        = submit_tag "Добавить", {:id => "branch_add_email", :class => "btn btn-small"}
-      #emails_list
-        = render :partial => "emails_list"
-
-  .row-fluid
-    .span12.well
-      %h3 Адрес
-
-      -if @branch.address.is_a?(NilClass)
+    .span8.well
+      %h3.well-title Адрес
+      -if @branch.address
+        %p
+          =@branch.address.full_address
+        %p
+          = link_to 'Изменить', edit_address_path(@branch.address), class: 'btn btn-mini'
+          = link_to 'Удалить', @branch.address, :confirm => 'Вы уверены?', :method => :delete, class: 'btn btn-mini btn-danger'
+      -else
         = link_to 'Добавить адрес', new_branch_address_path(@branch), class: 'btn btn-small'
 
-      %br
-      %br
-      -if @branch.address
-        %table.table
-          %tbody
-            %tr
-              %td= @branch.address.full_address
-              %td
-                = link_to 'Изменить', edit_address_path(@branch.address), class: 'btn btn-small'
-                = link_to 'Удалить', @branch.address, :confirm => 'Вы уверены?', :method => :delete, class: 'btn btn-small btn-danger'
-  .row-fluid
-    .span12.well
-      %h3 Телефоны
+    .span8.well
+      %h3.well-title Телефоны
 
       = link_to 'Добавить телефон', new_branch_phone_path(@branch), class: 'btn btn-small'
 
@@ -104,3 +82,17 @@
               %td= link_to 'Изменить', edit_phone_path(phone)
               %td= link_to 'Удалить', phone, :confirm => 'Вы уверены?', :method => :delete
 
+    .span4.well
+      %h3.well-title Веб-сайты
+      = form_tag branch_add_website_path(@branch), {:remote => true, :method => :post, class: "form-inline"} do
+        = text_field_tag "branch_website", "", :placeholder => "http://www.example.com", :size => 70
+        = submit_tag "Добавить", {id: "branch_add_website", :class => "btn btn-small"}
+      #websites_list
+        = render :partial => "websites_list"
+    .span4.well
+      %h3.well-title Электронная почта
+      = form_tag branch_add_email_path(@branch), {:remote => true, :method => :post, class: "form-inline"} do
+        = text_field_tag "branch_email", "", :placeholder => "test@test.com", :size => 70
+        = submit_tag "Добавить", {:id => "branch_add_email", :class => "btn btn-small"}
+      #emails_list
+        = render :partial => "emails_list"

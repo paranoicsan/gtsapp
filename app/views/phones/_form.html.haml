@@ -1,48 +1,36 @@
-= form_for @phone, :html => { :class => 'form-horizontal' } do |f|
-  .control-group
-    = f.label :mobile_refix, :class => 'control-label'
-    .controls
-      = f.text_field :mobile_refix, :class => 'text_field'
-  .control-group
-    = f.label :publishable, :class => 'control-label'
-    .controls
-      = f.check_box :publishable, :class => 'check_box'
-  .control-group
-    = f.label :fax, :class => 'control-label'
-    .controls
-      = f.check_box :fax, :class => 'check_box'
-  .control-group
-    = f.label :director, :class => 'control-label'
-    .controls
-      = f.check_box :director, :class => 'check_box'
-  .control-group
-    = f.label :mobile, :class => 'control-label'
-    .controls
-      = f.check_box :mobile, :class => 'check_box'
-  .control-group
-    = f.label :description, :class => 'control-label'
-    .controls
-      = f.text_area :description, :class => 'text_area'
-  .control-group
-    = f.label :name, :class => 'control-label'
-    .controls
-      = f.text_field :name, :class => 'text_field'
-  .control-group
-    = f.label :contact, :class => 'control-label'
-    .controls
-      = f.number_field :contact, :class => 'number_field'
-  .control-group
-    = f.label :order_num, :class => 'control-label'
-    .controls
-      = f.number_field :order_num, :class => 'number_field'
-  .control-group
-    = f.label :branch_id, :class => 'control-label'
-    .controls
-      = f.number_field :branch_id, :class => 'number_field'
-  .control-group
-    = f.label :old_id, :class => 'control-label'
-    .controls
-      = f.number_field :old_id, :class => 'number_field'
+-form_params = @branch ? [@branch, @phone] : @phone
+= form_for (form_params),:html => { :class => 'form-horizontal' } do |f|
+  -if @phone.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@phone.errors.count, "error")} prohibited this phone from being saved:"
+      %ul
+        - @phone.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :name, '№ телефона'
+    = f.text_field :name
+  .field
+    = f.label :order_num, 'Порядок отображения'
+    = f.number_field :order_num
+  .field
+    = f.label :mobile, 'Мобильный'
+    = f.check_box :mobile
+  .field
+    = f.label :mobile_refix, 'Префикс мобильного оператора'
+    = f.text_field :mobile_refix
+  .field
+    = f.label :publishable, 'В печать'
+    = f.check_box :publishable
+  .field
+    = f.label :fax, 'Факс'
+    = f.check_box :fax
+  .field
+    = f.label :director, 'Директор'
+    = f.check_box :director
+  .field
+    = f.label :contact, 'Контактный'
+    = f.check_box :contact
   .form-actions
-    = f.submit nil, :class => 'btn btn-primary'
-    = link_to t('.cancel', :default => t("helpers.links.cancel")), phones_path, :class => 'btn'
+    = f.submit 'Сохранить', :class => 'btn btn-primary'
+    = link_to 'Отмена', branch_path(@branch), :class => 'btn'
