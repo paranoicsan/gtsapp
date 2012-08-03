@@ -21,7 +21,6 @@ Feature: Должна быть возможность для поиска ком
       | МУП       | EastCompany branch   | EastCompany legel 2 |
 
   @javascript
-  @focus
   Scenario: Пользователь может искать компанию по прямому названию
     Given Я авторизован в системе
     And Я перехожу на страницу "Поиск"

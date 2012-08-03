@@ -38,7 +38,7 @@
         .form-inline
           = link_to 'К компании', company_path(@company), :class => 'btn btn-small'
           = link_to "Изменить", edit_branch_path(@branch), :class => 'btn btn-small'
-          = link_to "Удалить", company_path(@company), :method => "delete", :confirm => "Вы уверены?", :class => 'btn btn-danger btn-small'
+          = link_to "Удалить", branch_path(@branch), :method => "delete", :confirm => "Вы уверены?", :class => 'btn btn-danger btn-small'
 
     .span8.well
       %h3.well-title Адрес

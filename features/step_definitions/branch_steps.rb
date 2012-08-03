@@ -1,5 +1,6 @@
 # encoding: utf-8
 When /^Я создаю филиал с фактическим названием "([^"]*)" для компании "([^"]*)"$/ do |bname, cname|
+  #noinspection RubyResolve
   @company = Company.find_by_title cname
   #noinspection RubyResolve
   visit company_path @company
@@ -94,6 +95,7 @@ end
 When /^Я вижу в качестве головного филиал с факт. названием "([^"]*)"$/ do |bname|
 
   branch = Branch.find_by_fact_name bname
+  #noinspection RubyResolve
   assert branch.is_main?, "Первый созданный филиал не является головным."
 
   # Проверяем, что первым в списке показан головной филиал с указанным
@@ -179,12 +181,14 @@ end
 
 When /^Я вижу таблицу "([^"]*)" с адресами$/ do |table_id, table|
   xpth = "//table[@id='#{table_id}']"
-  page.should have_selector :xpath, xpth
-  idx = 2 # Первый ряд занимает заголовок
-  table.hashes.each do |row|
-    row_xpth = "//table[@id='#{table_id}']/*/tr[#{idx}]/td[1]"
-    page.find(:xpath, row_xpth).text.should == row[:name]
-    idx += 1
+  if table.hashes.any?
+    page.should have_selector :xpath, xpth
+    idx = 2 # Первый ряд занимает заголовок
+    table.hashes.each do |row|
+      row_xpth = "//table[@id='#{table_id}']/*/tr[#{idx}]/td[1]"
+      page.find(:xpath, row_xpth).text.should == row[:name]
+      idx += 1
+    end
   end
 end
 

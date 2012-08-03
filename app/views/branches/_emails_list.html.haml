@@ -4,15 +4,15 @@
     = flash[:email_error]
     -flash[:email_error] = ""
 
-  -if @branch.emails.any?
-    %table.table.table-condensed.table-striped
+-if @branch.emails.any?
+  %table.table.table-condensed.table-striped{id: 'emails'}
+    %tr
+      %th Электронная почта
+      %th{:width => "20%" }
+    -@branch.emails.each do |em|
       %tr
-        %th Электронная почта
-        %th{:width => "20%" }
-      -@branch.emails.each do |em|
-        %tr
-          %td= em.name
-          %td
-            -unless @current_user.is_agent?
-              =link_to "Удалить", branch_delete_email_path(@branch, em), :confirm => 'Вы уверены?', :remote => true,
-             :class => "btn btn-mini"
+        %td= em.name
+        %td
+          -unless @current_user.is_agent?
+            =link_to "Удалить", branch_delete_email_path(@branch, em), :confirm => 'Вы уверены?', :remote => true,
+           :class => "btn btn-mini"

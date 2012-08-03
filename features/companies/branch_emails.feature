@@ -15,11 +15,13 @@ Feature: К филиалу может быть привязано множест
       | t_agent    | 1111     | t_agent@test.com    | agent    |
 
   @javascript
+  @focus
   Scenario: Пользователь может добавить несколько email к филиалу
     Given Я авторизован в системе
     And Я нахожусь на странице филиала "Филиал рогов" компании "Рога и копыта"
     And Кнопка "branch_add_email" - "не активна"
-    And Я вижу надпись "Нет данных"
+    And Я вижу таблицу "emails" с адресами
+      ||
     When Я ввожу "test@test.com" в поле "branch_email"
     And Я нажимаю на кнопку "branch_add_email"
     And Я ввожу "test2@test.com" в поле "branch_email"
