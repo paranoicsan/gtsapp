@@ -56,7 +56,7 @@ class AddressesController < ApplicationController
 
     respond_to do |format|
       if @address.save
-        format.html { redirect_to @address, notice: 'Адрес добавлен.' }
+        format.html { redirect_to @branch, notice: 'Адрес добавлен.' }
         format.json { render json: @address, status: :created, location: @address }
       else
         format.html { render action: "new" }
@@ -73,7 +73,7 @@ class AddressesController < ApplicationController
 
     respond_to do |format|
       if @address.update_attributes(params[:address])
-        format.html { redirect_to @address, notice: 'Адрес изменён.' }
+        format.html { redirect_to @branch, notice: 'Адрес изменён.' }
         format.json { head :ok }
       else
         format.html { render action: "edit" }

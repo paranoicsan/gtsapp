@@ -61,13 +61,17 @@
 
       -if @branch.address.is_a?(NilClass)
         = link_to 'Добавить адрес', new_branch_address_path(@branch), class: 'btn btn-small'
-      -else
-        = link_to 'Изменить адрес', edit_address_path(@branch.address), class: 'btn btn-small'
-        = link_to 'Удалить адрес', @branch.address, :confirm => 'Вы уверены?', :method => :delete, class: 'btn btn-small'
-      %br
-      %br
 
-      %p= @branch.address.full_address
+      %br
+      %br
+      -if @branch.address
+        %table.table
+          %tbody
+            %tr
+              %td= @branch.address.full_address
+              %td
+                = link_to 'Изменить', edit_address_path(@branch.address), class: 'btn btn-small'
+                = link_to 'Удалить', @branch.address, :confirm => 'Вы уверены?', :method => :delete, class: 'btn btn-small btn-danger'
   .row-fluid
     .span12.well
       %h3 Телефоны
