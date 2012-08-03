@@ -129,15 +129,14 @@ end
 
 When /^Я вижу таблицу "([^"]*)" с веб-сайтами$/ do |table_id, table|
   xpth = "//table[@id='#{table_id}']"
-  page.should have_selector :xpath, xpth
-  idx = 2 # Первый ряд занимает заголовок
-  table.hashes.each do |row|
-    within :xpath, xpth do
-      row_xpth = "//tr[#{idx}]/td[1]"
-      find(:xpath, row_xpth).text.should == row[:name]
-      #find(:xpath, row_xpth).has_text? row[:name]
+  if table.hashes.any?
+    page.should have_selector :xpath, xpth
+    idx = 2 # Первый ряд занимает заголовок
+    table.hashes.each do |row|
+      row_xpth = "//table[@id='#{table_id}']/*/tr[#{idx}]/td[1]"
+      page.find(:xpath, row_xpth).text.should == row[:name]
+      idx += 1
     end
-    idx += 1
   end
 end
 

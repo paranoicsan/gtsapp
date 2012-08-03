@@ -4,15 +4,15 @@
     = flash[:website_error]
     -flash[:website_error] = ""
 
-  -if @branch.websites.count > 0
-    %table.table.table-condensed.table-striped
+-if @branch.websites.count > 0
+  %table.table.table-condensed.table-striped{id: 'websites'}
+    %tr
+      %th Веб-сайт
+      %th{:width => "20%" }
+    -@branch.websites.each do |ws|
       %tr
-        %th Веб-сайт
-        %th{:width => "20%" }
-      -@branch.websites.each do |ws|
-        %tr
-          %td= ws.name
-          %td
-            -unless @current_user.is_agent?
-              =link_to "Удалить", branch_delete_website_path(@branch, ws), :confirm => 'Вы уверены?', :remote => true,
-              :class => "btn btn-mini"
+        %td= ws.name
+        %td
+          -unless @current_user.is_agent?
+            =link_to "Удалить", branch_delete_website_path(@branch, ws), :confirm => 'Вы уверены?', :remote => true,
+            :class => "btn btn-mini"
