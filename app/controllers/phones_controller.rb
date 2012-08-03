@@ -48,10 +48,11 @@ class PhonesController < ApplicationController
   def create
     params[:phone][:branch_id] = params[:branch_id]
     @phone = Phone.new(params[:phone])
+    @branch = Branch.find @phone.branch_id
 
     respond_to do |format|
       if @phone.save
-        format.html { redirect_to @phone, notice: 'Телефон создан.' }
+        format.html { redirect_to @branch, notice: 'Телефон создан.' }
         format.json { render json: @phone, status: :created, location: @phone }
       else
         format.html { render action: "new" }
@@ -64,7 +65,7 @@ class PhonesController < ApplicationController
   # PUT /phones/1.json
   def update
     @phone = find_phone params[:id]
-    @branch = @phone.branch
+    @branch = Branch.find @phone.branch_id
 
     respond_to do |format|
       if @phone.update_attributes(params[:phone])

@@ -28,8 +28,8 @@ describe PhonesController do
 
   before(:each) do
     authorize_user
-    @branch = mock(Branch)
-    Branch.stub(:find).with("1").and_return(@branch) # подмена родительской компании
+    @branch = mock_model(Branch)
+    Branch.stub(:find).and_return(@branch) # подмена родительской компании
   end
 
   # создание объекта с минимальным набором атрибутов
@@ -97,9 +97,9 @@ describe PhonesController do
         assigns(:phone).should be_persisted
       end
 
-      it "redirects to the created phone" do
+      it "redirects to the parent Branch" do
         post :create, {:phone => valid_attributes, :branch_id => 1}, valid_session
-        response.should redirect_to(Phone.last)
+        response.should redirect_to(@branch)
       end
     end
 
@@ -141,7 +141,7 @@ describe PhonesController do
       it "redirects to the phone" do
         phone = Phone.create! valid_attributes
         put :update, {:id => phone.to_param, :phone => valid_attributes}, valid_session
-        response.should redirect_to(phone)
+        response.should redirect_to(@branch)
       end
     end
 

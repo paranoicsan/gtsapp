@@ -54,10 +54,11 @@ class AddressesController < ApplicationController
   def create
     params[:address][:branch_id] = params[:branch_id]
     @address = Address.new(params[:address])
+    @branch = Branch.find @address.branch_id
 
     respond_to do |format|
       if @address.save
-        format.html { redirect_to @address.branch, notice: 'Адрес добавлен.' }
+        format.html { redirect_to @branch, notice: 'Адрес добавлен.' }
         format.json { render json: @address, status: :created, location: @address }
       else
         format.html { render action: "new" }
@@ -70,7 +71,7 @@ class AddressesController < ApplicationController
   # PUT /addresses/1.json
   def update
     @address = find_address params[:id]
-    @branch = @address.branch
+    @branch = Branch.find @address.branch_id
 
     respond_to do |format|
       if @address.update_attributes(params[:address])

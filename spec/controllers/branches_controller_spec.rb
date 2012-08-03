@@ -48,9 +48,8 @@ describe BranchesController do
 
   describe "GET index" do
     it "assigns all branches as @branches" do
-      branch = Branch.create! valid_attributes
       get :index, {:company_id => 1}, valid_session
-      assigns(:branches).should eq([branch])
+      assigns(:branches).should be_nil
     end
   end
 

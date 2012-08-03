@@ -28,8 +28,9 @@ describe AddressesController do
 
   before(:each) do
     authorize_user
-    @branch = mock(Branch)
-    Branch.stub(:find).with("1").and_return(@branch) # подмена родительской компании
+    @branch = mock_model(Branch)
+    Branch.stub(:find).and_return(@branch)
+    Address.stub(:branch).and_return(@branch)
   end
 
   # This should return the minimal set of attributes required to create a valid
@@ -54,7 +55,7 @@ describe AddressesController do
   describe "GET index" do
     it "assigns all addresses as @addresses только авторизованым" do
       address = create_address
-      get :index, {:branch_id => 1}, valid_session
+      get :index, valid_attributes, valid_session
       assigns(:addresses).should eq([address])
     end
   end
@@ -97,9 +98,9 @@ describe AddressesController do
         assigns(:address).should be_persisted
       end
 
-      it "redirects to the created address  только авторизованным" do
+      it "после создания переходит на страницу филиала" do
         post :create, {:address => valid_attributes, :branch_id => 1}, valid_session
-        response.should redirect_to(Address.last)
+        response.should redirect_to(@branch)
       end
     end
 
@@ -136,12 +137,13 @@ describe AddressesController do
         address = Address.create! valid_attributes
         put :update, {:id => address.to_param, :address => valid_attributes}, valid_session
         assigns(:address).should eq(address)
+        assigns(:branch).should eq(@branch)
       end
 
-      it "redirects to the address" do
+      it "redirects to the branch" do
         address = Address.create! valid_attributes
         put :update, {:id => address.to_param, :address => valid_attributes}, valid_session
-        response.should redirect_to(address)
+        response.should redirect_to(@branch)
       end
     end
 
