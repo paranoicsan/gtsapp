@@ -4,11 +4,17 @@ When /^Я создаю новую компанию с названием "([^"]*
   visit new_company_path
   fill_in "company_title", :with => company_title
   click_button "Сохранить"
+  @company = Company.find_by_title company_title
 end
 
 When /^Компания имеет статус "([^"]*)"$/ do |status_name|
-  find("#company_status").should have_content(status_name)
-  page.should_not have_content("Активировать")
+  #page.should have_selector(:xpath, "table[@id='company_info']/tr/td[text()[contains(., '#{status_name}')]]")
+  within :xpath, "//table[@id='company_info']" do
+    find(:xpath, "//tr[td//text()[contains(., '#{status_name}')]]")
+  end
+  #noinspection RubyResolve
+  s = activate_company_path(@company)
+  page.should_not have_selector("a[href='#{s}'][text() = 'Активировать']")
 end
 
 Given /^Существуют следующие компании$/ do |table|
@@ -63,14 +69,14 @@ When /^Я вижу, что "([^"]*)" компании - "([^"]*)"$/ do |upositio
   case uposition
     when "автор"
       pos = "added"
-      i = 1
+      i = 2
     when "редактор"
       pos = "updated"
-      i = 2 # т.к. у метки изменения ещё указано время
+      i = 2
     else
       puts "Нет такого варианта"
   end
-  s = find(:xpath, "//div[@id='#{pos}']").text.split
+  s = find("p[@id='#{pos}']").text.split
   assert s[i] == uname, "Имя пользователя не совпадает."
 end
 

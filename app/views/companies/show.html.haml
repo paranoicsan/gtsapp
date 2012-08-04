@@ -11,7 +11,7 @@
     .span4
       .well
         %h3.well-title Информация
-        %table.table.table-condensed
+        %table.table.table-condensed{id: 'company_info'}
           %tbody
             %tr
               %td
@@ -25,15 +25,17 @@
               %td
                 %p.tl.t-cell-label Добавлена:
               %td
-                - if @company.date_added
-                  = @company.date_added.strftime("%d.%m.%Y %H:%M")
-                  = @company.author_name
+                %p{id:'added'}
+                  - if @company.date_added
+                    = @company.date_added.strftime("%d.%m.%Y %H:%M")
+                    = @company.author_name
             %tr
               %td
                 %p.tl.t-cell-label Изменена:
               %td
-                = @company.updated_at.strftime("%d.%m.%Y %H:%M")
-                = @company.editor_name
+                %p{id:'updated'}
+                  = @company.updated_at.strftime("%d.%m.%Y %H:%M")
+                  = @company.editor_name
             %tr
               %td
                 %p.tl.t-cell-label Рубрикатор:
