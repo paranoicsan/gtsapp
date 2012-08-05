@@ -34,8 +34,9 @@
                       %ul.dropdown-menu
                         %li
                           = link_to "Пользователи", users_path, id: "users_link"
+                        %li.divider
                         %li
-                          = link_to "Коды проекта"
+                          = link_to "Коды проекта", project_codes_path, id: "project_code_link"
                         %li
                           = link_to "Продукты", products_path
                 %li.divider-vertical

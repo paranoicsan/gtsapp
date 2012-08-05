@@ -5,28 +5,32 @@
   %h1
     Продукты
 
-%p
-  = link_to 'Добавить', new_product_path, class: 'btn'
+.container-fluid
+  .row-fluid
+    .span12.well
 
-%table.table.table-striped
-  %tr
-    %th Наименование
-    %th Размер, мм
-    %th Бонус
-    %th Бонус для сайта
-    %th Цена
-    %th Операции
+      %p
+        = link_to 'Добавить', new_product_path, class: 'btn'
 
-  - @products.each do |product|
-    %tr
-      %td= link_to product.name, edit_product_path(product)
-      %td
-        =product.size_width
-        x
-        =product.size_height
-      %td= product.bonus_product.name if product.bonus_product
-      %td= product.bonus_site
-      %td= product.price
-      %td
-        = link_to 'Изменить', edit_product_path(product), :class => 'btn btn-mini'
-        = link_to 'Удалить', product, :confirm => 'Вы уверены?', :method => :delete, :class => 'btn btn-mini btn-danger'
+      %table.table.table-striped
+        %tr
+          %th Наименование
+          %th Размер, мм
+          %th Бонус
+          %th Бонус для сайта
+          %th Цена
+          %th Операции
+
+        - @products.each do |product|
+          %tr
+            %td= link_to product.name, edit_product_path(product)
+            %td
+              =product.size_width
+              x
+              =product.size_height
+            %td= product.bonus_product.name if product.bonus_product
+            %td= product.bonus_site
+            %td= product.price
+            %td
+              = link_to 'Изменить', edit_product_path(product), :class => 'btn btn-mini'
+              = link_to 'Удалить', product, :confirm => 'Вы уверены?', :method => :delete, :class => 'btn btn-mini btn-danger'

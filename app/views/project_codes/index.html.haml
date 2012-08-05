@@ -1,0 +1,28 @@
+# encoding: utf-8
+= render :partial => "shared/messages"
+
+.page-header
+  %h1
+    Коды проекта
+
+
+.container-fluid
+  .row-fluid
+    .span6.well
+
+      %p
+        = link_to 'Добавить', new_project_code_path, class: 'btn', id: 'project_code_add'
+
+      %table#project_codes.table.table-striped
+        %tr
+          %th Наименование
+          %th Операции
+
+        - @project_codes.each do |pcode|
+          %tr
+            %td= pcode.name
+
+            %td
+              = link_to 'Изменить', edit_project_code_path(pcode), :class => 'btn', :id => 'project_code_edit_' + pcode.id.to_s
+              = link_to 'Удалить', pcode, :confirm => 'Вы уверены?', :method => :delete, :class => 'btn btn-danger',
+                :id => 'project_code_delete_' + pcode.id.to_s

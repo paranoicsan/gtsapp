@@ -7,6 +7,7 @@ Gtsapp::Application.routes.draw do
   resources :districts
   resources :cities
   resources :form_types
+  resources :project_codes
 
   resources :companies, :shallow => true do
     resources :contracts
