@@ -45,7 +45,7 @@ end
 When /^Я вижу следующую информацию$/ do |table|
   table.hashes.each do |row|
     row.each do |key, value|
-      find(:xpath, "//div[@id='#{key}']").should have_content value
+      find(:xpath, "//*[@id='#{key}']").should have_content value
     end
   end
 end
@@ -68,4 +68,7 @@ end
 
 When /^Я жду (\d+) секунд$/ do |sec|
   sleep sec.to_i
+end
+When /^Я нажимаю на ссылку "([^"]*)" с ключом "([^"]*)"$/ do |link_text, link_id|
+  find("a[@id='#{link_id}'][text()='#{link_text}']").click
 end

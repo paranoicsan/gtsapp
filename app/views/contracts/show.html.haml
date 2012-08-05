@@ -1,53 +1,129 @@
-- model_class = Contract
+
+= render :partial => "shared/messages"
+
 .page-header
-  %h1=t '.title', :default => model_class.model_name.human
+  %h1{id:'contract_number'}
+    = @contract.number
+    %p
+      %small
+        = link_to @contract.company.title, company_path(@contract.company)
 
-%p
-  %strong= model_class.human_attribute_name(:contract_status_id) + ':'
-  %br
-  = @contract.contract_status_id
-%p
-  %strong= model_class.human_attribute_name(:project_code_id) + ':'
-  %br
-  = @contract.project_code_id
-%p
-  %strong= model_class.human_attribute_name(:date_sign) + ':'
-  %br
-  = @contract.date_sign
-%p
-  %strong= model_class.human_attribute_name(:number) + ':'
-  %br
-  = @contract.number
-%p
-  %strong= model_class.human_attribute_name(:amount) + ':'
-  %br
-  = @contract.amount
-%p
-  %strong= model_class.human_attribute_name(:bonus) + ':'
-  %br
-  = @contract.bonus
-%p
-  %strong= model_class.human_attribute_name(:company_legel_name) + ':'
-  %br
-  = @contract.company_legel_name
-%p
-  %strong= model_class.human_attribute_name(:person) + ':'
-  %br
-  = @contract.person
-%p
-  %strong= model_class.human_attribute_name(:company_details) + ':'
-  %br
-  = @contract.company_details
-%p
-  %strong= model_class.human_attribute_name(:number_of_dicts) + ':'
-  %br
-  = @contract.number_of_dicts
-%p
-  %strong= model_class.human_attribute_name(:company_id) + ':'
-  %br
-  = @contract.company_id
+.container-fluid
+  .row-fluid
+    .span4.well
 
-.form-actions
-  = link_to t('.back', :default => t("helpers.links.back")), company_path(@contract.company), :class => 'btn'
-  = link_to t('.edit', :default => t("helpers.links.edit")), edit_contract_path(@contract), :class => 'btn'
-  = link_to t('.destroy', :default => t("helpers.links.destroy")), contract_path(@contract), :method => "delete", :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')), :class => 'btn btn-danger'
+      %h3.well-title Информация
+      %table.table.table-condensed{id: 'contract_info'}
+        %tbody
+          -if @contract.contract_status
+            %tr
+              %td
+                %p.tl.t-cell-label Статус:
+              %td
+                %p{id:'contract_status'}
+                  = @contract.contract_status.name
+
+          -if @contract.project_code
+            %tr
+              %td
+                %p.tl.t-cell-label Проект:
+              %td
+                %p{id:'contract_project_code'}
+                  = @contract.project_code.name
+
+          -if @contract.date_sign
+            %tr
+              %td
+                %p.tl.t-cell-label Заключён:
+              %td
+                %p{id:'contract_date_sign'}
+                  = @contract.date_sign.strftime("%d.%m.%Y")
+
+          -if @contract.amount
+            %tr
+              %td
+                %p.tl.t-cell-label Сумма:
+              %td
+                %p{id:'contract_amount'}
+                  = @contract.amount
+
+          %tr
+            %td
+              %p.tl.t-cell-label Бонусы:
+            %td
+              %p{id:'contract_bonus'}
+                - if @contract.bonus?
+                  Есть
+                - else
+                  Нет
+
+          -if @contract.company_legel_name
+            -if @contract.company_legel_name.length > 0
+              %tr
+                %td
+                  %p.tl.t-cell-label Юр. имя заказчика:
+                %td
+                  %p{id:'contract_company_legel_name'}
+                    = @contract.company_legel_name
+
+          -if @contract.person
+            -if @contract.person.length > 0
+              %tr
+                %td
+                  %p.tl.t-cell-label Представитель заказчика:
+                %td
+                  %p{id:'contract_person'}
+                    = @contract.person
+
+          -if @contract.company_details
+            -if @contract.company_details.length > 0
+              %tr
+                %td
+                  %p.tl.t-cell-label Реквизиты заказчика:
+                %td
+                  %p{id:'contract_company_details'}
+                    = @contract.company_details
+
+          -if @contract.number_of_dicts
+            %tr
+              %td
+                %p.tl.t-cell-label Количество справочников:
+              %td
+                %p{id:'contract_number_of_dicts'}
+                  = @contract.number_of_dicts
+
+          %tr
+            %td
+              %p.tl.t-cell-label Добавлен:
+            %td
+              %p{id:''}
+                = @contract.created_at.localtime.strftime("%d.%m.%Y")
+
+      .form-actions
+        = link_to 'К компании', company_path(@contract.company), :class => 'btn'
+        -if @current_user.is_admin?
+          -unless @contract.active?
+            = link_to 'Активировать', activate_contract_path(@contract), :class => 'btn btn-success'
+          = link_to 'Изменить', edit_contract_path(@contract), :class => 'btn'
+          = link_to 'Удалить', contract_path(@contract), :method => "delete", :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')), :class => 'btn btn-danger'
+
+
+    .span8.well
+
+      %h3.well-title
+        Продукты
+
+      %p
+        .form-inline
+          -if (@current_user.is_admin? || @current_user.is_operator?) && @contract.active?
+            = select_tag("select_products", options_for_select(Product.all.sort.collect{ |p| [p.name, p.id] }),
+            {:prompt => "Выберите продукт", :onChange => "onProdSelect()", :id => "select_product_id"})
+            = link_to "Добавить", "#", :id => "add_prod_link", :remote => true, :class => "btn btn-small",
+            :onClick => "$('select option:first').attr('selected','1');"
+
+          :javascript
+            gts_contract.id = "#{@contract.id}";
+
+          #products_list
+            = render :partial => "products_list"
+

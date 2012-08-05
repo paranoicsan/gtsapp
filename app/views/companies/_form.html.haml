@@ -39,4 +39,5 @@
 
   .form-actions
     = f.submit "Сохранить", :class => 'btn btn-primary'
-    = link_to "Отмена", companies_path, :class => 'btn'
+    -s = @company.id ? company_path(@company) : companies_path
+    = link_to "Отмена", s, :class => 'btn'

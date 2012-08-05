@@ -120,7 +120,7 @@
       .well
         %h3.well-title Договоры
 
-        %p= link_to 'Создать', new_company_contract_path(@company), class: "btn btn-mini"
+        %p= link_to 'Создать', new_company_contract_path(@company), class: "btn btn-mini", id: 'contract_create'
 
         -if @company.contracts.count > 0
           -# | number | project_code | date_sign  | amount | contract_status_id |

@@ -1,49 +1,59 @@
 -form_params = @company ? [@company, @contract] : @contract
-= form_for form_params, :html => { :class => 'form-horizontal' } do |f|
+= form_for (form_params), :html => { :class => 'form-horizontal well' }  do |f|
+  -if @contract.errors.any?
+    #error_explanation
+      %h2= "Возникшие ошибки:"
+      %ul
+        -@contract.errors.messages.each do |errs|
+          -errs.each do |e|
+            -if e.is_a?(Array)
+              %li
+                =e[0]
+
   .control-group
-    = f.label :contract_status_id, :class => 'control-label'
+    = f.label :number, 'Номер договора', :class => 'control-label'
     .controls
-      = f.number_field :contract_status_id, :class => 'number_field'
+      = f.text_field :number
+  -if @contract.contract_status
+    .control-group
+      = f.label :contract_status, "Статус:", :class => 'control-label'
+      .controls
+        = @contract.contract_status.name
   .control-group
-    = f.label :project_code_id, :class => 'control-label'
+    = f.label :project_code_id, 'Код проекта:', :class => 'control-label'
     .controls
-      = f.number_field :project_code_id, :class => 'number_field'
+      = f.select(:project_code_id, options_for_select(ProjectCode.all.collect{ |i| [i.name, i.id] },
+        @contract.project_code_id))
   .control-group
-    = f.label :date_sign, :class => 'control-label'
+    = f.label :amount, 'Сумма:', :class => 'control-label'
     .controls
-      = f.date_select :date_sign, :class => 'date_select'
+      = f.text_field :amount
   .control-group
-    = f.label :number, :class => 'control-label'
+    = f.label :date_sign, 'Дата подписания', :class => 'control-label'
     .controls
-      = f.text_field :number, :class => 'text_field'
+      = f.date_select :date_sign
   .control-group
-    = f.label :amount, :class => 'control-label'
+    = f.label :bonus, "Бонусы", :class => 'control-label'
     .controls
-      = f.text_field :amount, :class => 'text_field'
+      = f.check_box :bonus, {}, 1, @contract.bonus?
   .control-group
-    = f.label :bonus, :class => 'control-label'
+    = f.label :company_legel_name, 'Юр. имя заказчика', :class => 'control-label'
     .controls
-      = f.check_box :bonus, :class => 'check_box'
+      = f.text_field :company_legel_name
   .control-group
-    = f.label :company_legel_name, :class => 'control-label'
+    = f.label :person, 'Представитель заказчика', :class => 'control-label'
     .controls
-      = f.text_field :company_legel_name, :class => 'text_field'
+      = f.text_field :person
   .control-group
-    = f.label :person, :class => 'control-label'
+    = f.label :company_details, 'Реквизиты заказчика', :class => 'control-label'
     .controls
-      = f.text_field :person, :class => 'text_field'
+      = f.text_field :company_details
   .control-group
-    = f.label :company_details, :class => 'control-label'
+    = f.label :number_of_dicts, 'Количество справочников', :class => 'control-label'
     .controls
-      = f.text_field :company_details, :class => 'text_field'
-  .control-group
-    = f.label :number_of_dicts, :class => 'control-label'
-    .controls
-      = f.number_field :number_of_dicts, :class => 'number_field'
-  .control-group
-    = f.label :company_id, :class => 'control-label'
-    .controls
-      = f.number_field :company_id, :class => 'number_field'
+      = f.text_field :number_of_dicts
+
   .form-actions
     = f.submit "Сохранить", :class => 'btn btn-primary'
-    = link_to "Отмена", company_path(@company), :class => 'btn'
+    -s = @company ? company_path(@company) : contract_path(@contract)
+    = link_to "Отмена", s, :class => 'btn'

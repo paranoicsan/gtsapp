@@ -1,13 +1,13 @@
-%table#products.sub-index.list_company
-  %tr
-    %th Наименование
-    %th
-  -if @contract.products.any?
+-if @contract.products.any?
+  %table#products.table.table-striped.table-condensed
+    %tr
+      %th Наименование
+      %th
     -@contract.products.each do |prod|
       %tr
         %td= prod.name
-        %td= link_to "Удалить", contract_delete_product_path(@contract, prod), :confirm => 'Вы уверены?', :remote => true
-  -else
-    %tr
-      %td{:colspan => 2}
-        Нет связанных продуктов.
+        %td
+          %a.btn.btn-mini{"href" => contract_delete_product_path(@contract, prod), "data-remote" => "true",
+          "data-confirm" => "Вы уверены?"}
+            %i.icon-trash.icon-white
+            Удалить

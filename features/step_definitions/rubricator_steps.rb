@@ -31,9 +31,7 @@ Then /^Я вижу таблицу "([^"]*)" с рубриками$/ do |table_id
 end
 
 Then /^Я вижу "([^"]*)" в ряду (\d+) таблице "([^"]*)"$/ do |rub_name, row_num, table_id|
-  within :xpath, "//table[@id='#{table_id}']" do
-    find(:xpath, "//tr[#{row_num}]/td[1]").text.should == rub_name
-  end
+  find(:xpath, "//table[@id='#{table_id}']/*/tr[#{row_num}]/td[1]").text.should == rub_name
 end
 
 When /^Я удаляю рубрику "([^"]*)" для компании "([^"]*)"$/ do |rub_name, cname|

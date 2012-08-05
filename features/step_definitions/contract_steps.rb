@@ -90,7 +90,7 @@ When /^Существуют следующие продукты$/ do |table|
 end
 
 When /^Я выбираю продукт "([^"]*)"$/ do |prod_name|
-  select prod_name, :from => "select_products"
+  select prod_name, :from => "select_product_id"
 end
 
 When /^Я добавляю продукт "([^"]*)" к договору "([^"]*)" по прямой ссылке$/ do |prod_name, cname|
