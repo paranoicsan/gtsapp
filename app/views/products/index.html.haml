@@ -1,31 +1,32 @@
-- model_class = Product
-.page-header
-  %h1=t '.title', :default => model_class.model_name.human.pluralize
-%table.table.table-striped
-  %thead
-    %tr
-      %th= model_class.human_attribute_name(:id)
-      %th= model_class.human_attribute_name(:name)
-      %th= model_class.human_attribute_name(:size_width)
-      %th= model_class.human_attribute_name(:size_height)
-      %th= model_class.human_attribute_name(:bonus_product_id)
-      %th= model_class.human_attribute_name(:bonus_site)
-      %th= model_class.human_attribute_name(:price)
-      %th= model_class.human_attribute_name(:created_at)
-      %th=t '.actions', :default => t("helpers.actions")
-  %tbody
-    - @products.each do |product|
-      %tr
-        %td= link_to product.id, product_path(product)
-        %td= product.name
-        %td= product.size_width
-        %td= product.size_height
-        %td= product.bonus_product_id
-        %td= product.bonus_site
-        %td= product.price
-        %td=l product.created_at
-        %td
-          = link_to t('.edit', :default => t("helpers.links.edit")), edit_product_path(product), :class => 'btn btn-mini'
-          = link_to t('.destroy', :default => t("helpers.links.destroy")), product_path(product), :method => :delete, :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')), :class => 'btn btn-mini btn-danger'
+# encoding: utf-8
+= render :partial => "shared/messages"
 
-= link_to t('.new', :default => t("helpers.links.new")), new_product_path, :class => 'btn btn-primary'
+.page-header
+  %h1
+    Продукты
+
+%p
+  = link_to 'Добавить', new_product_path, class: 'btn'
+
+%table.table.table-striped
+  %tr
+    %th Наименование
+    %th Размер, мм
+    %th Бонус
+    %th Бонус для сайта
+    %th Цена
+    %th Операции
+
+  - @products.each do |product|
+    %tr
+      %td= link_to product.name, edit_product_path(product)
+      %td
+        =product.size_width
+        x
+        =product.size_height
+      %td= product.bonus_product.name if product.bonus_product
+      %td= product.bonus_site
+      %td= product.price
+      %td
+        = link_to 'Изменить', edit_product_path(product), :class => 'btn btn-mini'
+        = link_to 'Удалить', product, :confirm => 'Вы уверены?', :method => :delete, :class => 'btn btn-mini btn-danger'

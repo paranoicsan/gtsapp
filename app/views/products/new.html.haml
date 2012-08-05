@@ -1,4 +1,12 @@
-- model_class = Product
+# encoding: utf-8
+= render :partial => "shared/messages"
+
 .page-header
-  %h1=t '.title', :default => t('helpers.titles.new', :model => model_class.model_name.human, :default => "New #{model_class.model_name.human}")
-= render :partial => "form"
+  %h1
+    Добавление продукта
+
+.container-fluid
+  .row-fluid
+    .span5.well
+      = render 'form'
+
