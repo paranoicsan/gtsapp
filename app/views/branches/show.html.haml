@@ -67,7 +67,7 @@
             %tr
               %td= phone.order_num.to_s
               %td= check_box_tag("cb_publishable", 1, phone.publishable?, { :disabled => "disabled" })
-              %td= phone.name
+              %td= link_to phone.name, phone_path(phone)
               %td
                 = link_to 'Изменить', edit_phone_path(phone), class: "btn btn-mini"
                 = link_to 'Удалить', phone, :confirm => 'Вы уверены?', :method => :delete, :class => "btn btn-mini"
