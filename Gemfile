@@ -10,6 +10,7 @@ gem 'haml-rails'
 gem 'authlogic'
 gem 'easy_roles'
 gem 'will_paginate'
+gem 'twitter-bootstrap-rails'
 
 group :development, :test do
   gem 'debugger', :require => 'ruby-debug'
@@ -34,7 +35,6 @@ group :assets do
   gem 'sass-rails', "  ~> 3.1.0"
   gem 'uglifier'
   gem 'therubyracer'
-  gem 'twitter-bootstrap-rails'
   gem 'bootstrap-will_paginate'
 end
 
