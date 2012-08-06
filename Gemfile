@@ -9,6 +9,7 @@ gem 'haml'
 gem 'haml-rails'
 gem 'authlogic'
 gem 'easy_roles'
+gem 'will_paginate'
 
 group :development, :test do
   gem 'debugger', :require => 'ruby-debug'

@@ -228,3 +228,4 @@ DEPENDENCIES
   therubyracer
   twitter-bootstrap-rails
   uglifier
+  will_paginate
