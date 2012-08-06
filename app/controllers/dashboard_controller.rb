@@ -8,9 +8,11 @@ class DashboardController < ApplicationController
 
       #noinspection RubyResolve
       if current_user.is_agent?
-        @suspended_companies = Company.suspended_by_user(current_user.id).paginate(:page => params[:page], :per_page => 10)
+        companies = Company.suspended_by_user(current_user.id)
+        @suspended_companies = companies.any? ? companies.paginate(:page => params[:page], :per_page => 10) : []
       else
-        @suspended_companies = Company.suspended.paginate(:page => params[:page], :per_page => 10)
+        companies = Company.suspended
+        @suspended_companies = companies.any? ? Company.suspended.paginate(:page => params[:page], :per_page => 10) : []
       end
     end
 
