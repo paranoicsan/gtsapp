@@ -88,30 +88,31 @@
 
           %p= link_to 'Создать', new_company_branch_path(@company), class: "btn btn-mini"
 
-          %table#branches.table.table-striped
-            %tr
-              %th Головной
-              %th Информация
-              %th Операции
-            -@company.branches_sorted.each do |branch|
+          -if @company.branches_sorted.any?
+            %table#branches.table.table-striped
               %tr
-                %td= check_box_tag("cb_branch_main", 1, branch.is_main?, { :disabled => "disabled" })
-                %td
-                  %p
-                    = link_to branch.formatted_name, branch_path(branch)
-                  %p
-                    %small
-                      = branch.address.full_address if branch.address
-                %td
-                  -unless branch.is_main?
-                    = link_to 'Сделать головным', branch_make_main_path(branch), class: "btn btn-mini"
-                  %a{ :href => edit_branch_path(branch), :class => "btn btn-mini"}
-                    %i.icon-edit.icon-white
-                    Изменить
-                  %a{ :href => branch_path(branch), :class => "btn btn-mini",
-                  "data-confirm" => "Вы уверены?",  "data-method" => "delete", :rel => "nofollow" }
-                    %i.icon-trash.icon-white
-                    Удалить
+                %th Головной
+                %th Информация
+                %th Операции
+              -@company.branches_sorted.each do |branch|
+                %tr
+                  %td= check_box_tag("cb_branch_main", 1, branch.is_main?, { :disabled => "disabled" })
+                  %td
+                    %p
+                      = link_to branch.formatted_name, branch_path(branch)
+                    %p
+                      %small
+                        = branch.address.full_address if branch.address
+                  %td
+                    -unless branch.is_main?
+                      = link_to 'Сделать головным', branch_make_main_path(branch), class: "btn btn-mini"
+                    %a{ :href => edit_branch_path(branch), :class => "btn btn-mini"}
+                      %i.icon-edit.icon-white
+                      Изменить
+                    %a{ :href => branch_path(branch), :class => "btn btn-mini",
+                    "data-confirm" => "Вы уверены?",  "data-method" => "delete", :rel => "nofollow" }
+                      %i.icon-trash.icon-white
+                      Удалить
 
 
 
