@@ -21,7 +21,8 @@
           %tr
             %td
               %p.tl.t-cell-label Мобильный:
-            %td= @phone.mobile
+            %td
+              = check_box_tag("cb_phone_mobile", 1, @phone.mobile, { :disabled => "disabled" })
           -if @phone.mobile
             %tr
               %td
@@ -30,19 +31,23 @@
           %tr
             %td
               %p.tl.t-cell-label Для печати:
-            %td=@phone.publishable
+            %td
+              = check_box_tag("cb_phone_publishable", 1, @phone.publishable, { :disabled => "disabled" })
           %tr
             %td
               %p.tl.t-cell-label Факс:
-            %td= @phone.fax
+            %td
+              = check_box_tag("cb_phone_fax", 1, @phone.fax, { :disabled => "disabled" })
           %tr
             %td
               %p.tl.t-cell-label Директор:
-            %td= @phone.director
+            %td
+              = check_box_tag("cb_phone_director", 1, @phone.director, { :disabled => "disabled" })
           %tr
             %td
               %p.tl.t-cell-label Контактный:
-            %td= @phone.contact
+            %td
+              = check_box_tag("cb_phone_contact", 1, @phone.contact, { :disabled => "disabled" })
 
       %div{style: "text-align: center;"}
         .form-inline
