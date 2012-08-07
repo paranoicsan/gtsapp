@@ -23,11 +23,11 @@ Feature: Пользователь может искать компанию по 
       | Kaliningrad  | Krasnaya |
       | Chernyahovsk | Mira     |
       | Chernyahovsk | Ushakova |
-    And Существуют следующие районы
-      | name    |
-      | Center  |
-      | Western |
-      | Eastern |
+#    And Существуют следующие районы
+#      | name    |
+#      | Center  |
+#      | Western |
+#      | Eastern |
     And Существуют следующие формы собственности
       | name |
       | ООО  |
@@ -62,21 +62,21 @@ Feature: Пользователь может искать компанию по 
       | status  | title      |
       | Активна | Пельменная |
 
-  @javascript
-  Scenario: Пользователь может искать компанию по району
-    Given Я авторизован в системе
-    And Я перехожу на страницу "Поиск"
-    And Я нахожусь на странице "Поиск"
-    When Я выбираю "Western" из элемента "select_search_district"
-    And Я нажимаю на кнопку "do_search"
-    And Я вижу таблицу "search_results_table" с компаниями
-      | status  | title         |
-      | Активна | Рога и копыта |
-    When Я выбираю "Center" из элемента "select_search_district"
-    And Я нажимаю на кнопку "do_search"
-    And Я вижу таблицу "search_results_table" с компаниями
-      | status  | title      |
-      | Активна | Пельменная |
+#  @javascript
+#  Scenario: Пользователь может искать компанию по району
+#    Given Я авторизован в системе
+#    And Я перехожу на страницу "Поиск"
+#    And Я нахожусь на странице "Поиск"
+#    When Я выбираю "Western" из элемента "select_search_district"
+#    And Я нажимаю на кнопку "do_search"
+#    And Я вижу таблицу "search_results_table" с компаниями
+#      | status  | title         |
+#      | Активна | Рога и копыта |
+#    When Я выбираю "Center" из элемента "select_search_district"
+#    And Я нажимаю на кнопку "do_search"
+#    And Я вижу таблицу "search_results_table" с компаниями
+#      | status  | title      |
+#      | Активна | Пельменная |
 
   @javascript
   Scenario: Пользователь может искать компанию по улице

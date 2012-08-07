@@ -7,7 +7,7 @@
 
 .container-fluid
   .row-fluid
-    .span5
+    .span8
       = form_tag search_company_path, {:remote => true, :method => :post, :class => 'form-horizontal well'}   do
         #s_name.control-group
           = label_tag 'Название:', nil, :class => 'control-label'
@@ -23,11 +23,11 @@
             .controls
               = select_tag("select_search_city", options_for_select(City.all.collect{ |s| [s.name, s.id] }),
                 {:prompt => "Выберите город или населённый пункт", :id => "select_search_city"})
-          #s_address_district.control-group
-            = label_tag 'Район:', nil, :class => 'control-label'
-            .controls
-              = select_tag("select_search_district", options_for_select(District.all.collect{ |s| [s.name, s.id] }),
-                {:prompt => "Выберите район", :id => "select_search_district"})
+          -##s_address_district.control-group
+          -#  = label_tag 'Район:', nil, :class => 'control-label'
+          -#  .controls
+          -#    = select_tag("select_search_district", options_for_select(District.all.collect{ |s| [s.name, s.id] }),
+          -#      {:prompt => "Выберите район", :id => "select_search_district"})
           #s_address_street.control-group
             = label_tag 'Улица:', nil, :class => 'control-label'
             .controls

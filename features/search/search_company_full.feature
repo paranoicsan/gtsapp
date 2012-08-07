@@ -23,11 +23,11 @@ Feature: Должна быть возможность для поиска ком
       | Kaliningrad  | Krasnaya |
       | Chernyahovsk | Mira     |
       | Chernyahovsk | Ushakova |
-    And Существуют следующие районы
-      | name    |
-      | Center  |
-      | Western |
-      | Eastern |
+#    And Существуют следующие районы
+#      | name    |
+#      | Center  |
+#      | Western |
+#      | Eastern |
     And Существуют следующие филиалы для компании "TestCompany"
       | form_type | fact_name             | legel_name        |
       | ООО       | TestCompany branch0   | TestCompany legel |
@@ -65,7 +65,7 @@ Feature: Должна быть возможность для поиска ком
     When Я ввожу "est" в поле "search_name"
     And Я ввожу "test_branch0@test.com" в поле "search_email"
     And Я выбираю "Kaliningrad" из элемента "select_search_city"
-    And Я выбираю "Western" из элемента "select_search_district"
+#    And Я выбираю "Western" из элемента "select_search_district"
     And Я выбираю "Krasnaya (Kaliningrad)" из элемента "select_search_street"
     And Я ввожу "34" в поле "search_house"
     And Я ввожу "5" в поле "search_office"
@@ -83,7 +83,7 @@ Feature: Должна быть возможность для поиска ком
     When Я ввожу "est" в поле "search_name"
     And Я ввожу "test_branch1@test.com" в поле "search_email"
     And Я выбираю "Chernyahovsk" из элемента "select_search_city"
-    And Я выбираю "Western" из элемента "select_search_district"
+#    And Я выбираю "Western" из элемента "select_search_district"
     And Я выбираю "Ushakova (Chernyahovsk)" из элемента "select_search_street"
     And Я ввожу "3" в поле "search_cabinet"
     And Я ввожу "1234" в поле "search_phone"

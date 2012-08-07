@@ -30,7 +30,7 @@ class SearchController < ApplicationController
       phone: params[:search_phone].length > 0,
       address: {
         city: params[:select_search_city].length > 0,
-        district: params[:select_search_district].length > 0,
+        district: false, #params[:select_search_district].length > 0, #GTS-27
         street: params[:select_search_street].length > 0,
         house: params[:search_house].length > 0,
         office: params[:search_office].length > 0,
