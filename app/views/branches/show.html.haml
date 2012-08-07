@@ -71,7 +71,7 @@
               %td= phone.description
               %td= link_to phone.name, phone_path(phone)
               %td
-                = link_to 'Изменить', edit_phone_path(phone), class: "btn btn-mini"
+                = link_to 'Изменить', edit_phone_path(phone), class: "btn btn-mini", id: "phone_edit"
                 = link_to 'Удалить', phone, :confirm => 'Вы уверены?', :method => :delete, :class => "btn btn-mini"
 
 

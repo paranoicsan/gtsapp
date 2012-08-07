@@ -58,8 +58,14 @@ Then /^Я (не|) вижу ссылки "([^"]*)" в таблице "([^"]*)" в
   end
 end
 
-Then /^Я не вижу элемент "([^"]*)"$/ do |elem_id|
-  page.should_not have_selector(:xpath, "id('#{elem_id}')")
+Then /^Я (|не) вижу элемент "([^"]*)"$/ do |negate, elem_id|
+  if negate.eql?("не")
+    #noinspection RubyResolve
+    find("*[@id='#{elem_id}']").should_not be_visible
+  else
+    #noinspection RubyResolve
+    find("*[@id='#{elem_id}']").should be_visible
+  end
 end
 
 When /^Я выбираю "([^"]*)" из элемента "([^"]*)"$/ do |select_value, select_id|
@@ -85,4 +91,7 @@ Then /^Я вижу таблицу "([^"]*)" с кодами$/ do |table_id, tabl
       idx += 1
     end
   end
+end
+When /^Я помечаю checkbox c ключом "([^"]*)"$/ do |elem_id|
+  check(elem_id)
 end

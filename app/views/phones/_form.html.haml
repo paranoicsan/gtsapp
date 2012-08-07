@@ -23,7 +23,7 @@
     = f.label :mobile, 'Мобильный', :class => 'control-label'
     .controls
       = f.check_box :mobile
-  .control-group
+  .control-group{id:'phone_mobile_refix_group'}
     = f.label :mobile_refix, 'Префикс мобильного оператора', :class => 'control-label'
     .controls
       = f.text_field :mobile_refix

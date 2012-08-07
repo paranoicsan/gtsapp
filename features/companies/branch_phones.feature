@@ -68,3 +68,17 @@ Feature: У филиалов может быть несколько телефо
       | order_num | cb_publishable |description| name   |
       | 1         | true           |приёмная| 521627 |
 
+  @focus
+  @javascript
+  Scenario: Пользователь не видит поле для ввода префикса мобильного оператора, если выключен
+    checkbox "Мобильный" и наоборот
+    Given Я авторизован в системе
+    And Для филиала "Филиал рогов" компании "Рога и копыта" существует телефон
+      |contact|fax|mobile|mobile_refix|name|order_num|publishable|description|
+      |true   |true|false|             |521627|1      |true       |приёмная   |
+    When Я нахожусь на странице филиала "Филиал рогов" компании "Рога и копыта"
+    And Я нажимаю на ссылку "Изменить" с ключом "phone_edit"
+    Then Я не вижу элемент "phone_mobile_refix_group"
+    When Я помечаю checkbox c ключом "phone_mobile"
+    Then Я  вижу элемент "phone_mobile_refix_group"
+
