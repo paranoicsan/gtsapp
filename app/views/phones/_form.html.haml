@@ -6,19 +6,10 @@
       %ul
         - @phone.errors.full_messages.each do |msg|
           %li= msg
-
   .control-group
-    = f.label :name, '№ телефона', :class => 'control-label'
+    = f.label :publishable, 'В печать', :class => 'control-label'
     .controls
-      = f.text_field :name
-  .control-group
-    = f.label :description, 'Описание', :class => 'control-label'
-    .controls
-      = f.text_field :description
-  .control-group
-    = f.label :order_num, 'Порядок отображения', :class => 'control-label'
-    .controls
-      = f.number_field :order_num
+      = f.check_box :publishable
   .control-group
     = f.label :mobile, 'Мобильный', :class => 'control-label'
     .controls
@@ -28,21 +19,30 @@
     .controls
       = f.text_field :mobile_refix
   .control-group
-    = f.label :publishable, 'В печать', :class => 'control-label'
+    = f.label :name, '№ телефона', :class => 'control-label'
     .controls
-      = f.check_box :publishable
+      = f.text_field :name
+  .control-group
+    = f.label :description, 'Описание', :class => 'control-label'
+    .controls
+      = f.text_field :description
   .control-group
     = f.label :fax, 'Факс', :class => 'control-label'
     .controls
       = f.check_box :fax
+  .control-group
+    = f.label :order_num, 'Порядок отображения', :class => 'control-label'
+    .controls
+      = f.number_field :order_num, :class => 'span2'
+
   -#.control-group
   -#  = f.label :director, 'Директор', :class => 'control-label'
   -#  .controls
   -#    = f.check_box :director
-  .control-group
-    = f.label :contact, 'Контактный', :class => 'control-label'
-    .controls
-      = f.check_box :contact
+  -#.control-group
+  -#  = f.label :contact, 'Контактный', :class => 'control-label'
+  -#  .controls
+  -#    = f.check_box :contact
   .form-actions
     = f.submit 'Сохранить', :class => 'btn btn-primary'
     = link_to 'Отмена', branch_path(@branch), :class => 'btn'

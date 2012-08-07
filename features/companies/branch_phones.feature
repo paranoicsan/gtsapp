@@ -24,8 +24,8 @@ Feature: У филиалов может быть несколько телефо
     When Я создаю телефон с информацией
 #      |contact|director|fax|mobile|mobile_refix|name|order_num|publishable|
 #      |true   |true    |true|false|             |521627|1      |true      |
-      |contact|fax|mobile|mobile_refix|name|order_num|publishable|description|
-      |true   |true|false|             |521627|1      |true      |приёмная   |
+      |fax|mobile|mobile_refix|name|order_num|publishable|description|
+      |true|false|             |521627|1      |true      |приёмная   |
     Then Я попадаю на страницу филиала "Филиал рогов" компании "Рога и копыта"
     And Я вижу сообщение "Телефон создан. "
 
@@ -34,8 +34,8 @@ Feature: У филиалов может быть несколько телефо
     And Для филиала "Филиал рогов" компании "Рога и копыта" существует телефон
 #      |contact|director|fax|mobile|mobile_refix|name|order_num|publishable|
 #      |true   |true    |true|false|             |521627|1      |true      |
-      |contact|fax|mobile|mobile_refix|name|order_num|publishable|description|
-      |true   |true|false|             |521627|1      |true      |приёмная   |
+      |fax|mobile|mobile_refix|name|order_num|publishable|description|
+      |true|false|             |521627|1      |true      |приёмная   |
     When Я нахожусь на странице филиала "Филиал рогов" компании "Рога и копыта"
     And Я удаляю телефон
     Then Я не вижу таблицу "phones"
@@ -45,14 +45,14 @@ Feature: У филиалов может быть несколько телефо
     And Для филиала "Филиал рогов" компании "Рога и копыта" существует телефон
 #      |contact|director|fax|mobile|mobile_refix|name|order_num|publishable|
 #      |true   |true    |true|false|             |521627|1      |true      |
-      |contact|fax|mobile|mobile_refix|name|order_num|publishable|description|
-      |true   |true|false|             |521627|1      |true      |приёмная   |
+      |fax|mobile|mobile_refix|name|order_num|publishable|description|
+      |true|false|             |521627|1      |true      |приёмная   |
     When Я нахожусь на странице филиала "Филиал рогов" компании "Рога и копыта"
     And Изменяю телефон новой информацией
 #      |contact|director|fax|mobile|mobile_refix|name|order_num|publishable|
 #      |true   |true    |true|true|921           ||2      |false     |
-      |contact|fax|mobile|mobile_refix|name|order_num|publishable|description|
-      |true   |true|true|921           ||2      |false     |приёмная   |
+      |fax|mobile|mobile_refix|name|order_num|publishable|description|
+      |true|true|921           ||2      |false     |приёмная   |
     And Я попадаю на страницу филиала "Филиал рогов" компании "Рога и копыта"
     And Я вижу сообщение "Телефон изменён."
 
@@ -61,21 +61,20 @@ Feature: У филиалов может быть несколько телефо
     And Для филиала "Филиал рогов" компании "Рога и копыта" существует телефон
 #      |contact|director|fax|mobile|mobile_refix|name|order_num|publishable|
 #      |true   |true    |true|false|             |521627|1      |true       |
-      |contact|fax|mobile|mobile_refix|name|order_num|publishable|description|
-      |true   |true|false|             |521627|1      |true       |приёмная   |
+      |fax|mobile|mobile_refix|name|order_num|publishable|description|
+      |true|false|             |521627|1      |true       |приёмная   |
     When Я нахожусь на странице филиала "Филиал рогов" компании "Рога и копыта"
     Then Я вижу таблицу "phones" с телефонами
       | order_num | cb_publishable |description| name   |
       | 1         | true           |приёмная| 521627 |
 
-  @focus
   @javascript
   Scenario: Пользователь не видит поле для ввода префикса мобильного оператора, если выключен
     checkbox "Мобильный" и наоборот
     Given Я авторизован в системе
     And Для филиала "Филиал рогов" компании "Рога и копыта" существует телефон
-      |contact|fax|mobile|mobile_refix|name|order_num|publishable|description|
-      |true   |true|false|             |521627|1      |true       |приёмная   |
+      |fax|mobile|mobile_refix|name|order_num|publishable|description|
+      |true|false|             |521627|1      |true       |приёмная   |
     When Я нахожусь на странице филиала "Филиал рогов" компании "Рога и копыта"
     And Я нажимаю на ссылку "Изменить" с ключом "phone_edit"
     Then Я не вижу элемент "phone_mobile_refix_group"
