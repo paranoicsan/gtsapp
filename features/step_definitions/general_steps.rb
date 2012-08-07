@@ -92,6 +92,13 @@ Then /^Я вижу таблицу "([^"]*)" с кодами$/ do |table_id, tabl
     end
   end
 end
+
 When /^Я помечаю checkbox c ключом "([^"]*)"$/ do |elem_id|
   check(elem_id)
+end
+
+Then /^Элемент "([^"]*)" имеет класс "([^"]*)"$/ do |elem_id, class_name|
+  c =  page.find("div##{elem_id}")['class']
+  #puts /(#{class_name})/.match(c).inspect
+  assert /(#{class_name})/.match(c) != nil, "Нет нужного класса"
 end

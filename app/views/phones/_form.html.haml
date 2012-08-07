@@ -1,5 +1,5 @@
 -form_params = @branch ? [@branch, @phone] : @phone
-= form_for (form_params),:html => { :class => 'well form-inline' } do |f|
+= form_for (form_params),:html => { :class => 'well form-horizontal' } do |f|
   -if @phone.errors.any?
     #error_explanation
       %h2= "#{pluralize(@phone.errors.count, "error")} prohibited this phone from being saved:"
@@ -18,10 +18,12 @@
     = f.label :mobile_refix, 'Префикс мобильного оператора', :class => 'control-label'
     .controls
       = f.text_field :mobile_refix
-  .control-group
+  .control-group{id:'phone_name_group'}
     = f.label :name, '№ телефона', :class => 'control-label'
     .controls
       = f.text_field :name
+      %p.help-inline
+        5 или 6 цифр
   .control-group
     = f.label :description, 'Описание', :class => 'control-label'
     .controls
@@ -45,4 +47,5 @@
   -#    = f.check_box :contact
   .form-actions
     = f.submit 'Сохранить', :class => 'btn btn-primary'
-    = link_to 'Отмена', branch_path(@branch), :class => 'btn'
+    -s = @phone.id ? branch_path(@phone.branch) : branch_path(@branch)
+    = link_to 'Отмена', s, :class => 'btn'

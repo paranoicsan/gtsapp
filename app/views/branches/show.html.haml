@@ -54,7 +54,7 @@
     .span8.well
       %h3.well-title Телефоны
 
-      %p= link_to 'Добавить', new_branch_phone_path(@branch), class: 'btn btn-mini'
+      %p= link_to 'Добавить', new_branch_phone_path(@branch), class: 'btn btn-mini', id: 'phone_add'
 
       -if @branch.phones.count > 0
         %table.table.table-striped.table-condensed{id: 'phones'}
