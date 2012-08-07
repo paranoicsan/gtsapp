@@ -4,7 +4,9 @@ When /^Я создаю филиал с фактическим названием
   @company = Company.find_by_title cname
   #noinspection RubyResolve
   visit company_path @company
-  find("a[href='#{new_company_branch_path(@company)}'][text()='Создать']").click
+  #noinspection RubyResolve
+  s = new_company_branch_path(@company)
+  find("a[href='#{s}'][text()='Создать']").click
   fill_in "branch_legel_name", :with => "Legel name - #{bname}"
   fill_in "branch_fact_name", :with => bname
   select "МУП", :from => "branch_form_type_id"
@@ -141,8 +143,9 @@ When /^Я вижу таблицу "([^"]*)" с веб-сайтами$/ do |table
 end
 
 When /^Кнопка "([^"]*)" - "(активна|не активна)"$/ do |button_id, status|
-  s = status.eql?("активна") ? "" : "disabled"
-  find(:xpath, "//input[@id='#{button_id}']")['disabled'] == s
+  s = status.eql?("активна") ? nil : "true"
+  #puts find(:xpath, "//input[@id='#{button_id}']")['disabled'].inspect
+  assert find(:xpath, "//input[@id='#{button_id}']")['disabled'] == s, "Кнопка в неверном состоянии."
 end
 
 When /^Я нажимаю на кнопку "([^"]*)"$/ do |elem_id|

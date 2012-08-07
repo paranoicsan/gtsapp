@@ -1,3 +1,43 @@
 # Place all the behaviors and hooks related to the matching controller here.
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
+
+
+inputChange = (elem) ->
+
+  a = ($(elem).val().length > 0) || allowSearch()
+
+  el = $('#do_search')
+  if a
+    el.removeAttr 'disabled'
+  else
+    el.attr('disabled', 'disabled')
+
+selectChange = (elem) ->
+
+  a = ($(elem).val() != null) || allowSearch()
+
+  el = $('#do_search')
+  if a
+    el.removeAttr 'disabled'
+  else
+    el.attr('disabled', 'disabled')
+
+allowSearch = ->
+  ret = false
+  $('.controls > input').each (index, element) =>
+    ret = ret || ($(element).val().length > 0)
+  $('.controls > select').each (index, element) =>
+    ret = ret || $(element).val()
+
+  return ret
+
+# Вешаем обработчики для параметров поиска
+$ ->
+  $('.controls > input').each (index, element) =>
+    $(element).keyup ->
+      inputChange(element)
+
+  $('.controls > select').each (index, element) =>
+    $(element).change ->
+      selectChange(element)

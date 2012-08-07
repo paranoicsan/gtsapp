@@ -50,7 +50,7 @@
           .controls
             = text_field_tag "search_phone", "", :placeholder => "введите первые цифры номера"
         #s_controls.form-actions
-          = submit_tag "Искать", {:id => "do_search", :class => 'btn'}
+          = submit_tag "Искать", {:disabled => "disabled", :id => "do_search", :class => 'btn'}
 
   .row-fluid
     .span10
