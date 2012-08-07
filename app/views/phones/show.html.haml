@@ -20,6 +20,10 @@
             %td= @phone.name
           %tr
             %td
+              %p.tl.t-cell-label Описание:
+            %td= @phone.description
+          %tr
+            %td
               %p.tl.t-cell-label Мобильный:
             %td
               = check_box_tag("cb_phone_mobile", 1, @phone.mobile, { :disabled => "disabled" })
@@ -38,11 +42,11 @@
               %p.tl.t-cell-label Факс:
             %td
               = check_box_tag("cb_phone_fax", 1, @phone.fax, { :disabled => "disabled" })
-          %tr
-            %td
-              %p.tl.t-cell-label Директор:
-            %td
-              = check_box_tag("cb_phone_director", 1, @phone.director, { :disabled => "disabled" })
+          -#%tr
+          -#  %td
+          -#    %p.tl.t-cell-label Директор:
+          -#  %td
+          -#    = check_box_tag("cb_phone_director", 1, @phone.director, { :disabled => "disabled" })
           %tr
             %td
               %p.tl.t-cell-label Контактный:

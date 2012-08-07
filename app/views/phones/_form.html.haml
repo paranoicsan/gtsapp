@@ -12,6 +12,10 @@
     .controls
       = f.text_field :name
   .control-group
+    = f.label :description, 'Описание', :class => 'control-label'
+    .controls
+      = f.text_field :description
+  .control-group
     = f.label :order_num, 'Порядок отображения', :class => 'control-label'
     .controls
       = f.number_field :order_num
@@ -31,10 +35,10 @@
     = f.label :fax, 'Факс', :class => 'control-label'
     .controls
       = f.check_box :fax
-  .control-group
-    = f.label :director, 'Директор', :class => 'control-label'
-    .controls
-      = f.check_box :director
+  -#.control-group
+  -#  = f.label :director, 'Директор', :class => 'control-label'
+  -#  .controls
+  -#    = f.check_box :director
   .control-group
     = f.label :contact, 'Контактный', :class => 'control-label'
     .controls
