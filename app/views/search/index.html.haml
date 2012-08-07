@@ -49,6 +49,8 @@
           = label_tag 'Телефон:', nil, :class => 'control-label'
           .controls
             = text_field_tag "search_phone", "", :placeholder => "введите первые цифры номера"
+            %p.help-block
+              Поиск по номеру телефона без учёта префикса оператора.
         #s_controls.form-actions
           = submit_tag "Искать", {:disabled => "disabled", :id => "do_search", :class => 'btn'}
 
