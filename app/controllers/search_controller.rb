@@ -100,11 +100,11 @@ class SearchController < ApplicationController
     end
 
     # район
-    if flags[:district]
-      found_by_district = SearchController.search_by_address_district(params[:select_search_district])
-      ar = searched ? ar & found_by_district : found_by_district
-      searched = true
-    end
+    #if flags[:district]
+    #  found_by_district = SearchController.search_by_address_district(params[:select_search_district])
+    #  ar = searched ? ar & found_by_district : found_by_district
+    #  searched = true
+    #end
 
     # улица
     if flags[:street]
@@ -198,14 +198,14 @@ class SearchController < ApplicationController
   # Ищет все компании, филиалы которых имеют адрес в указанному районе
   # @param {Integer} Ключ района
   # @return {Array} Коллекция найденных компаний
-  def self.search_by_address_district(id)
-    ar = []
-    addresses = Address.find_all_by_district_id id
-    addresses.each do |address|
-      ar << address.branch.company
-    end
-    ar
-  end
+  #def self.search_by_address_district(id)
+  #  ar = []
+  #  addresses = Address.find_all_by_district_id id
+  #  addresses.each do |address|
+  #    ar << address.branch.company
+  #  end
+  #  ar
+  #end
 
   ##
   # Ищет все компании, филиалы которых имеют адрес c выбранной улицей
