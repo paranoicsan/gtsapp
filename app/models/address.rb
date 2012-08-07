@@ -11,9 +11,9 @@ class Address < ActiveRecord::Base
   def full_address
 
     s = ""
-    s = s + "#{post_index.code}, " unless post_index.is_a?(NilClass)
+    #s = s + "#{post_index.code}, " unless post_index.is_a?(NilClass)
     s = s + "#{city.name}, " unless city.is_a?(NilClass)
-    s = s + "#{district.name}, " unless district.is_a?(NilClass)
+    #s = s + "#{district.name}, " unless district.is_a?(NilClass)
     s = s + "#{street.name} " unless street.is_a?(NilClass)
     s = s + "д. #{house}, " unless house.eql?("")
     s = s + "каб. #{cabinet}, " unless cabinet.eql?("")

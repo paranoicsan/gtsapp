@@ -5,10 +5,10 @@
     .span6.well
       %table.table.table-condensed
         %tbody
-          %tr
-            %td
-              %p.tl.t-cell-label Район:
-            %td= @address.district.name if @address.district
+          -#%tr
+          -#  %td
+          -#    %p.tl.t-cell-label Район:
+          -#  %td= @address.district.name if @address.district
           %tr
             %td
               %p.tl.t-cell-label Город:
@@ -17,10 +17,10 @@
             %td
               %p.tl.t-cell-label Улица:
             %td= @address.street.name if @address.street
-          %tr
-            %td
-              %p.tl.t-cell-label Почтовый индекс:
-            %td= @address.post_index.code if @address.post_index
+          -#%tr
+          -#  %td
+          -#    %p.tl.t-cell-label Почтовый индекс:
+          -#  %td= @address.post_index.code if @address.post_index
           %tr
             %td
               %p.tl.t-cell-label Дом:

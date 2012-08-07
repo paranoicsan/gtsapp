@@ -7,11 +7,11 @@
         - @address.errors.full_messages.each do |msg|
           %li= msg
 
-  .control-group
-    = f.label :district_id, 'Район:', :class => 'control-label'
-    .controls
-      = f.select(:district_id, options_for_select(District.all.collect{ |el| [el.name, el.id] }),
-      {}, {class: 'select_field'})
+  -#.control-group
+  -#  = f.label :district_id, 'Район:', :class => 'control-label'
+  -#  .controls
+  -#    = f.select(:district_id, options_for_select(District.all.collect{ |el| [el.name, el.id] }),
+  -#    {}, {class: 'select_field'})
   .control-group
     = f.label :city_id, 'Город', :class => 'control-label'
     .controls
@@ -20,10 +20,10 @@
     = f.label :street_id, 'Улица', :class => 'control-label'
     .controls
       = f.select(:street_id, options_for_select(Street.all.collect{ |el| [el.name, el.id] }))
-  .control-group
-    = f.label :post_index_id, 'Почтовый индекс', :class => 'control-label'
-    .controls
-      = f.select(:post_index_id, options_for_select(PostIndex.all.collect{ |el| [el.code, el.id] }))
+  -#.control-group
+  -#  = f.label :post_index_id, 'Почтовый индекс', :class => 'control-label'
+  -#  .controls
+  -#    = f.select(:post_index_id, options_for_select(PostIndex.all.collect{ |el| [el.code, el.id] }))
   .control-group
     = f.label :house, 'Дом', :class => 'control-label'
     .controls

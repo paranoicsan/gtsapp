@@ -28,20 +28,20 @@ describe Address do
     # @return Отформатированную строку по параметрам
     def get_formatted_str(params)
 
-      pi = NIL
-      di = NIL
+      #pi = NIL
+      #di = NIL
       ci = NIL
       ss = NIL
 
-      pi = PostIndex.find(params[:post_index_id]) if params[:post_index_id]
+      #pi = PostIndex.find(params[:post_index_id]) if params[:post_index_id]
       ci = City.find(params[:city_id]) if params[:city_id]
-      di = District.find(params[:district_id]) if params[:district_id]
+      #di = District.find(params[:district_id]) if params[:district_id]
       ss = Street.find(params[:street_id]) if params[:street_id]
 
       s = ""
-      s = s + "#{pi.code}, " unless pi.is_a?(NilClass)
+      #s = s + "#{pi.code}, " unless pi.is_a?(NilClass)
       s = s + "#{ci.name}, " unless ci.is_a?(NilClass)
-      s = s + "#{di.name}, " unless di.is_a?(NilClass)
+      #s = s + "#{di.name}, " unless di.is_a?(NilClass)
       s = s + "#{ss.name} " unless ss.is_a?(NilClass)
       s = s + "д. #{params[:house]}, " unless params[:house].eql?("")
       s = s + "каб. #{params[:cabinet]}, " unless params[:cabinet].eql?("")
