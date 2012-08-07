@@ -35,7 +35,8 @@ describe ContractsController do
   def valid_attributes
     {
         :company_id => 1,
-        :number => "ДОГ-1"
+        :number => "ДОГ-1",
+        :amount => 0
     }
   end
   
