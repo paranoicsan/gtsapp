@@ -36,6 +36,10 @@
       .controls
         = f.select(:agent_id, options_for_select(User.agents.collect{ |u| [u.username, u.id] },
         @company.agent_id), {:prompt => "Выберите агента"})
+  .control-group
+    = f.label :comments, 'Примечание', :class => 'control-label'
+    .controls
+      = f.text_area :comments, :class => 'text_area input-xlarge', :rows => 3
 
   .form-actions
     = f.submit "Сохранить", :class => 'btn btn-primary'
