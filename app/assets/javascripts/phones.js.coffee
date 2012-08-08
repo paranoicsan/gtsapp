@@ -22,7 +22,11 @@ $ ->
     (val.length > 5)
       event.preventDefault()
 
+  $('#phone_name').keyup ->
     checkPhoneNumber()
+
+  # выклюячаем справочную строку
+  showHidePhoneNameHelp(false)
 
   $('#phone_name').blur ->
     checkPhoneNumber()
@@ -41,8 +45,27 @@ mobilePhoneChange = ->
 checkPhoneNumber = ->
   re = /^[0-9]{5,6}$/
   el = $('#phone_name_group')
+  val = $('#phone_name').val()
 
-  if re.test($('#phone_name').val())
+
+  if re.test(val)
     el.removeClass('error')
+    showHidePhoneNameHelp(false)
   else
     el.addClass('error')
+    showHidePhoneNameHelp(true)
+
+# прячем справочную строку
+showHidePhoneNameHelp = (show) ->
+  el = $('#phone_name_help')
+
+  if show
+    el.show()
+  else
+    el.hide()
+
+
+
+
+
+
