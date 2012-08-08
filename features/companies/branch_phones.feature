@@ -81,15 +81,23 @@ Feature: У филиалов может быть несколько телефо
     When Я помечаю checkbox c ключом "phone_mobile"
     Then Я  вижу элемент "phone_mobile_refix_group"
 
-  @focus
   @javascript
   Scenario: Когда пользователь вводит меньше 5 цифр, поле подсвечивается красным цветом
     Given Я авторизован в системе
     And Я нахожусь на странице филиала "Филиал рогов" компании "Рога и копыта"
     And Я нажимаю на ссылку "Добавить" с ключом "phone_add"
     When Я ввожу "123" в поле "phone_name"
-    Then Элемент "phone_name_group" имеет класс "error"
+    Then Элемент "phone_name_group"  имеет класс "error"
 
   @focus
+  @javascript
   Scenario: Пользователь может ввести не более 7 цифр в качестве мобильного телефонного номера
+    Given Я авторизован в системе
+    And Я нахожусь на странице филиала "Филиал рогов" компании "Рога и копыта"
+    And Я нажимаю на ссылку "Добавить" с ключом "phone_add"
+    When Я помечаю checkbox c ключом "phone_mobile"
+    And Я ввожу "123456" в поле "phone_name"
+    Then Элемент "phone_name_group"  имеет класс "error"
+    When Я ввожу "1234567" в поле "phone_name"
+    Then Элемент "phone_name_group" не имеет класс "error"
 

@@ -18,12 +18,14 @@
     = f.label :mobile_refix, 'Префикс мобильного оператора', :class => 'control-label'
     .controls
       = f.text_field :mobile_refix
+      %p#phone_mobile_refix_help.help-inline
+        3 цифры
   .control-group{id:'phone_name_group'}
     = f.label :name, '№ телефона', :class => 'control-label'
     .controls
       = f.text_field :name
       %p#phone_name_help.help-inline
-        5 или 6 цифр
+        5-7 цифр
   .control-group
     = f.label :description, 'Описание', :class => 'control-label'
     .controls
