@@ -10,16 +10,16 @@
 .container-fluid
   .row-fluid
     .span6
-      .well
-        %h3 Компании на рассмотрении
-        %br
-        %table.table.table-striped#suspended_companies_list
-          %tbody
-            %tr
-              %th Название
-              %th Добавлена
-              %th Операции
-            - if @suspended_companies
+      - if @suspended_companies.any?
+        .well
+          %h3 Компании на рассмотрении
+          %br
+          %table.table.table-striped#suspended_companies_list
+            %tbody
+              %tr
+                %th Название
+                %th Добавлена
+                %th Операции
               - @suspended_companies.each do |company|
                 %tr
                   %td= link_to company.title, company_path(company)
@@ -30,7 +30,7 @@
                     -if current_user.is_admin? || current_user.is_operator?
                       = link_to "Активировать", activate_company_path(company), class: "btn btn-mini btn-success"
 
-        = will_paginate @suspended_companies, inner_window: 1, outer_window: 1
+          = will_paginate @suspended_companies, inner_window: 1, outer_window: 1
 
     .span6
       -if current_user.is_admin? && @suspended_contracts.any?
