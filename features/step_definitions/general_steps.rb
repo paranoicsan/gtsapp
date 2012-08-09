@@ -106,3 +106,13 @@ Then /^Элемент "([^"]*)" (|не) имеет класс "([^"]*)"$/ do |el
   end
 
 end
+
+Then /^Поле "([^"]*)" содержит "([^"]*)"$/ do |field_id, field_value|
+  field = page.find("input##{field_id}")
+  assert field["value"] == field_value, "Неверное значение поля"
+end
+
+When /^В выпадающем меню "([^"]*)" выбран пункт cо значением "([^"]*)"$/ do |select_id, select_value|
+  select = page.find("select##{select_id}")
+  assert select["value"] == select_value, "Неверное значение поля"
+end

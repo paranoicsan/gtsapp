@@ -98,3 +98,22 @@ Feature: Должна быть возможность для поиска ком
     Then Кнопка "do_search" - "не активна"
     When Я ввожу "test" в поле "search_name"
     Then Кнопка "do_search" - "активна"
+
+  @javascript
+  @focus
+  Scenario: Пользователь может очистить поля для поиска при помощи кнопки
+    Given Я авторизован в системе
+    And Я перехожу на страницу "Поиск"
+    And Я нахожусь на странице "Поиск"
+    When Я ввожу "est" в поле "search_name"
+    And Я ввожу "test_branch1@test.com" в поле "search_email"
+    And Я выбираю "Chernyahovsk" из элемента "select_search_city"
+    And Я выбираю "Ushakova (Chernyahovsk)" из элемента "select_search_street"
+    And Я ввожу "3" в поле "search_cabinet"
+    And Я ввожу "1234" в поле "search_phone"
+    When Я нажимаю на ссылку "Очистить" с ключом "do_reset"
+    Then Поле "search_name" содержит ""
+    And Поле "search_email" содержит ""
+    And Поле "search_cabinet" содержит ""
+    And Поле "search_phone" содержит ""
+    And В выпадающем меню "select_search_city" выбран пункт cо значением ""

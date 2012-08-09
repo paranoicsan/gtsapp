@@ -8,7 +8,8 @@
 .container-fluid
   .row-fluid
     .span8
-      = form_tag search_company_path, {:remote => true, :method => :post, :class => 'form-horizontal well'}   do
+      = form_tag search_company_path, {:remote => true, :method => :post, :class => 'form-horizontal well',
+      :id => 'search_form_plain'}   do
         #s_name.control-group
           = label_tag 'Название:', nil, :class => 'control-label'
           .controls
@@ -53,6 +54,7 @@
               Поиск по номеру телефона без учёта префикса оператора.
         #s_controls.form-actions
           = submit_tag "Искать", {:disabled => "disabled", :id => "do_search", :class => 'btn'}
+          = link_to "Очистить", "#", id: 'do_reset', class: 'btn', onClick: 'resetFields()'
 
   .row-fluid
     .span10

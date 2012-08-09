@@ -32,6 +32,10 @@ allowSearch = ->
 
   return ret
 
+# Очистка формы поиска
+@resetFields = ->
+  $('#search_form_plain')[0].reset()
+
 # Вешаем обработчики для параметров поиска
 $ ->
   $('.controls > input').each (index, element) =>
