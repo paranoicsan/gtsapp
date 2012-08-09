@@ -116,3 +116,7 @@ When /^В выпадающем меню "([^"]*)" выбран пункт cо з
   select = page.find("select##{select_id}")
   assert select["value"] == select_value, "Неверное значение поля"
 end
+
+Then /^Элемента "([^"]*)" нет на странице$/ do |elem_id|
+  page.should_not have_selector(:xpath, "//*[@id='#{elem_id}']")
+end

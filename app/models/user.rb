@@ -1,7 +1,12 @@
+#Encoding: utf-8
+
 class User < ActiveRecord::Base
   has_many :companies
   easy_roles :roles
-  acts_as_authentic
+  acts_as_authentic do |c|
+    c.validates_format_of_login_field_options :with => /\A[А-Яа-я\w\.+\-_@ ]+$/,
+                                              :message => 'should use only letters, numbers, spaces, and .-_@ please.'
+  end
 
   ##
   # Возвращает набор пользователей с ролью "Агент"

@@ -115,7 +115,7 @@
 
       %p
         .form-inline
-          -if (@current_user.is_admin? || @current_user.is_operator?) && @contract.active?
+          -if @current_user.is_admin? || (@current_user.is_operator? && @contract.active?)
             = select_tag("select_products", options_for_select(Product.all.sort.collect{ |p| [p.name, p.id] }),
             {:prompt => "Выберите продукт", :onChange => "onProdSelect()", :id => "select_product_id"})
             = link_to "Добавить", "#", :id => "add_prod_link", :remote => true, :class => "btn btn-small",
