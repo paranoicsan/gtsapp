@@ -119,22 +119,17 @@ class BranchesController < ApplicationController
       if Website.valid? ws_name
 
         ws = Website.find_by_name ws_name
-
-        if ws
-          flash[:website_error] = "Такой веб-сайт уже существует!"
-        else
-          ws = Website.new :name => ws_name
+        ws = ws ? ws : Website.new(:name => ws_name)
 
           # Если такой сайт есть в БД, но не привязан к филиалу
           # привязываем его, иначе, сначала добавляем в БД, и потом
           # привязываем
           #noinspection RubyResolve
-          unless @branch.websites.include? ws
-            #noinspection RubyResolve
+          if @branch.websites.include? ws
+            flash[:website_error] = "Такой веб-сайт уже связан с этим филиалом."
+          else
             @branch.websites << ws
           end
-
-        end
 
       else
         flash[:website_error] = "Формат: http://www.example.com и ВашСайт.рф."
