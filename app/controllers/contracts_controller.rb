@@ -115,8 +115,9 @@ class ContractsController < ApplicationController
 
     @contract = Contract.find params[:id]
 
-    # проверяем, чтобы это был активный договор
-    if @contract.active?
+    # проверяем, чтобы это был активный договор, если пользователь - не Админ
+    #noinspection RubyResolve
+    if @contract.active? || @current_user.is_admin?
       prod = Product.find params[:prod_id]
       unless @contract.products.include? prod
         @contract.products << prod
@@ -139,7 +140,8 @@ class ContractsController < ApplicationController
   def delete_product
     @contract = Contract.find params[:id]
     # проверяем, чтобы это был активный договор
-    if @contract.active?
+    #noinspection RubyResolve
+    if @contract.active? || @current_user.is_admin?
       prod = Product.find params[:prod_id]
 
       if prod && @contract.products.include?(prod)
