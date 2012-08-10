@@ -6,6 +6,11 @@ class Rubric < ActiveRecord::Base
   scope :social, where(:social => true)
   scope :commercial, where(:social => false)
 
+  ##
+  # Возвращает определённый набор рубрик в зависимости
+  # от рубрикатора
+  # @param [Integer] Тип рубрикатора
+  # @return [Array] Массив рубрик
   def self.by_rubricator(rubricator)
     case rubricator
       # Социальный

@@ -120,3 +120,11 @@ end
 Then /^Элемента "([^"]*)" нет на странице$/ do |elem_id|
   page.should_not have_selector(:xpath, "//*[@id='#{elem_id}']")
 end
+
+Given /^Я выбираю "([^"]*)" из списка с автозаполнением с ключом "([^"]*)"/ do |text, list_id|
+  page.execute_script %Q{ $('##{list_id}').trigger("focus"); }
+  page.execute_script %Q{ $('##{list_id}').trigger("keydown"); }
+  sleep 1
+  page.evaluate_script %Q{ $('.ui-menu-item a:contains("#{text}")').trigger("mouseenter").trigger("click"); }
+  page.execute_script %Q{ $('##{list_id}').trigger("keyup") }
+end

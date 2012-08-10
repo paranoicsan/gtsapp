@@ -78,7 +78,7 @@
           = hidden_field_tag 'rubric_id'
           = hidden_field_tag 'company_id', @company.id
           = link_to "Добавить рубрику", "#", :id => "add_rub_link", :remote => true, :class => "btn btn-small",
-          :onClick => "$('select option:first').attr('selected','1');"
+          :onClick => "$('#company_rubric_id').val('')"
         %p
           #rubrics_list
             = render :partial => "rubrics_list"

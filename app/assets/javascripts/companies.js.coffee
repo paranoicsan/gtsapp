@@ -27,7 +27,7 @@
     el.hide()
   else if rub_id
     # меняем саму ссылку
-    s = '/companies/' + $('#company_id').val() + '/add_rubric/' + $('#rubric_id').val()
+    s = '/companies/' + $('#company_id').val() + '/add_rubric/' + rub_id
     el.show()
     el.attr('href', s)
   else
