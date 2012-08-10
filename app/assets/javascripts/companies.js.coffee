@@ -3,12 +3,6 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
 ##
-# Главный объект
-#
-@gts_company =
-  id: '-1'
-
-##
 #
 # Прячет или показывает выпадающее меню со списком зарегистрированных агентов
 #
@@ -26,16 +20,18 @@
 #
 @onRubSelect = ->
   el =  $('#add_rub_link')
+  val = $('#company_rubric_id').val()
+  rub_id = $('#rubric_id').val()
 
-  # Прячем или показываем ссылку для добавления рубрики
-  if $('#select_rubrics_id').val() != ''
-    el.show()
+  if !val
+    el.hide()
+  else if rub_id
     # меняем саму ссылку
-    s = '/companies/' + gts_company.id + '/add_rubric/' + $('#select_rubrics_id').val()
+    s = '/companies/' + $('#company_id').val() + '/add_rubric/' + $('#rubric_id').val()
+    el.show()
     el.attr('href', s)
   else
     el.hide()
-
 
 
 # прячем ссылку для добавления рубрики, т.к. по умолчанию нет выбранных рубрик

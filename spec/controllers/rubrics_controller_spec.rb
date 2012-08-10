@@ -29,6 +29,7 @@ describe RubricsController do
 
   describe "GET index" do
     it "assigns all rubrics as @rubrics" do
+      make_user_system
       rubric = Rubric.create! valid_attributes
       get :index, {}, valid_session
       assigns(:rubrics).should eq([rubric])
@@ -37,6 +38,7 @@ describe RubricsController do
 
   describe "GET show" do
     it "assigns the requested rubric as @rubric" do
+      make_user_system
       rubric = Rubric.create! valid_attributes
       get :show, {:id => rubric.to_param}, valid_session
       assigns(:rubric).should eq(rubric)
