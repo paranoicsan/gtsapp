@@ -5,6 +5,8 @@
 // the compiled file.
 //
 //= require jquery
-//= require jquery_ujs
 //= require twitter/bootstrap
+//= require jquery_ujs
+//= require jquery.ui.all
+//= require autocomplete-rails
 //= require_tree .

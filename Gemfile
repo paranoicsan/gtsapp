@@ -11,6 +11,7 @@ gem 'authlogic'
 gem 'easy_roles'
 gem 'will_paginate'
 gem 'twitter-bootstrap-rails'
+gem 'rails3-jquery-autocomplete'
 
 group :development, :test do
   gem 'debugger', :require => 'ruby-debug'
@@ -36,6 +37,7 @@ group :assets do
   gem 'uglifier'
   gem 'therubyracer'
   gem 'bootstrap-will_paginate'
+  gem 'jquery-ui-rails'
 end
 
 group :test, :assets do

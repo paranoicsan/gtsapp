@@ -75,15 +75,16 @@
           %small Выберите из списка, чтобы добавить
         %p
           .form-inline
-            = select_tag("select_rubrics", options_for_select(Rubric.by_rubricator(@company.rubricator).collect{ |s| [s.name, s.id] }),
-            {:prompt => "Выберите рубрику", :onChange => "onRubSelect()", :id => "select_rubrics_id"})
-            = link_to "Добавить рубрику", "#", :id => "add_rub_link", :remote => true, :class => "btn btn-small",
-            :onClick => "$('select option:first').attr('selected','1');"
-            :javascript
-              gts_company.id = "#{@company.id}";
-
-            #rubrics_list
-              = render :partial => "rubrics_list"
+            = autocomplete_field_tag 'rubric', '', companies_autocomplete_rubric_name_path, :size => 75
+            -#= select_tag("select_rubrics", options_for_select(Rubric.by_rubricator(@company.rubricator).collect{ |s| [s.name, s.id] }),
+            -#{:prompt => "Выберите рубрику", :onChange => "onRubSelect()", :id => "select_rubrics_id"})
+            -#= link_to "Добавить рубрику", "#", :id => "add_rub_link", :remote => true, :class => "btn btn-small",
+            -#:onClick => "$('select option:first').attr('selected','1');"
+            -#:javascript
+            -#  gts_company.id = "#{@company.id}";
+            -#
+            -##rubrics_list
+            -#  = render :partial => "rubrics_list"
 
     .row-fluid
       .span12
