@@ -48,8 +48,10 @@ module Gtsapp
     config.generators do |g|
       #Здесь я отключил генерацию rspec файлов для вьюх, хелперов, роутинга и запросов
       #т.о. оставив лишь генерацию spec's для моделей и контроллеров
-      g.test_framework :rspec, :view_specs => false, :helper_specs => true,
-                       :routing_specs => false, :request_specs => false
+      g.test_framework :rspec, :view_specs => false, :helper_specs => false, :routing_specs => false,
+                       :request_specs => false, :fixture_replacement => :factory_girl
+      g.template_engine :haml
+      g.fixture_replacement :factory_girl, :dir => 'spec/factories'
     end
   end
 end

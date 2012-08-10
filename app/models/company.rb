@@ -11,8 +11,8 @@ class Company < ActiveRecord::Base
   before_save :check_fields
   #scope :suspended, where(:company_status_id => CompanyStatus.suspended.id)
 
-  def suspended
-    self.where(:company_status_id => CompanyStatus.suspended.id)
+  def self.suspended
+    where(:company_status_id => CompanyStatus.suspended.id)
   end
 
   # Возвращает истину, если компания владеет только социальным рубрикатором

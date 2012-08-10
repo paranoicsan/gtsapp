@@ -1,6 +1,8 @@
 # encoding: utf-8
 require 'rubygems'
 require 'spork'
+require 'factory_girl'
+
 #uncomment the following line to use spork with the debugger
 #require 'spork/ext/ruby-debug'
 
@@ -23,6 +25,12 @@ Spork.prefork do
 # in spec/support/ and its subdirectories.
 #noinspection RubyResolve
   Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
+
+  # Загружаем фабрики
+  Dir.glob(File.dirname(__FILE__) + "/factories/*").each do |factory|
+    #noinspection RubyResolve
+    require factory
+  end
 
   RSpec.configure do |config|
     # ## Mock Framework
@@ -49,7 +57,7 @@ Spork.prefork do
 
     config.before(:suite) do
       DatabaseCleaner.strategy = :transaction
-      #DatabaseCleaner.clean_with(:truncation)
+      DatabaseCleaner.clean_with :transaction
     end
 
     config.before(:each) do
@@ -69,12 +77,8 @@ Spork.each_run do
     SimpleCov.start 'rails'
   end
 
-  #["Активна", "На рассмотрении", "В архиве"].each do |status|
-  #  CompanyStatus.create! :name => status
-  #end
-  #["Заявка с сайта", "От агента"].each do |source|
-  #  CompanySource.create :name => source
-  #end
+  DatabaseCleaner.clean_with :truncation
+
 end
 
 # --- Instructions ---

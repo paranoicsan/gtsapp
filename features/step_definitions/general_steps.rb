@@ -128,3 +128,7 @@ Given /^Я выбираю "([^"]*)" из списка с автозаполне�
   page.evaluate_script %Q{ $('.ui-menu-item a:contains("#{text}")').trigger("mouseenter").trigger("click"); }
   page.execute_script %Q{ $('##{list_id}').trigger("keyup") }
 end
+
+When /^Существуют определённые статусы договоров$/ do
+  create_contract_statuses
+end

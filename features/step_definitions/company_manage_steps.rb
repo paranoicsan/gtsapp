@@ -18,6 +18,9 @@ When /^Компания имеет статус "([^"]*)"$/ do |status_name|
 end
 
 Given /^Существуют следующие компании$/ do |table|
+
+  create_company_sources
+
   table.hashes.each do |company|
     params = {
         :title => company[:title]
@@ -98,6 +101,7 @@ When /^Я добавляю следующие компании$/ do |table|
 end
 
 When /^Я создаю новую компанию через веб-интерфейс с параметрами$/ do |table|
+  create_company_sources
   # table is a | Рога и копыта | Заявка с сайта |pending
   table.hashes.each do |param|
     #noinspection RubyResolve
@@ -109,6 +113,7 @@ When /^Я создаю новую компанию через веб-интер�
 end
 
 When /^Существует компания с параметрами$/ do |table|
+  create_company_sources
   # table is a | Рога и копыта | Заявка с сайта |pending
   table.hashes.each do |param|
     cs = CompanySource.find_by_name param[:source_name]
@@ -156,6 +161,7 @@ Then /^Я вижу только (\d+) компаний в таблице "([^"]*
 end
 
 Given /^Существуют (\d+) компаний с названиями на вариацию "([^"]*)" и параметрами$/ do |cnt, cname_base, table|
+  create_company_statuses # создаём статусы
   params = {}
   if table
     table.hashes.each do |p|

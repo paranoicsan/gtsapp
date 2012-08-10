@@ -37,6 +37,7 @@ When /^Я перехожу на страницу "([^"]*)"$/ do |title|
       #noinspection RubyResolve
       visit login_path
     when "Сводка"
+
       #noinspection RubyResolve
       visit dashboard_path
     when "Пользователи"
@@ -46,6 +47,7 @@ When /^Я перехожу на страницу "([^"]*)"$/ do |title|
       #noinspection RubyResolve
       visit companies_path
     when "Поиск"
+      #noinspection RubyResolve
       visit search_path
     else
       assert false, "Неизвестный путь."
@@ -83,5 +85,6 @@ When /^Я нажимаю на ссылку по ID "([^"]*)"$/ do |link_id|
 end
 Then /^Я попадаю на страницу филиала "([^"]*)" компании "([^"]*)"$/ do |bname, cname|
   b = find_branch bname, cname
+  #noinspection RubyResolve
   current_path.should == branch_path(b)
 end

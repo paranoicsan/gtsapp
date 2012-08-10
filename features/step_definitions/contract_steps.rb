@@ -38,6 +38,7 @@ Then /^Я вижу текущую дату для поля "([^"]*)"$/ do |field
 end
 
 When /^Существуют следующие договора$/ do |table|
+  create_contract_statuses
   table.hashes.each do |row|
     Contract.create! row
   end

@@ -21,6 +21,9 @@ module LoginHelpers
     pwd = plain_password ? plain_password : user.password
     fill_in "user_session_username", :with => user.username
     fill_in "user_session_password", :with => pwd
+
+    create_company_statuses # создаём статусы компаний
+
     click_button "login_bt"
   end
 

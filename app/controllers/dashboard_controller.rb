@@ -3,15 +3,11 @@ class DashboardController < ApplicationController
 
   def index
 
-    # эта проверка существует на случай тестов, когда у нас никаких статусов не создано
-    if CompanyStatus.suspended
-
-      #noinspection RubyResolve
-      if current_user.is_agent?
-        @suspended_companies = Company.suspended_by_user(current_user.id).paginate(:page => params[:page], :per_page => 10)
-      else
-        @suspended_companies = Company.suspended.paginate(:page => params[:page], :per_page => 10)
-      end
+    #noinspection RubyResolve
+    if current_user.is_agent?
+      @suspended_companies = Company.suspended_by_user(current_user.id).paginate(:page => params[:page], :per_page => 10)
+    else
+      @suspended_companies = Company.suspended.paginate(:page => params[:page], :per_page => 10)
     end
 
     # Договора на рассмотрении
