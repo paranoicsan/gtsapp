@@ -6,6 +6,8 @@ class Address < ActiveRecord::Base
   belongs_to :post_index
   belongs_to :branch
 
+  validates_presence_of :branch_id
+
   # Форматирует объект адреса в строку с условными обозначениями
   # @return [string] строка адреса
   def full_address

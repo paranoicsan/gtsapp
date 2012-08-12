@@ -20,7 +20,7 @@ group :development, :test do
   gem 'rspec'
   gem 'rspec-rails'
   gem 'spork'
-  gem 'factory_girl_rails', :require => false
+  gem 'factory_girl_rails', "~> 4.0", :require => false
 end
 
 group :test do
@@ -30,7 +30,7 @@ group :test do
   gem 'capybara'
   gem 'launchy'
   gem 'chromedriver-helper'
-
+  gem 'faker'
 end
 
 # Gems used only for assets and not required
