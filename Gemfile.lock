@@ -238,7 +238,6 @@ DEPENDENCIES
   simplecov
   spork
   sqlite3
-  therubyracer
   twitter-bootstrap-rails
   uglifier
   will_paginate
