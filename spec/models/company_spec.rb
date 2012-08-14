@@ -15,54 +15,6 @@ describe Company do
     company.should_not be_valid
   end
 
-  describe ".queue_for_delete может быть поставлена в очередь на удаление" do
-
-    context "агент ставит компанию на удаление" do
-
-      let(:company) { FactoryGirl.create :company }
-      let(:status_active) { FactoryGirl.create :company_status_active }
-      let(:status_archived) { FactoryGirl.create :company_status_archived }
-      let(:status_suspended) { FactoryGirl.create :company_status_suspended }
-      let(:status_deletion) { FactoryGirl.create :company_status_on_deletion }
-
-      it "активную компанию" do
-        company.company_status = status_active
-        expect {
-          company.queue_for_delete
-        }.to change(company, :company_status).from(status_active).to(status_deletion)
-      end
-
-      it "архивную компанию" do
-        company.company_status = status_archived
-        expect {
-          company.queue_for_delete
-        }.to change(company, :company_status).from(status_archived).to(status_deletion)
-      end
-
-      it "компанию на рассмотрении" do
-        company.company_status = status_suspended
-        expect {
-          company.queue_for_delete
-        }.to change(company, :company_status).from(status_suspended).to(status_deletion)
-      end
-
-      pending "нельзя поставить компанию на удаление, если она уже поставлена на удаление" do
-        company.company_status = status_deletion
-        expect {
-          company.queue_for_delete
-        }.to raise
-      end
-
-      it "нельзя поставить компанию на удаление без описания причины" do
-
-      end
-
-    end
-
-
-
-  end
-
   describe "Показывает тот или иной рубрикатор в разном виде" do
 
     before(:each) do
@@ -128,5 +80,53 @@ describe Company do
     end
 
   end
+
+  describe "#queue_for_delete" do
+
+    let(:company) { FactoryGirl.create :company }
+    let(:status_active) { FactoryGirl.create :company_status_active }
+    let(:status_archived) { FactoryGirl.create :company_status_archived }
+    let(:status_suspended) { FactoryGirl.create :company_status_suspended }
+    let(:status_deletion) { FactoryGirl.create :company_status_on_deletion }
+
+    context "агент может выставить компанию на удаление" do
+
+      it "активная компания меняет статус на 'На удаление'" do
+        company.company_status = status_active
+        expect {
+          company.queue_for_delete
+        }.to change(company, :company_status).from(status_active).to(status_deletion)
+      end
+
+      it "архивная компания меняет статус на 'На удаление'" do
+        company.company_status = status_archived
+        expect {
+          company.queue_for_delete
+        }.to change(company, :company_status).from(status_archived).to(status_deletion)
+      end
+
+      it "компания на рассмотрении меняет статус на 'На удаление'" do
+        company.company_status = status_suspended
+        expect {
+          company.queue_for_delete
+        }.to change(company, :company_status).from(status_suspended).to(status_deletion)
+      end
+
+      it "вызывает ошибку, если не указан причина удаления" do
+        company.company_status = status_deletion
+        company.queue_for_delete
+        company.should have(1).error_on(:reason_deleted_on)
+      end
+
+      it "ставится на удаление, если указана причина" do
+        company.company_status = status_deletion
+        company.queue_for_delete "Причина"
+        company.should be_valid
+      end
+
+    end
+
+  end
+
 
 end

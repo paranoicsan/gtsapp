@@ -10,7 +10,11 @@ class Company < ActiveRecord::Base
   has_many :company_rubrics
   has_many :rubrics, :through => :company_rubrics
   validates_presence_of :title
-  before_save :check_fields
+  validates_presence_of :reason_deleted_on, :if => :marked_for_deletion,
+      :message => 'Не указана причина удаления'
+  #noinspection RailsParamDefResolve
+  before_save :check_fields, only: [:create]
+
 
   def self.suspended
     where(:company_status_id => CompanyStatus.suspended.id)
@@ -46,7 +50,6 @@ class Company < ActiveRecord::Base
       #noinspection RubyResolve
       self.company_status = CompanyStatus.suspended if self.author.is_agent?
     end
-
   end
 
   # Выводит текстовое обозначение рубриктора для компании
@@ -129,9 +132,7 @@ class Company < ActiveRecord::Base
   end
 
   ##
-  #
   # Возвращает агента компании
-  #
   # @return [String] Агент компании
   def agent_name
     if agent_id
@@ -142,8 +143,16 @@ class Company < ActiveRecord::Base
   ##
   # Помечает компанию как помеченную на удаление,
   # путём замены статуса
-  def queue_for_delete
+  def queue_for_delete(reason = nil)
     self.company_status = CompanyStatus.queued_for_delete
+    self.reason_deleted_on = reason
+    save
   end
+
+  private
+
+    def marked_for_deletion
+      self.company_status ? self.company_status.eql?(CompanyStatus.queued_for_delete) : false
+    end
 
 end
