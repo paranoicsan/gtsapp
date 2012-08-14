@@ -5,12 +5,12 @@ describe Address do
 
   it "Фабрика корректна" do
     #noinspection RubyResolve
-    create(:address).should be_valid
+    FactoryGirl.create(:address).should be_valid
   end
 
   it "Не может быть создан без филиала" do
     #noinspection RubyResolve
-    build(:address, branch: nil).should_not be_valid
+    FactoryGirl.build(:address, branch: nil).should_not be_valid
   end
 
   describe ".full_address возвращает отформатированную строку полного адреса" do
@@ -38,9 +38,9 @@ describe Address do
     end
 
     it "должен содержать в себе все параметры объекта с заданным форматированием" do
-      address = create :address
+      address = FactoryGirl.create :address
 
-      params = attributes_for :address # чистые атрибуты адреса
+      params = FactoryGirl.attributes_for :address # чистые атрибуты адреса
       params[:other] = address.other
       params[:city] = address.city.name
       params[:street] = address.street.name
@@ -51,9 +51,9 @@ describe Address do
     end
 
     it "пустые параметры должен пропускать" do
-      address = create :address_wout_city
+      address = FactoryGirl.create :address_wout_city
 
-      params = attributes_for :address_wout_city # чистые атрибуты адреса
+      params = FactoryGirl.attributes_for :address_wout_city # чистые атрибуты адреса
       params[:other] = address.other
       params[:city] = ""
       params[:street] = address.street.name

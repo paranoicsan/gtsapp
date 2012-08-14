@@ -3,6 +3,9 @@ class Company < ActiveRecord::Base
   belongs_to :company_status
   belongs_to :company_source
   belongs_to :user
+  belongs_to :agent, :class_name => 'User', :foreign_key => "agent_id"
+  belongs_to :author, :class_name => 'User', :foreign_key => "author_user_id"
+  belongs_to :editor, :class_name => 'User', :foreign_key => "editor_user_id"
   has_many :contracts
   has_many :branches
   has_many :company_rubrics
@@ -118,7 +121,7 @@ class Company < ActiveRecord::Base
   #
   # @return [String] Отформатированное значение источника информации
   def source_name
-    if self.company_source
+    if company_source
       CompanySource.find(self.company_source_id).name
     else
       "Не указан"
@@ -131,7 +134,7 @@ class Company < ActiveRecord::Base
   #
   # @return [Boolean] Истина, если компания имеет источник "От агента"
   def from_agent?
-    self.company_source_id == CompanySource.from_agent_id
+    company_source_id == CompanySource.from_agent_id
   end
 
   ##
@@ -140,7 +143,7 @@ class Company < ActiveRecord::Base
   #
   # @return [String] Агент компании
   def agent_name
-    if self.agent_id
+    if agent_id
       User.find(self.agent_id).username
     end
   end

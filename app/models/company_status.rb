@@ -3,15 +3,19 @@ class CompanyStatus < ActiveRecord::Base
   has_many :companies
 
   def self.active
-    CompanyStatus.find_by_name "Активна"
+    self.find_by_name "Активна"
   end
 
   def self.suspended
-    CompanyStatus.find_by_name "На рассмотрении"
+    self.find_by_name "На рассмотрении"
   end
 
   def self.archived
-    CompanyStatus.find_by_name "В архиве"
+    self.find_by_name "В архиве"
+  end
+
+  def self.on_deletion
+    self.find_by_name "На удалении"
   end
 
 end

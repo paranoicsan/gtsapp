@@ -56,7 +56,7 @@ Spork.prefork do
     config.infer_base_class_for_anonymous_controllers = true
 
     # разрешаем использование миксованного синтаксиса
-    config.include FactoryGirl::Syntax::Methods
+    #config.include FactoryGirl::Syntax::Methods
 
     config.before(:suite) do
       DatabaseCleaner.strategy = :transaction

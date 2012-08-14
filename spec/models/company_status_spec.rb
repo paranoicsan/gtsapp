@@ -3,34 +3,39 @@ require 'spec_helper'
 
 describe CompanyStatus do
 
+  it "Фабрика корректна" do
+    #noinspection RubyResolve
+    FactoryGirl.create(:company_status).should be_valid
+  end
+
   before(:all) do
 
     #@status_suspended = CompanyStatus.create name: 'На рассмотрении'
     #@status_archived = CompanyStatus.create name: 'В архиве'
   end
 
-  describe "должен возвращать предопределённые объекты статуса" do
+  describe "возвращает объекты статуса по идентификатору" do
 
-    # Метод создаёт в БД нужный объект
-    def create_with_name(name)
-      CompanyStatus.create name: name
+    it "#active возвращает объект активного статуса" do
+      status = FactoryGirl.create :company_status_active
+      CompanyStatus.active.should eq(status)
     end
 
-    it ".active возвращает объект активного статус" do
-      s = create_with_name 'Активна'
-      c = CompanyStatus.active
-      c.should == s
+    it "#suspended возвращает объект статуса на рассмотрении" do
+      status = FactoryGirl.create :company_status_suspended
+      CompanyStatus.suspended.should eq(status)
     end
-    it ".suspended возвращает объект статуса на рассмотрении" do
-      s = create_with_name 'На рассмотрении'
-      c = CompanyStatus.suspended
-      c.should == s
+
+    it "#archived возвращает объект архвиного статуса" do
+      status = FactoryGirl.create :company_status_archived
+      CompanyStatus.archived.should eq(status)
     end
-    it ".archived возвращает объект архивного статуса" do
-      s = create_with_name 'В архиве'
-      c = CompanyStatus.archived
-      c.should == s
+
+    it "#deletion возвращает объект статуса очереди на удаление" do
+      status = FactoryGirl.create :company_status_on_deletion
+      CompanyStatus.on_deletion.should eq(status)
     end
+
   end
 
 end

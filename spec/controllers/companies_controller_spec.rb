@@ -21,18 +21,7 @@ describe CompaniesController do
   # Company. As you add validations to Company, be sure to
   # update the return value of this method accordingly.
   def valid_attributes
-    {
-        :title => 'rspec_company',
-        :date_added => Date::today,
-        :author_user_id => 1
-    }
-  end
-
-  # This should return the minimal set of values that should be in the session
-  # in order to pass any filters (e.g. authentication) defined in
-  # CompaniesController. Be sure to keep this updated too.
-  def valid_session
-    {}
+    FactoryGirl.attributes_for :company
   end
 
   describe "Подготовка значений рубрикатора" do
@@ -56,78 +45,80 @@ describe CompaniesController do
 
   describe "GET index" do
     it "assigns all companies as @companies" do
-      company = Company.create! valid_attributes
-      get :index, {}, valid_session
+      company = FactoryGirl.create :company
+      get :index
       assigns(:companies).should eq([company])
     end
   end
 
   describe "GET show" do
     it "assigns the requested company as @company" do
-      company = Company.create! valid_attributes
-      get :show, {:id => company.to_param}, valid_session
+      company = FactoryGirl.create :company
+      get :show, :id => company.to_param
       assigns(:company).should eq(company)
     end
   end
 
   describe "GET new" do
     it "assigns a new company as @company" do
-      get :new, {}, valid_session
+      get :new
       assigns(:company).should be_a_new(Company)
     end
   end
 
   describe "GET edit" do
     it "assigns the requested company as @company" do
-      company = Company.create! valid_attributes
-      get :edit, {:id => company.to_param}, valid_session
+      company = FactoryGirl.create :company
+      get :edit, {:id => company.to_param}
       assigns(:company).should eq(company)
     end
   end
 
   describe "POST create" do
     describe "with valid params" do
+
+      def post_valid
+        post :create, :company => valid_attributes
+      end
+
       it "creates a new Company" do
         expect {
-          post :create, {:company => valid_attributes}, valid_session
+          post_valid
         }.to change(Company, :count).by(1)
       end
 
-      it "создается со статусом АКТИВНА для админа и оператора" do
-        status = CompanyStatus.create!  :name => "Активна"
-        post :create, {:company => valid_attributes}, valid_session
-        assigns(:company).company_status == status
-      end
-
-      it "создается со статусом НА РАССМОТРЕНИИ для агента" do
-
-      end
-
       it "assigns a newly created company as @company" do
-        post :create, {:company => valid_attributes}, valid_session
+        post_valid
         assigns(:company).should be_a(Company)
         #noinspection RubyResolve
         assigns(:company).should be_persisted
       end
 
       it "redirects to the created company" do
-        post :create, {:company => valid_attributes}, valid_session
+        post_valid
         response.should redirect_to(Company.last)
       end
     end
 
     describe "with invalid params" do
+
+      def post_invalid
+        post :create, :company => @attrs
+      end
+
+      before(:each) do
+        @attrs = FactoryGirl.attributes_for(:company, title: nil)
+      end
+
       it "assigns a newly created but unsaved company as @company" do
         # Trigger the behavior that occurs when invalid params are submitted
-        Company.any_instance.stub(:save).and_return(false)
-        post :create, {:company => {}}, valid_session
+        post_invalid
         assigns(:company).should be_a_new(Company)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
-        Company.any_instance.stub(:save).and_return(false)
-        post :create, {:company => {}}, valid_session
+        post_invalid
         response.should render_template("new")
       end
     end
@@ -135,15 +126,19 @@ describe CompaniesController do
 
   describe "PUT update" do
     describe "with valid params" do
+
+      before(:each) do
+        @company = FactoryGirl.create :company, valid_attributes
+      end
+
       it "updates the requested company" do
-        company = Company.create! valid_attributes
-        # Assuming there are no other companies in the database, this
-        # specifies that the Company created on the previous line
-        # receives the :update_attributes message with whatever params are
-        # submitted in the request.
-        Company.any_instance.should_receive(:update_attributes).with({:these.to_s => 'params', :rubricator.to_s => 0,
-                                                                      :editor_user_id.to_s => 1})
-        put :update, {:id => company.to_param, :company => {:these => 'params'}}, valid_session
+        p = HashWithIndifferentAccess.new(
+            these: 'params',
+            rubricator: 0,
+            editor_user_id: @user.id
+        )
+        Company.any_instance.should_receive(:update_attributes).with(p)
+        put :update, :id => @company.to_param, :company => p
       end
 
       it "assigns the requested company as @company" do
