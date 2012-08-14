@@ -139,4 +139,11 @@ class Company < ActiveRecord::Base
     end
   end
 
+  ##
+  # Помечает компанию как помеченную на удаление,
+  # путём замены статуса
+  def queue_for_delete
+    self.company_status = CompanyStatus.queued_for_delete
+  end
+
 end

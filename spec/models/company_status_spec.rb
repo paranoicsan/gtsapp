@@ -33,7 +33,7 @@ describe CompanyStatus do
 
     it "#deletion возвращает объект статуса очереди на удаление" do
       status = FactoryGirl.create :company_status_on_deletion
-      CompanyStatus.on_deletion.should eq(status)
+      CompanyStatus.queued_for_delete.should eq(status)
     end
 
   end

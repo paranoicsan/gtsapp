@@ -14,7 +14,7 @@ class CompanyStatus < ActiveRecord::Base
     self.find_by_name "В архиве"
   end
 
-  def self.on_deletion
+  def self.queued_for_delete
     self.find_by_name "На удалении"
   end
 
