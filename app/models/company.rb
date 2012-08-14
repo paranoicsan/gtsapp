@@ -12,7 +12,6 @@ class Company < ActiveRecord::Base
   has_many :rubrics, :through => :company_rubrics
   validates_presence_of :title
   before_save :check_fields
-  #scope :suspended, where(:company_status_id => CompanyStatus.suspended.id)
 
   def self.suspended
     where(:company_status_id => CompanyStatus.suspended.id)
@@ -34,14 +33,17 @@ class Company < ActiveRecord::Base
   end
 
   ##
-  #
   # Проверяет и обрабатывает поля перед непосредственной записью в БД
-  #
   def check_fields
-    # Если дату не заполнили, подставляем сегодняшний день
-    unless self.date_added
-      self.date_added = Date.today
-    end
+    self.date_added = Date.today unless self.date_added
+
+    #noinspection RubyResolve
+    self.company_status = CompanyStatus.active if self.author.is_admin?
+    #noinspection RubyResolve
+    self.company_status = CompanyStatus.active if self.author.is_operator?
+    #noinspection RubyResolve
+    self.company_status = CompanyStatus.suspended if self.author.is_agent?
+
   end
 
   # Выводит текстовое обозначение рубриктора для компании
@@ -57,9 +59,7 @@ class Company < ActiveRecord::Base
   end
 
   ##
-  #
   # Возвращает автора компании
-  #
   # @return [String] Автор компании
   def author_name
     s = ""
@@ -70,9 +70,7 @@ class Company < ActiveRecord::Base
   end
 
   ##
-  #
   # Возвращает редактора компании
-  #
   # @return [String] Редактор компании
   def editor_name
     s = ""
@@ -83,9 +81,7 @@ class Company < ActiveRecord::Base
   end
 
   ##
-  #
   # Активирует указанную компанию
-  #
   # @param [Integer] Ключ компании
   def self.activate(company_id)
     c = Company.find company_id
@@ -94,18 +90,14 @@ class Company < ActiveRecord::Base
   end
 
   ##
-  #
   # Определяет, активна ли компания
-  #
   # @return [Boolean] Активна ли компания
   def active?
     self.company_status_id == CompanyStatus.active.id
   end
 
   ##
-  #
   # Отсортированный набор филиалов
-  #
   # @return [Array] Коллекция филиалов
   def branches_sorted
     self.branches.order("is_main DESC, fact_name ASC")
@@ -116,9 +108,7 @@ class Company < ActiveRecord::Base
   end
 
   ##
-  #
   # Определяет имя источника информации
-  #
   # @return [String] Отформатированное значение источника информации
   def source_name
     if company_source
@@ -129,9 +119,7 @@ class Company < ActiveRecord::Base
   end
 
   ##
-  #
   # Определяет, имеет ли компании источник "От агента"
-  #
   # @return [Boolean] Истина, если компания имеет источник "От агента"
   def from_agent?
     company_source_id == CompanySource.from_agent_id

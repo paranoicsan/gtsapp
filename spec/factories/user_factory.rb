@@ -6,20 +6,21 @@ FactoryGirl.define do
     email { Faker::Internet.email }
     username { Faker::Internet.user_name }
     password 12345
+    #noinspection RubyResolve
     password_confirmation 12345
 
-    roles [:agent]
+    roles %w(agent)
 
     factory :user_admin do
-      roles [:admin]
+      roles %w(admin)
     end
 
     factory :user_agent do
-      roles [:agent]
+      roles %w(agent)
     end
 
     factory :user_operator do
-      roles [:operator]
+      roles %w(operator)
     end
 
   end

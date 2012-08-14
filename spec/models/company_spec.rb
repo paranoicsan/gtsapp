@@ -15,6 +15,22 @@ describe Company do
     company.should_not be_valid
   end
 
+  describe "может быть поставлена в очередь на удаление" do
+
+    before(:each) do
+
+    end
+
+    it "агент ставит компанию на удалению" do
+
+    end
+
+    it "нельзя поставить компанию на удаление без описания причины" do
+
+    end
+
+  end
+
   describe "Показывает тот или иной рубрикатор в разном виде" do
 
     before(:each) do
@@ -55,12 +71,28 @@ describe Company do
   end
 
   describe "Создаётся с тем или иным состоянием, в зависимости от прав автора" do
-    pending "статус АКТИВНА, если создаёт админ или оператор" do
 
+    it "статус АКТИВНА, если создаёт админ" do
+      user = FactoryGirl.create(:user_admin)
+      status = FactoryGirl.create :company_status_active
+      company = FactoryGirl.create(:company, author: user, editor: user, user: user)
+      #noinspection RubyResolve
+      company.company_status.should eq(status)
+      end
+
+    it "статус АКТИВНА, если создаёт оператор" do
+      user = FactoryGirl.create(:user_operator)
+      status = FactoryGirl.create :company_status_active
+      company = FactoryGirl.create(:company, author: user, editor: user, user: user)
+      #noinspection RubyResolve
+      company.company_status.should eq(status)
     end
 
-    pending "статус НА РАССМОТРЕНИИ, если создаёт агент" do
-
+    it "статус НА РАССМОТРЕНИИ, если создаёт агент" do
+      status = FactoryGirl.create :company_status_suspended
+      company = FactoryGirl.create :company
+      #noinspection RubyResolve
+      company.company_status.should eq(status)
     end
 
   end

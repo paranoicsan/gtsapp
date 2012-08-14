@@ -3,9 +3,10 @@ module ApplicationHelper
   APP_VERSION_FILE = 'config/version'
   File.open(APP_VERSION_FILE) { |f| APP_VERSION = f.readline}
 
+  ##
+  # Возвращает имя CSS класса для обработки верхнего меню в twitter bootstrap
+  # @return [String] Имя CSS класса
   def top_menu_active?(path)
-    puts path
-    puts request.url
     request.fullpath == path ? 'active' : ''
   end
 end
