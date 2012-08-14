@@ -75,7 +75,7 @@ describe Company do
     it "статус АКТИВНА, если создаёт админ" do
       user = FactoryGirl.create(:user_admin)
       status = FactoryGirl.create :company_status_active
-      company = FactoryGirl.create(:company, author: user, editor: user, user: user)
+      company = FactoryGirl.create(:company, author: user, editor: user)
       #noinspection RubyResolve
       company.company_status.should eq(status)
       end
@@ -83,7 +83,7 @@ describe Company do
     it "статус АКТИВНА, если создаёт оператор" do
       user = FactoryGirl.create(:user_operator)
       status = FactoryGirl.create :company_status_active
-      company = FactoryGirl.create(:company, author: user, editor: user, user: user)
+      company = FactoryGirl.create(:company, author: user, editor: user)
       #noinspection RubyResolve
       company.company_status.should eq(status)
     end

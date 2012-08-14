@@ -35,13 +35,13 @@ Feature: Должна быть возможность для поиска ком
     And Я нажимаю на кнопку "do_search"
     And Я вижу таблицу "search_results_table" с компаниями
       | status  | title       |
-      | Активна | EastCompany |
+      | На рассмотрении | EastCompany |
     And Я ввожу "123" в поле "search_phone"
     And Я нажимаю на кнопку "do_search"
     Then Я вижу таблицу "search_results_table" с компаниями
       | status  | title       |
-      | Активна | EastCompany |
-      | Активна | TestCompany |
+      | На рассмотрении | EastCompany |
+      | На рассмотрении | TestCompany |
 
   @javascript
   Scenario: Пользователь может искать компанию по мобильному номеру телефона
@@ -52,4 +52,4 @@ Feature: Должна быть возможность для поиска ком
     And Я нажимаю на кнопку "do_search"
     Then Я вижу таблицу "search_results_table" с компаниями
       | status  | title       |
-      | Активна | TestCompany |
+      | На рассмотрении | TestCompany |

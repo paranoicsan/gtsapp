@@ -5,12 +5,13 @@ FactoryGirl.define do
   factory :company do
 
     comments { Faker::Lorem.sentence }
+    #noinspection RubyResolve
     date_added { Date::today }
-    title { Faker::Lorem.words 1 }
+    title { Faker::Lorem.words 3 }
     rubricator 0
 
-    user
     author
+    #noinspection RubyResolve
     editor
   end
 

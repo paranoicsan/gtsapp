@@ -73,7 +73,7 @@ Feature: Должна быть возможность для поиска ком
     And Я нажимаю на кнопку "do_search"
     Then Я вижу таблицу "search_results_table" с компаниями
       | status  | title       |
-      | Активна | TestCompany |
+      | На рассмотрении | TestCompany |
 
   @javascript
   Scenario: Пользователь не может найти компанию разным критериям с условием "И"

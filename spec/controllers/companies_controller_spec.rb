@@ -11,17 +11,18 @@ describe CompaniesController do
   before(:each) do
     controller.stub(:require_user).and_return(true) # подмена авторизованного пользователя
     controller.stub(:require_admin).and_return(true) # подмена прав администратора
-    @user = mock(User)
-    @user.stub(:is_admin?).with(no_args).and_return(true) # подмена, что пользователь является администратором
-    @user.stub(:id).with(no_args).and_return(1)
+
+    @user = FactoryGirl.create :user_admin
+
     controller.stub(:current_user).and_return(@user) # подмена текущего пользователя
   end
 
-  # This should return the minimal set of attributes required to create a valid
-  # Company. As you add validations to Company, be sure to
-  # update the return value of this method accordingly.
   def valid_attributes
-    FactoryGirl.attributes_for :company
+    res = FactoryGirl.attributes_for :company
+
+    res[:author_user_id] = @user.id
+    res[:editor_user_id] = @user.id
+    res
   end
 
   describe "Подготовка значений рубрикатора" do
@@ -125,10 +126,15 @@ describe CompaniesController do
   end
 
   describe "PUT update" do
+
+    before(:each) do
+      @company = FactoryGirl.create :company, valid_attributes
+    end
+
     describe "with valid params" do
 
-      before(:each) do
-        @company = FactoryGirl.create :company, valid_attributes
+      def put_valid
+        put :update, :id => @company.to_param, :company => valid_attributes
       end
 
       it "updates the requested company" do
@@ -142,48 +148,56 @@ describe CompaniesController do
       end
 
       it "assigns the requested company as @company" do
-        company = Company.create! valid_attributes
-        put :update, {:id => company.to_param, :company => valid_attributes}, valid_session
-        assigns(:company).should eq(company)
+        put_valid
+        assigns(:company).should eq(@company)
       end
 
       it "redirects to the company" do
-        company = Company.create! valid_attributes
-        put :update, {:id => company.to_param, :company => valid_attributes}, valid_session
-        response.should redirect_to(company)
+        put_valid
+        response.should redirect_to(@company)
       end
     end
 
     describe "with invalid params" do
+
+      def put_invalid
+        put :update, :id => @company.to_param, :company => {}
+      end
+
       it "assigns the company as @company" do
-        company = Company.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Company.any_instance.stub(:save).and_return(false)
-        put :update, {:id => company.to_param, :company => {}}, valid_session
-        assigns(:company).should eq(company)
+        put_invalid
+        assigns(:company).should eq(@company)
       end
 
       it "re-renders the 'edit' template" do
-        company = Company.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Company.any_instance.stub(:save).and_return(false)
-        put :update, {:id => company.to_param, :company => {}}, valid_session
+        put_invalid
         response.should render_template("edit")
       end
     end
   end
 
   describe "DELETE destroy" do
+
+    before(:each) do
+      @company = FactoryGirl.create :company, valid_attributes
+    end
+
+    def delete_destroy
+      delete :destroy, :id => @company.to_param
+    end
+
     it "destroys the requested company" do
-      company = Company.create! valid_attributes
       expect {
-        delete :destroy, {:id => company.to_param}, valid_session
+        delete_destroy
       }.to change(Company, :count).by(-1)
     end
 
     it "redirects to the companies list" do
-      company = Company.create! valid_attributes
-      delete :destroy, {:id => company.to_param}, valid_session
+      delete_destroy
       #noinspection RubyResolve
       response.should redirect_to(companies_url)
     end

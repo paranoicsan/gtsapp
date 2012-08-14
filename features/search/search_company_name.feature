@@ -29,8 +29,8 @@ Feature: Должна быть возможность для поиска ком
     And Я нажимаю на кнопку "do_search"
     Then Я вижу таблицу "search_results_table" с компаниями
       | status  | title       |
-      | Активна | TestCompany |
-      | Активна | WestCompany |
+      | На рассмотрении | TestCompany |
+      | На рассмотрении | WestCompany |
 
   @javascript
   Scenario: Пользователь может искать компанию по фактическому названию филиала
@@ -41,8 +41,8 @@ Feature: Должна быть возможность для поиска ком
     And Я нажимаю на кнопку "do_search"
     Then Я вижу таблицу "search_results_table" с компаниями
       | status  | title       |
-      | Активна | TestCompany |
-      | Активна | EastCompany |
+      | На рассмотрении | TestCompany |
+      | На рассмотрении | EastCompany |
 
   @javascript
   Scenario: Пользователь может искать компанию по юридическому названию филиала
@@ -53,5 +53,5 @@ Feature: Должна быть возможность для поиска ком
     And Я нажимаю на кнопку "do_search"
     Then Я вижу таблицу "search_results_table" с компаниями
       | status  | title       |
-      | Активна | TestCompany |
-      | Активна | EastCompany |
+      | На рассмотрении | TestCompany |
+      | На рассмотрении | EastCompany |

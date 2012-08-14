@@ -20,6 +20,7 @@ end
 Given /^Существуют следующие компании$/ do |table|
 
   create_company_sources
+  create_company_statuses
 
   table.hashes.each do |company|
     params = {
@@ -31,14 +32,11 @@ Given /^Существуют следующие компании$/ do |table|
     if company[:source_name]
       params[:company_source_id] = CompanySource.find_by_name(company[:source_name]).id
     end
-    if company[:rubricator]
-      params[:rubricator] = company[:rubricator]
-    end
-    if company[:author_user_id]
-      params[:author_user_id] = company[:author_user_id]
-    end
-    params[:company_status_id] = company[:status_id] ? company[:status_id] : 1
-    Company.create! params
+    params[:rubricator] = company[:rubricator] if company[:rubricator]
+    params[:author_user_id] = company[:author_user_id] if company[:author_user_id]
+    params[:company_status_id] = company[:status_id] if company[:status_id]
+
+    FactoryGirl.create :company, params
   end
 end
 
@@ -112,20 +110,6 @@ When /^Я создаю новую компанию через веб-интер�
   end
 end
 
-When /^Существует компания с параметрами$/ do |table|
-  create_company_sources
-  # table is a | Рога и копыта | Заявка с сайта |pending
-  table.hashes.each do |param|
-    cs = CompanySource.find_by_name param[:source_name]
-    params = {
-        :title => param[:title],
-        :company_source_id => cs.id
-    }
-    company = Company.create params
-    company.save
-  end
-end
-
 When /^Я изменяю компанию "([^"]*)" параметрами$/ do |cname, table|
   company = Company.find_all_by_title cname
   #noinspection RubyResolve
@@ -161,7 +145,10 @@ Then /^Я вижу только (\d+) компаний в таблице "([^"]*
 end
 
 Given /^Существуют (\d+) компаний с названиями на вариацию "([^"]*)" и параметрами$/ do |cnt, cname_base, table|
-  create_company_statuses # создаём статусы
+
+  create_company_sources
+  create_company_statuses
+
   params = {}
   if table
     table.hashes.each do |p|
@@ -169,12 +156,13 @@ Given /^Существуют (\d+) компаний с названиями на
         params[:company_status_id] = CompanyStatus.find_by_name(p[:company_status]).id
       end
       if p[:author_user]
-        params[:author_user_id] = User.find_by_username(p[:author_user]).id
+        params[:author] = User.find_by_username(p[:author_user])
       end
     end
   end
   Integer(cnt).times do |i|
     params[:title] = "#{cname_base}_#{i}"
-    Company.create! params
+    c = FactoryGirl.create :company, params
+    c
   end
 end

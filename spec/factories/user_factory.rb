@@ -4,7 +4,7 @@ FactoryGirl.define do
 
   factory :user, aliases: [:agent, :author, :editor] do
     email { Faker::Internet.email }
-    username { Faker::Internet.user_name }
+    username { "#{Faker::Internet.user_name}#{Faker::Lorem.words.join}" }
     password 12345
     #noinspection RubyResolve
     password_confirmation 12345

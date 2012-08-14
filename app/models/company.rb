@@ -2,7 +2,6 @@
 class Company < ActiveRecord::Base
   belongs_to :company_status
   belongs_to :company_source
-  belongs_to :user
   belongs_to :agent, :class_name => 'User', :foreign_key => "agent_id"
   belongs_to :author, :class_name => 'User', :foreign_key => "author_user_id"
   belongs_to :editor, :class_name => 'User', :foreign_key => "editor_user_id"
@@ -37,12 +36,16 @@ class Company < ActiveRecord::Base
   def check_fields
     self.date_added = Date.today unless self.date_added
 
-    #noinspection RubyResolve
-    self.company_status = CompanyStatus.active if self.author.is_admin?
-    #noinspection RubyResolve
-    self.company_status = CompanyStatus.active if self.author.is_operator?
-    #noinspection RubyResolve
-    self.company_status = CompanyStatus.suspended if self.author.is_agent?
+    if self.company_status_id
+      self.company_status = CompanyStatus.find self.company_status_id
+    else
+      #noinspection RubyResolve
+      self.company_status = CompanyStatus.active if self.author.is_admin?
+      #noinspection RubyResolve
+      self.company_status = CompanyStatus.active if self.author.is_operator?
+      #noinspection RubyResolve
+      self.company_status = CompanyStatus.suspended if self.author.is_agent?
+    end
 
   end
 
