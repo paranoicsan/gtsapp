@@ -161,4 +161,12 @@ class CompaniesController < ApplicationController
       format.js { render :action => "add_rubric" }
     end
   end
+
+  ##
+  # GET companies/:id/queue_for_delete
+  def queue_for_delete
+    company = Company.find params[:id]
+    company.queue_for_delete
+    redirect_to request.referer
+  end
 end

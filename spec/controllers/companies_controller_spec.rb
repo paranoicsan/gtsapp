@@ -25,23 +25,42 @@ describe CompaniesController do
     res
   end
 
-  describe "Подготовка значений рубрикатора" do
+  describe ".prepare_rubricator" do
     before(:each) do
       @params = {}
     end
-    it "должен возвращать сумму для полного рубрикатора" do
-      @params[0] = 1
-      @params[1] = 2
-      assert CompaniesController.prepare_rubricator(@params) == 3, "Значения для рубрикатора не суммируются"
+    context "Подготовка значений рубрикатора" do
+      it "должен возвращать сумму для полного рубрикатора" do
+        @params[0] = 1
+        @params[1] = 2
+        assert CompaniesController.prepare_rubricator(@params) == 3, "Значения для рубрикатора не суммируются"
+      end
+      it "должен возвращать отдельные значения для социального рубрикатора " do
+        @params[0] = 1
+        assert CompaniesController.prepare_rubricator(@params) == 1, "Неверное значение для социального рубрикатора"
+      end
+      it "должен возвращать отдельные значения для коммерческого рубрикатора " do
+        @params[1] = 2
+        assert CompaniesController.prepare_rubricator(@params) == 2, "Неверное значение для коммерческого рубрикатора"
+      end
+     end
+  end
+
+  describe "#queue_for_delete" do
+    context "компания может быть выставлена в очередь на удаление" do
+
+      let(:company) { FactoryGirl.create :company }
+
+      before(:each) do
+        request.env["HTTP_REFERER"] = "start_position"
+      end
+
+      it "возвращает на исходную страницу при успешном выполнении" do
+        get :queue_for_delete, :id => company.to_param
+        response.should redirect_to("start_position")
+      end
     end
-    it "должен возвращать отдельные значения для социального рубрикатора " do
-      @params[0] = 1
-      assert CompaniesController.prepare_rubricator(@params) == 1, "Неверное значение для социального рубрикатора"
-    end
-    it "должен возвращать отдельные значения для коммерческого рубрикатора " do
-      @params[1] = 2
-      assert CompaniesController.prepare_rubricator(@params) == 2, "Неверное значение для коммерческого рубрикатора"
-    end
+
   end
 
   describe "GET index" do
