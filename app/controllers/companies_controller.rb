@@ -167,20 +167,28 @@ class CompaniesController < ApplicationController
   # выставляет компанию на удаление
   def queue_for_delete
     @company = Company.find params[:id]
-    @company.queue_for_delete params[:reason_delete_on]
-    if @company.valid?
-      redirect_to company_path(@company)
+    @company.queue_for_delete params[:company][:reason_deleted_on]
+    if @company.save
+      render :layout => false # отправка обратно JS-ответа с командой на закрытие диалога
     else
-      render action: "request_delete_reason"
+      render :template => 'companies/re_request_delete_reason'
     end
+    #respond_to do |format|
+    #  format.js { render :layout => false }
+    #end
+    #if @company.valid?
+    #  redirect_to company_path(@company)
+    #else
+    #  render action: "request_delete_reason"
+    #end
   end
 
-  ##
-  # GET companies/:id/request_delete
+  ###
+  ## GET companies/:id/request_delete
   def request_delete_reason
     @company = Company.find params[:id]
     respond_to do |format|
-      format.html
+      format.html { render :layout => false }
     end
   end
 end

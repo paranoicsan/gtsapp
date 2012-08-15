@@ -32,6 +32,7 @@
           %td= company.rubricator_name
           %td
             = link_to "Изменить", edit_company_path(company), :class => 'btn btn-mini'
-            = link_to "Удалить", company_path(company), :method => :delete, :confirm => 'Удалить запись?', :class => 'btn btn-mini btn-danger'
+            -if @current_user.is_admin? || @current_user.is_operator?
+              = link_to "Удалить", company_path(company), :method => :delete, :confirm => 'Удалить запись?', :class => 'btn btn-mini btn-danger'
 
   = will_paginate @companies, class: "pagination pagination-centered"

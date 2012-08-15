@@ -9,68 +9,8 @@
 .container-fluid
   .row-fluid
     .span4
-      .well
-        %h3.well-title Информация
-        %table.table.table-condensed{id: 'company_info'}
-          %tbody
-            %tr
-              %td
-                %p.tl.t-cell-label Статус:
-              %td
-                - if @company.company_status
-                  = @company.company_status.name
-                - else
-                  Нет статуса
-            %tr
-              %td
-                %p.tl.t-cell-label Добавлена:
-              %td
-                %p{id:'added'}
-                  - if @company.date_added
-                    = @company.date_added.strftime("%d.%m.%Y %H:%M")
-                    = @company.author_name
-            %tr
-              %td
-                %p.tl.t-cell-label Изменена:
-              %td
-                %p{id:'updated'}
-                  = @company.updated_at.strftime("%d.%m.%Y %H:%M")
-                  = @company.editor_name
-            %tr
-              %td
-                %p.tl.t-cell-label Рубрикатор:
-              %td
-                = @company.rubricator_name
-            %tr
-              %td
-                %p.tl.t-cell-label Источник:
-              %td
-                =@company.source_name
-              -if @company.from_agent?
-                %tr
-                  %td
-                    %p.tl.t-cell-label Агент:
-                  %td= @company.agent_name
-            -if @company.comments
-              -if @company.comments.length > 0
-                %tr
-                  %td{colspan: 2}
-                    %p=@company.comments
-
-        %div{style: "text-align: center;"}
-          .form-inline
-            -if (@current_user.is_admin? || @current_user.is_operator?) && !@company.active?
-              %a{ :href => activate_company_path(@company), :class => "btn btn-small btn-success"}
-                %i.icon-ok.icon-white
-                Активировать
-            = link_to "Изменить", edit_company_path(@company), :class => 'btn btn-small', :id => 'company_edit_link'
-            -if @current_user.is_admin? || @current_user.is_operator?
-              = link_to "Удалить", company_path(@company), :method => "delete", :confirm => "Вы уверены?",
-              :class => 'btn btn-danger btn-small', :id => 'company_delete_link'
-            -else
-              = link_to "Удалить", "#", :confirm => "Вы уверены?", :class => 'btn btn-danger btn-small',
-              :id => 'company_delete_link'
-
+      .well#company-info
+        =render :partial => "info"
 
     .span8
       .well

@@ -1,0 +1,15 @@
+= render :partial => "shared/messages"
+= form_for @company, :url => company_queue_for_delete_path(@company), :id => @company.id, :remote => true,
+:html => { :class => 'well', :id => 'reason_form' }  do |f|
+  -if @company.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@company.errors.count, "error")} prohibited this company from being saved:"
+      %ul
+        - @company.errors.full_messages.each do |msg|
+          %li= msg
+
+  .control-group
+    = f.label :reason_deleted_on, 'Причина удаления:', :class => 'control-label'
+    .controls
+      = f.text_area :reason_deleted_on, :class => 'text_area reason_delete_text', :rows => 3,
+      :id => 'reason_delete_on_ta', :onKeyup => 'onReasonChange()'

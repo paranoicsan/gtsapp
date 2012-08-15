@@ -3,6 +3,68 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
 ##
+# Обработчик нажатия на кнопку "Удалить" на странцие просмотра компании для агента
+# показывает модальный диалог с содержимым шаблона
+@clickCompanyDelete = (event) ->
+
+  # создаём модальный диалог для ввода причины удаления
+  url = $('#company_delete_link').attr('href')
+  $('<div id="dialog-form"></div>')
+    .html('Загрузка...')
+    .dialog({
+      autoOpen: false
+      width: 520
+      modal: true
+      title: 'Удаление компании'
+      resizable: false
+      draggable: false
+      open: () ->
+        $(this).load(url)
+      close: () ->
+        $('#dialog-form').remove()
+      buttons: [
+        {
+          id: "btn_reason_delete_submit"
+          text: "Удалить"
+          click: () ->
+            $('#reason_form').submit()
+        },
+        {
+        id: "btn_reason_delete_cancel"
+        text: "Отменить"
+        click: () ->
+          $('#dialog-form').dialog("close")
+        }
+      ]
+    })
+
+  $('#dialog-form').dialog('open')
+  $('#btn_reason_delete_submit').button('disable') # отключаем кнопку отправки
+
+  # обрабатываем состояние кнопок на диалог по удалению компании
+#  $('#dialog-form').keyup ->
+
+#    buttons = $('#dialog-form').dialog('option', 'buttons');
+#    buttons.each (index) ->
+#      console.log $(this).text()
+#    for button in buttons
+#      if buttons[i].text() == "Удалить"
+#      console.log buttons[i].text()
+#        del_button = buttons[i]
+#
+#    val = $('#reason_delete_on_ta').val()
+#    console.log val
+#    s = if val.length > 0 then "" else "disabled"
+#    del_button.attr("disabled", s)
+
+  event.preventDefault()
+
+@onReasonChange = () ->
+  val = $('#reason_delete_on_ta').val()
+  s = if $.trim(val) != "" then "enable" else "disable"
+  $('#btn_reason_delete_submit').button(s)
+
+##
 #
 # Прячет или показывает выпадающее меню со списком зарегистрированных агентов
 #
@@ -34,6 +96,13 @@
     el.hide()
 
 
-# прячем ссылку для добавления рубрики, т.к. по умолчанию нет выбранных рубрик
 $ ->
+  # прячем ссылку для добавления рубрики
   $('#add_rub_link').hide()
+
+
+
+
+
+
+
