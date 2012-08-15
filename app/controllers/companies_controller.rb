@@ -173,14 +173,6 @@ class CompaniesController < ApplicationController
     else
       render :template => 'companies/re_request_delete_reason'
     end
-    #respond_to do |format|
-    #  format.js { render :layout => false }
-    #end
-    #if @company.valid?
-    #  redirect_to company_path(@company)
-    #else
-    #  render action: "request_delete_reason"
-    #end
   end
 
   ###

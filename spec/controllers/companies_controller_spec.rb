@@ -79,7 +79,10 @@ describe CompaniesController do
       context "с верными параметрами" do
 
         def queue_valid
-          post :queue_for_delete, id: company.to_param, reason_delete_on: Faker::Lorem.sentence
+          params ={
+            reason_deleted_on: Faker::Lorem.sentence
+          }
+          post :queue_for_delete, id: company.to_param, company: params, format: 'js'
         end
 
         it "присваивает компанию @company" do
@@ -87,16 +90,16 @@ describe CompaniesController do
           assigns(:company).should eq(company)
         end
 
-        it "возвращает на страницу компании при успешном выполнении" do
+        it "возвращает JavaScript-ответ для обновления данных на странице" do
           queue_valid
-          response.should redirect_to( company_path(company) )
+          response.should be_success
         end
 
       end
 
       context "с не верными параметрами" do
         def queue_invalid
-          post :queue_for_delete, id: company.to_param
+          post :queue_for_delete, id: company.to_param, company: {}, format: 'js'
         end
 
         it "присваивает компанию @company" do
@@ -106,7 +109,7 @@ describe CompaniesController do
 
         it "занового генерирует шаблон для ввода причины удаления" do
           queue_invalid
-          response.should render_template :request_delete_reason
+          response.should render_template "re_request_delete_reason"
         end
 
       end
