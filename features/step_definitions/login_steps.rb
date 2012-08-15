@@ -26,3 +26,8 @@ When /^Я пытаюсь попасть на страницу авторизац
   #noinspection RubyResolve
   visit login_path
 end
+
+Given /^Я - "([^"]*)", авторизованный в системе$/ do |role|
+  @user = create_user_wfactory role # создание пользователя через фабрику
+  step %Q{Я вхожу в систему}
+end

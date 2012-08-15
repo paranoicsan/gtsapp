@@ -27,7 +27,8 @@ Gtsapp::Application.routes.draw do
   match 'branches/:id/delete_email/:email_id' => 'branches#delete_email', :as => :branch_delete_email
 
   match 'companies/:id/activate' =>'companies#activate', :as => :activate_company
-  match 'companies/:id/queue_for_delete' =>'companies#queue_for_delete', :as => :company_queue_for_delete
+  match 'companies/:id/request_delete' =>'companies#request_delete_reason', :as => :company_request_delete
+  match 'companies/:id/queue_for_delete' =>'companies#queue_for_delete', :as => :company_queue_for_delete, :via => :post
   match 'companies/:id/add_rubric/:rub_id' => 'companies#add_rubric', :as => :company_add_rubric
   match 'companies/:id/delete_rubric/:rub_id' => 'companies#delete_rubric', :as => :company_delete_rubric
 

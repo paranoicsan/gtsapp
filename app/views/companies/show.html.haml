@@ -64,8 +64,12 @@
                 %i.icon-ok.icon-white
                 Активировать
             = link_to "Изменить", edit_company_path(@company), :class => 'btn btn-small', :id => 'company_edit_link'
-            = link_to "Удалить", company_path(@company), :method => "delete", :confirm => "Вы уверены?", :class => 'btn btn-danger btn-small'
-
+            -if @current_user.is_admin? || @current_user.is_operator?
+              = link_to "Удалить", company_path(@company), :method => "delete", :confirm => "Вы уверены?",
+              :class => 'btn btn-danger btn-small', :id => 'company_delete_link'
+            -else
+              = link_to "Удалить", "#", :confirm => "Вы уверены?", :class => 'btn btn-danger btn-small',
+              :id => 'company_delete_link'
 
 
     .span8

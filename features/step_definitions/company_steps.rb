@@ -166,3 +166,16 @@ Given /^Существуют (\d+) компаний с названиями на
     c
   end
 end
+
+When /^Я нахожусь на странице компании$/ do
+  @company = create_company
+  visit company_path(@company)
+end
+
+When /^Я удаляю компанию$/ do
+  step %Q{Я нажимаю на ссылку "Удалить" с ключом "company_delete_link"}
+end
+
+When /^Я ввожу причину удаления$/ do
+  step %Q{Я ввожу "#{Faker::Lorem.sentence}" в поле "company_reason_delete_on"}
+end

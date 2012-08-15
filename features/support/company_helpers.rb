@@ -1,5 +1,5 @@
 # encoding: utf-8
-module CompanyManageHelpers
+module CompanyHelpers
 
   ##
   #
@@ -56,6 +56,13 @@ module CompanyManageHelpers
     rows
   end
 
+  ##
+  # Создаёт компанию при помощи фабрики
+  # @return [Company] Созданный экземпляр компании
+  def create_company
+    FactoryGirl.create :company
+  end
+
 end
 
-World(CompanyManageHelpers)
+World(CompanyHelpers)

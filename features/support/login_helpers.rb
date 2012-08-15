@@ -1,3 +1,4 @@
+# Encoding: utf-8
 module LoginHelpers
 
   # Создает пользователя с предопределенными параметрами
@@ -12,6 +13,16 @@ module LoginHelpers
         :password_confirmation => pwd
     }
     User.new(params)
+  end
+
+  def create_user_wfactory(role)
+    case role.downcase
+      when "агент"
+        s = :user_agent
+      else
+        raise "Не известные права доступа"
+    end
+    FactoryGirl.create s
   end
 
   # Заполняет форму авторизации и пытается войти

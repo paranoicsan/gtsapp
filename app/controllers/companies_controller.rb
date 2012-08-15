@@ -163,10 +163,24 @@ class CompaniesController < ApplicationController
   end
 
   ##
-  # GET companies/:id/queue_for_delete
+  # POST companies/:id/queue_for_delete
+  # выставляет компанию на удаление
   def queue_for_delete
-    company = Company.find params[:id]
-    company.queue_for_delete
-    redirect_to request.referer
+    @company = Company.find params[:id]
+    @company.queue_for_delete params[:reason_delete_on]
+    if @company.valid?
+      redirect_to company_path(@company)
+    else
+      render action: "request_delete_reason"
+    end
+  end
+
+  ##
+  # GET companies/:id/request_delete
+  def request_delete_reason
+    @company = Company.find params[:id]
+    respond_to do |format|
+      format.html
+    end
   end
 end

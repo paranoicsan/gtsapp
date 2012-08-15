@@ -79,10 +79,6 @@ When /^Я нажимаю на кнопку с именем "([^"]*)"$/ do |butto
   click_button button_text
 end
 
-When /^Я нажимаю на ссылку по ID "([^"]*)"$/ do |link_id|
-  page.should have_selector(link_id)
-  #page.click_link("a[@id='#{link_id}']")
-end
 Then /^Я попадаю на страницу филиала "([^"]*)" компании "([^"]*)"$/ do |bname, cname|
   b = find_branch bname, cname
   #noinspection RubyResolve

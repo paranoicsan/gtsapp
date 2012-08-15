@@ -46,19 +46,52 @@ describe CompaniesController do
      end
   end
 
-  describe "#queue_for_delete" do
-    context "компания может быть выставлена в очередь на удаление" do
+  describe "POST queue_for_delete" do
+
+
+    before(:each) do
+      FactoryGirl.create :company_status_on_deletion
+    end
+
+    context "компания ставится на удаление" do
 
       let(:company) { FactoryGirl.create :company }
 
-      before(:each) do
-        request.env["HTTP_REFERER"] = "start_position"
+      context "с верными параметрами" do
+
+        def queue_valid
+          post :queue_for_delete, id: company.to_param, reason_delete_on: Faker::Lorem.sentence
+        end
+
+        it "присваивает компанию @company" do
+          queue_valid
+          assigns(:company).should eq(company)
+        end
+
+        it "возвращает на страницу компании при успешном выполнении" do
+          queue_valid
+          response.should redirect_to( company_path(company) )
+        end
+
       end
 
-      it "возвращает на исходную страницу при успешном выполнении" do
-        get :queue_for_delete, :id => company.to_param
-        response.should redirect_to("start_position")
+      context "с не верными параметрами" do
+        def queue_invalid
+          post :queue_for_delete, id: company.to_param
+        end
+
+        it "присваивает компанию @company" do
+          queue_invalid
+          assigns(:company).should eq(company)
+        end
+
+        it "занового генерирует шаблон для ввода причины удаления" do
+          queue_invalid
+          response.should render_template(:request_delete_reason)
+        end
+
       end
+
     end
 
   end

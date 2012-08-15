@@ -146,7 +146,6 @@ class Company < ActiveRecord::Base
   def queue_for_delete(reason = nil)
     self.company_status = CompanyStatus.queued_for_delete
     self.reason_deleted_on = reason
-    save
   end
 
   private
