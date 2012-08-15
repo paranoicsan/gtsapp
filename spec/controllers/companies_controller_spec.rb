@@ -46,6 +46,25 @@ describe CompaniesController do
      end
   end
 
+  describe "GET request_delete_reason" do
+
+    let(:company) { FactoryGirl.create :company }
+
+    def request_valid
+      get :request_delete_reason, id: company.to_param
+    end
+
+    it "присваивает компанию @company" do
+      request_valid
+      assigns(:company).should eq(company)
+    end
+    it "генерирует шаблон для ввода причины удаления" do
+      request_valid
+      response.should be_success
+      response.should render_template :request_delete_reason
+    end
+  end
+
   describe "POST queue_for_delete" do
 
 
@@ -87,7 +106,7 @@ describe CompaniesController do
 
         it "занового генерирует шаблон для ввода причины удаления" do
           queue_invalid
-          response.should render_template(:request_delete_reason)
+          response.should render_template :request_delete_reason
         end
 
       end
