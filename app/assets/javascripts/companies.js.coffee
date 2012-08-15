@@ -41,22 +41,6 @@
   $('#dialog-form').dialog('open')
   $('#btn_reason_delete_submit').button('disable') # отключаем кнопку отправки
 
-  # обрабатываем состояние кнопок на диалог по удалению компании
-#  $('#dialog-form').keyup ->
-
-#    buttons = $('#dialog-form').dialog('option', 'buttons');
-#    buttons.each (index) ->
-#      console.log $(this).text()
-#    for button in buttons
-#      if buttons[i].text() == "Удалить"
-#      console.log buttons[i].text()
-#        del_button = buttons[i]
-#
-#    val = $('#reason_delete_on_ta').val()
-#    console.log val
-#    s = if val.length > 0 then "" else "disabled"
-#    del_button.attr("disabled", s)
-
   event.preventDefault()
 
 @onReasonChange = () ->

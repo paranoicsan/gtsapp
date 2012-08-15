@@ -65,20 +65,19 @@ When /^Я вижу одинаковую дату создания и дату и
 end
 
 When /^Я вижу, что "([^"]*)" компании - "([^"]*)"$/ do |uposition, uname|
-  i = 0
   pos = 'N\A'
   case uposition
     when "автор"
       pos = "added"
-      i = 2
     when "редактор"
       pos = "updated"
-      i = 2
+    when "статус"
+      pos = "company_status"
     else
       puts "Нет такого варианта"
   end
   s = find("p[@id='#{pos}']").text.split
-  assert s[i] == uname, "Имя пользователя не совпадает."
+  assert s[2] == uname, "Не верное значение."
 end
 
 When /^Я активирую компанию "([^"]*)"$/ do |cname|
@@ -168,7 +167,7 @@ Given /^Существуют (\d+) компаний с названиями на
 end
 
 When /^Я нахожусь на странице компании$/ do
-  @company = create_company
+  @company = @copmany ? @company : create_company
   visit company_path(@company)
 end
 
@@ -177,5 +176,7 @@ When /^Я удаляю компанию$/ do
 end
 
 When /^Я ввожу причину удаления$/ do
-  step %Q{Я ввожу "#{Faker::Lorem.sentence}" в поле "company_reason_delete_on"}
+  step %Q{Кнопка "btn_reason_delete_submit" - "не активна"}
+  step %Q{Я ввожу "#{Faker::Lorem.sentence}" в поле "reason_delete_on_ta"}
+  step %Q{Кнопка "btn_reason_delete_submit" - "активна"}
 end

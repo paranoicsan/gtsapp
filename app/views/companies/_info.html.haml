@@ -5,10 +5,18 @@
       %td
         %p.tl.t-cell-label Статус:
       %td
-        - if @company.company_status
-          = @company.company_status.name
-        - else
-          Нет статуса
+        %p{id:'company_status'}
+          - if @company.company_status
+            = @company.company_status.name
+          - else
+            Нет статуса
+    -if @company.company_status.eql?(CompanyStatus.queued_for_delete)
+      %tr
+        %td
+          %p.tl.t-cell-label Причина удаления:
+        %td
+          %p
+            = @company.reason_deleted_on
     %tr
       %td
         %p.tl.t-cell-label Добавлена:
