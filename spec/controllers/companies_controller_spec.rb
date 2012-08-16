@@ -9,11 +9,10 @@ describe CompaniesController do
   end
 
   before(:each) do
-    controller.stub(:require_user).and_return(true) # подмена авторизованного пользователя
-    controller.stub(:require_admin).and_return(true) # подмена прав администратора
+    authorize_user
+    make_user_admin
 
     @user = FactoryGirl.create :user_admin
-
     controller.stub(:current_user).and_return(@user) # подмена текущего пользователя
   end
 

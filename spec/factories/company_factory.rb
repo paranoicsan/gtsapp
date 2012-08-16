@@ -7,12 +7,22 @@ FactoryGirl.define do
     comments { Faker::Lorem.sentence }
     #noinspection RubyResolve
     date_added { Date::today }
-    title { Faker::Lorem.words 3 }
+    title { Faker::Lorem.words(3).join(' ') }
     rubricator 0
 
     author
     #noinspection RubyResolve
     editor
+
+    factory :company_suspended do
+      company_status { FactoryGirl.create :company_status_suspended }
+    end
+
+    factory :company_queued_for_delete do
+      reason_deleted_on { Faker::Lorem.sentence }
+      company_status { FactoryGirl.create :company_status_on_deletion }
+    end
+
   end
 
 end

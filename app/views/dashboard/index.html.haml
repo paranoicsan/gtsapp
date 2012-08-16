@@ -47,3 +47,8 @@
                   %td= link_to contract.number, contract_path(contract)
                   %td= link_to contract.company.title, company_path(contract.company)
                   %td= link_to 'Активировать', activate_contract_path(contract), class: "btn btn-mini btn-success"
+
+
+  .row-fluid
+    .span6
+      = render :partial => "dashboard/companies_queued_for_delete"

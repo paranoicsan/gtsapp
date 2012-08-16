@@ -155,4 +155,11 @@ class Company < ActiveRecord::Base
     company_status ? company_status.eql?(CompanyStatus.queued_for_delete) : false
   end
 
+  ##
+  # Возвращает коллекцию всех компаний, поставленных на удаление
+  # @return [Array] коллекции на удалении
+  def self.queued_for_delete
+    Company.where(:company_status_id => CompanyStatus.queued_for_delete.id)
+  end
+
 end

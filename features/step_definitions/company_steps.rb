@@ -139,8 +139,7 @@ When /^Я ([^"]*)вижу слой с ключом "([^"]*)"$/ do |arg, select_i
 end
 
 Then /^Я вижу только (\d+) компаний в таблице "([^"]*)"$/ do |cnt, table_id|
-  cnt = Integer(cnt)
-  page.all("table\##{table_id} tr").count.should == cnt + 1 # Один ряд с заголовками
+  page.all("table\##{table_id} tr").count.should == cnt.to_i + 1 # Один ряд с заголовками
 end
 
 Given /^Существуют (\d+) компаний с названиями на вариацию "([^"]*)" и параметрами$/ do |cnt, cname_base, table|
@@ -187,4 +186,15 @@ When /^Я нахожусь на странице компании, постав�
   @company.queue_for_delete Faker::Lorem.words.join(' ')
   @company.save
   visit company_path @company
+end
+
+Given /^Существуют (\d+) компаний, поставленных на удаление$/ do |cnt|
+  params = {
+      company_status: FactoryGirl.create(:company_status_on_deletion),
+      reason_deleted_on: Faker::Lorem.sentence
+  }
+  cnt.to_i.times do
+    FactoryGirl.create :company, params
+  end
+
 end
