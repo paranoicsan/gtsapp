@@ -128,5 +128,18 @@ describe Company do
 
   end
 
+  describe ".queued_for_deletion?" do
+    let(:company) { FactoryGirl.create :company }
+    let(:status_active) { FactoryGirl.create :company_status_active }
+    let(:status_deletion) { FactoryGirl.create :company_status_on_deletion }
+
+    it "возвращает истину, если компания помечена на удаление" do
+      company.company_status = status_deletion
+      company.queued_for_deletion?.should eq(true)
+    end
+    it "возвращает ложь, если компания не помечена на удаление" do
+      company.queued_for_deletion?.should_not eq(true)
+    end
+  end
 
 end

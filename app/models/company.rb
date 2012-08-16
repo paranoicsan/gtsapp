@@ -10,7 +10,7 @@ class Company < ActiveRecord::Base
   has_many :company_rubrics
   has_many :rubrics, :through => :company_rubrics
   validates_presence_of :title
-  validates_presence_of :reason_deleted_on, :if => :marked_for_deletion,
+  validates_presence_of :reason_deleted_on, :if => :queued_for_deletion?,
       :message => 'Не указана причина удаления'
   #noinspection RailsParamDefResolve
   before_save :check_fields, only: [:create]
@@ -148,10 +148,11 @@ class Company < ActiveRecord::Base
     self.reason_deleted_on = reason
   end
 
-  private
-
-    def marked_for_deletion
-      self.company_status ? self.company_status.eql?(CompanyStatus.queued_for_delete) : false
-    end
+  ##
+  # Определяет, поставлена ли компания на удаление
+  # @return [Boolean] Истина, если компания поставлена на удаление
+  def queued_for_deletion?
+    company_status ? company_status.eql?(CompanyStatus.queued_for_delete) : false
+  end
 
 end
