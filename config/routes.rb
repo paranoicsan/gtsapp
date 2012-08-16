@@ -11,6 +11,7 @@ Gtsapp::Application.routes.draw do
 
   get 'companies/autocomplete_rubric_name'
   resources :companies, :shallow => true do
+    resources :people
     resources :contracts
     resources :branches do
       resources :addresses
