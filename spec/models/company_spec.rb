@@ -128,6 +128,46 @@ describe Company do
 
   end
 
+  describe ".unqueue_for_delete" do
+
+    let(:company) { FactoryGirl.create :company }
+    let(:status_active) { FactoryGirl.create :company_status_active }
+    let(:status_archived) { FactoryGirl.create :company_status_archived }
+    let(:status_suspended) { FactoryGirl.create :company_status_suspended }
+    let(:status_deletion) { FactoryGirl.create :company_status_on_deletion }
+
+    it "меняет статус компании на указанный активный" do
+      company.company_status = status_deletion
+      expect {
+        company.unqueue_for_delete :active
+      }.to change(company, :company_status).from(status_deletion).to(status_active)
+    end
+    it "меняет статус компании на указанный на рассмотрении" do
+      company.company_status = status_deletion
+      expect {
+        company.unqueue_for_delete :suspended
+      }.to change(company, :company_status).from(status_deletion).to(status_suspended)
+    end
+    it "не меняет статус компании если архивный статус" do
+      company.company_status = status_deletion
+      expect {
+        company.unqueue_for_delete :archived
+      }.not_to change(company, :company_status).from(status_deletion).to(status_archived)
+    end
+    it "не меняет статус компании если изначально не был статус на удалении" do
+      company.company_status = status_archived
+      expect {
+        company.unqueue_for_delete :suspended
+      }.not_to change(company, :company_status).from(status_archived).to(status_suspended)
+    end
+    it "вызывает ошибку, если передан не существующий новый статус" do
+      company.company_status = status_deletion
+      expect {
+        company.unqueue_for_delete :unknown
+      }.to raise_error
+    end
+  end
+
   describe ".queued_for_deletion?" do
     let(:company) { FactoryGirl.create :company }
     let(:status_active) { FactoryGirl.create :company_status_active }

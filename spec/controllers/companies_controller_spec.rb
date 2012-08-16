@@ -64,6 +64,41 @@ describe CompaniesController do
     end
   end
 
+  describe "GET unqueue_for_delete" do
+
+    let(:company) { FactoryGirl.create :company_queued_for_delete }
+
+    before(:each) do
+      FactoryGirl.create :company_status_active
+      FactoryGirl.create :company_status_suspended
+    end
+
+    def get_valid
+      get :unqueue_for_delete, id: company.to_param, format: 'js'
+    end
+
+    it "присваивает компанию @company" do
+      get_valid
+      assigns(:company).should eq(company)
+    end
+
+    context "вызов со страницы компании" do
+      it "возвращает JavaScript-ответ для обновления данных на странице" do
+        request.env["HTTP_REFERER"] = company_path(company)
+        get_valid
+        response.should be_success
+      end
+    end
+
+    context "вызов с любой другой страницы" do
+      it "возвращает обратно на страницу сводки" do
+        request.env["HTTP_REFERER"] = dashboard_url
+        get_valid
+        response.should redirect_to dashboard_url
+      end
+    end
+  end
+
   describe "POST queue_for_delete" do
 
 

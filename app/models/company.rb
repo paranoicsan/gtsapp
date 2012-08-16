@@ -149,6 +149,26 @@ class Company < ActiveRecord::Base
   end
 
   ##
+  # Отменяет постановку н удаление и меняет статус компании на указанный
+  def unqueue_for_delete(new_status)
+    unless queued_for_deletion?
+      return
+    end
+
+    case new_status
+      when :active
+        s = CompanyStatus.active
+      when :suspended
+        s = CompanyStatus.suspended
+      when :archived
+        return
+      else
+        raise "Неизвестный статус"
+    end
+    self.company_status = s
+  end
+
+  ##
   # Определяет, поставлена ли компания на удаление
   # @return [Boolean] Истина, если компания поставлена на удаление
   def queued_for_deletion?

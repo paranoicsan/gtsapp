@@ -175,6 +175,25 @@ class CompaniesController < ApplicationController
     end
   end
 
+  ##
+  # GET companies/:id/unqueue_for_delete
+  # снимает компанию с очереди на удаление
+  def unqueue_for_delete
+    @company = Company.find params[:id]
+
+    # определяем текущего пользователя
+    # и в зависимости от этого меняет статус
+    status = current_user.is_agent? ? :suspended : :active
+    @company.unqueue_for_delete status
+
+    ref = request ? request.env['HTTP_REFERER'] : ''
+    if ref.eql?(company_path(@company))
+      render :layout => false # посылка JS-ответа
+    else
+      redirect_to request.env['HTTP_REFERER'] ? :back : root_url
+    end
+  end
+
   ###
   ## GET companies/:id/request_delete
   def request_delete_reason
