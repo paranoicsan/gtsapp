@@ -66,8 +66,11 @@
 
       = link_to "Отменить удаление", company_unqueue_for_delete_path(@company), :class => 'btn btn-small', :id => 'company_undelete_link'
 
-    -else
+      -unless @current_user.is_agent?
+        = link_to "Удалить", company_path(@company), :method => "delete", :confirm => "Вы уверены?",
+        :class => 'btn btn-danger btn-small', :id => 'company_delete_link'
 
+    -else
       -if @current_user.is_admin? || @current_user.is_operator?
         = link_to "Удалить", company_path(@company), :method => "delete", :confirm => "Вы уверены?",
         :class => 'btn btn-danger btn-small', :id => 'company_delete_link'

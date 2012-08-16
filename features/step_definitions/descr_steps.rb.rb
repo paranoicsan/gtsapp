@@ -7,7 +7,7 @@ When /^Я вижу введённую причину удаления$/ do
   step %Q{Я вижу параметр "Причина удаления:" как "#{@company.reason_deleted_on}"}
 end
 Then /^Я не могу удалить компанию$/ do
-  step %Q{Элемент "company_delete_link"  имеет класс "disabled"}
+  page.should_not have_link('company_delete_link')
 end
 Then /^Я не могу удалить компанию без ввода причины удаления$/ do
   step %Q{Кнопка "btn_reason_delete_submit" - "не активна"}
