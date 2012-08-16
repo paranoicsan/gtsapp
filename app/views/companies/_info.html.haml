@@ -55,16 +55,24 @@
 
 %div{style: "text-align: center;"}
   .form-inline
+
     -if (@current_user.is_admin? || @current_user.is_operator?) && !@company.active?
       %a{ :href => activate_company_path(@company), :class => "btn btn-small btn-success"}
         %i.icon-ok.icon-white
         Активировать
     = link_to "Изменить", edit_company_path(@company), :class => 'btn btn-small', :id => 'company_edit_link'
-    -if @current_user.is_admin? || @current_user.is_operator?
-      = link_to "Удалить", company_path(@company), :method => "delete", :confirm => "Вы уверены?",
-      :class => 'btn btn-danger btn-small', :id => 'company_delete_link'
+
+    -if @company.queued_for_deletion?
+
+      = link_to "Отменить удаление", company_unqueue_for_delete_path(@company), :class => 'btn btn-small', :id => 'company_undelete_link'
+
     -else
-      -css = 'btn btn-danger btn-small'
-      -css = @company.queued_for_deletion? ? css + ' disabled' : css
-      = link_to "Удалить", company_request_delete_path(@company), :class => css, :id => 'company_delete_link',
-      :onClick => 'clickCompanyDelete(event)'
+
+      -if @current_user.is_admin? || @current_user.is_operator?
+        = link_to "Удалить", company_path(@company), :method => "delete", :confirm => "Вы уверены?",
+        :class => 'btn btn-danger btn-small', :id => 'company_delete_link'
+      -else
+        -css = 'btn btn-danger btn-small'
+        -css = @company.queued_for_deletion? ? css + ' disabled' : css
+        = link_to "Удалить", company_request_delete_path(@company), :class => css, :id => 'company_delete_link',
+        :onClick => 'clickCompanyDelete(event)'

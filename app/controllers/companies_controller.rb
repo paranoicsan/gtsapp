@@ -186,11 +186,14 @@ class CompaniesController < ApplicationController
     status = current_user.is_agent? ? :suspended : :active
     @company.unqueue_for_delete status
 
-    ref = request ? request.env['HTTP_REFERER'] : ''
-    if ref.eql?(company_path(@company))
-      render :layout => false # посылка JS-ответа
-    else
-      redirect_to request.env['HTTP_REFERER'] ? :back : root_url
+    if @company.save
+      ref = request ? request.env['HTTP_REFERER'] : ''
+      if ref.eql?(company_path(@company))
+
+        render :layout => false # посылка JS-ответа
+      else
+        redirect_to request.env['HTTP_REFERER'] ? :back : root_url
+      end
     end
   end
 

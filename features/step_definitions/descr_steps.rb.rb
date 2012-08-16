@@ -13,5 +13,15 @@ Then /^Я не могу удалить компанию без ввода при
   step %Q{Кнопка "btn_reason_delete_submit" - "не активна"}
 end
 Then /^Я вижу (\d+) компаний, поставленных на удаление$/ do |arg|
-  step %Q{Я вижу только #{arg} компаний в таблице "companies_queued_for_delete"}
+  step %Q{Я вижу только #{arg} рядов в таблице "companies_queued_for_delete"}
+end
+When /^Я отменяю удаление компании$/ do
+  step %Q{Я нажимаю на ссылку "Отменить удаление" с ключом "company_undelete_link"}
+end
+When /^Я вижу (\d+) компаний в таблице на удалении$/ do |cnt|
+  step %Q{Я вижу только #{cnt} рядов в таблице "companies_queued_for_delete"}
+end
+When /^Я отменяю удаление компании любой компании$/ do
+  # ищем первую попавшуюся компанию и отменяем ей удаление
+  click_link('company_undelete_link')
 end

@@ -134,3 +134,7 @@ end
 When /^Существуют определённые статусы договоров$/ do
   create_contract_statuses
 end
+
+Then /^Я вижу только (\d+) рядов в таблице "([^"]*)"$/ do |cnt, table_id|
+  page.all("table\##{table_id} tr").count.should == cnt.to_i + 1 # Один ряд с заголовками
+end

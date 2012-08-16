@@ -15,6 +15,7 @@
               = company.date_added.strftime("%d.%m.%Y")
               = company.author_name
             %td
-              = link_to "Отменить", "#", class: "btn btn-mini"
-              = link_to "Удалить", company_path(company), :method => :delete, :confirm => 'Удалить запись?',
-              :class => 'btn btn-mini btn-danger'
+              = link_to "Отменить", company_unqueue_for_delete_path(company), class: "btn btn-mini", :id => 'company_undelete_link'
+              -unless current_user.is_agent?
+                = link_to "Удалить", company_path(company), :method => :delete, :confirm => 'Удалить запись?',
+                :class => 'btn btn-mini btn-danger'
