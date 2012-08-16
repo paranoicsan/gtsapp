@@ -98,7 +98,9 @@ When /^Я помечаю checkbox c ключом "([^"]*)"$/ do |elem_id|
 end
 
 Then /^Элемент "([^"]*)" (|не) имеет класс "([^"]*)"$/ do |elem_id, negate, class_name|
-  c =  page.find("div##{elem_id}")['class']
+  #c =  page.find("*##{elem_id}")['class']
+  c =  page.find_by_id(elem_id)['class']
+  puts c
   if negate.eql? "не"
     assert /(#{class_name})/.match(c) == nil, "Класс назначен."
   else

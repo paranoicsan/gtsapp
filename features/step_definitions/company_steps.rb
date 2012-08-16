@@ -168,7 +168,7 @@ end
 
 When /^Я нахожусь на странице компании$/ do
   @company = @copmany ? @company : create_company
-  visit company_path(@company)
+  visit company_path @company
 end
 
 When /^Я удаляю компанию$/ do
@@ -179,4 +179,12 @@ When /^Я ввожу причину удаления$/ do
   step %Q{Кнопка "btn_reason_delete_submit" - "не активна"}
   step %Q{Я ввожу "#{Faker::Lorem.sentence}" в поле "reason_delete_on_ta"}
   step %Q{Кнопка "btn_reason_delete_submit" - "активна"}
+end
+
+When /^Я нахожусь на странице компании, поставленной на удалении$/ do
+  @company = create_company
+  FactoryGirl.create :company_status_on_deletion
+  @company.queue_for_delete Faker::Lorem.words.join(' ')
+  @company.save
+  visit company_path @company
 end

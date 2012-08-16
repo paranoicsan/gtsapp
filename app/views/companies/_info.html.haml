@@ -10,7 +10,7 @@
             = @company.company_status.name
           - else
             Нет статуса
-    -if @company.company_status.eql?(CompanyStatus.queued_for_delete)
+    -if @company.queued_for_deletion?
       %tr
         %td
           %p.tl.t-cell-label Причина удаления:
@@ -64,5 +64,7 @@
       = link_to "Удалить", company_path(@company), :method => "delete", :confirm => "Вы уверены?",
       :class => 'btn btn-danger btn-small', :id => 'company_delete_link'
     -else
-      = link_to "Удалить", company_request_delete_path(@company), :class => 'btn btn-danger btn-small',
-      :id => 'company_delete_link', :onClick => 'clickCompanyDelete(event)'
+      -css = 'btn btn-danger btn-small'
+      -css = @company.queued_for_deletion? ? css + ' disabled' : css
+      = link_to "Удалить", company_request_delete_path(@company), :class => css, :id => 'company_delete_link',
+      :onClick => 'clickCompanyDelete(event)'

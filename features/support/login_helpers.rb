@@ -19,6 +19,10 @@ module LoginHelpers
     case role.downcase
       when "агент"
         s = :user_agent
+      when "администратор"
+        s = :user_admin
+      when "оператор"
+        s = :user_operator
       else
         raise "Не известные права доступа"
     end
