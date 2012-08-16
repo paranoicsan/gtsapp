@@ -40,6 +40,7 @@ class PeopleController < ApplicationController
   # POST /people
   # POST /people.json
   def create
+    params[:person][:company_id] = params[:company_id]
     @person = Person.new(params[:person])
 
     respond_to do |format|
@@ -57,10 +58,11 @@ class PeopleController < ApplicationController
   # PUT /people/1.json
   def update
     @person = Person.find(params[:id])
+    @company = @person.company
 
     respond_to do |format|
       if @person.update_attributes(params[:person])
-        format.html { redirect_to @person, notice: 'Person was successfully updated.' }
+        format.html { redirect_to @company, notice: 'Person was successfully updated.' }
         format.json { head :ok }
       else
         format.html { render action: "edit" }
@@ -73,10 +75,13 @@ class PeopleController < ApplicationController
   # DELETE /people/1.json
   def destroy
     @person = Person.find(params[:id])
+
+    company_id = @person.company_id
+
     @person.destroy
 
     respond_to do |format|
-      format.html { redirect_to people_url }
+      format.html { redirect_to company_url company_id }
       format.json { head :ok }
     end
   end

@@ -7,6 +7,7 @@ class Company < ActiveRecord::Base
   belongs_to :editor, :class_name => 'User', :foreign_key => "editor_user_id"
   has_many :contracts
   has_many :branches
+  has_many :persons
   has_many :company_rubrics
   has_many :rubrics, :through => :company_rubrics
   validates_presence_of :title

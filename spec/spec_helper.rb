@@ -21,6 +21,8 @@ Spork.prefork do
   require 'rspec/rails'
   require 'rspec/autorun'
 
+  require 'shared/auth_helper'
+
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
 #noinspection RubyResolve
@@ -33,6 +35,9 @@ Spork.prefork do
   end
 
   RSpec.configure do |config|
+
+    config.include AuthHelper
+
     # ## Mock Framework
     #
     # If you prefer to use mocha, flexmock or RR, uncomment the appropriate line:
