@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120817201151) do
+ActiveRecord::Schema.define(:version => 20120817210621) do
 
   create_table "addresses", :force => true do |t|
     t.string   "house"
@@ -179,6 +179,8 @@ ActiveRecord::Schema.define(:version => 20120817201151) do
     t.integer  "product_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "rubric_id"
+    t.text     "proposal"
   end
 
   create_table "project_codes", :force => true do |t|
@@ -259,6 +261,7 @@ ActiveRecord::Schema.define(:version => 20120817201151) do
 
   add_foreign_key "products", "contracts", :name => "contract_products_contract_id_fk"
   add_foreign_key "products", "product_types", :name => "contract_products_product_id_fk", :column => "product_id"
+  add_foreign_key "products", "rubrics", :name => "products_rubric_id_fk"
 
   add_foreign_key "rubric_keywords", "keywords", :name => "rubric_keywords_keyword_id_fk"
   add_foreign_key "rubric_keywords", "rubrics", :name => "rubric_keywords_rubric_id_fk"

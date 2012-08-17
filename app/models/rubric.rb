@@ -1,6 +1,7 @@
 class Rubric < ActiveRecord::Base
   has_many :company_rubric
   has_many :keywords
+  has_many :products
   belongs_to :rubric_keyword
   validates_presence_of :name
   scope :social, where(:social => true)
