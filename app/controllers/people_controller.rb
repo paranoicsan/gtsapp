@@ -1,6 +1,8 @@
 class PeopleController < ApplicationController
   helper :application
   before_filter :require_user
+  before_filter :get_company
+
 
   # GET /people
   # GET /people.json
@@ -46,10 +48,11 @@ class PeopleController < ApplicationController
   def create
     params[:person][:company_id] = params[:company_id]
     @person = Person.new(params[:person])
+    @company = @person.company
 
     respond_to do |format|
       if @person.save
-        format.html { redirect_to @person, notice: 'Person was successfully created.' }
+        format.html { redirect_to company_path(@person.company), notice: 'Person was successfully created.' }
         format.json { render json: @person, status: :created, location: @person }
       else
         format.html { render action: "new" }
@@ -79,14 +82,17 @@ class PeopleController < ApplicationController
   # DELETE /people/1.json
   def destroy
     @person = Person.find(params[:id])
-
     company_id = @person.company_id
-
     @person.destroy
 
     respond_to do |format|
       format.html { redirect_to company_url company_id }
       format.json { head :ok }
     end
+  end
+
+private
+  def get_company
+    @company = Company.find(params[:company_id]) if params[:company_id]
   end
 end

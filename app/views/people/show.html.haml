@@ -24,12 +24,11 @@
               %p.tl.t-cell-label Фамилия:
             %td
               = @person.second_name
-          -if @person.mobile
-            %tr
-              %td
-                %p.tl.t-cell-label Имя:
-              %td
-                = @person.name
+          %tr
+            %td
+              %p.tl.t-cell-label Имя:
+            %td
+              = @person.name
           %tr
             %td
               %p.tl.t-cell-label Отчество:

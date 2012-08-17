@@ -11,11 +11,11 @@
     = f.label :position, 'Должность', :class => 'control-label'
     .controls
       = f.text_field :position
-  .control-group
+  .control-group{id:'person_second_name_group'}
     = f.label :second_name, 'Фамилия', :class => 'control-label'
     .controls
       = f.text_field :second_name
-  .control-group
+  .control-group{id:'person_name_group'}
     = f.label :name, 'Имя', :class => 'control-label'
     .controls
       = f.text_field :name
@@ -27,12 +27,12 @@
     = f.label :phone, 'Телефон', :class => 'control-label'
     .controls
       = f.text_field :phone
-  .control-group
+  .control-group{id:'person_email_group'}
     = f.label :email, 'Email', :class => 'control-label'
     .controls
       = f.text_field :email
 
   .form-actions
     = f.submit 'Сохранить', :class => 'btn btn-primary'
-    -s = @person.id ? company_path(@person.company) : person_path(@person)
+    -s = @person.id ? company_path(@person.company) : company_path(@company)
     = link_to 'Отмена', s, :class => 'btn'

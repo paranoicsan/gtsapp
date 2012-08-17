@@ -27,8 +27,10 @@ When /^Я отменяю удаление компании любой компа
 end
 When /^У неё существуют (\d+) персоны$/ do |cnt|
   cnt.to_i.times do
-    p = FactoryGirl.create(:person)
-    @company.persons << p
+    create_person @company
   end
   visit company_path(@company)
+end
+Then /^Я попадаю на страницу компании$/ do
+  current_path.should eq(company_path(@company))
 end

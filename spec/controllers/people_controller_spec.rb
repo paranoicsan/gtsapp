@@ -54,6 +54,7 @@ describe PeopleController do
       get :new, valid_attributes
       assigns(:person).should be_a_new(Person)
     end
+
   end
 
   describe "GET edit" do
@@ -65,6 +66,7 @@ describe PeopleController do
   end
 
   describe "POST create" do
+
     describe "with valid params" do
 
       def post_valid
@@ -84,9 +86,14 @@ describe PeopleController do
         assigns(:person).should be_persisted
       end
 
-      it "redirects to the created person" do
+      it "присваивает родительскую компанию как @company" do
         post_valid
-        response.should redirect_to(Person.last)
+        assigns(:company).should eq(company)
+      end
+
+      it "перенаправляет на страницу компании" do
+        post_valid
+        response.should redirect_to(company_url(company))
       end
     end
 
@@ -110,6 +117,12 @@ describe PeopleController do
         post_invalid
         response.should render_template("new")
       end
+
+      it "присваивает родительскую компанию как @company" do
+        post_invalid
+        assigns(:company).should eq(company)
+      end
+
     end
   end
 
@@ -175,4 +188,10 @@ describe PeopleController do
     end
   end
 
+  describe ".get_company" do
+    it "возвращает компанию по параметру из URL" do
+      get :index, valid_attributes
+      assigns(:company).should eq(company)
+    end
+  end
 end

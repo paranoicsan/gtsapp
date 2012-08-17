@@ -101,6 +101,7 @@ Then /^Элемент "([^"]*)" (|не) имеет класс "([^"]*)"$/ do |el
   #c =  page.find("*##{elem_id}")['class']
   c =  page.find_by_id(elem_id)['class']
   puts c
+  puts elem_id
   if negate.eql? "не"
     assert /(#{class_name})/.match(c) == nil, "Класс назначен."
   else
@@ -137,4 +138,7 @@ end
 
 Then /^Я вижу только (\d+) рядов в таблице "([^"]*)"$/ do |cnt, table_id|
   page.all("table\##{table_id} tr").count.should == cnt.to_i + 1 # Один ряд с заголовками
+end
+When /^Я вижу "([^"]*)" в поле "([^"]*)"$/ do |value, field_id|
+  page.find_by_id(field_id)['value'].should eq(value)
 end

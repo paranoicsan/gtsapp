@@ -65,9 +65,10 @@
     .span12
       .well
         %h3.well-title
-          Песроны
+          Персоны
 
-        %p= link_to 'Создать', new_company_person_path(@company), class: "btn btn-mini"
+        %p= link_to 'Создать', new_company_person_path(@company), class: "btn btn-mini",
+        id: 'company_person_add'
 
         -if @company.persons.any?
           %table#people.table.table-striped
@@ -84,11 +85,11 @@
                 %td= person.phone
                 %td= person.email
                 %td
-                  %a{ :href => edit_person_path(person), :class => "btn btn-mini"}
+                  %a{ :href => edit_person_path(person), :class => "btn btn-mini", :id => 'company_person_edit_link'}
                     %i.icon-edit.icon-white
                     Изменить
-                  %a{ :href => person_path(person), :class => "btn btn-mini",
-                  "data-confirm" => "Вы уверены?",  "data-method" => "delete", :rel => "nofollow" }
+                  %a{ :href => person_path(person), :class => "btn btn-mini", :id => 'compane_person_delete_link',
+                  "data-confirm" => "Вы уверены?",  "data-remote" => "true", "data-method" => "delete", :rel => "nofollow" }
                     %i.icon-trash.icon-white
                     Удалить
 
