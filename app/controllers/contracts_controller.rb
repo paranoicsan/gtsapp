@@ -3,7 +3,7 @@ class ContractsController < ApplicationController
   helper :application
   before_filter :require_user
   before_filter :require_admin, :only => [:update, :edit, :activate]
-  before_filter :require_system_users, :only => [:new, :create, :destroy, :add_product, :delete_product]
+  before_filter :require_system_users, :only => [:new, :create, :destroy]
   # GET /contracts
   # GET /contracts.json
   def index
@@ -105,58 +105,6 @@ class ContractsController < ApplicationController
     # перебрасываем туда, откуда пришли
     #redirect_to dashboard_url
     redirect_to request.referer
-  end
-
-  ##
-  # Добавляет указанный продукт к договору
-  #
-  # GET /contracts/1/add_product/2
-  def add_product
-
-    @contract = Contract.find params[:id]
-
-    # проверяем, чтобы это был активный договор, если пользователь - не Админ
-    #noinspection RubyResolve
-    if @contract.active? || @current_user.is_admin?
-      prod = ProductType.find params[:prod_id]
-      unless @contract.product_types.include? prod
-        @contract.product_types << prod
-      end
-
-      respond_to do |format|
-        format.js { render :layout => false }
-      end
-    else
-      respond_to do |format|
-        format.html { redirect_to @contract, notice: 'Операция возможна только для активных договоров.' }
-      end
-    end
-  end
-
-  ##
-  # Удаляет указанный продукт из договору
-  #
-  # GET /contracts/1/delete_product/2
-  def delete_product
-    @contract = Contract.find params[:id]
-    # проверяем, чтобы это был активный договор
-    #noinspection RubyResolve
-    if @contract.active? || @current_user.is_admin?
-      prod = ProductType.find params[:prod_id]
-
-      if prod && @contract.product_types.include?(prod)
-        @contract.product_types.delete prod
-      end
-
-      respond_to do |format|
-        format.js { render :action => "add_product" }
-      end
-
-    else
-      respond_to do |format|
-        format.html { redirect_to @contract, notice: 'Операция возможна только для активных договоров.' }
-      end
-    end
   end
 
 end

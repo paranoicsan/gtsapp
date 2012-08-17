@@ -151,6 +151,11 @@ describe PeopleController do
         put_valid
         response.should redirect_to(company_url(company))
       end
+
+      it "присваивает родительскую компанию как @company" do
+        put_valid
+        assigns(:company).should eq(company)
+      end
     end
 
     describe "with invalid params" do
@@ -169,6 +174,11 @@ describe PeopleController do
         Person.any_instance.stub(:save).and_return(false)
         put_invalid
         response.should render_template("edit")
+      end
+
+      it "присваивает родительскую компанию как @company" do
+        put_invalid
+        assigns(:company).should eq(company)
       end
     end
   end
