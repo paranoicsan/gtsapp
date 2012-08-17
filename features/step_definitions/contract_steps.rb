@@ -123,3 +123,8 @@ When /^Я удаляю продукт с названием "([^"]*)" из до�
   page.find(%{a[href = "#{s}"]}).click
   page.driver.browser.switch_to.alert.accept
 end
+
+When /^Я нахожусь на странице договора$/ do
+  @contract = @contract ? @contract : FactoryGirl.create(:contract)
+  visit contract_path @contract
+end

@@ -6,6 +6,7 @@ FactoryGirl.define do
     number { Faker::Lorem.words(3).join(' ') }
     amount 100
     contract_status
+    company { FactoryGirl.create :company }
   end
 
 end

@@ -113,17 +113,8 @@
       %h3.well-title
         Продукты
 
-      %p
-        .form-inline
-          -if @current_user.is_admin? || (@current_user.is_operator? && @contract.active?)
-            = select_tag("select_products", options_for_select(ProductType.all.sort.collect{ |p| [p.name, p.id] }),
-            {:prompt => "Выберите продукт", :onChange => "onProdSelect()", :id => "select_product_id"})
-            = link_to "Добавить", "#", :id => "add_prod_link", :remote => true, :class => "btn btn-small",
-            :onClick => "$('select option:first').attr('selected','1');"
+      %p= link_to 'Добавить', new_contract_product_path(@contract), class: 'btn btn-mini'
 
-          :javascript
-            gts_contract.id = "#{@contract.id}";
-
-          #products_list
-            = render :partial => "products_list"
+      #products_list
+        = render :partial => "products_list"
 
