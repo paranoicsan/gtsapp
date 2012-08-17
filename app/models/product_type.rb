@@ -1,5 +1,5 @@
 class ProductType < ActiveRecord::Base
-  has_many :contract_products
+  has_many :products
   ##
   # Вовзращает объект бонусного продукта
   # @return ProductType
