@@ -1,9 +1,9 @@
-= form_for @product, :html => { :class => 'form-horizontal well' } do |f|
-  -if @product.errors.any?
+= form_for @producttype, :html => { :class => 'form-horizontal well' } do |f|
+  -if @producttype.errors.any?
     #error_explanation
       %h2= "Возникшие ошибки:"
       %ul
-        -@product.errors.messages.each do |errs|
+        -@producttype.errors.messages.each do |errs|
           -errs.each do |e|
             -if e.is_a?(Array)
               %li
@@ -24,8 +24,8 @@
   .control-group
     = f.label :bonus_product_id, 'Бонусный продукт', :class => 'control-label'
     .controls
-      = f.select(:bonus_product_id, options_for_select(Product.all.collect{ |p| [p.name, p.id] },
-        @product.bonus_product_id), {:prompt => 'Выберите продукт'})
+      = f.select(:bonus_product_id, options_for_select(ProductType.all.collect{ |p| [p.name, p.id] },
+        @producttype.bonus_product_id), {:prompt => 'Выберите продукт'})
   .control-group
     = f.label :bonus_site, 'Бонус для сайта', :class => 'control-label'
     .controls
@@ -36,6 +36,6 @@
       = f.text_field :price
   .form-actions
     = f.submit 'Сохранить', :class => 'btn btn-primary'
-    =link_to 'Отмена', products_path, class: 'btn'
+    =link_to 'Отмена', product_types_path, class: 'btn'
 
 

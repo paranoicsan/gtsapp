@@ -86,7 +86,7 @@ end
 
 When /^Существуют следующие продукты$/ do |table|
   table.hashes.each do |row|
-    Product.create! :name => row[:name]
+    ProductType.create! :name => row[:name]
   end
 end
 
@@ -95,7 +95,7 @@ When /^Я выбираю продукт "([^"]*)"$/ do |prod_name|
 end
 
 When /^Я добавляю продукт "([^"]*)" к договору "([^"]*)" по прямой ссылке$/ do |prod_name, cname|
-  p = Product.find_by_name prod_name
+  p = ProductType.find_by_name prod_name
   c = Contract.find_by_number cname
   #noinspection RubyResolve
   visit contract_add_product_path c, p
@@ -106,17 +106,17 @@ When /^Существуют следующие продукты для дого�
   table.hashes.each do |row|
     prod_name = row[:name]
     # Если такой продукт уже есть, не создаем дубликат
-    p = Product.find_by_name prod_name
+    p = ProductType.find_by_name prod_name
     if p
-      c.products << p
+      c.product_types << p
     else
-      c.products << Product.create(:name => prod_name)
+      c.product_types << ProductType.create(:name => prod_name)
     end
   end
 end
 
 When /^Я удаляю продукт с названием "([^"]*)" из договора "([^"]*)"$/ do |prod_name, cname|
-  p = Product.find_by_name prod_name
+  p = ProductType.find_by_name prod_name
   c = Contract.find_by_number cname
   #noinspection RubyResolve
   s = contract_delete_product_path c, p

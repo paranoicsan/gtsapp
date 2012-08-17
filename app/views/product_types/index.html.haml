@@ -21,7 +21,7 @@
           %th Цена
           %th Операции
 
-        - @products.each do |product|
+        - @producttypes.each do |product|
           %tr
             %td= link_to product.name, edit_product_path(product)
             %td

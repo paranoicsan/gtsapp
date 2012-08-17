@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120816193703) do
+ActiveRecord::Schema.define(:version => 20120817172445) do
 
   create_table "addresses", :force => true do |t|
     t.string   "house"
@@ -170,7 +170,7 @@ ActiveRecord::Schema.define(:version => 20120816193703) do
     t.datetime "updated_at"
   end
 
-  create_table "products", :force => true do |t|
+  create_table "product_types", :force => true do |t|
     t.string   "name"
     t.float    "size_width"
     t.float    "size_height"
@@ -246,7 +246,7 @@ ActiveRecord::Schema.define(:version => 20120816193703) do
   add_foreign_key "company_rubrics", "rubrics", :name => "company_rubrics_rubric_id_fk"
 
   add_foreign_key "contract_products", "contracts", :name => "contract_products_contract_id_fk"
-  add_foreign_key "contract_products", "products", :name => "contract_products_product_id_fk"
+  add_foreign_key "contract_products", "product_types", :name => "contract_products_product_id_fk", :column => "product_id"
 
   add_foreign_key "contracts", "companies", :name => "contracts_company_id_fk"
   add_foreign_key "contracts", "contract_statuses", :name => "contracts_contract_status_id_fk"
@@ -254,9 +254,11 @@ ActiveRecord::Schema.define(:version => 20120816193703) do
 
   add_foreign_key "emails", "branches", :name => "emails_branch_id_fk"
 
+  add_foreign_key "people", "companies", :name => "people_company_id_fk"
+
   add_foreign_key "phones", "branches", :name => "phones_branch_id_fk"
 
-  add_foreign_key "products", "products", :name => "products_bonus_product_id_fk", :column => "bonus_product_id"
+  add_foreign_key "product_types", "product_types", :name => "products_bonus_product_id_fk", :column => "bonus_product_id"
 
   add_foreign_key "rubric_keywords", "keywords", :name => "rubric_keywords_keyword_id_fk"
   add_foreign_key "rubric_keywords", "rubrics", :name => "rubric_keywords_rubric_id_fk"

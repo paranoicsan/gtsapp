@@ -1,6 +1,6 @@
 Gtsapp::Application.routes.draw do
 
-  resources :products
+  resources :product_types
   resources :rubrics
   resources :streets
   resources :post_indices
@@ -55,20 +55,20 @@ Gtsapp::Application.routes.draw do
   # first created -> highest priority.
 
   # Sample of regular route:
-  #   match 'products/:id' => 'catalog#view'
+  #   match 'product_types/:id' => 'catalog#view'
   # Keep in mind you can assign values other than :controller and :action
 
   # Sample of named route:
-  #   match 'products/:id/purchase' => 'catalog#purchase', :as => :purchase
-  # This route can be invoked with purchase_url(:id => product.id)
+  #   match 'product_types/:id/purchase' => 'catalog#purchase', :as => :purchase
+  # This route can be invoked with purchase_url(:id => producttype.id)
 
 
 
   # Sample resource route (maps HTTP verbs to controller actions automatically):
-  #   resources :products
+  #   resources :product_types
 
   # Sample resource route with options:
-  #   resources :products do
+  #   resources :product_types do
   #     member do
   #       get 'short'
   #       post 'toggle'
@@ -80,13 +80,13 @@ Gtsapp::Application.routes.draw do
   #   end
 
   # Sample resource route with sub-resources:
-  #   resources :products do
+  #   resources :product_types do
   #     resources :comments, :sales
   #     resource :seller
   #   end
 
   # Sample resource route with more complex sub-resources
-  #   resources :products do
+  #   resources :product_types do
   #     resources :comments
   #     resources :sales do
   #       get 'recent', :on => :collection
@@ -95,9 +95,9 @@ Gtsapp::Application.routes.draw do
 
   # Sample resource route within a namespace:
   #   namespace :admin do
-  #     # Directs /admin/products/* to Admin::ProductsController
-  #     # (app/controllers/admin/products_controller.rb)
-  #     resources :products
+  #     # Directs /admin/product_types/* to Admin::ProductTypesController
+  #     # (app/controllers/admin/product_types_controller.rb)
+  #     resources :product_types
   #   end
 
   # You can have the root of your site routed with "root"

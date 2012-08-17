@@ -1,9 +1,9 @@
--if @contract.products.any?
+-if @contract.product_types.any?
   %table#products.table.table-striped.table-condensed
     %tr
       %th Наименование
       %th
-    -@contract.products.each do |prod|
+    -@contract.product_types.each do |prod|
       %tr
         %td= prod.name
         %td

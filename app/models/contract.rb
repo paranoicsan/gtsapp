@@ -4,7 +4,7 @@ class Contract < ActiveRecord::Base
   belongs_to :contract_status
   belongs_to :project_code
   has_many :contract_products
-  has_many :products, :through => :contract_products
+  has_many :product_types, :through => :contract_products
   validates_presence_of :number, :message => "Введите номер договора!"
   validates :number, :uniqueness => {:case_sensitive => false, message: "Договор с таким номером уже существует!"}
   validates :amount, :numericality => { message: "Сумма должна быть числовым значением!" }
