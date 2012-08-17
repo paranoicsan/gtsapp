@@ -53,3 +53,9 @@ Then /^Я не могу ввести буквы в поле для телефо�
   step %Q{Я ввожу "dsdsdsds" в поле "person_phone"}
   step %Q{Я вижу "" в поле "person_phone"}
 end
+When /^Я хочу просмотреть информацию о персоне$/ do
+  click_link("company_person_view")
+end
+Then /^Я попадаю на страницу персоны$/ do
+  current_path.should eq(person_path(@person))
+end

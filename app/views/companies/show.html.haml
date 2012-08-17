@@ -81,7 +81,7 @@
               %tr
                 %td= person.position
                 %td
-                  =link_to person.full_name, person_path(person)
+                  =link_to person.full_name, person_path(person), id: 'company_person_view'
                 %td= person.phone
                 %td= person.email
                 %td

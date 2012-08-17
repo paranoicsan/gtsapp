@@ -27,7 +27,7 @@ When /^Я отменяю удаление компании любой компа
 end
 When /^У неё существуют (\d+) персоны$/ do |cnt|
   cnt.to_i.times do
-    create_person @company
+    @person = create_person @company # последняя созданная будет глобальной
   end
   visit company_path(@company)
 end
