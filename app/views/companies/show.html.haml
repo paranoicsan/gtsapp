@@ -27,39 +27,70 @@
           #rubrics_list
             = render :partial => "rubrics_list"
 
-    .row-fluid
-      .span12
-        .well
-          %h3.well-title
-            Филиалы
+  .row-fluid
+    .span12
+      .well
+        %h3.well-title
+          Филиалы
 
-          %p= link_to 'Создать', new_company_branch_path(@company), class: "btn btn-mini"
+        %p= link_to 'Создать', new_company_branch_path(@company), class: "btn btn-mini"
 
-          -if @company.branches_sorted.any?
-            %table#branches.table.table-striped
+        -if @company.branches_sorted.any?
+          %table#branches.table.table-striped
+            %tr
+              %th Головной
+              %th Информация
+              %th Операции
+            -@company.branches_sorted.each do |branch|
               %tr
-                %th Головной
-                %th Информация
-                %th Операции
-              -@company.branches_sorted.each do |branch|
-                %tr
-                  %td= check_box_tag("cb_branch_main", 1, branch.is_main?, { :disabled => "disabled" })
-                  %td
-                    %p
-                      = link_to branch.formatted_name, branch_path(branch)
-                    %p
-                      %small
-                        = branch.address.full_address if branch.address
-                  %td
-                    -unless branch.is_main?
-                      = link_to 'Сделать головным', branch_make_main_path(branch), class: "btn btn-mini"
-                    %a{ :href => edit_branch_path(branch), :class => "btn btn-mini"}
-                      %i.icon-edit.icon-white
-                      Изменить
-                    %a{ :href => branch_path(branch), :class => "btn btn-mini",
-                    "data-confirm" => "Вы уверены?",  "data-method" => "delete", :rel => "nofollow" }
-                      %i.icon-trash.icon-white
-                      Удалить
+                %td= check_box_tag("cb_branch_main", 1, branch.is_main?, { :disabled => "disabled" })
+                %td
+                  %p
+                    = link_to branch.formatted_name, branch_path(branch)
+                  %p
+                    %small
+                      = branch.address.full_address if branch.address
+                %td
+                  -unless branch.is_main?
+                    = link_to 'Сделать головным', branch_make_main_path(branch), class: "btn btn-mini"
+                  %a{ :href => edit_branch_path(branch), :class => "btn btn-mini"}
+                    %i.icon-edit.icon-white
+                    Изменить
+                  %a{ :href => branch_path(branch), :class => "btn btn-mini",
+                  "data-confirm" => "Вы уверены?",  "data-method" => "delete", :rel => "nofollow" }
+                    %i.icon-trash.icon-white
+                    Удалить
+
+  .row-fluid
+    .span12
+      .well
+        %h3.well-title
+          Песроны
+
+        %p= link_to 'Создать', new_company_person_path(@company), class: "btn btn-mini"
+
+        -if @company.persons.any?
+          %table#people.table.table-striped
+            %tr
+              %th Должность
+              %th ФИО
+              %th Телефон
+              %th Email
+            -@company.persons.each do |person|
+              %tr
+                %td= person.position
+                %td
+                  =link_to person.full_name, person_path(person)
+                %td= person.phone
+                %td= person.email
+                %td
+                  %a{ :href => edit_person_path(person), :class => "btn btn-mini"}
+                    %i.icon-edit.icon-white
+                    Изменить
+                  %a{ :href => person_path(person), :class => "btn btn-mini",
+                  "data-confirm" => "Вы уверены?",  "data-method" => "delete", :rel => "nofollow" }
+                    %i.icon-trash.icon-white
+                    Удалить
 
 
 

@@ -138,7 +138,6 @@ When /^Я ([^"]*)вижу слой с ключом "([^"]*)"$/ do |arg, select_i
   page.has_selector?(xpth, :visible => b)
 end
 
-
 Given /^Существуют (\d+) компаний с названиями на вариацию "([^"]*)" и параметрами$/ do |cnt, cname_base, table|
 
   create_company_sources

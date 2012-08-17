@@ -25,3 +25,10 @@ When /^Я отменяю удаление компании любой компа
   # ищем первую попавшуюся компанию и отменяем ей удаление
   click_link('company_undelete_link')
 end
+When /^У неё существуют (\d+) персоны$/ do |cnt|
+  cnt.to_i.times do
+    p = FactoryGirl.create(:person)
+    @company.persons << p
+  end
+  visit company_path(@company)
+end
