@@ -30,6 +30,10 @@ describe PeopleController do
       get :index, valid_attributes
       assigns(:people).should eq([person])
     end
+    it "перенаправляет на главную страницу приложени" do
+      get :index, valid_attributes
+      response.should redirect_to(root_url)
+    end
   end
 
   describe "GET show" do
@@ -37,6 +41,11 @@ describe PeopleController do
       person = create_valid
       get :show, {:id => person.to_param}
       assigns(:person).should eq(person)
+    end
+    it "присваивает родительскую компанию как @company" do
+      person = create_valid
+      get :show, {:id => person.to_param}
+      assigns(:company).should eq(person.company)
     end
   end
 

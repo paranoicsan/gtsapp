@@ -1,24 +1,53 @@
-%p#notice= notice
+= render :partial => "shared/messages"
 
-%p
-  %b Position:
-  = @person.position
-%p
-  %b Name:
-  = @person.name
-%p
-  %b Second name:
-  = @person.second_name
-%p
-  %b Middle name:
-  = @person.middle_name
-%p
-  %b Phone:
-  = @person.phone
-%p
-  %b Email:
-  = @person.email
+.page-header
+  %h1
+    Персона
+    %p
+      %small= link_to @company.title, company_path(@company)
 
-= link_to 'Edit', edit_person_path(@person)
-\|
-= link_to 'Back', people_path
+
+.container-fluid
+  .row-fluid
+    .span4.well
+      %h3.well-title
+        Информация
+      %table.table.table-condensed
+        %tbody
+          %tr
+            %td
+              %p.tl.t-cell-label Должность:
+            %td
+              = @person.position
+          %tr
+            %td
+              %p.tl.t-cell-label Фамилия:
+            %td
+              = @person.second_name
+          -if @person.mobile
+            %tr
+              %td
+                %p.tl.t-cell-label Имя:
+              %td
+                = @person.name
+          %tr
+            %td
+              %p.tl.t-cell-label Отчество:
+            %td
+              = @person.middle_name
+          %tr
+            %td
+              %p.tl.t-cell-label № телефона:
+            %td
+              = @person.phone
+          %tr
+            %td
+              %p.tl.t-cell-label Email:
+            %td
+              = @person.email
+
+      %div{style: "text-align: center;"}
+        .form-inline
+          = link_to 'К компании', company_path(@company), :class => 'btn btn-small'
+          = link_to "Изменить", edit_person_path(@person), :class => 'btn btn-small'
+          = link_to "Удалить", person_path(@person), :method => "delete", :confirm => "Вы уверены?", :class => 'btn btn-danger btn-small'

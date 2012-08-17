@@ -1,28 +1,38 @@
-= form_for @person do |f|
+-form_params = @company ? [@company, @person] : @person
+= form_for (form_params),:html => { :class => 'well form-horizontal' } do |f|
   -if @person.errors.any?
     #error_explanation
-      %h2= "#{pluralize(@person.errors.count, "error")} prohibited this person from being saved:"
+      %h2= "#{pluralize(@person.errors.count, "error")}:"
       %ul
         - @person.errors.full_messages.each do |msg|
           %li= msg
 
-  .field
-    = f.label :position
-    = f.text_field :position
-  .field
-    = f.label :name
-    = f.text_field :name
-  .field
-    = f.label :second_name
-    = f.text_field :second_name
-  .field
-    = f.label :middle_name
-    = f.text_field :middle_name
-  .field
-    = f.label :phone
-    = f.number_field :phone
-  .field
-    = f.label :email
-    = f.text_field :email
-  .actions
-    = f.submit 'Save'
+  .control-group
+    = f.label :position, 'Должность', :class => 'control-label'
+    .controls
+      = f.text_field :position
+  .control-group
+    = f.label :second_name, 'Фамилия', :class => 'control-label'
+    .controls
+      = f.text_field :second_name
+  .control-group
+    = f.label :name, 'Имя', :class => 'control-label'
+    .controls
+      = f.text_field :name
+  .control-group
+    = f.label :middle_name, 'Отчество', :class => 'control-label'
+    .controls
+      = f.text_field :middle_name
+  .control-group
+    = f.label :phone, 'Телефон', :class => 'control-label'
+    .controls
+      = f.text_field :phone
+  .control-group
+    = f.label :email, 'Email', :class => 'control-label'
+    .controls
+      = f.text_field :email
+
+  .form-actions
+    = f.submit 'Сохранить', :class => 'btn btn-primary'
+    -s = @person.id ? company_path(@person.company) : person_path(@person)
+    = link_to 'Отмена', s, :class => 'btn'
