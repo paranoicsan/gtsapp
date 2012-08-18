@@ -1,7 +1,16 @@
+# Encoding: utf-8
 class ProductsController < ApplicationController
   helper :application
   before_filter :get_contract
+  before_filter :require_user
   before_filter :require_system_users, only: [:new, :create, :edit, :update, :destroy]
+
+  def good_response
+    respond_to do |format|
+      format.html # new.html.erb
+      format.json { render json: @product }
+    end
+  end
 
   # GET /products/1
   # GET /products/1.json
@@ -19,10 +28,10 @@ class ProductsController < ApplicationController
   # GET /products/new.json
   def new
     @product = Product.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @product }
+    if current_user.is_admin?
+       good_response
+    else
+      @contract.active? ? good_response : redirect_to(contract_path(@contract))
     end
   end
 

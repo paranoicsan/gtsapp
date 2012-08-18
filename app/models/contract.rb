@@ -48,6 +48,6 @@ class Contract < ActiveRecord::Base
   #
   # @return [Boolean] Истина, если договор активен
   def active?
-    contract_status == ContractStatus.active
+    self.contract_status == ContractStatus.active
   end
 end

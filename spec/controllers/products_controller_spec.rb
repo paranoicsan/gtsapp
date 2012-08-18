@@ -38,6 +38,27 @@ describe ProductsController do
   end
 
   describe "GET new" do
+    it "для не активного договора может администратор" do
+      c = FactoryGirl.create :contract_suspended
+      params = {
+        product_id: valid_attributes[:product_id],
+        contract_id: c.id
+      }
+      get :new, params
+      response.should be_success
+    end
+    it "для не активного договора не может оператор" do
+      user = FactoryGirl.create :user_operator
+      controller.stub(:current_user).and_return(user) # подмена текущего пользователя
+      c = FactoryGirl.create :contract_suspended
+      params = {
+          product_id: valid_attributes[:product_id],
+          contract_id: c.id
+      }
+      get :new, params
+      response.should redirect_to contract_path(c)
+    end
+
     it "assigns a new product as @product" do
       get :new, valid_attributes
       assigns(:product).should be_a_new(Product)

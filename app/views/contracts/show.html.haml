@@ -113,7 +113,8 @@
       %h3.well-title
         Продукты
 
-      %p= link_to 'Добавить', new_contract_product_path(@contract), class: 'btn btn-mini'
+      - if current_user.is_admin? || (@contract.active? && current_user.is_operator?)
+        %p= link_to 'Добавить', new_contract_product_path(@contract), class: 'btn btn-mini', id: 'contract_product_add'
 
       #products_list
         = render :partial => "products_list"

@@ -9,7 +9,7 @@
         %td= p.product_type.name
         %td= p.rubric.name
         %td
-          %a.btn.btn-mini{"href" => product_path(@contract, p), "data-remote" => "true",
-          "data-confirm" => "Вы уверены?"}
+          %a.btn.btn-mini{"href" => product_path(@contract, p), "data-confirm" => "Вы уверены?",
+          :id => 'contract_product_delete', "data-method" => "delete"}
             %i.icon-trash.icon-white
             Удалить

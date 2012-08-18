@@ -128,3 +128,9 @@ When /^Я нахожусь на странице договора$/ do
   @contract = @contract ? @contract : FactoryGirl.create(:contract)
   visit contract_path @contract
 end
+
+When /^Я нахожусь на странице (|не) активного договора$/ do |attr|
+  status = attr.eql?('не') ? :contract_suspended : :contract_active
+  @contract = @contract ? @contract : FactoryGirl.create(status)
+  visit contract_path @contract
+end
