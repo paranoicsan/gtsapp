@@ -7,7 +7,7 @@
     -@contract.products.each do |p|
       %tr
         %td= p.product_type.name
-        %td= p.rubric.name
+        %td= p.rubric.name if p.rubric
         %td
           %a.btn.btn-mini{"href" => product_path(@contract, p), "data-confirm" => "Вы уверены?",
           :id => 'contract_product_delete', "data-method" => "delete"}

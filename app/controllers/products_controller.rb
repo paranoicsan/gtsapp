@@ -4,6 +4,7 @@ class ProductsController < ApplicationController
   before_filter :get_contract
   before_filter :require_user
   before_filter :require_system_users, only: [:new, :create, :edit, :update, :destroy]
+  autocomplete :rubric, :name
 
   def good_response
     respond_to do |format|
@@ -43,8 +44,10 @@ class ProductsController < ApplicationController
   # POST /products
   # POST /products.json
   def create
+    params[:product][:contract_id] = params[:contract_id]
     @product = Product.new(params[:product])
-    @contract = @product.contract
+
+    #@contract = @product.contract
 
     respond_to do |format|
       if @product.save

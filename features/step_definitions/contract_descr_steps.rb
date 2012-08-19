@@ -31,6 +31,12 @@ Then /^Я могу удалить продукт$/ do
 
 end
 Then /^Я могу добавить продукт$/ do
+  row = "|#{FactoryGirl.create(:product_type).name}|#{FactoryGirl.create(:rubric).name}|#{Faker::Lorem.sentence}|"
   click_link('contract_product_add')
-  current_path.should eq(new_contract_product_path(@contract))
+  steps %Q{
+    When Я ввожу информацию о продукте
+      |product|rubric|proposal|
+      #{row}
+  }
+  current_path.should eq(contract_path(@contract))
 end

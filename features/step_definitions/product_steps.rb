@@ -23,3 +23,14 @@ When /^Я вижу таблицу "([^"]*)" с продуктами$/ do |table_
   page.should_not have_selector(:xpath, "//table[@id='#{table_id}']/*/tr[#{idx}]")
 
 end
+When /Я ввожу информацию о продукте/ do |table|
+  #save_and_open_page
+  table.hashes.each do |params|
+    page.fill_in 'product_proposal', :with => params[:proposal]
+    page.select params[:product], :from => 'product_product_id'
+    page.fill_in 'product_rubric', :with => params[:rubric]
+    page.click_button 'Сохранить'
+    break
+  end
+  @product = @contract.products.last
+end

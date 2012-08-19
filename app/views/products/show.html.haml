@@ -1,6 +1,38 @@
-%p#notice= notice
+= render :partial => "shared/messages"
+
+.page-header
+  %h1
+    Продукт
+    %p
+      %small= link_to @contract.number , contract_path(@contract)
 
 
-= link_to 'Edit', edit_product_path(@product)
-\|
-= link_to 'Back', products_path
+.container-fluid
+  .row-fluid
+    .span4.well
+      %h3.well-title
+        Информация
+      %table.table.table-condensed
+        %tbody
+          %tr
+            %td
+              %p.tl.t-cell-label Продукт:
+            %td
+              = @product.product_type.name
+          %tr
+            %td
+              %p.tl.t-cell-label Рубрика:
+            %td
+              = @product.rubric.name
+          %tr
+            %td{colspan: 2}
+              %p.tl.t-cell-label Коммерческое предложение:
+          %tr
+            %td{colspan: 2}
+              = @product.proposal
+
+      %div{style: "text-align: center;"}
+        .form-inline
+          = link_to 'К договору', contract_path(@contract), :class => 'btn btn-small'
+          = link_to "Изменить", edit_product_path(@product), :class => 'btn btn-small'
+          = link_to "Удалить", product_path(@product), :method => "delete", :confirm => "Вы уверены?", :class => 'btn btn-danger btn-small'
