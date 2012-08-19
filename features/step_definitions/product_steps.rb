@@ -6,14 +6,17 @@ When /^Я вижу таблицу "([^"]*)" с продуктами$/ do |table_
   table.hashes.each do |row|
     row.each_with_index do |data, i|
 
-      row_xpth = "//table[@id='#{table_id}']/tr[#{idx}]/td[#{i+1}]"
+      #row_xpth = "//table[@id='#{table_id}']//*/tr[#{idx}]/td[#{i+1}]"
+      row_xpth = "(*/tr|tr)[#{idx}]/td[#{i+1}]"
 
       re = /^cb_(.*)/
       if re.match(data[0])
         v = data[1] == 'true' ? true: false
         v ? page.has_checked_field?(data[0]) : !page.has_checked_field?(data[0])
       else
-        find(:xpath, row_xpth).text.gsub(/\n/, "").should == data[1]
+        within :xpath, xpth do
+          find(:xpath, row_xpth).text.gsub(/\n/, "").should == data[1]
+        end
       end
 
     end
@@ -28,7 +31,14 @@ When /Я ввожу информацию о продукте/ do |table|
   table.hashes.each do |params|
     page.fill_in 'product_proposal', :with => params[:proposal]
     page.select params[:product], :from => 'product_product_id'
-    page.fill_in 'product_rubric', :with => params[:rubric]
+
+    rub = params[:rubric]
+    el_id = 'product_rubric'
+    steps %Q{
+      When Я ввожу "#{rub}" в поле "#{el_id}"
+      And Я выбираю "#{rub}" из списка с автозаполнением с ключом "#{el_id}"
+    }
+
     page.click_button 'Сохранить'
     break
   end

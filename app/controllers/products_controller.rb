@@ -85,7 +85,7 @@ class ProductsController < ApplicationController
     @product.destroy
 
     respond_to do |format|
-      format.html { redirect_to contract_url contract_id }
+      format.html { redirect_to contract_url(contract_id) }
       format.json { head :ok }
     end
   end
@@ -93,5 +93,8 @@ class ProductsController < ApplicationController
 private
   def get_contract
     @contract = Contract.find(params[:contract_id]) if params[:contract_id]
+    if params[:product]
+      params[:product][:rubric_id] = params[:product_rubric_id] if params[:product_rubric_id]
+    end
   end
 end

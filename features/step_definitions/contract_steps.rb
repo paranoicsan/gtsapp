@@ -134,3 +134,12 @@ When /^Я нахожусь на странице (|не) активного до
   @contract = @contract ? @contract : FactoryGirl.create(status)
   visit contract_path @contract
 end
+
+When /^Я нахожусь на странице изменения продукта$/ do
+  steps %Q{
+    When Я нахожусь на странице  активного договора
+    And Для него существуют 1 продукта
+  }
+  visit edit_product_path(@product)
+
+end

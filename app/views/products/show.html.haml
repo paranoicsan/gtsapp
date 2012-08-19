@@ -23,13 +23,15 @@
             %td
               %p.tl.t-cell-label Рубрика:
             %td
-              = @product.rubric.name
-          %tr
-            %td{colspan: 2}
-              %p.tl.t-cell-label Коммерческое предложение:
-          %tr
-            %td{colspan: 2}
-              = @product.proposal
+              -#= @product.rubric.name if
+              = @product.rubric.name if @product.rubric
+          -if @product.proposal.length > 0
+            %tr
+              %td{colspan: 2}
+                %p.tl.t-cell-label Коммерческое предложение:
+            %tr
+              %td{colspan: 2}
+                = @product.proposal
 
       %div{style: "text-align: center;"}
         .form-inline

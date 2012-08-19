@@ -2,7 +2,7 @@
 
 When /^Для него существуют (\d+) продукта$/ do |cnt|
   cnt.to_i.times do
-    FactoryGirl.create :product, contract: @contract
+    @product = FactoryGirl.create :product, contract: @contract
   end
   visit contract_path(@contract)
 end
@@ -39,4 +39,33 @@ Then /^Я могу добавить продукт$/ do
       #{row}
   }
   current_path.should eq(contract_path(@contract))
+end
+Then /^Я могу просмотреть информацию о продукте$/ do
+  click_link 'contract_product_view'
+  page.should have_content(@product.product_type.name)
+  page.should have_content(@product.rubric.name)
+  page.should have_content(@product.proposal)
+end
+Then /^Я могу изменить продукт$/ do
+
+  row = "|#{FactoryGirl.create(:product_type).name}|#{FactoryGirl.create(:rubric).name}|#{Faker::Lorem.sentence}|"
+
+  click_link 'contract_product_edit'
+
+  steps %Q{
+    When Я ввожу информацию о продукте
+      |product|rubric|proposal|
+      #{row}
+  }
+  current_path.should eq(contract_path(@contract))
+
+  step %Q{Я вижу список продуктов}
+end
+Then /^Я могу выбрать рубрику автозаполнением$/ do
+  rub = @product.rubric.name
+  el_id = 'product_rubric'
+  steps %Q{
+    When Я ввожу "#{rub}" в поле "#{el_id}"
+    And Я выбираю "#{rub}" из списка с автозаполнением с ключом "#{el_id}"
+  }
 end
