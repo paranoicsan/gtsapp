@@ -42,6 +42,6 @@
       = f.text_area :comments, :class => 'text_area input-xlarge', :rows => 3
 
   .form-actions
-    = f.submit "Сохранить", :class => 'btn btn-primary'
+    = f.submit "Сохранить", :class => 'btn btn-primary', :id => 'company_save'
     -s = @company.id ? company_path(@company) : companies_path
     = link_to "Отмена", s, :class => 'btn'

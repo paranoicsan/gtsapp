@@ -2,6 +2,13 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
+$ ->
+  $('#add_rub_link').hide() # прячем ссылку для добавления рубрики
+
+  $('#company_title').keyup ->
+    onTitleChange()
+  onTitleChange() # вызов для обработки текущего состояния поля
+
 ##
 # Обработчик нажатия на кнопку "Удалить" на странцие просмотра компании для агента
 # показывает модальный диалог с содержимым шаблона
@@ -49,9 +56,7 @@
   $('#btn_reason_delete_submit').button(s)
 
 ##
-#
 # Прячет или показывает выпадающее меню со списком зарегистрированных агентов
-#
 @showHideAgentList = (id) ->
   div = $('#agent_list')
   list = $('#company_company_source_id')
@@ -61,9 +66,7 @@
     div.hide()
 
 ##
-#
 # Обработчик выпадающего меню со списком рубрик
-#
 @onRubSelect = ->
   el =  $('#add_rub_link')
   val = $('#company_rubric_id').val()
@@ -79,10 +82,13 @@
   else
     el.hide()
 
+onTitleChange = ->
+  val = $('#company_title').val().trim()
+  if val.length == 0
+    $('#company_save').attr('disabled', 'disabled')
+  else
+    $('#company_save').removeAttr('disabled')
 
-$ ->
-  # прячем ссылку для добавления рубрики
-  $('#add_rub_link').hide()
 
 
 
