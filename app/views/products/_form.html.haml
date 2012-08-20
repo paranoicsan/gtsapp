@@ -18,7 +18,8 @@
       -s = @product.rubric ? @product.rubric.name : ''
       = autocomplete_field_tag 'product_rubric', s, products_autocomplete_rubric_name_path,
       :placeholder => "Начните печатать для выбора", :id => 'product_rubric', :id_element => '#product_rubric_id'
-      = hidden_field_tag :product_rubric_id
+      -rub_id = @product.rubric ? @product.rubric.id : ''
+      = hidden_field_tag :product_rubric_id, rub_id
   .control-group
     = f.label :proposal, 'Коммерческое предложение', :class => 'control-label'
     .controls

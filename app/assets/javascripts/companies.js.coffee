@@ -83,8 +83,8 @@ $ ->
     el.hide()
 
 onTitleChange = ->
-  val = $('#company_title').val().trim()
-  if val.length == 0
+  val = $('#company_title').val()#.trim()
+  if (val) && (val.trim().length == 0)
     $('#company_save').attr('disabled', 'disabled')
   else
     $('#company_save').removeAttr('disabled')

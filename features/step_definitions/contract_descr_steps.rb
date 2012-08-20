@@ -69,3 +69,6 @@ Then /^Я могу выбрать рубрику автозаполнением$
     And Я выбираю "#{rub}" из списка с автозаполнением с ключом "#{el_id}"
   }
 end
+When /^Я вижу указанную ранее рубрику$/ do
+  find_by_id('product_rubric_id')['value'].should eq(@product.rubric.id.to_s)
+end
