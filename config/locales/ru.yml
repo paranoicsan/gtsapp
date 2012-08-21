@@ -1,0 +1,23 @@
+# Encoding: utf-8
+ru:
+  authlogic:
+    error_messages:
+      login_blank: не может быть пустым
+      login_not_found: неверно
+      login_invalid: Вы должны использовать только буквы, цифры, пробел, и символы .-_@
+      consecutive_failed_logins_limit_exceeded: число неудачных попыток ввести пароль исчерпано, ваш аккаунт заблокирован.
+      email_invalid: Должно быть правильным адресом электронной почты
+      password_blank: Не может быть пустым
+      password_invalid: Неправильное значение
+      not_active: Ваш аккаунт заблокирован
+      not_confirmed: Ваш аккаунт не подтвержден
+      not_approved: Ваш аккаунт не одобрен
+      no_authentication_details: Вы не указали сведений для аутентификации
+    models:
+      user_session: Сессия пользователя
+    attributes:
+      user_session:
+        username: Имя пользователя
+        email: Адрес электронной почты
+        password: Пароль
+        remember_me: Запомнить меня
