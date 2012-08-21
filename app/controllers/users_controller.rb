@@ -1,4 +1,4 @@
-# encoding: utf-8
+# Encoding: utf-8
 class UsersController < ApplicationController
   helper :application
   before_filter :require_user
@@ -82,11 +82,22 @@ class UsersController < ApplicationController
   # DELETE /users/1
   # DELETE /users/1.json
   def destroy
-    @user = User.find(params[:id])
-    @user.destroy
+    begin
+      message = nil
+      @user = User.find(params[:id])
+      @user.destroy
+    rescue ActiveRecord::InvalidForeignKey
+      message = %Q{
+        Пользователь не может быть удалён. Возможно, он связан с какой-либо
+        компанией.
+      }
+    end
+
+    # определяем сообщение
+    params = message ? { error: message } : {}
 
     respond_to do |format|
-      format.html { redirect_to users_url }
+      format.html { redirect_to users_url, flash: params }
       format.json { head :ok }
     end
   end
