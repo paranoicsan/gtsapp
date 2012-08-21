@@ -25,9 +25,7 @@ When /^Я удаляю пользователя "([^"]*)"$/ do |username|
   user = find_user username
   #noinspection RubyResolve
   s = user_path(user)
-  save_and_open_page
   page.find(%{a[href = "#{s}"]}).click
-  save_and_open_page
 end
 When /^Я не вижу пользователя "([^"]*)"$/ do |username|
   page.should_not have_content username
