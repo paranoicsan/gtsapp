@@ -14,6 +14,7 @@ gem 'twitter-bootstrap-rails'
 gem 'jquery-ui-rails'
 gem 'rails3-jquery-autocomplete'
 gem 'unicode_utils'
+gem 'russian', '~> 0.6.0'
 
 group :development, :test do
   gem 'debugger', :require => 'ruby-debug'

@@ -17,7 +17,7 @@ Spork.prefork do
 
   Capybara.default_selector = :css
 
-  ActionController::Base.allow_rescue = true
+  ActionController::Base.allow_rescue = false
 
   begin
     DatabaseCleaner.strategy = :transaction

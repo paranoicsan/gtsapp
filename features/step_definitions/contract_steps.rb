@@ -5,7 +5,13 @@ When /^Я создаю договор через веб-интерфейс с п
       fill_in "contract_number", :with => param[:number]
     end
     if param[:date_sign]
-      select_date param[:date_sign], :from => "Дата подписания"
+      date = DateTime.strptime param[:date_sign], '%e.%m.%Y'
+      day = date.day.to_s
+      select day , :from => "contract_date_sign_3i"
+      month = I18n.backend.send(:translations)[:ru][:date][:common_month_names][date.month.to_i]
+      select month, :from => "contract_date_sign_2i"
+      year = date.year.to_s
+      select year, :from => "contract_date_sign_1i"
     end
     if param[:amount]
       fill_in "contract_amount", :with => param[:amount]
