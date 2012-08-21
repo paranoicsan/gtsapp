@@ -1,12 +1,7 @@
 # encoding: utf-8
 require 'spec_helper'
-require 'shared/auth_helper'
 
 describe CompaniesController do
-
-  RSpec.configure do |c|
-    c.include AuthHelper
-  end
 
   before(:each) do
     authorize_user

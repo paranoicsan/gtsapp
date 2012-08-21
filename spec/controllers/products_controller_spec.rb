@@ -47,7 +47,7 @@ describe ProductsController do
       get :new, params
       response.should be_success
     end
-    it "для не активного договора не может оператор" do
+    it "для не активного договора может оператор" do
       user = FactoryGirl.create :user_operator
       controller.stub(:current_user).and_return(user) # подмена текущего пользователя
       c = FactoryGirl.create :contract_suspended
@@ -56,7 +56,7 @@ describe ProductsController do
           contract_id: c.id
       }
       get :new, params
-      response.should redirect_to contract_path(c)
+      response.should be_success
     end
 
     it "assigns a new product as @product" do

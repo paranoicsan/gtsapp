@@ -101,9 +101,9 @@
 
       .form-actions
         = link_to 'К компании', company_path(@contract.company), :class => 'btn btn-small'
-        -if @current_user.is_admin?
-          -unless @contract.active?
-            = link_to 'Активировать', activate_contract_path(@contract), :class => 'btn btn-success btn-small'
+        -if @contract.can_activate?(current_user)
+          = link_to 'Активировать', activate_contract_path(@contract), :class => 'btn btn-success btn-small'
+        -if @contract.can_delete?(current_user)
           = link_to 'Изменить', edit_contract_path(@contract), :class => 'btn btn-small'
           = link_to 'Удалить', contract_path(@contract), :method => "delete", :confirm => 'Вы уверены?', :class => 'btn  btn-small btn-danger'
 
@@ -113,7 +113,7 @@
       %h3.well-title
         Продукты
 
-      - if current_user.is_admin? || (@contract.active? && current_user.is_operator?)
+      - unless current_user.is_agent?
         %p= link_to 'Добавить', new_contract_product_path(@contract), class: 'btn btn-mini', id: 'contract_product_add'
 
       #products_list

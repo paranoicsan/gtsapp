@@ -23,13 +23,17 @@ class Contract < ActiveRecord::Base
   #
   #noinspection RubyResolve
   def can_delete?(user)
-    if user.is_admin?
-      true
-    elsif user.is_operator?
-      self.contract_status != ContractStatus.inactive
-    else
-      false
-    end
+    user.is_admin? || user.is_operator? ? true : false
+  end
+
+  ##
+  # Позволяет определить, может ли указанный пользоваитель активировать договор
+  # @param [User] Пользователь
+  # @return [Boolean] Истина, когда пользователь может активировать договор
+  #
+  #noinspection RubyResolve
+  def can_activate?(user)
+    (user.is_admin? || user.is_operator?) && !self.active? ? true : false
   end
 
   ##

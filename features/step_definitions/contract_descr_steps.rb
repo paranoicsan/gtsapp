@@ -72,3 +72,6 @@ end
 When /^Я вижу указанную ранее рубрику$/ do
   find_by_id('product_rubric_id')['value'].should eq(@product.rubric.id.to_s)
 end
+Then /^Я не могу изменить договор$/ do
+  page.should_not have_link('Изменить', href: edit_contract_path(@contract))
+end

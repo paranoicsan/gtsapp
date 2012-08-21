@@ -29,10 +29,9 @@ class ProductsController < ApplicationController
   # GET /products/new.json
   def new
     @product = Product.new
-    if current_user.is_admin?
-       good_response
-    else
-      @contract.active? ? good_response : redirect_to(contract_path(@contract))
+    respond_to do |format|
+      format.html # new.html.erb
+      format.json { render json: @product }
     end
   end
 

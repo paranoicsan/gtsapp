@@ -120,11 +120,12 @@
                 %td= contract.date_sign.strftime("%d.%m.%Y") if contract.date_sign
                 %td= contract.amount
                 %td= contract.contract_status.name if contract.contract_status
-                -if contract.can_delete?(@current_user)
-                  %td
-                    -if @current_user.is_admin? && !contract.active?
-                      =link_to 'Активировать', activate_contract_path(contract),
-                      :class => 'btn btn-success btn-mini'
+                %td
+                  -if contract.can_activate?(@current_user)
+                    =link_to 'Активировать', activate_contract_path(contract),
+                    :class => 'btn btn-success btn-mini'
+
+                  -if contract.can_delete?(@current_user)
                     %a{ :href => edit_contract_path(contract), :class => "btn btn-mini"}
                       %i.icon-edit.icon-white
                       Изменить
@@ -132,6 +133,4 @@
                     "data-confirm" => "Вы уверены?",  "data-method" => "delete", :rel => "nofollow" }
                       %i.icon-trash.icon-white
                       Удалить
-                -else
-                  %td
 
