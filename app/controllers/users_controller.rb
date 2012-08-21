@@ -86,7 +86,7 @@ class UsersController < ApplicationController
       message = nil
       @user = User.find(params[:id])
       @user.destroy
-    rescue ActiveRecord::InvalidForeignKey
+    rescue
       message = %Q{
         Пользователь не может быть удалён. Возможно, он связан с какой-либо
         компанией.
