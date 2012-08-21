@@ -12,7 +12,7 @@ describe PeopleController do
     controller.stub(:current_user).and_return(@user) # подмена текущего пользователя
   end
 
-
+  let(:company) { FactoryGirl.create :company }
 
   def valid_attributes
     {
