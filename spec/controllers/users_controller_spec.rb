@@ -44,11 +44,11 @@ describe UsersController do
       response.should redirect_to(users_path)
     end
 
-    it "нельзя удалить пользователя, связанного с объектами" do
+    it "показывает ошибку при удалении пользователя, связанного с объектами" do
+      s = %Q{Пользователь не может быть удалён. Возможно, он связан с какой-либо компанией.}
       FactoryGirl.create :company, editor: user
-      expect {
-        del
-      }.to raise_error
+      del
+      flash[:error].should eq(s)
     end
   end
 

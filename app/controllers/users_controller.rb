@@ -87,10 +87,7 @@ class UsersController < ApplicationController
       @user = User.find(params[:id])
       @user.destroy
     rescue
-      message = %Q{
-        Пользователь не может быть удалён. Возможно, он связан с какой-либо
-        компанией.
-      }
+      message = %Q{Пользователь не может быть удалён. Возможно, он связан с какой-либо компанией.}
     end
 
     # определяем сообщение
