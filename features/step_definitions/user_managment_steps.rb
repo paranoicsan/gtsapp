@@ -46,3 +46,8 @@ end
 Then /^Я не могу удалить самого себя$/ do
   page.should_not have_link('Удалить', href: user_path(@user), :method => 'delete')
 end
+Then /^Я вижу сообщение, что нельзя удалить пользователя.$/ do
+  s = %Q{Пользователь не может быть удалён. Возможно, он связан с какой-либо компанией.}
+  #page.should have_content(s)
+  page.find_by_id('warning').should have_content(s)
+end

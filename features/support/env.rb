@@ -31,8 +31,6 @@ Spork.prefork do
   Capybara.register_driver :selenium do |app|
     Capybara::Selenium::Driver.new(app, :browser => :chrome)
   end
-
-  ActiveRecord::Base.connection.execute("PRAGMA foreign_keys=ON;")
 end
 
 Spork.each_run do
@@ -42,5 +40,7 @@ Spork.each_run do
   end
 
   FactoryGirl.reload
+
+  ActiveRecord::Base.connection.execute("PRAGMA foreign_keys=ON;")
 
 end
