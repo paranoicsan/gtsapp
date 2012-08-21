@@ -227,48 +227,4 @@ ActiveRecord::Schema.define(:version => 20120817210621) do
     t.string "name"
   end
 
-  add_foreign_key "addresses", "branches", :name => "addresses_branch_id_fk"
-  add_foreign_key "addresses", "cities", :name => "addresses_city_id_fk"
-  add_foreign_key "addresses", "districts", :name => "addresses_district_id_fk"
-  add_foreign_key "addresses", "post_indices", :name => "addresses_post_index_id_fk"
-  add_foreign_key "addresses", "streets", :name => "addresses_street_id_fk"
-
-  add_foreign_key "branch_websites", "branches", :name => "branch_websites_branch_id_fk"
-  add_foreign_key "branch_websites", "websites", :name => "branch_websites_website_id_fk"
-
-  add_foreign_key "branches", "companies", :name => "branches_company_id_fk"
-  add_foreign_key "branches", "form_types", :name => "branches_form_type_id_fk"
-
-  add_foreign_key "companies", "company_sources", :name => "companies_company_source_id_fk"
-  add_foreign_key "companies", "users", :name => "companies_agent_id_fk", :column => "agent_id"
-  add_foreign_key "companies", "users", :name => "companies_author_user_id_fk", :column => "author_user_id"
-  add_foreign_key "companies", "users", :name => "companies_editor_user_id_fk", :column => "editor_user_id"
-
-  add_foreign_key "company_rubrics", "companies", :name => "company_rubrics_company_id_fk"
-  add_foreign_key "company_rubrics", "rubrics", :name => "company_rubrics_rubric_id_fk"
-
-  add_foreign_key "contracts", "companies", :name => "contracts_company_id_fk"
-  add_foreign_key "contracts", "contract_statuses", :name => "contracts_contract_status_id_fk"
-  add_foreign_key "contracts", "project_codes", :name => "contracts_project_code_id_fk"
-
-  add_foreign_key "emails", "branches", :name => "emails_branch_id_fk"
-
-  add_foreign_key "people", "companies", :name => "people_company_id_fk"
-
-  add_foreign_key "phones", "branches", :name => "phones_branch_id_fk"
-
-  add_foreign_key "product_types", "product_types", :name => "products_bonus_product_id_fk", :column => "bonus_product_id"
-
-  add_foreign_key "products", "contracts", :name => "contract_products_contract_id_fk"
-  add_foreign_key "products", "product_types", :name => "contract_products_product_id_fk", :column => "product_id"
-  add_foreign_key "products", "rubrics", :name => "products_rubric_id_fk"
-
-  add_foreign_key "rubric_keywords", "keywords", :name => "rubric_keywords_keyword_id_fk"
-  add_foreign_key "rubric_keywords", "rubrics", :name => "rubric_keywords_rubric_id_fk"
-
-  add_foreign_key "street_indices", "post_indices", :name => "street_indices_post_index_id_fk"
-  add_foreign_key "street_indices", "streets", :name => "street_indices_street_id_fk"
-
-  add_foreign_key "streets", "cities", :name => "streets_city_id_fk"
-
 end

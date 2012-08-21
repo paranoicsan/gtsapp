@@ -15,18 +15,19 @@ Given /^Существуют следующие пользователи$/ do |t
   end
 end
 Given /^Я - пользователь "([^"]*)" с паролем "([^"]*)"$/ do |username, pwd|
-  @user = User.find_by_username username
+  @user = find_user username
   #noinspection RubyResolve
   visit login_path
   login @user, pwd
 end
 When /^Я удаляю пользователя "([^"]*)"$/ do |username|
   step %{Я нахожусь на странице "Пользователи"}
-  user = User.find_by_username username
+  user = find_user username
   #noinspection RubyResolve
   s = user_path(user)
-  #page.driver.browser.switch_to.alert.accept # заранее подтверждаем диалог с вопросом
+  save_and_open_page
   page.find(%{a[href = "#{s}"]}).click
+  save_and_open_page
 end
 When /^Я не вижу пользователя "([^"]*)"$/ do |username|
   page.should_not have_content username
@@ -40,7 +41,10 @@ When /^Я создаю нового пользователя$/ do
   fill_in "user_email", :with => 'test@333test.com'
   click_button "Создать"
 end
-Then /^Я не могу удалить пользователя "([^"]*)"$/ do |user_name|
-  u = User.find_by_username user_name
-  page.should_not have_link('Удалить', href: user_path(u), :method => 'delete')
+When /^Пользователь "([^"]*)" связан с существующей компанией$/ do |username|
+  user = find_user username
+  FactoryGirl.create :company, editor: user
+end
+Then /^Я не могу удалить самого себя$/ do
+  page.should_not have_link('Удалить', href: user_path(@user), :method => 'delete')
 end
