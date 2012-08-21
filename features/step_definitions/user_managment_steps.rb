@@ -40,3 +40,7 @@ When /^Я создаю нового пользователя$/ do
   fill_in "user_email", :with => 'test@333test.com'
   click_button "Создать"
 end
+Then /^Я не могу удалить пользователя "([^"]*)"$/ do |user_name|
+  u = User.find_by_username user_name
+  page.should_not have_link('Удалить', href: user_path(u), :method => 'delete')
+end
