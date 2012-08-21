@@ -19,4 +19,16 @@ CREATE TABLE "companies" (
 	FOREIGN KEY(editor_user_id) REFERENCES users(id) ON DELETE RESTRICT,
 	FOREIGN KEY(author_user_id) REFERENCES users(id) ON DELETE RESTRICT
 );
+DROP TABLE "products";
+CREATE TABLE "products"
+(
+    id integer PRIMARY KEY NOT NULL,
+    contract_id integer,
+    product_id integer NOT NULL,
+    created_at text,
+    updated_at text,
+    rubric_id integer,
+    proposal text,
+    FOREIGN KEY(contract_id) REFERENCES contracts(id) ON DELETE CASCADE
+);
 COMMIT;
