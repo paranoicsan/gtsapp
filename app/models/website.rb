@@ -1,7 +1,7 @@
 # encoding: utf-8
 require "uri"
 class Website < ActiveRecord::Base
-  has_many :branch_websites
+  has_many :branch_websites, :dependent => :destroy
 
   ##
   # Проверяет введённый адрес на корректность

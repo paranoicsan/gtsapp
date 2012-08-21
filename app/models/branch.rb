@@ -1,9 +1,9 @@
 class Branch < ActiveRecord::Base
-  has_one :address
-  has_many :phones
-  has_many :branch_websites
-  has_many :websites, :through => :branch_websites
-  has_many :emails
+  has_one :address, :dependent => :destroy
+  has_many :phones, :dependent => :destroy
+  has_many :branch_websites, :dependent => :destroy
+  has_many :websites, :through => :branch_websites, :dependent => :destroy
+  has_many :emails, :dependent => :destroy
   belongs_to :form_type
   belongs_to :company
   before_save :check_is_main

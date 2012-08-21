@@ -5,10 +5,10 @@ class Company < ActiveRecord::Base
   belongs_to :agent, :class_name => 'User', :foreign_key => "agent_id"
   belongs_to :author, :class_name => 'User', :foreign_key => "author_user_id"
   belongs_to :editor, :class_name => 'User', :foreign_key => "editor_user_id"
-  has_many :contracts
-  has_many :branches
-  has_many :persons
-  has_many :company_rubrics
+  has_many :contracts, :dependent => :destroy
+  has_many :branches, :dependent => :destroy
+  has_many :persons, :dependent => :destroy
+  has_many :company_rubrics, :dependent => :destroy
   has_many :rubrics, :through => :company_rubrics
   validates_presence_of :title
   validates_presence_of :reason_deleted_on, :if => :queued_for_deletion?,
