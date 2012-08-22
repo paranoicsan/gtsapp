@@ -138,13 +138,11 @@ When /^Я нахожусь на странице договора$/ do
 end
 
 When /^Я нахожусь на странице (|не) активного договора$/ do |attr|
-  FactoryGirl.create :contract_status_active
-  FactoryGirl.create :contract_status_suspended
+  status = attr.eql?('не') ? FactoryGirl.create(:contract_status_suspended) : FactoryGirl.create(:contract_status_active)
   FactoryGirl.create :contract_status_inactive
-  status = attr.eql?('не') ? :contract_suspended : :contract_active
-  @contract = @contract ? @contract : FactoryGirl.create(status)
+  @contract = @contract ? @contract : FactoryGirl.create(:contract, contract_status: status)
   visit contract_path @contract
-  step %Q{Я вижу параметр "Статус:" как "на рассмотрении"}
+  step %Q{Я вижу параметр "Статус:" как "#{status.name}"}
 end
 
 When /^Я нахожусь на странице изменения продукта$/ do

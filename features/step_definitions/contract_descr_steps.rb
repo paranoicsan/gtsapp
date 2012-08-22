@@ -135,3 +135,9 @@ Then /^Я не могу сохранить договор без номера$/ 
     Then Я не могу сохранить договор
   }
 end
+Then /^Я могу просмотреть договор$/ do
+  s = contract_path(@contract)
+  page.should have_link(@contract.number, href: s)
+  page.find("a[href='#{s}'][text()='#{@contract.number}']").click
+  current_path.should eq(s)
+end
