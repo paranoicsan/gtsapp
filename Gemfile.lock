@@ -245,6 +245,7 @@ DEPENDENCIES
   simplecov
   spork
   sqlite3
+  therubyracer
   twitter-bootstrap-rails
   uglifier
   unicode_utils
