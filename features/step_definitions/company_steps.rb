@@ -87,10 +87,6 @@ When /^Я активирую компанию "([^"]*)"$/ do |cname|
   find("a[href='#{s}']").click
 end
 
-Then /^Я не могу активировать компанию$/ do
-  page.should_not have_content("Активировать")
-end
-
 When /^Я добавляю следующие компании$/ do |table|
   table.hashes.each do |row|
     step %{Я создаю новую компанию с названием "#{row[:title]}"}

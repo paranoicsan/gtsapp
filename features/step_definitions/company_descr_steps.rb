@@ -75,3 +75,62 @@ When /^Для компании существуют (\d+) договора на 
     puts c.contract_status.inspect
   end
 end
+When /^Существует (\d+) компаний на рассмотрении$/ do |cnt|
+  step %Q{Существует #{cnt} компаний}
+  s = FactoryGirl.create :company_status_suspended
+  FactoryGirl.create :company_status_active
+  Company.all.each do |c|
+    c.company_status = s
+  end
+end
+Then /^Я (|не) вижу список компаний на рассмотрении$/ do |negate|
+  table_id = 'suspended_companies_list'
+  if negate.eql?('не')
+    page.should_not have_selector("table##{table_id}")
+  else
+    # составляем ряды для таблицы
+    rows = ""
+    Company.all.each do |c|
+      rows = "#{rows}\n|#{c.title}|"
+    end
+    steps %Q{
+      Then Я вижу таблицу "#{table_id}" с компаниями
+        | fact_name |
+        #{rows}
+    }
+  end
+
+end
+Then /^Я (|не) могу активировать компанию$/ do |negate|
+  s = activate_company_path(@company)
+  if negate.eql?('не')
+    page.should_not have_link('Активировать', href: s)
+  else
+    link = page.find("a[href='#{s}'][text()='Активировать']")
+    link.click
+    step %Q{Я не вижу список компаний на рассмотрении}
+  end
+
+end
+When /^Я нахожусь на странице компании на рассмотрении$/ do
+  step %Q{Существует 1 компаний на рассмотрении}
+  visit company_path @company
+end
+Then /^Я (|не) могу активировать компанию со странице просмотра$/ do |negate|
+  puts @company.company_status.inspect
+  s = activate_company_path(@company)
+  if negate.eql?('не')
+    page.should_not have_link('Активировать', href: s)
+  else
+    link = page.find("a[href='#{s}']")
+    link.click
+    step %Q{Я не могу активировать компанию со странице просмотра}
+  end
+end
+When /^Существует (\d+) компаний, добавленных мною$/ do |cnt|
+  step %Q{Существует #{cnt} компаний на рассмотрении}
+  Company.all.each do |c|
+    c.author_user_id = @user.id
+    c.save
+  end
+end

@@ -92,7 +92,7 @@ class Company < ActiveRecord::Base
   # @param [Integer] Ключ компании
   def self.activate(company_id)
     c = Company.find company_id
-    c.update_attribute :company_status_id, CompanyStatus.active
+    c.update_attribute :company_status_id, CompanyStatus.active.id
     c.save
   end
 
