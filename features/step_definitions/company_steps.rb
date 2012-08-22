@@ -162,7 +162,7 @@ Given /^Существуют (\d+) компаний с названиями на
 end
 
 When /^Я нахожусь на странице компании$/ do
-  @company = @copmany ? @company : create_company
+  @company = @company ? @company : create_company
   visit company_path @company
 end
 

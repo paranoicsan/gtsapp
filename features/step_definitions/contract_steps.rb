@@ -46,7 +46,8 @@ end
 When /^Существуют следующие договора$/ do |table|
   create_contract_statuses
   table.hashes.each do |row|
-    Contract.create! row
+    puts row.inspect
+    FactoryGirl.create :contract, row
   end
 end
 
@@ -55,6 +56,7 @@ Then /^Я вижу таблицу "([^"]*)" с договорами$/ do |table_
   page.should have_selector :xpath, xpth
   idx = 2 # Первый ряд занимает заголовок
   table.hashes.each do |row|
+    #puts row.inspect
     row.each_with_index do |data, i|
       row_xpth = "//table[@id='#{table_id}']/tr[#{idx}]//td[#{i+1}]"
       find(:xpath, row_xpth).text.should == data[1]
@@ -136,9 +138,13 @@ When /^Я нахожусь на странице договора$/ do
 end
 
 When /^Я нахожусь на странице (|не) активного договора$/ do |attr|
+  FactoryGirl.create :contract_status_active
+  FactoryGirl.create :contract_status_suspended
+  FactoryGirl.create :contract_status_inactive
   status = attr.eql?('не') ? :contract_suspended : :contract_active
   @contract = @contract ? @contract : FactoryGirl.create(status)
   visit contract_path @contract
+  step %Q{Я вижу параметр "Статус:" как "на рассмотрении"}
 end
 
 When /^Я нахожусь на странице изменения продукта$/ do

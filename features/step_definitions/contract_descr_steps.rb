@@ -82,3 +82,52 @@ Then /^Я могу удалить договор$/ do
   current_path.should eq(company_path(company))
   #@contract.destroyed?.should eq(true) Проверка не работает на SQLite3
 end
+Then /^Я (не|) могу активировать договор$/ do |negate|
+  s = activate_contract_path(@contract)
+  if negate.eql?('не')
+    page.should_not have_link('Активировать', href: s)
+  else
+    page.find("a[href='#{s}'][text()='Активировать']").click
+    step %Q{Я нахожусь на странице компании}
+    Contract.find(@contract.id).contract_status.should eq(ContractStatus.active)
+  end
+end
+When /^Я вижу список договоров$/ do
+  table_id = "contracts"
+  # составляем ряды для таблицы
+  rows = ""
+  @company.contracts.each do |c|
+    rows = "#{rows}\n|#{c.number}|#{c.project_code.name}|#{c.date_sign}|#{c.amount}|#{c.contract_status.name}|"
+  end
+  steps %Q{
+    Then Я вижу таблицу "#{table_id}" с договорами
+      | number | project_code | date_sign  | amount | contract_status |
+      #{rows}
+  }
+end
+When /^Я нахожусь на странице создания договора$/ do
+  visit new_company_contract_path(@company)
+end
+When /^Я нахожусь на странице изменения договора$/ do
+  visit edit_contract_path(@contract)
+end
+When /^Я пытаюсь сохранить договор с существующим номером$/ do
+  step %Q{Я ввожу "#{Contract.first.number}" в поле "contract_number"}
+  click_button('Сохранить')
+end
+When /^Я вижу сообщение, что такой номер уже используется$/ do
+  s = 'Договор с таким номером уже существует!'
+  step %Q{Я вижу сообщение "#{s}"}
+end
+Then /^Я не могу сохранить договор$/ do
+  steps %Q{
+    And Я нажимаю на кнопку с именем "Сохранить"
+    Then Я вижу сообщение "Введите номер договора"
+  }
+end
+Then /^Я не могу сохранить договор без номера$/ do
+  steps %Q{
+    When Я ввожу "" в поле "contract_number"
+    Then Я не могу сохранить договор
+  }
+end

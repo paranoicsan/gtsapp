@@ -50,3 +50,14 @@ end
 When /^Я вижу сообщение, что имя занято$/ do
   step %Q{Я вижу сообщение "Компания с таким названием уже зарегистрирована"}
 end
+When /^Для компании существуют (\d+) договора$/ do |cnt|
+  FactoryGirl.create :contract_status_active
+  FactoryGirl.create :contract_status_suspended
+  FactoryGirl.create :contract_status_inactive
+
+  @company = @copmany ? @company : create_company
+  cnt.to_i.times do
+    @contract = FactoryGirl.create :contract, company: @company
+  end
+  visit company_path(@company)
+end

@@ -103,7 +103,7 @@
         -if @current_user.is_admin? || @current_user.is_operator?
           %p= link_to 'Создать', new_company_contract_path(@company), class: "btn btn-mini", id: 'contract_create'
 
-        -if @company.contracts.count > 0
+        -if @company.contracts.any?
           -# | number | project_code | date_sign  | amount | contract_status_id |
           %table#contracts.table.table-striped
             %tr

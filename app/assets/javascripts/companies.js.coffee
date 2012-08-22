@@ -13,7 +13,6 @@ $ ->
   # устанавливаем наблюдателя за полем с названием компании
   el = $('#company_title')
   el.observe_field 1, () ->
-    console.log this.value
     data = { company_title: this.value }
     url = '/companies/validate_title'
     $.post url, data, (html) ->
@@ -104,8 +103,8 @@ $ ->
 # Обработчик изменения названия
 onTitleChange = ->
   val = $('#company_title').val()
-  if val
-    setTitleError(val.trim().length == 0)
+  check = if val then val.trim().length == 0 else true
+  setTitleError(check)
 
 ##
 # Устанавливает класс для оформления ошибки
