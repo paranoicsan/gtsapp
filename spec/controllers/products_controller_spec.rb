@@ -16,7 +16,7 @@ describe ProductsController do
   def valid_attributes
     {
       contract_id: contract.id,
-      product_id: FactoryGirl.create(:product_type)
+      product_id: FactoryGirl.create(:product_type).id
     }
   end
 
@@ -148,6 +148,7 @@ describe ProductsController do
       end
 
       it "assigns the requested product as @product" do
+        product
         put_valid
         assigns(:product).should eq(product)
       end

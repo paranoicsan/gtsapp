@@ -165,7 +165,7 @@ describe ContractsController do
       contract = create_valid
       delete :destroy, {:id => contract.to_param}
       #noinspection RubyResolve
-      response.should redirect_to(company_url(1))
+      response.should redirect_to(company_url(company))
     end
   end
 

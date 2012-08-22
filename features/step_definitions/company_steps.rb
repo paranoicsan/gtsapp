@@ -185,6 +185,9 @@ When /^Я нахожусь на странице компании, постав�
 end
 
 Given /^Существуют (\d+) компаний, поставленных на удаление$/ do |cnt|
+  puts Company.count
+  FactoryGirl.create :company_status_active
+  FactoryGirl.create :company_status_suspended
   params = {
       company_status: FactoryGirl.create(:company_status_on_deletion),
       reason_deleted_on: Faker::Lorem.sentence
@@ -192,7 +195,8 @@ Given /^Существуют (\d+) компаний, поставленных н
   cnt.to_i.times do
     FactoryGirl.create :company, params
   end
-
+  puts Company.count
+  puts Company.queued_for_delete.count
 end
 When /^Существует (\d+) компаний$/ do |cnt|
   cnt.to_i.times do

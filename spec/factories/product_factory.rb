@@ -5,6 +5,6 @@ FactoryGirl.define do
     proposal { Faker::Lorem.sentence }
     rubric
     contract
-    product_id { FactoryGirl.create :product_type }
+    product_id { FactoryGirl.create(:product_type).id }
   end
 end
