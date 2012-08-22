@@ -194,3 +194,8 @@ Given /^Существуют (\d+) компаний, поставленных н
   end
 
 end
+When /^Существует (\d+) компаний$/ do |cnt|
+  cnt.to_i.times do
+    @company = FactoryGirl.create :company
+  end
+end

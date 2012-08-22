@@ -205,4 +205,14 @@ class CompaniesController < ApplicationController
       format.html { render :layout => false }
     end
   end
+
+  ##
+  # POST companies/validate_title
+  # Проверяет валидность указанного названия компании
+  def validate_title
+    @company = Company.find_by_title params[:company_title]
+    respond_to do |format|
+      format.html { render :partial => 'validate_title', :layout => false }
+    end
+  end
 end

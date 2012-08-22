@@ -36,6 +36,7 @@ Gtsapp::Application.routes.draw do
   match 'companies/:id/unqueue_for_delete' =>'companies#unqueue_for_delete', :as => :company_unqueue_for_delete
   match 'companies/:id/add_rubric/:rub_id' => 'companies#add_rubric', :as => :company_add_rubric
   match 'companies/:id/delete_rubric/:rub_id' => 'companies#delete_rubric', :as => :company_delete_rubric
+  match 'companies/validate_title' => 'companies#validate_title', :as => :company_validate_title
 
   match 'contracts/:id/activate' =>'contracts#activate', :as => :activate_contract
 

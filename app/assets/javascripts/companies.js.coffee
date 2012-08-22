@@ -5,9 +5,27 @@
 $ ->
   $('#add_rub_link').hide() # прячем ссылку для добавления рубрики
 
+  # обработчик названия компании
   $('#company_title').keyup ->
     onTitleChange()
-  onTitleChange() # вызов для обработки текущего состояния поля
+  onTitleChange()
+
+  # устанавливаем наблюдателя за полем с названием компании
+  el = $('#company_title')
+  el.observe_field 1, () ->
+    console.log this.value
+    data = { company_title: this.value }
+    url = '/companies/validate_title'
+    $.post url, data, (html) ->
+      $('#title_help').html(html)
+      setTitleError(html.length != 0)
+#      validate()
+
+#  $.get(url, data, // make ajax request
+#    function(html) { // function to handle the response
+#      $("#article_list").html(html); // change the inner html of update div
+
+
 
 ##
 # Обработчик нажатия на кнопку "Удалить" на странцие просмотра компании для агента
@@ -82,16 +100,26 @@ $ ->
   else
     el.hide()
 
+##
+# Обработчик изменения названия
 onTitleChange = ->
-  val = $('#company_title').val()#.trim()
-  if (val) && (val.trim().length == 0)
+  val = $('#company_title').val()
+  setTitleError(val.trim().length == 0)
+
+##
+# Устанавливает класс для оформления ошибки
+setTitleError = (arg) ->
+  el = $('#title_group')
+  if arg then el.addClass('error') else el.removeClass('error')
+  validate()
+
+##
+# Определяет, можно ли активировать кнопку для сохранения
+validate = ->
+  if $('#title_group').hasClass('error')
     $('#company_save').attr('disabled', 'disabled')
   else
     $('#company_save').removeAttr('disabled')
-
-
-
-
 
 
 

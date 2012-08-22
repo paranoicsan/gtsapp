@@ -147,6 +147,32 @@ describe CompaniesController do
 
   end
 
+  describe "POST validate_title" do
+
+    let(:company) { FactoryGirl.create :company }
+
+    def post_failed_validation
+      post :validate_title, {company_title: company.title}
+    end
+
+    def post_success_validation
+      post :validate_title, {company_title: Faker::Lorem.words(1).join()}
+    end
+
+    it "если провал: присваивает найденную компанию как @company" do
+      post_failed_validation
+      assigns(:company).should eq(company)
+    end
+    it "если успех: присваивает nil @company" do
+      post_success_validation
+      assigns(:company).should eq(nil)
+    end
+    it "отрабатывает шаблон с сообщением" do
+      post_failed_validation
+      response.should render_template(:partial => '_validate_title')
+    end
+  end
+
   describe "GET index" do
     it "assigns all companies as @companies" do
       company = FactoryGirl.create :company

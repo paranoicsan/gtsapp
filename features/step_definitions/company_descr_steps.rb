@@ -34,3 +34,19 @@ end
 Then /^Я попадаю на страницу компании$/ do
   current_path.should eq(company_path(@company))
 end
+When /^Я нахожусь на странице создания компании$/ do
+  visit new_company_path
+end
+Then /^Я не могу сохранить компанию$/ do
+  step %Q{Кнопка "company_save" - "не активна"}
+end
+Then /^Поле для названия подсвечиватеся красным$/ do
+  step %Q{Элемент "title_group"  имеет класс "error"}
+end
+When /^Я ввожу название, которое уже занято$/ do
+  step %Q{Я ввожу "#{@company.title}" в поле "company_title"}
+  sleep 3
+end
+When /^Я вижу сообщение, что имя занято$/ do
+  step %Q{Я вижу сообщение "Компания с таким названием уже зарегистрирована"}
+end

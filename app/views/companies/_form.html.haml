@@ -6,10 +6,11 @@
         - @company.errors.full_messages.each do |msg|
           %li= msg
 
-  .control-group
+  .control-group#title_group
     = f.label :title, 'Название', :class => 'control-label'
     .controls
       = f.text_field :title
+      .help-inline#title_help
   .control-group
     = f.label :date_added, 'Дата добавления', :class => 'control-label'
     .controls
