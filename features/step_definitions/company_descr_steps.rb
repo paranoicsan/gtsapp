@@ -61,3 +61,9 @@ When /^Для компании существуют (\d+) договора$/ do 
   end
   visit company_path(@company)
 end
+When /^Для компании существуют (\d+) активных договора$/ do |cnt|
+  step %Q{Для компании существуют #{cnt} договора}
+  @company.contracts.each do |c|
+    Contract.activate c.id
+  end
+end

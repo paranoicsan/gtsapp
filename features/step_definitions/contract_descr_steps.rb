@@ -75,12 +75,16 @@ end
 Then /^Я не могу изменить договор$/ do
   page.should_not have_link('Изменить', href: edit_contract_path(@contract))
 end
-Then /^Я могу удалить договор$/ do
+Then /^Я (|не) могу удалить договор$/ do |negate|
   company = @contract.company
-  link = find("a[href='#{contract_path(@contract)}'][data-method='delete']")
-  link.click
-  current_path.should eq(company_path(company))
-  #@contract.destroyed?.should eq(true) Проверка не работает на SQLite3
+  s = contract_path(@contract)
+  if negate.eql?('не')
+    page.should_not have_link('Удалить', href: s, method: 'delete')
+  else
+    link = find("a[href='#{s}'][data-method='delete']")
+    link.click
+    current_path.should eq(company_path(company))
+  end
 end
 Then /^Я (не|) могу активировать договор$/ do |negate|
   s = activate_contract_path(@contract)
