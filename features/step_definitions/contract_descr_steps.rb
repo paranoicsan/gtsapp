@@ -141,3 +141,26 @@ Then /^Я могу просмотреть договор$/ do
   page.find("a[href='#{s}'][text()='#{@contract.number}']").click
   current_path.should eq(s)
 end
+Then /^Я (не|) вижу список договоров на рассмотрении$/ do |negate|
+  table_id = "suspended_contracts_list"
+  if negate.eql?('не')
+    page.should_not have_selector("table##{table_id}")
+  else
+    # составляем ряды для таблицы
+    rows = ""
+    @company.contracts.each do |c|
+      rows = "#{rows}\n|#{c.number}|#{c.company.title}|"
+    end
+    steps %Q{
+      Then Я вижу таблицу "#{table_id}" с договорами
+        | number | company |
+        #{rows}
+    }
+  end
+
+end
+Then /^Я могу активировать договор$/ do
+  link = page.find("a[href='#{activate_contract_path(@contract)}'][text()='Активировать']")
+  link.click
+  step %Q{Я не вижу список договоров на рассмотрении}
+end

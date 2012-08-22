@@ -52,12 +52,12 @@ When /^Я вижу сообщение, что имя занято$/ do
 end
 When /^Для компании существуют (\d+) договора$/ do |cnt|
   FactoryGirl.create :contract_status_active
-  FactoryGirl.create :contract_status_suspended
+  ss = FactoryGirl.create :contract_status_suspended
   FactoryGirl.create :contract_status_inactive
 
-  @company = @copmany ? @company : create_company
+  @company = @company ? @company : create_company
   cnt.to_i.times do
-    @contract = FactoryGirl.create :contract, company: @company
+    @contract = FactoryGirl.create :contract, company: @company, contract_status: ss
   end
   visit company_path(@company)
 end
@@ -65,5 +65,13 @@ When /^Для компании существуют (\d+) активных до�
   step %Q{Для компании существуют #{cnt} договора}
   @company.contracts.each do |c|
     Contract.activate c.id
+  end
+end
+When /^Для компании существуют (\d+) договора на рассмотрении$/ do |cnt|
+  step %Q{Для компании существуют #{cnt} договора}
+  @company.contracts.each do |c|
+    puts c.contract_status.inspect
+    c.contract_status = ContractStatus.pending
+    puts c.contract_status.inspect
   end
 end
