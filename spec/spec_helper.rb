@@ -64,7 +64,6 @@ Spork.prefork do
     #config.include FactoryGirl::Syntax::Methods
 
     config.before(:suite) do
-      ActiveRecord::Base.connection.execute("PRAGMA foreign_keys=ON;")
       DatabaseCleaner.strategy = :transaction
       DatabaseCleaner.clean_with :transaction
     end

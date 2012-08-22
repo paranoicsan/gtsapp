@@ -40,7 +40,4 @@ Spork.each_run do
   end
 
   FactoryGirl.reload
-
-  ActiveRecord::Base.connection.execute("PRAGMA foreign_keys=ON;")
-
 end

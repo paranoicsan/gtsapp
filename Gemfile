@@ -40,7 +40,6 @@ end
 group :assets do
   gem 'sass-rails', "  ~> 3.1.0"
   gem 'uglifier'
-  gem 'therubyracer'
   gem 'bootstrap-will_paginate'
 end
 
