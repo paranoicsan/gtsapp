@@ -70,7 +70,7 @@ $ ->
 
 @onReasonChange = () ->
   val = $('#reason_delete_on_ta').val()
-  s = if $.trim(val) != "" then "enable" else "disable"
+  s = if val && val.trim() != "" then "enable" else "disable"
   $('#btn_reason_delete_submit').button(s)
 
 ##
@@ -104,7 +104,8 @@ $ ->
 # Обработчик изменения названия
 onTitleChange = ->
   val = $('#company_title').val()
-  setTitleError(val.trim().length == 0)
+  if val
+    setTitleError(val.trim().length == 0)
 
 ##
 # Устанавливает класс для оформления ошибки
