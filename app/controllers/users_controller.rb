@@ -68,9 +68,11 @@ class UsersController < ApplicationController
   def update
     @user = User.find(params[:id])
 
+    params[:user][:roles] = [params[:user][:roles]]
+
     respond_to do |format|
       if @user.update_attributes(params[:user])
-        format.html { redirect_to @user, notice: 'User was successfully updated.' }
+        format.html { redirect_to users_path, notice: 'User was successfully updated.' }
         format.json { head :ok }
       else
         format.html { render action: "edit" }
