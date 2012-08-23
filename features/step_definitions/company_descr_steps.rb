@@ -77,10 +77,15 @@ When /^Для компании существуют (\d+) договора на 
 end
 When /^Существует (\d+) компаний на рассмотрении$/ do |cnt|
   step %Q{Существует #{cnt} компаний}
-  s = FactoryGirl.create :company_status_suspended
-  FactoryGirl.create :company_status_active
+  s = CompanyStatus.suspended ? CompanyStatus.suspended : FactoryGirl.create(:company_status_suspended)
+
+  unless CompanyStatus.active
+    FactoryGirl.create :company_status_active
+  end
+
   Company.all.each do |c|
     c.company_status = s
+    c.save
   end
 end
 Then /^Я (|не) вижу список компаний на рассмотрении$/ do |negate|
