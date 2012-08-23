@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120823090709) do
+ActiveRecord::Schema.define(:version => 20120823101503) do
 
   create_table "addresses", :force => true do |t|
     t.string   "house"
@@ -227,22 +227,13 @@ ActiveRecord::Schema.define(:version => 20120823090709) do
     t.string "name"
   end
 
-  add_foreign_key "addresses", "branches", :name => "addresses_branch_id_fk"
-  add_foreign_key "addresses", "cities", :name => "addresses_city_id_fk"
-  add_foreign_key "addresses", "districts", :name => "addresses_district_id_fk"
-  add_foreign_key "addresses", "post_indices", :name => "addresses_post_index_id_fk"
-  add_foreign_key "addresses", "streets", :name => "addresses_street_id_fk"
-
   add_foreign_key "branch_websites", "branches", :name => "branch_websites_branch_id_fk"
   add_foreign_key "branch_websites", "websites", :name => "branch_websites_website_id_fk"
 
-  add_foreign_key "branches", "companies", :name => "branches_company_id_fk"
-  add_foreign_key "branches", "form_types", :name => "branches_form_type_id_fk"
-
-  add_foreign_key "companies", "company_sources", :name => "companies_company_source_id_fk"
+  add_foreign_key "companies", "company_sources", :name => "companies_company_source_id_fkey"
   add_foreign_key "companies", "users", :name => "companies_agent_id_fk", :column => "agent_id"
-  add_foreign_key "companies", "users", :name => "companies_author_user_id_fk", :column => "author_user_id"
-  add_foreign_key "companies", "users", :name => "companies_editor_user_id_fk", :column => "editor_user_id"
+  add_foreign_key "companies", "users", :name => "companies_author_user_id_fkey", :column => "author_user_id"
+  add_foreign_key "companies", "users", :name => "companies_editor_user_id_fkey", :column => "editor_user_id"
 
   add_foreign_key "company_rubrics", "companies", :name => "company_rubrics_company_id_fk"
   add_foreign_key "company_rubrics", "rubrics", :name => "company_rubrics_rubric_id_fk"
@@ -255,8 +246,6 @@ ActiveRecord::Schema.define(:version => 20120823090709) do
 
   add_foreign_key "people", "companies", :name => "people_company_id_fk"
 
-  add_foreign_key "phones", "branches", :name => "phones_branch_id_fk"
-
   add_foreign_key "product_types", "product_types", :name => "products_bonus_product_id_fk", :column => "bonus_product_id"
 
   add_foreign_key "products", "contracts", :name => "contract_products_contract_id_fk"
@@ -265,10 +254,5 @@ ActiveRecord::Schema.define(:version => 20120823090709) do
 
   add_foreign_key "rubric_keywords", "keywords", :name => "rubric_keywords_keyword_id_fk"
   add_foreign_key "rubric_keywords", "rubrics", :name => "rubric_keywords_rubric_id_fk"
-
-  add_foreign_key "street_indices", "post_indices", :name => "street_indices_post_index_id_fk"
-  add_foreign_key "street_indices", "streets", :name => "street_indices_street_id_fk"
-
-  add_foreign_key "streets", "cities", :name => "streets_city_id_fk"
 
 end
