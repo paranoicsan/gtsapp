@@ -4,24 +4,12 @@
 
 
 inputChange = (elem) ->
-
-  a = ($(elem).val().length > 0) || allowSearch()
-
-  el = $('#do_search')
-  if a
-    el.removeAttr 'disabled'
-  else
-    el.attr('disabled', 'disabled')
+  a = ($(elem).val().length > 0)
+  changeBtnState(a)
 
 selectChange = (elem) ->
-
-  a = ($(elem).val() != null) || allowSearch()
-
-  el = $('#do_search')
-  if a
-    el.removeAttr 'disabled'
-  else
-    el.attr('disabled', 'disabled')
+  a = ($(elem).val() != null)
+  changeBtnState(a)
 
 allowSearch = ->
   ret = false
@@ -36,6 +24,13 @@ allowSearch = ->
 @resetFields = ->
   $('#search_form_plain')[0].reset()
 
+changeBtnState = (state) ->
+  el = $('#do_search')
+  if state || allowSearch()
+    el.removeAttr 'disabled'
+  else
+    el.attr('disabled', 'disabled')
+
 # Вешаем обработчики для параметров поиска
 $ ->
   $('.controls > input').each (index, element) =>
@@ -45,3 +40,5 @@ $ ->
   $('.controls > select').each (index, element) =>
     $(element).change ->
       selectChange(element)
+
+  changeBtnState(false)
