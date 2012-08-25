@@ -57,16 +57,22 @@ describe SearchController do
   end
 
   describe "GET index" do
-    it "обнуляет параметры поиска в сессии, если нет параметра возврата" do
-      post :search_company, valid_params_search # выполняем поиск и сохраняем параметры
-      get :index
-      session[:search_params].should be_nil
-    end
-
-    it "содержит параметры в сессии при возвращении" do
-      post :search_company, valid_params_search # выполняем поиск и сохраняем параметры
-      get :index, back_to: true
-      session[:search_params].should_not be_nil
+    context "после выполненного поиска" do
+      before(:each) do
+        post :search_company, valid_params_search # выполняем поиск и сохраняем параметры
+      end
+      it "обнуляет параметры поиска в сессии, если нет параметра возврата" do
+        get :index
+        session[:search_params].should be_nil
+      end
+      it "содержит параметры в сессии при возвращении" do
+        get :index, back_to: true
+        session[:search_params].should_not be_nil
+      end
+      it "при возвращении повторяет поиск" do
+        controller.should_receive(:make_search)
+        get :index, back_to: true
+      end
     end
   end
 

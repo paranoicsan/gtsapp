@@ -6,7 +6,15 @@ class SearchController < ApplicationController
   #
   # GET /search
   def index
-    session[:search_params] = nil unless params[:back_to].nil?
+
+    # смотрим, если это возвращение после просмотра
+    if params.has_key?(:back_to)
+      restore_search_params
+      make_search
+    else
+      session[:search_params] = nil
+    end
+
     respond_to do |format|
       format.html # index.html.haml
       format.json { head :ok }
@@ -18,7 +26,15 @@ class SearchController < ApplicationController
   #
   # GET search/search_company/do
   def search_company
+    make_search
+    respond_to do |format|
+      format.js { render :layout => false }
+    end
+  end
 
+  ##
+  # Выполняет сам процесс поиска
+  def make_search
     res = []
 
     # флаг, что какой-то поиск уже был
@@ -26,18 +42,18 @@ class SearchController < ApplicationController
 
     store_search_params # сохраняем параметры
 
-    # Флаги, какие поля поиска работают    
+    # Флаги, какие поля поиска работают
     fls = {
-      email: params[:search_email].length > 0,         
-      name: params[:search_name].length > 0,         
-      phone: params[:search_phone].length > 0,
-      address: {
-        city: params[:select_search_city].length > 0,
-        district: false, #params[:select_search_district].length > 0, #GTS-27
-        street: params[:select_search_street].length > 0,
-        house: params[:search_house].length > 0,
-        office: params[:search_office].length > 0,
-        cabinet: params[:search_cabinet].length > 0
+        email: params[:search_email].length > 0,
+        name: params[:search_name].length > 0,
+        phone: params[:search_phone].length > 0,
+        address: {
+            city: params[:select_search_city].length > 0,
+            district: false, #params[:select_search_district].length > 0, #GTS-27
+            street: params[:select_search_street].length > 0,
+            house: params[:search_house].length > 0,
+            office: params[:search_office].length > 0,
+            cabinet: params[:search_cabinet].length > 0
         }
     }
 
@@ -82,10 +98,6 @@ class SearchController < ApplicationController
 
     # Убираем дубликаты, которые могут оставаться в массивах, которые не пересекаются
     @search_result = res.uniq
-
-    respond_to do |format|
-      format.js { render :layout => false }
-    end
   end
 
   def search_by_address(params, flags)
@@ -299,6 +311,17 @@ private
         office: params[:search_office],
         cabinet: params[:search_cabinet]
     }
+  end
+
+  def restore_search_params
+    params[:search_email] = session[:search_params][:email]
+    params[:search_name] = session[:search_params][:name]
+    params[:search_phone] = session[:search_params][:phone]
+    params[:select_search_city] = session[:search_params][:city]
+    params[:select_search_street] = session[:search_params][:street]
+    params[:search_house] = session[:search_params][:house]
+    params[:search_office] = session[:search_params][:office]
+    params[:search_cabinet] = session[:search_params][:cabinet]
   end
 
 end

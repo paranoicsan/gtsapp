@@ -6,13 +6,6 @@ class ProductsController < ApplicationController
   before_filter :require_system_users, only: [:new, :create, :edit, :update, :destroy]
   autocomplete :rubric, :name
 
-  def good_response
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @product }
-    end
-  end
-
   # GET /products/1
   # GET /products/1.json
   def show

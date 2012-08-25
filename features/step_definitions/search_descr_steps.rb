@@ -52,7 +52,13 @@ Then /^Я вижу заполненные ранее поля поиска$/ do
   }
   page.has_select?("select_search_city", selected: @branch.address.city.name)
   page.has_select?("select_search_street", selected: @branch.address.street.name)
-  #When Поле "" содержит "#{@branch.address.city.name}" из элемента "select_search_city"
-  #When Поле "" содержит "#{@branch.address.street.name}" из элемента "select_search_street"
 
+end
+When /^Я вижу те же самые результаты поиска$/ do
+  row = "|#{@company.company_status.name}|#{@company.title}|"
+  steps %Q{
+    Then Я вижу таблицу "search_results_table" с компаниями
+      | status  | title |
+      #{row}
+  }
 end
