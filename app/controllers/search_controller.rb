@@ -6,6 +6,7 @@ class SearchController < ApplicationController
   #
   # GET /search
   def index
+    session[:search_params] = nil if params[:back_to].nil?
     respond_to do |format|
       format.html # index.html.haml
       format.json { head :ok }
@@ -22,6 +23,8 @@ class SearchController < ApplicationController
 
     # флаг, что какой-то поиск уже был
     searched = false
+
+    store_search_params # сохраняем параметры
 
     # Флаги, какие поля поиска работают    
     fls = {
@@ -281,6 +284,21 @@ class SearchController < ApplicationController
       phones.each { |p| ar << p.branch.company}
     end
     ar
+  end
+
+private
+
+  def store_search_params
+    session[:search_params] = {
+        email: params[:search_email],
+        name: params[:search_name],
+        phone: params[:search_phone],
+        city: params[:select_search_city],
+        street: params[:select_search_street],
+        house: params[:search_house],
+        office: params[:search_office],
+        cabinet: params[:search_cabinet]
+    }
   end
 
 end
