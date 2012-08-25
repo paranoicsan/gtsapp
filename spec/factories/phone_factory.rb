@@ -1,6 +1,9 @@
+require "faker"
+
 FactoryGirl.define do
 
   factory :phone do
+    name { Faker::PhoneNumber.phone_number }
     mobile false
     contact false
     description { Faker::Lorem.words(1).join() }

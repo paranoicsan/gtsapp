@@ -5,8 +5,10 @@
     = @company.title
     %p
       %small Просмотр компании
+    %p
+      - if request.referer.eql?(search_url)
+        = link_to "Назад к результатам поиска", search_path
 
-.container-fluid
   .row-fluid
     .span4
       .well#company-info
