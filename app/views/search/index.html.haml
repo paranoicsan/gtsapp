@@ -13,43 +13,46 @@
         #s_name.control-group
           = label_tag 'Название:', nil, :class => 'control-label'
           .controls
-            = text_field_tag "search_name", "", :placeholder => "прямое, фактическое или юридическое", :size => 70
+            = text_field_tag "search_name", (session[:search_params][:name] if session[:search_params]),
+            :placeholder => "прямое, фактическое или юридическое", :size => 70
         #s_email.control-group
           = label_tag 'Email:', nil, :class => 'control-label'
           .controls
-            = text_field_tag "search_email", "", :placeholder => "test@test.com", :size => 70
+            = text_field_tag "search_email",(session[:search_params][:email] if session[:search_params]),
+            :placeholder => "test@test.com", :size => 70
         #s_address
           #s_address_city.control-group
             = label_tag 'Город:', nil, :class => 'control-label'
             .controls
-              = select_tag("select_search_city", options_for_select(City.all.collect{ |s| [s.name, s.id] }),
+              = select_tag("select_search_city", options_for_select(City.all.collect{ |s| [s.name, s.id] },
+              (session[:search_params][:city] if session[:search_params])),
                 {:prompt => "Выберите город или населённый пункт", :id => "select_search_city"})
-          -##s_address_district.control-group
-          -#  = label_tag 'Район:', nil, :class => 'control-label'
-          -#  .controls
-          -#    = select_tag("select_search_district", options_for_select(District.all.collect{ |s| [s.name, s.id] }),
-          -#      {:prompt => "Выберите район", :id => "select_search_district"})
           #s_address_street.control-group
             = label_tag 'Улица:', nil, :class => 'control-label'
             .controls
-              = select_tag("select_search_street", options_for_select(Street.name_with_city.collect{ |s| [s[:name], s[:id]] }),
+              = select_tag("select_search_street", options_for_select(Street.name_with_city.collect{ |s| [s[:name], s[:id]] },
+              (session[:search_params][:street] if session[:search_params])),
                 {:prompt => "Выберите улицу", :id => "select_search_street"})
           #s_address_house.control-group
             = label_tag 'Номер дома:', nil, :class => 'control-label'
             .controls
-              = text_field_tag "search_house", "", :placeholder => "точное соответствие"
+              = text_field_tag "search_house", (session[:search_params][:house] if session[:search_params]),
+              :placeholder => "точное соответствие"
           #s_address_office.control-group
             = label_tag 'Номер офиса:', nil, :class => 'control-label'
             .controls
-              = text_field_tag "search_office", "", :placeholder => "точное соответствие"
+              = text_field_tag "search_office", (session[:search_params][:office] if session[:search_params]),
+               :placeholder => "точное соответствие"
           #s_address_cabinet.control-group
             = label_tag 'Номер кабинета:', nil, :class => 'control-label'
             .controls
-              = text_field_tag "search_cabinet", "", :placeholder => "точное соответствие"
+              = text_field_tag "search_cabinet", (session[:search_params][:cabinet] if session[:search_params]),
+              :placeholder => "точное соответствие"
         #s_phone.control-group
           = label_tag 'Телефон:', nil, :class => 'control-label'
           .controls
-            = text_field_tag "search_phone", "", :placeholder => "введите первые цифры номера"
+            = text_field_tag "search_phone", (session[:search_params][:phone] if session[:search_params]),
+             :placeholder => "введите первые цифры номера"
             %p.help-block
               Поиск по номеру телефона без учёта префикса оператора.
         #s_controls.form-actions

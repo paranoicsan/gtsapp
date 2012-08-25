@@ -6,7 +6,7 @@ class SearchController < ApplicationController
   #
   # GET /search
   def index
-    session[:search_params] = nil if params[:back_to].nil?
+    session[:search_params] = nil unless params[:back_to].nil?
     respond_to do |format|
       format.html # index.html.haml
       format.json { head :ok }

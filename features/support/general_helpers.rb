@@ -1,6 +1,8 @@
 # Encoding: utf-8
 module GeneralHelpers
 
+  TEXT_LINK_BACK_TO_SEARCH = "Назад к результатам поиска"
+
   ##
   #
   # Возвращает текущий путь
