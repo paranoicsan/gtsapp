@@ -6,7 +6,7 @@
     %p
       %small Просмотр компании
     %p
-      - if request.referer.eql?(search_url)
+      - if request.referer.split(/\?/)[0].eql?(search_url)
         = link_to "Назад к результатам поиска", search_path + '?back_to'
 
   .row-fluid
