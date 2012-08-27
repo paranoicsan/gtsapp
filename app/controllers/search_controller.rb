@@ -66,10 +66,7 @@ class SearchController < ApplicationController
 
     # если указан адрес электронной почты
     if  fls[:email] && Email.valid?(params[:search_email])
-      em = Email.find_by_name params[:search_email]
-      if em
-        res << em.branch.company
-      end
+      Email.find_all_by_name(params[:search_email]).each { |e| res << e.branch.company }
       searched = true
     end
 
