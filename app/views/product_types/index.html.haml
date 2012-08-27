@@ -32,5 +32,5 @@
             %td= product.bonus_site
             %td= product.price
             %td
-              = link_to 'Изменить', edit_product_path(product), :class => 'btn btn-mini'
+              = link_to 'Изменить', edit_product_type_path(product), :class => 'btn btn-mini'
               = link_to 'Удалить', product, :confirm => 'Вы уверены?', :method => :delete, :class => 'btn btn-mini btn-danger'
