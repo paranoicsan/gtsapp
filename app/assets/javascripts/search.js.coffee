@@ -22,7 +22,12 @@ allowSearch = ->
 
 # Очистка формы поиска
 @resetFields = ->
-  $('#search_form_plain')[0].reset()
+  $('#search_form_plain')[0].reset() # это очищает только изменённые поля
+  $('#search_form_plain').find('input:text, input:password, input:file, select, textarea')
+    .val('');
+  $('#search_form_plain').find('input:radio, input:checkbox')
+    .removeAttr('checked')
+    .removeAttr('selected');
 
 changeBtnState = (state) ->
   el = $('#do_search')
