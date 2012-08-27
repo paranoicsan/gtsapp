@@ -153,3 +153,17 @@ Then /^Я вижу все адреса электронной почты на с
   visit company_path(@company)
   page.should have_content(@branch.all_emails_str)
 end
+When /^Существует компания с (\d+) веб-сайтами$/ do |cnt|
+  steps %Q{
+    Given Существует 1 компаний
+    And Для компании существуют 1 филиалов
+  }
+  @branch = @company.branches.first
+  cnt.to_i.times do
+    @branch.websites << FactoryGirl.create(:website)
+  end
+end
+Then /^Я вижу все адреса веб-сайтов на странице компании$/ do
+  visit company_path(@company)
+  page.should have_content(@branch.all_websites_str)
+end

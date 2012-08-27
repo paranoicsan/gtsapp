@@ -56,4 +56,12 @@ class Branch < ActiveRecord::Base
     emails.each {|e| s = "#{s}#{e.name}, "}
     s.gsub(/, $/, "")
   end
+
+  ##
+  # Вовзращаетв все адреса веб-сайтов в строку через запятую
+  def all_websites_str
+    s = ""
+    websites.each {|w| s = "#{s}#{w.name}, "}
+    s.gsub(/, $/, "")
+  end
 end

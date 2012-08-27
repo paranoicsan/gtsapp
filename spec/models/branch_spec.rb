@@ -16,4 +16,16 @@ describe Branch do
       branch.all_emails_str.should eq(s)
     end
   end
+
+  describe "#all_websites_str" do
+    it "возвращает все сайты через запятую" do
+      3.times do
+        branch.websites << FactoryGirl.create(:website)
+      end
+      s = ""
+      branch.websites.each {|w| s = "#{s}#{w.name}, "}
+      s = s.gsub(/, $/, "")
+      branch.all_websites_str.should eq(s)
+    end
+  end
 end
