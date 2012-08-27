@@ -167,7 +167,7 @@ class BranchesController < ApplicationController
     if params[:branch_email]
       em_name = params[:branch_email].strip
       if Email.valid? em_name
-        em = Email.find_by_name em_name
+        em = Email.find_by_name_and_branch_id em_name, @branch.id
         if em
           flash[:email_error] = "Такой адрес электронной почты уже существует."
         else
