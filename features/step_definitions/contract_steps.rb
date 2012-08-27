@@ -135,6 +135,8 @@ end
 When /^Я нахожусь на странице договора$/ do
   @contract = @contract ? @contract : FactoryGirl.create(:contract)
   visit contract_path @contract
+  # добавляем компанию в рубрику
+  @contract.company.rubrics << FactoryGirl.create(:rubric)
 end
 
 When /^Я нахожусь на странице (|не) активного договора$/ do |attr|
@@ -143,6 +145,9 @@ When /^Я нахожусь на странице (|не) активного до
   @contract = @contract ? @contract : FactoryGirl.create(:contract, contract_status: status)
   visit contract_path @contract
   step %Q{Я вижу параметр "Статус:" как "#{status.name}"}
+
+  # добавляем компанию в рубрику
+  @contract.company.rubrics << FactoryGirl.create(:rubric)
 end
 
 When /^Я нахожусь на странице изменения продукта$/ do

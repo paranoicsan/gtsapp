@@ -82,6 +82,18 @@ class ProductsController < ApplicationController
     end
   end
 
+  ##
+  # Переопределяем метод, возвращающий элементы автозаполнения
+  # для ограничивания выборки
+  def get_autocomplete_items(parameters)
+    items = super(parameters)
+    if @contract
+      ids = []
+      @contract.company.rubrics.each { |r| ids << r.id }
+      items.where(:id => ids)
+    end
+  end
+
 private
   def get_contract
     @contract = Contract.find(params[:contract_id]) if params[:contract_id]

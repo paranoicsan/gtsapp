@@ -2,7 +2,7 @@
 
 When /^Для него существуют (\d+) продукта$/ do |cnt|
   cnt.to_i.times do
-    @product = FactoryGirl.create :product, contract: @contract
+    @product = FactoryGirl.create :product, contract: @contract, rubric: @contract.company.rubrics.first
   end
   visit contract_path(@contract)
 end

@@ -16,7 +16,8 @@
     = f.label :rubric, 'Рубрика', :class => 'control-label'
     .controls
       -s = @product.rubric ? @product.rubric.name : ''
-      = autocomplete_field_tag 'product_rubric', s, products_autocomplete_rubric_name_path,
+      -auto_contract = @contract ? @contract : @product.contract
+      = autocomplete_field_tag 'product_rubric', s, products_autocomplete_rubric_name_path(auto_contract),
       :placeholder => "Начните печатать для выбора", :id => 'product_rubric', :id_element => '#product_rubric_id'
       -rub_id = @product.rubric ? @product.rubric.id : ''
       = hidden_field_tag :product_rubric_id, rub_id

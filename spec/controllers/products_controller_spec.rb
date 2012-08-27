@@ -208,10 +208,16 @@ describe ProductsController do
     end
   end
 
-  describe ".get_contract" do
+  describe "#get_contract" do
     it "возвращает компанию по параметру из URL" do
       get :new, valid_attributes
       assigns(:contract).should eq(contract)
+    end
+  end
+
+  describe "#filter_rubrics" do
+    it "ограничивает выборку по указанным ключам" do
+
     end
   end
 
