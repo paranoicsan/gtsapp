@@ -1,9 +1,9 @@
-= form_for @producttype, :html => { :class => 'form-horizontal well' } do |f|
-  -if @producttype.errors.any?
+= form_for @product_type, :html => { :class => 'form-horizontal well' } do |f|
+  -if @product_type.errors.any?
     #error_explanation
       %h2= "Возникшие ошибки:"
       %ul
-        -@producttype.errors.messages.each do |errs|
+        -@product_type.errors.messages.each do |errs|
           -errs.each do |e|
             -if e.is_a?(Array)
               %li
@@ -25,7 +25,7 @@
     = f.label :bonus_product_id, 'Бонусный продукт', :class => 'control-label'
     .controls
       = f.select(:bonus_product_id, options_for_select(ProductType.all.collect{ |p| [p.name, p.id] },
-        @producttype.bonus_product_id), {:prompt => 'Выберите продукт'})
+        @product_type.bonus_product_id), {:prompt => 'Выберите продукт'})
   .control-group
     = f.label :bonus_site, 'Бонус для сайта', :class => 'control-label'
     .controls

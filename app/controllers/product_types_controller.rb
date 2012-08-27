@@ -7,18 +7,18 @@ class ProductTypesController < ApplicationController
   # GET /product_types
   # GET /product_types.json
   def index
-    @producttypes = ProductType.all
+    @product_types = ProductType.all
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @producttypes }
+      format.json { render json: @product_types }
     end
   end
 
   # GET /product_types/new
   # GET /product_types/new.json
   def new
-    @producttype = ProductType.new
+    @product_type = ProductType.new
 
     respond_to do |format|
       format.html # new.html.erb
@@ -28,21 +28,21 @@ class ProductTypesController < ApplicationController
 
   # GET /product_types/1/edit
   def edit
-    @producttype = ProductType.find(params[:id])
+    @product_type = ProductType.find(params[:id])
   end
 
   # POST /product_types
   # POST /product_types.json
   def create
-    @producttype = ProductType.new(params[:producttype])
+    @product_type = ProductType.new(params[:product_type])
 
     respond_to do |format|
-      if @producttype.save
+      if @product_type.save
         format.html { redirect_to product_types_url, notice: 'ProductType was successfully created.' }
-        format.json { render json: product_types_url, status: :created, location: @producttype }
+        format.json { render json: product_types_url, status: :created, location: @product_type }
       else
         format.html { render action: "new" }
-        format.json { render json: @producttype.errors, status: :unprocessable_entity }
+        format.json { render json: @product_type.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -50,15 +50,15 @@ class ProductTypesController < ApplicationController
   # PUT /product_types/1
   # PUT /product_types/1.json
   def update
-    @producttype = ProductType.find(params[:id])
+    @product_type = ProductType.find(params[:id])
 
     respond_to do |format|
-      if @producttype.update_attributes(params[:producttype])
+      if @product_type.update_attributes(params[:product_type])
         format.html { redirect_to product_types_url, notice: 'ProductType was successfully updated.' }
         format.json { head :ok }
       else
         format.html { render action: "edit" }
-        format.json { render json: @producttype.errors, status: :unprocessable_entity }
+        format.json { render json: @product_type.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -66,8 +66,8 @@ class ProductTypesController < ApplicationController
   # DELETE /product_types/1
   # DELETE /product_types/1.json
   def destroy
-    @producttype = ProductType.find(params[:id])
-    @producttype.destroy
+    @product_type = ProductType.find(params[:id])
+    @product_type.destroy
 
     respond_to do |format|
       format.html { redirect_to product_types_url }

@@ -21,9 +21,9 @@
           %th Цена
           %th Операции
 
-        - @producttypes.each do |product|
+        - @product_types.each do |product|
           %tr
-            %td= link_to product.name, edit_product_path(product)
+            %td= link_to product.name, edit_product_type_path(product)
             %td
               =product.size_width
               x
