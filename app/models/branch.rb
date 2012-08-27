@@ -48,4 +48,12 @@ class Branch < ActiveRecord::Base
     end
     res.strip
   end
+
+  ##
+  # Вовзращаетв все адреса в строку через запятую
+  def all_emails_str
+    s = ""
+    emails.each {|e| s = "#{s}#{e.name}, "}
+    s.gsub(/, $/, "")
+  end
 end

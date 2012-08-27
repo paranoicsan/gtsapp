@@ -52,6 +52,9 @@
                   %p
                     %small
                       = branch.address.full_address if branch.address
+                  %p
+                    %small
+                      = branch.all_emails_str
                 %td
                   -unless branch.is_main?
                     = link_to 'Сделать головным', branch_make_main_path(branch), class: "btn btn-mini"

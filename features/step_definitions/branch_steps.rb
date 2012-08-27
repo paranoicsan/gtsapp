@@ -14,26 +14,21 @@ When /^Я создаю филиал с фактическим названием
   #noinspection RubyResolve
   @branch = Branch.find_by_fact_name bname
 end
-
 When /^Я вижу "([^"]*)" в списке филиалов$/ do |bname|
   page.should have_content(bname)
 end
-
 When /^Существует филиал "([^"]*)" в компании "([^"]*)"$/ do |bname, cname|
   step %{Я создаю филиал с фактическим названием "#{bname}" для компании "#{cname}"}
 end
-
 When /^Я удаляю филиал "([^"]*)" компании "([^"]*)"$/ do |bname, cname|
   branch = find_branch(bname, cname)
   #noinspection RubyResolve
   s = branch_path branch
   page.find(%{a[href = "#{s}"][data-method = "delete"]}).click
 end
-
 Then /^Я не вижу "([^"]*)" в списке филиалов$/ do |bname|
   page.should_not have_content(bname)
 end
-
 Given /^Существуют следующие филиалы для компании "([^"]*)"$/ do |cname, table|
   # table is a | ООО       | Филиал рогов   | Юр. имя филиала рогов   |pending
   table.hashes.each do |branch|
@@ -50,7 +45,6 @@ Given /^Существуют следующие филиалы для компа
     b.save
   end
 end
-
 When /^Я изменяю информацию для филиала компании "([^"]*)" с факт. названием "([^"]*)" на$/ do |cname, bname, table|
   # table is a | МУП       | Филиал рогов изменённый | Юр. имя филиала рогов изменённое |pending
   @branch = find_branch(bname, cname)
@@ -65,7 +59,6 @@ When /^Я изменяю информацию для филиала компан
     break
   end
 end
-
 When /^Я вижу филиал со следующей информацией$/ do |table|
   # table is a | МУП       | Филиал рогов изменённый | Юр. имя филиала рогов изменённое | лишнее   |pending
   table.hashes.each do |info|
@@ -76,17 +69,14 @@ When /^Я вижу филиал со следующей информацией$/
     break
   end
 end
-
 When /^Я нахожусь на странице филиала "([^"]*)" компании "([^"]*)"$/ do |bname, cname|
   @branch = find_branch bname, cname
   #noinspection RubyResolve
   visit branch_path(@branch)
 end
-
 When /^Я вижу текст "([^"]*)"$/ do |title|
   page.should have_content title
 end
-
 When /^Я вижу пометку "([^"]*)" в списке для этого филиала$/ do |title|
   xpth_row = "//table[@id='branches']/tr[1]" # первый ряд с данными
   within :xpath, xpth_row do
@@ -124,11 +114,9 @@ Then /^Филиал с факт. название "([^"]*)" находится �
     find(:xpath, "//td[1]").has_checked_field?("cb_branch_main")
   end
 end
-
 When /^Я ввожу "([^"]*)" в поле "([^"]*)"$/ do |wname, field_id|
   fill_in field_id, :with => wname
 end
-
 When /^Я вижу таблицу "([^"]*)" с веб-сайтами$/ do |table_id, table|
   xpth = "//table[@id='#{table_id}']"
   if table.hashes.any?
@@ -141,20 +129,17 @@ When /^Я вижу таблицу "([^"]*)" с веб-сайтами$/ do |table
     end
   end
 end
-
 When /^Кнопка "([^"]*)" - "(активна|не активна)"$/ do |button_id, status|
   s = status.eql?("активна") ? nil : "true"
   #puts find(:xpath, "//input[@id='#{button_id}']")['disabled'].inspect
   #assert find(:xpath, "//input[@id='#{button_id}']")['disabled'] == s, "Кнопка в неверном состоянии."
   assert find_button(button_id)['disabled'] == s, "Кнопка в неверном состоянии."
 end
-
 When /^Я нажимаю на кнопку "([^"]*)"$/ do |elem_id|
   #find(:xpath, "//input[@id='#{elem_id}']")['disabled'] == ""
   find_button elem_id
   click_button elem_id
 end
-
 When /^Существуют следующие веб-сайты дял филиала "([^"]*)"$/ do |bname, table|
   branch = Branch.find_by_fact_name bname
   table.hashes.each do |row|
@@ -165,7 +150,6 @@ When /^Существуют следующие веб-сайты дял фили
   end
   branch.save!
 end
-
 Then /^Я не вижу ссылки "([^"]*)" в таблице "([^"]*)"$/ do |link_title, table_id|
   xpth = "//table[@id='#{table_id}']"
   page.should have_selector :xpath, xpth
@@ -173,7 +157,6 @@ Then /^Я не вижу ссылки "([^"]*)" в таблице "([^"]*)"$/ do 
     find(:xpath, "//td").should_not have_content link_title
   end
 end
-
 When /^Я удаляю веб-сайт "([^"]*)" из филиала "([^"]*)"$/ do |ws_name, bname|
   b = Branch.find_by_fact_name bname
   ws = b.websites.find_by_name ws_name
@@ -182,7 +165,6 @@ When /^Я удаляю веб-сайт "([^"]*)" из филиала "([^"]*)"$/
   page.find(%{a[href = "#{s}"]}).click
   page.driver.browser.switch_to.alert.accept
 end
-
 When /^Я вижу таблицу "([^"]*)" с адресами$/ do |table_id, table|
   xpth = "//table[@id='#{table_id}']"
   if table.hashes.any?
@@ -195,7 +177,6 @@ When /^Я вижу таблицу "([^"]*)" с адресами$/ do |table_id, 
     end
   end
 end
-
 When /^Существуют следующие адреса электронной почты для филиала "([^"]*)" компании "([^"]*)"$/ do |bname, cname, table|
   b = find_branch bname, cname
   table.hashes.each do |row|
@@ -203,7 +184,6 @@ When /^Существуют следующие адреса электронно
     b.emails << em
   end
 end
-
 When /^Я удаляю электронный адрес "([^"]*)" из филиала "([^"]*)" компании "([^"]*)"$/ do |email, bname, cname|
   b = find_branch bname, cname
   em = Email.find_by_name email
@@ -212,9 +192,14 @@ When /^Я удаляю электронный адрес "([^"]*)" из фили
   page.find(%{a[href = "#{s}"]}).click
   page.driver.browser.switch_to.alert.accept
 end
-
 When /^"([^"]*)" для компании "([^"]*)" является главным$/ do |bname, cname|
   b = find_branch bname, cname
   assert b.is_main? == true, "Филиал не является главным."
   page.has_checked_field?("cb_branch_main")
+end
+When /^Для компании существуют (\d+) филиалов$/ do |cnt|
+  @company = @company ? @company : FactoryGirl.create(:company)
+  cnt.to_i.times do
+    FactoryGirl.create :branch, company: @company
+  end
 end

@@ -139,3 +139,17 @@ When /^Существует (\d+) компаний, добавленных мн�
     c.save
   end
 end
+When /^Существует компания с (\d+) адресами электронной почты$/ do |cnt_email|
+  steps %Q{
+    Given Существует 1 компаний
+    And Для компании существуют 1 филиалов
+  }
+  @branch = @company.branches.first
+  cnt_email.to_i.times do
+    @branch.emails << FactoryGirl.create(:email, branch_id: @branch.id)
+  end
+end
+Then /^Я вижу все адреса электронной почты на странице компании$/ do
+  visit company_path(@company)
+  page.should have_content(@branch.all_emails_str)
+end
