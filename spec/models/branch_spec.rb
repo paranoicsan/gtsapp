@@ -28,4 +28,14 @@ describe Branch do
       branch.all_websites_str.should eq(s)
     end
   end
+
+  it "возвращает ошибку, если не указано фактическое название" do
+    branch = FactoryGirl.build :branch, fact_name: ''
+    branch.should have(1).error_on(:fact_name)
+  end
+  it "возвращает ошибку, если не указано юридическое название" do
+    branch = FactoryGirl.build :branch, legel_name: ''
+    branch.should have(1).error_on(:legel_name)
+  end
+
 end
