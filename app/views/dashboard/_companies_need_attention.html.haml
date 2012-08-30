@@ -1,13 +1,13 @@
 - if @need_attention_companies.any?
   .span6
     .well
-      %h3 Компании на удалении
+      %h3 Компании требуют внимания оператора
       %br
       %table.table.table-striped#need_attention_companies_list
         %tbody
           %tr
             %th Название
-            %th Добавлена
+            %th Причина
             %th Операции
           - @need_attention_companies.each do |company|
             %tr
