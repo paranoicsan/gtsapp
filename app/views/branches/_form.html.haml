@@ -1,5 +1,5 @@
 -form_params = @company ? [@company, @branch] : @branch
-= form_for form_params, :html => { :class => 'well form-inline' } do |f|
+= form_for form_params, :html => { :class => 'well form-inline', :id => 'new_branch_form' } do |f|
   -if @branch.errors.any?
     #error_explanation
       %h2= "#{pluralize(@branch.errors.count, "error")} prohibited this branch from being saved:"
@@ -12,11 +12,11 @@
     .controls
       = f.select(:form_type_id, options_for_select(FormType.all.collect{ |ftype| [ftype.name, ftype.id] },
       @branch.form_type_id), {}, {class: 'select_field input-xlarge'})
-  .control-group
+  .control-group#fact_name_group
     = f.label :fact_name, 'Фактическое название', :class => 'control-label'
     .controls
       = f.text_field :fact_name, :class => 'text_field input-xlarge'
-  .control-group
+  .control-group#legel_name_group
     = f.label :legel_name, 'Юридическое название', :class => 'control-label'
     .controls
       = f.text_field :legel_name, :class => 'text_field input-xlarge'
@@ -25,6 +25,6 @@
     .controls
       = f.text_area :comments, :class => 'text_area input-xlarge', :rows => 3
   .form-actions
-    = f.submit 'Сохранить', :class => 'btn btn-primary'
+    = f.submit 'Сохранить', :class => 'btn btn-primary', id: 'btn_branch_save'
     - path = @company ? company_path(@company) : company_path(@branch.company)
     = link_to 'Отмена', path, :class => 'btn'

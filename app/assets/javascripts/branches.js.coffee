@@ -14,6 +14,28 @@ $ ->
   $('#branch_email').keyup ->
     emChange()
 
+  $('#branch_fact_name').keyup ->
+    factNameChange()
+  factNameChange()
+
+  $('#branch_legel_name').keyup ->
+    legelNameChange()
+  legelNameChange()
+
+factNameChange = ->
+  val = $('#branch_fact_name').val()
+  check = if val then val.trim().length == 0 else true
+  el = $('#fact_name_group')
+  if check then el.addClass('error') else el.removeClass('error')
+  validate()
+
+legelNameChange = ->
+  val = $('#branch_legel_name').val()
+  check = if val then val.trim().length == 0 else true
+  el = $('#legel_name_group')
+  if check then el.addClass('error') else el.removeClass('error')
+  validate()
+
 # Обработка изменений в строке с веб-адресом филиала
 wsChange = ->
   el = $('#branch_add_website')
@@ -30,3 +52,14 @@ emChange = ->
   else
     el.attr('disabled', 'disabled')
 
+validate = ->
+  valid = true
+  if $('#fact_name_group').hasClass('error')
+    valid = false
+  if $('#legel_name_group').hasClass('error')
+    valid = false
+
+  if !valid
+    $('#btn_branch_save').attr('disabled', 'disabled')
+  else
+    $('#btn_branch_save').removeAttr('disabled')
