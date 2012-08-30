@@ -6,11 +6,16 @@ class DashboardController < ApplicationController
     @queued_for_delete_companies = queued_for_delete_companies  # Компании в очередеи на удаление
     @suspended_companies = suspended_companies # Компании на рассмотрении
     @suspended_contracts = suspended_contracts # Договора на рассмотрении
+    @need_attention_companies = companies_need_attention # Компании, требующие внимания
 
     respond_to do |format|
       format.html # index.html.haml
       format.json { head :ok }
     end
+  end
+
+  def companies_need_attention
+    Company.need_attention_list
   end
 
   private

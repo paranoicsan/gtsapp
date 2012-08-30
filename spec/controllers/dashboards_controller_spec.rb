@@ -19,6 +19,8 @@ describe DashboardController do
     before(:each) do
       @company_status_suspended = FactoryGirl.create :company_status_suspended
       @company_status_deleted = FactoryGirl.create :company_status_on_deletion
+      @company_status_need_attention = FactoryGirl.create :company_status_need_attention
+
     end
 
     context "отображение договоров" do
@@ -52,16 +54,17 @@ describe DashboardController do
         assigns(:queued_for_delete_companies).should eq([company])
       end
 
+      it "присваивает компании, требующие внимания как @need_attention_companies" do
+        attrs = {
+            company_status: @company_status_need_attention,
+            reason_need_attention_on: Faker::Lorem.sentence,
+            author: @user
+        }
+        company = FactoryGirl.create :company, attrs
+        get :index
+        assigns(:need_attention_companies).should eq([company])
+      end
     end
-
-
-
-
-
-
-
-
-
 
   end
 

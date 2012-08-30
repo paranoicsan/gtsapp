@@ -201,3 +201,29 @@ When /^Я нахожусь на странице активной компани
   @company.save
   visit company_path @company
 end
+When /^Существует (\d+) компаний с запрошенным вниманием$/ do |cnt|
+  step %Q{Существует #{cnt} компаний}
+
+  Company.all.each do |c|
+    c.company_status = CompanyStatus.need_attention
+    c.reason_need_attention_on = Faker::Lorem.sentence
+    c.save
+  end
+end
+Then /^Я (|не) вижу список компаний с запрошенным вниманием$/ do |negate|
+  table_id = 'need_attention_companies_list'
+  if negate.eql?('не')
+    page.should_not have_selector("table##{table_id}")
+  else
+    # составляем ряды для таблицы
+    rows = ""
+    Company.all.each do |c|
+      rows = "#{rows}\n|#{c.title}|#{c.reason_need_attention_on}|"
+    end
+    steps %Q{
+      Then Я вижу таблицу "#{table_id}" с компаниями
+        | fact_name | reason_need_attention_on |
+        #{rows}
+    }
+  end
+end

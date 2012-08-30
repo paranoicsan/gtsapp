@@ -201,4 +201,15 @@ describe Company do
     end
   end
 
+  describe ".need_attention_list" do
+    it "возвращает компании, требующие внимания" do
+      params = {
+          reason_need_attention_on: Faker::Lorem.sentence,
+          company_status: FactoryGirl.create(:company_status_need_attention)
+      }
+      company = FactoryGirl.create :company, params
+      Company.need_attention_list.should eq([company])
+    end
+  end
+
 end

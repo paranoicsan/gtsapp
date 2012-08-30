@@ -1,21 +1,22 @@
 - if @queued_for_delete_companies.any?
-  .well
-    %h3 Компании на удалении
-    %br
-    %table.table.table-striped#companies_queued_for_delete
-      %tbody
-        %tr
-          %th Название
-          %th Добавлена
-          %th Операции
-        - @queued_for_delete_companies.each do |company|
+  .span6
+    .well
+      %h3 Компании на удалении
+      %br
+      %table.table.table-striped#companies_queued_for_delete
+        %tbody
           %tr
-            %td= link_to company.title, company_path(company)
-            %td
-              = company.date_added.strftime("%d.%m.%Y")
-              = company.author_name
-            %td
-              = link_to "Отменить", company_unqueue_for_delete_path(company), class: "btn btn-mini", :id => 'company_undelete_link'
-              -unless current_user.is_agent?
-                = link_to "Удалить", company_path(company), :method => :delete, :confirm => 'Удалить запись?',
-                :class => 'btn btn-mini btn-danger'
+            %th Название
+            %th Добавлена
+            %th Операции
+          - @queued_for_delete_companies.each do |company|
+            %tr
+              %td= link_to company.title, company_path(company)
+              %td
+                = company.date_added.strftime("%d.%m.%Y")
+                = company.author_name
+              %td
+                = link_to "Отменить", company_unqueue_for_delete_path(company), class: "btn btn-mini", :id => 'company_undelete_link'
+                -unless current_user.is_agent?
+                  = link_to "Удалить", company_path(company), :method => :delete, :confirm => 'Удалить запись?',
+                  :class => 'btn btn-mini btn-danger'

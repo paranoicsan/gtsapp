@@ -9,8 +9,8 @@
 
 .container-fluid
   .row-fluid
-    .span6
-      - if @suspended_companies.any?
+    - if @suspended_companies.any?
+      .span6
         .well
           %h3 Компании на рассмотрении
           %br
@@ -32,8 +32,8 @@
 
           = will_paginate @suspended_companies, inner_window: 1, outer_window: 1
 
-    .span6
-      -if current_user.is_admin? && @suspended_contracts.any?
+    -if current_user.is_admin? && @suspended_contracts.any?
+      .span6
         .well
           %h3 Договора на рассмотрении
           %br
@@ -50,5 +50,5 @@
 
 
   .row-fluid
-    .span6
-      = render :partial => "dashboard/companies_queued_for_delete"
+    = render :partial => "companies_queued_for_delete"
+    = render :partial => "companies_need_attention"

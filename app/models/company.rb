@@ -190,4 +190,11 @@ class Company < ActiveRecord::Base
     company_status ? company_status.eql?(CompanyStatus.need_attention) : false
   end
 
+  ##
+  # Возвращает коллекцию всех компаний, с запрошенным вниманием
+  # @return [Array] коллекции на удалении
+  def self.need_attention_list
+    Company.where(:company_status_id => CompanyStatus.need_attention.id)
+  end
+
 end
