@@ -21,6 +21,10 @@ FactoryGirl.define do
       name "На удалении"
     end
 
+    factory :company_status_need_attention do
+      name "Требует внимания"
+    end
+
   end
 
 end

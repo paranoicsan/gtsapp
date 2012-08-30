@@ -8,32 +8,31 @@ describe CompanyStatus do
     FactoryGirl.create(:company_status).should be_valid
   end
 
-  before(:all) do
-
-    #@status_suspended = CompanyStatus.create name: 'На рассмотрении'
-    #@status_archived = CompanyStatus.create name: 'В архиве'
-  end
-
   describe "возвращает объекты статуса по идентификатору" do
 
-    it "#active возвращает объект активного статуса" do
+    it ".active возвращает объект активного статуса" do
       status = FactoryGirl.create :company_status_active
       CompanyStatus.active.should eq(status)
     end
 
-    it "#suspended возвращает объект статуса на рассмотрении" do
+    it ".suspended возвращает объект статуса на рассмотрении" do
       status = FactoryGirl.create :company_status_suspended
       CompanyStatus.suspended.should eq(status)
     end
 
-    it "#archived возвращает объект архвиного статуса" do
+    it ".archived возвращает объект архвиного статуса" do
       status = FactoryGirl.create :company_status_archived
       CompanyStatus.archived.should eq(status)
     end
 
-    it "#deletion возвращает объект статуса очереди на удаление" do
+    it ".deletion возвращает объект статуса очереди на удаление" do
       status = FactoryGirl.create :company_status_on_deletion
       CompanyStatus.queued_for_delete.should eq(status)
+    end
+
+    it ".need_review возвращает объект статуса Требует внимания" do
+      status = FactoryGirl.create :company_status_need_attention
+      CompanyStatus.need_attention.should eq(status)
     end
 
   end
