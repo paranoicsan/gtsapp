@@ -1,6 +1,7 @@
 # Encoding: utf-8
 
 When /^Я вижу, что статус компании - "([^"]*)"$/ do |value|
+  sleep 3
   step %Q{Я вижу параметр "Статус:" как "#{value}"}
 end
 When /^Я вижу введённую причину удаления$/ do
@@ -166,4 +167,37 @@ end
 Then /^Я вижу все адреса веб-сайтов на странице компании$/ do
   visit company_path(@company)
   page.should have_content(@branch.all_websites_str)
+end
+When /^Я обращаю внимание администратора на компанию$/ do
+  step %Q{Я нажимаю на ссылку "Отправить администратору" с ключом "company_request_attention_link"}
+end
+When /^Я ввожу причину обращения$/ do
+  step %Q{Кнопка "btn_reason_need_attention_submit" - "не активна"}
+  step %Q{Я ввожу "#{Faker::Lorem.sentence}" в поле "reason_attention_on_ta"}
+  step %Q{Кнопка "btn_reason_need_attention_submit" - "активна"}
+end
+When /^Я вижу введённую причину обращения$/ do
+  step %Q{Я вижу параметр "Причина:" как "#{@company.reason_need_attention_on}"}
+end
+When /^Я отправляю причину$/ do
+  find_button('btn_reason_need_attention_submit').click
+end
+When /^Я не могу запросить внимание без указания причины$/ do
+  step %Q{Кнопка "btn_reason_need_attention_submit" - "не активна"}
+end
+Then /^Я не могу запросить внимание$/ do
+  page.should_not have_selector("div#need_attention")
+end
+When /^Я нахожусь на странице компании, с запрошенным вниманием администратора$/ do
+  @company = create_company
+  @company.reason_need_attention_on = Faker::Lorem.sentence
+  @company.company_status = CompanyStatus.need_attention
+  @company.save
+  visit company_path @company
+end
+When /^Я нахожусь на странице активной компании$/ do
+  @company = create_company
+  @company.company_status = CompanyStatus.active
+  @company.save
+  visit company_path @company
 end

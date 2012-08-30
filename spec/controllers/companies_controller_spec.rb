@@ -96,7 +96,6 @@ describe CompaniesController do
 
   describe "POST queue_for_delete" do
 
-
     before(:each) do
       FactoryGirl.create :company_status_on_deletion
     end
@@ -126,7 +125,7 @@ describe CompaniesController do
 
       end
 
-      context "с не верными параметрами" do
+      context "с неверными параметрами" do
         def queue_invalid
           post :queue_for_delete, id: company.to_param, company: {}, format: 'js'
         end
@@ -145,6 +144,74 @@ describe CompaniesController do
 
     end
 
+  end
+
+  describe "GET request_attention_reason" do
+
+    let(:company) { FactoryGirl.create :company }
+
+    def request_valid
+      get :request_attention_reason, id: company.to_param
+    end
+
+    it "присваивает компанию @company" do
+      request_valid
+      assigns(:company).should eq(company)
+    end
+    it "генерирует шаблон для ввода причины обращения к администратору" do
+      request_valid
+      response.should be_success
+      response.should render_template :request_attention_reason
+    end
+  end
+
+  describe "POST request_attention" do
+
+    before(:each) do
+      FactoryGirl.create :company_status_need_attention
+      @company = FactoryGirl.create :company
+    end
+
+    context "с верными параметрами" do
+      def post_valid
+        params ={
+            reason_need_attention_on: Faker::Lorem.sentence
+        }
+        post :request_attention, id: @company.to_param, company: params, format: 'js'
+      end
+      it "присваивает компанию как @company" do
+        post_valid
+        assigns(:company).should eq(@company)
+      end
+      it "меняет статус компании на Требует внимания" do
+        p = HashWithIndifferentAccess.new(
+            reason_need_attention_on: Faker::Lorem.sentence,
+            company_status: CompanyStatus.need_attention
+        )
+        Company.any_instance.should_receive(:update_attributes).with(p)
+        post :request_attention, id: @company.to_param, company: p, format: 'js'
+      end
+      it "возвращает JavaScript-ответ для обновления данных на странице" do
+        post_valid
+        response.should be_success
+      end
+    end
+    context "с неверными параметрами" do
+      def post_invalid
+        params ={
+            reason_need_attention_on: ""
+        }
+        post :request_attention, id: @company.to_param, company: params, format: 'js'
+      end
+      it "присваивает компанию как @company" do
+        post_invalid
+        assigns(:company).should eq(@company)
+      end
+      it "занового генерирует шаблон для ввода причины обращения" do
+        post_invalid
+        response.should render_template :re_request_attention_reason
+      end
+    end
   end
 
   describe "POST validate_title" do

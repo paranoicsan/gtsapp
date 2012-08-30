@@ -81,7 +81,7 @@ describe Company do
 
   end
 
-  describe ".queue_for_delete" do
+  describe "#queue_for_delete" do
 
     let(:company) { FactoryGirl.create :company }
     let(:status_active) { FactoryGirl.create :company_status_active }
@@ -128,7 +128,7 @@ describe Company do
 
   end
 
-  describe ".unqueue_for_delete" do
+  describe "#unqueue_for_delete" do
 
     let(:company) { FactoryGirl.create :company }
     let(:status_active) { FactoryGirl.create :company_status_active }
@@ -168,7 +168,7 @@ describe Company do
     end
   end
 
-  describe ".queued_for_deletion?" do
+  describe "#queued_for_deletion?" do
     let(:company) { FactoryGirl.create :company }
     let(:status_active) { FactoryGirl.create :company_status_active }
     let(:status_deletion) { FactoryGirl.create :company_status_on_deletion }
@@ -182,10 +182,22 @@ describe Company do
     end
   end
 
-  describe "#queued_for_delete" do
+  describe ".queued_for_delete" do
     it "возвращает компании на удалении" do
       company = FactoryGirl.create :company_queued_for_delete
       Company.queued_for_delete.should eq([company])
+    end
+  end
+
+  describe "#need_attention?" do
+    let(:company) { FactoryGirl.create :company }
+    let(:status) { FactoryGirl.create :company_status_need_attention }
+    it "возвращает истину, если компания с указанным статусом" do
+      company.company_status = status
+      company.need_attention?.should be_true
+    end
+    it "возвращает ложь, если компания с любым другим статусом" do
+      company.need_attention?.should be_false
     end
   end
 

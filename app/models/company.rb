@@ -11,8 +11,8 @@ class Company < ActiveRecord::Base
   has_many :company_rubrics, :dependent => :destroy
   has_many :rubrics, :through => :company_rubrics
   validates_presence_of :title
-  validates_presence_of :reason_deleted_on, :if => :queued_for_deletion?,
-      :message => 'Не указана причина удаления'
+  validates_presence_of :reason_deleted_on, :if => :queued_for_deletion?, :message => 'Не указана причина удаления'
+  validates_presence_of :reason_need_attention_on, :if => :need_attention?, :message => 'Не указана причина обращения'
   #noinspection RailsParamDefResolve
   before_save :check_fields, only: [:create]
 
@@ -181,6 +181,13 @@ class Company < ActiveRecord::Base
   # @return [Array] коллекции на удалении
   def self.queued_for_delete
     Company.where(:company_status_id => CompanyStatus.queued_for_delete.id)
+  end
+
+  ##
+  # Определяет, поставлена ли компания на статус как требующая внимания со стороны администратора
+  # @return [Boolean] Истина, если компания требует внимания
+  def need_attention?
+    company_status ? company_status.eql?(CompanyStatus.need_attention) : false
   end
 
 end

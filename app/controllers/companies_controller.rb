@@ -206,6 +206,30 @@ class CompaniesController < ApplicationController
     end
   end
 
+  ###
+  ## GET companies/:id/request_attention_reason
+  def request_attention_reason
+    @company = Company.find params[:id]
+    respond_to do |format|
+      format.html { render :layout => false }
+    end
+  end
+
+  ##
+  # POST companies/:id/request_attention
+  # Меняет компании статус как "Требует внимания"
+  def request_attention
+    @company = Company.find params[:id]
+    params[:company][:company_status] = CompanyStatus.need_attention
+    @company.update_attributes(params[:company])
+
+    if @company.save
+      render :layout => false # отправка обратно JS-ответа с командой на закрытие диалога
+    else
+      render :template => 'companies/re_request_attention_reason'
+    end
+  end
+
   ##
   # POST companies/validate_title
   # Проверяет валидность указанного названия компании

@@ -67,10 +67,56 @@ $ ->
 
   event.preventDefault()
 
+##
+# Обработчик нажатия на кнопку "Отправить администратору" на странцие просмотра компании для агента
+# показывает модальный диалог с содержимым шаблона
+@clickCompanyNeedAttention = (event) ->
+
+  # создаём модальный диалог для ввода причины удаления
+  url = $('#company_request_attention_link').attr('href')
+  $('<div id="dialog-form"></div>')
+    .html('Загрузка...')
+    .dialog({
+    autoOpen: false
+    width: 520
+    modal: true
+    title: 'Отправка компании администратору'
+    resizable: false
+    draggable: false
+    open: () ->
+      $(this).load(url)
+    close: () ->
+      $('#dialog-form').remove()
+    buttons: [
+      {
+      id: "btn_reason_need_attention_submit"
+      text: "Отправить"
+      click: () ->
+        $('#reason_form').submit()
+      },
+      {
+      id: "btn_reason_need_attention_cancel"
+      text: "Отменить"
+      click: () ->
+        $('#dialog-form').dialog("close")
+      }
+    ]
+    })
+
+  $('#dialog-form').dialog('open')
+  $('#btn_reason_need_attention_submit').button('disable') # отключаем кнопку отправки
+
+  event.preventDefault()
+
 @onReasonChange = () ->
   val = $('#reason_delete_on_ta').val()
   s = if val && val.trim() != "" then "enable" else "disable"
   $('#btn_reason_delete_submit').button(s)
+
+@onReasonAttentionChange = () ->
+  val = $('#reason_attention_on_ta').val()
+  s = if val && val.trim() != "" then "enable" else "disable"
+  $('#btn_reason_need_attention_submit').button(s)
 
 ##
 # Прячет или показывает выпадающее меню со списком зарегистрированных агентов
