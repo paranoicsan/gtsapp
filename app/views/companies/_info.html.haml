@@ -80,6 +80,10 @@
         = link_to "На доработку", company_request_improvement_reason_path(@company), :class => 'btn btn-mini',
         :id => 'company_need_improvement_link', onClick: 'clickCompanyNeedImprovement(event)'
 
+    -if @current_user.is_agent? && @company.need_improvement?
+      = link_to "Доработана", company_improve_path(@company), :class => 'btn btn-mini btn-success',
+      :id => 'company_improve_link'
+
     -if @company.queued_for_deletion?
 
       = link_to "Отменить удаление", company_unqueue_for_delete_path(@company), :class => 'btn btn-mini', :id => 'company_undelete_link'

@@ -70,6 +70,7 @@ When /^Я вижу, что "([^"]*)" компании - "([^"]*)"$/ do |upositio
       puts "Нет такого варианта"
   end
   s = find("p[@id='#{pos}']").text.split
+  puts s.inspect
   assert s[2] == uname, "Не верное значение."
 end
 When /^Я активирую компанию "([^"]*)"$/ do |cname|
