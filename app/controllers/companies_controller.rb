@@ -255,6 +255,18 @@ class CompaniesController < ApplicationController
   end
 
   ##
+  # GET companies/:id/improve
+  # Завершает доработку и ставит компанию как "Повторное рассмотрение"
+  def improve
+    c = Company.find params[:id]
+    c.update_attributes({
+                        company_status: CompanyStatus.second_suspend,
+                        reason_need_improvement_on: nil
+                            })
+    redirect_to request.referer
+  end
+
+  ##
   # POST companies/validate_title
   # Проверяет валидность указанного названия компании
   def validate_title

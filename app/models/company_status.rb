@@ -38,4 +38,10 @@ class CompanyStatus < ActiveRecord::Base
     self.find_by_name "Требует доработки"
   end
 
+  ##
+  # Повторное рассмотрение
+  def self.second_suspend
+    self.find_by_name "Повторное рассмотрение"
+  end
+
 end

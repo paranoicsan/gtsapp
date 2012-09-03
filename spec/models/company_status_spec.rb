@@ -40,6 +40,10 @@ describe CompanyStatus do
       CompanyStatus.need_improvement.should eq(status)
     end
 
+    it ".second_suspend возвращает объект статуса Повторное рассмотрение" do
+      status = FactoryGirl.create :company_status_second_suspend
+      CompanyStatus.second_suspend.should eq(status)
+    end
   end
 
 end

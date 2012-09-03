@@ -13,7 +13,9 @@ module GeneralHelpers
   end
 
   def create_company_statuses
-    ["Активна", "На рассмотрении", "В архиве", "На удалении", "Требует внимания", "Требует доработки"].each do |s|
+    statuses = ["Активна", "На рассмотрении", "В архиве", "На удалении", "Требует внимания", "Требует доработки",
+      "Повторное рассмотрение"]
+    statuses.each do |s|
       CompanyStatus.create(name: s).save! unless CompanyStatus.find_by_name(s)
     end
   end

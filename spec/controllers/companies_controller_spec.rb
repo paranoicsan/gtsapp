@@ -234,6 +234,25 @@ describe CompaniesController do
     end
   end
 
+  describe "GET improve" do
+    before(:each) do
+      @company = FactoryGirl.create :company, reason_need_improvement_on: Faker::Lorem.sentence
+      FactoryGirl.create :company_status_second_suspend
+      request.env["HTTP_REFERER"] = company_path(@company)
+    end
+    def get_improve
+      get :improve, id: @company.to_param
+    end
+    it "обнуляет ранее существовавшую причину отправки компании на доработку" do
+      get_improve
+      Company.find(@company.id).reason_need_improvement_on.should be_nil
+    end
+    it "отправляет на страницу, с которой выполнялась операция" do
+      get_improve
+      response.should redirect_to company_path(@company)
+    end
+  end
+
   describe "POST request_improvement" do
 
     before(:each) do

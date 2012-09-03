@@ -36,6 +36,7 @@ Gtsapp::Application.routes.draw do
   match 'companies/:id/request_attention' =>'companies#request_attention', :as => :company_request_attention
   match 'companies/:id/request_improvement_reason' =>'companies#request_improvement_reason', :as => :company_request_improvement_reason
   match 'companies/:id/request_improvement' =>'companies#request_improvement', :as => :company_request_improvement
+  match 'companies/:id/improve' =>'companies#improve', :as => :company_improve
   match 'companies/:id/queue_for_delete' =>'companies#queue_for_delete', :as => :company_queue_for_delete
   match 'companies/:id/unqueue_for_delete' =>'companies#unqueue_for_delete', :as => :company_unqueue_for_delete
 

@@ -13,6 +13,10 @@ FactoryGirl.define do
       name "На рассмотрении"
     end
 
+    factory :company_status_second_suspend do
+      name "Повторное рассмотрение"
+    end
+
     factory :company_status_archived do
       name "В архиве"
     end
