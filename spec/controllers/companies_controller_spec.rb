@@ -219,6 +219,7 @@ describe CompaniesController do
     let(:company) { FactoryGirl.create :company }
 
     def request_valid
+      make_user_system
       get :request_improvement_reason, id: company.to_param
     end
 
@@ -236,6 +237,7 @@ describe CompaniesController do
   describe "POST request_improvement" do
 
     before(:each) do
+      make_user_system
       FactoryGirl.create :company_status_need_improvement
       @company = FactoryGirl.create :company
     end

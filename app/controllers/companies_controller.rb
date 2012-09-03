@@ -2,7 +2,7 @@
 class CompaniesController < ApplicationController
   helper :application
   before_filter :require_user
-  before_filter :require_system_users, :only => [:activate]
+  before_filter :require_system_users, :only => [:activate, :request_improvement, :request_improvement_reason]
   autocomplete :rubric, :name
 
   # Подготавливает значения рубрикатора для вставки в СУБД

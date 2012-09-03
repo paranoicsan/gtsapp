@@ -17,6 +17,13 @@
         %td
           %p
             = @company.reason_need_attention_on
+    -if @company.need_improvement?
+      %tr
+        %td
+          %p.tl.t-cell-label Причина:
+        %td
+          %p
+            = @company.reason_need_improvement_on
     -if @company.queued_for_deletion?
       %tr
         %td
@@ -69,8 +76,9 @@
     = link_to "Изменить", edit_company_path(@company), :class => 'btn btn-mini', :id => 'company_edit_link'
 
     -if (@current_user.is_admin? || @current_user.is_operator?) && !@company.need_improvement?
-      = link_to "На доработку", company_request_improvement_reason_path(@company), :class => 'btn btn-mini',
-      :id => 'company_need_improvement_link'
+      -unless @company.archived? || @company.need_attention? || @company.queued_for_deletion?
+        = link_to "На доработку", company_request_improvement_reason_path(@company), :class => 'btn btn-mini',
+        :id => 'company_need_improvement_link', onClick: 'clickCompanyNeedImprovement(event)'
 
     -if @company.queued_for_deletion?
 

@@ -227,3 +227,28 @@ Then /^Я (|не) вижу список компаний с запрошенны
     }
   end
 end
+When /^Я отправляю компанию на доработку$/ do
+  step %Q{Я нажимаю на ссылку "На доработку" с ключом "company_need_improvement_link"}
+end
+When /^Я ввожу причину необходимости доработки$/ do
+  step %Q{Кнопка "btn_reason_need_improvement_submit" - "не активна"}
+  step %Q{Я ввожу "#{Faker::Lorem.sentence}" в поле "reason_improvement_on_ta"}
+  step %Q{Кнопка "btn_reason_need_improvement_submit" - "активна"}
+end
+When /^Я вижу введённую причину доработки$/ do
+  step %Q{Я вижу параметр "Причина:" как "#{@company.reason_need_improvement_on}"}
+end
+When /^Я отправляю причину доработки$/ do
+  find_button('btn_reason_need_improvement_submit').click
+end
+Then /^Я не могу отправить на доруботку без указания причины$/ do
+  step %Q{Кнопка "btn_reason_need_improvement_submit" - "не активна"}
+end
+Then /^Я не могу отправить компанию на доработку$/ do
+  page.should_not have_selector("a#company_need_improvement_link")
+end
+When /^Я нахожусь на странице архивной компании$/ do
+  @company = @company ? @company : FactoryGirl.create(:company)
+  step %Q{Существует 1 компаний в архиве}
+  visit company_path(@company)
+end

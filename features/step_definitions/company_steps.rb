@@ -161,7 +161,6 @@ When /^Я нахожусь на странице компании, постав�
   visit company_path @company
 end
 Given /^Существуют (\d+) компаний, поставленных на удаление$/ do |cnt|
-  puts Company.count
   FactoryGirl.create :company_status_active
   FactoryGirl.create :company_status_suspended
   params = {
@@ -171,11 +170,14 @@ Given /^Существуют (\d+) компаний, поставленных н
   cnt.to_i.times do
     FactoryGirl.create :company, params
   end
-  puts Company.count
-  puts Company.queued_for_delete.count
 end
 When /^Существует (\d+) компаний$/ do |cnt|
   cnt.to_i.times do
     @company = FactoryGirl.create :company
+  end
+end
+When /^Существует (\d+) компаний в архиве$/ do |cnt|
+  cnt.to_i.times do
+    @company = FactoryGirl.create :company, company_status: CompanyStatus.archived
   end
 end

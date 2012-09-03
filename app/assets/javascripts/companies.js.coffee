@@ -18,12 +18,6 @@ $ ->
     $.post url, data, (html) ->
       $('#title_help').html(html)
       setTitleError(html.length != 0)
-#      validate()
-
-#  $.get(url, data, // make ajax request
-#    function(html) { // function to handle the response
-#      $("#article_list").html(html); // change the inner html of update div
-
 
 
 ##
@@ -108,6 +102,44 @@ $ ->
 
   event.preventDefault()
 
+@clickCompanyNeedImprovement = (event) ->
+
+  # создаём модальный диалог для ввода причины отправки на доработку
+  url = $('#company_need_improvement_link').attr('href')
+  $('<div id="dialog-form"></div>')
+    .html('Загрузка...')
+    .dialog({
+    autoOpen: false
+    width: 520
+    modal: true
+    title: 'Отправка компании на доработку'
+    resizable: false
+    draggable: false
+    open: () ->
+      $(this).load(url)
+    close: () ->
+      $('#dialog-form').remove()
+    buttons: [
+      {
+      id: "btn_reason_need_improvement_submit"
+      text: "Отправить"
+      click: () ->
+        $('#reason_form').submit()
+      },
+      {
+      id: "btn_reason_need_improvement_cancel"
+      text: "Отменить"
+      click: () ->
+        $('#dialog-form').dialog("close")
+      }
+    ]
+    })
+
+  $('#dialog-form').dialog('open')
+  $('#btn_reason_need_improvement_submit').button('disable') # отключаем кнопку отправки
+
+  event.preventDefault()
+
 @onReasonChange = () ->
   val = $('#reason_delete_on_ta').val()
   s = if val && val.trim() != "" then "enable" else "disable"
@@ -117,6 +149,11 @@ $ ->
   val = $('#reason_attention_on_ta').val()
   s = if val && val.trim() != "" then "enable" else "disable"
   $('#btn_reason_need_attention_submit').button(s)
+
+@onReasonImprovementChange = () ->
+  val = $('#reason_improvement_on_ta').val()
+  s = if val && val.trim() != "" then "enable" else "disable"
+  $('#btn_reason_need_improvement_submit').button(s)
 
 ##
 # Прячет или показывает выпадающее меню со списком зарегистрированных агентов

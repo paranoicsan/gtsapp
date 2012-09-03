@@ -224,6 +224,18 @@ describe Company do
     end
   end
 
+  describe "#archived?" do
+    let(:company) { FactoryGirl.create :company }
+    let(:status) { FactoryGirl.create :company_status_archived }
+    it "возвращает истину, если компания с указанным статусом" do
+      company.company_status = status
+      company.archived?.should be_true
+    end
+    it "возвращает ложь, если компания с любым другим статусом" do
+      company.archived?.should be_false
+    end
+  end
+
   describe ".activate" do
 
     before(:each) do

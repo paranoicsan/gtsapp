@@ -210,4 +210,11 @@ class Company < ActiveRecord::Base
     company_status ? company_status.eql?(CompanyStatus.need_improvement) : false
   end
 
+  ##
+  # Определяет, поставлена ли компания в архив
+  # @return [Boolean] Истина, если компания находится в архиве
+  def archived?
+    company_status ? company_status.eql?(CompanyStatus.archived) : false
+  end
+
 end
