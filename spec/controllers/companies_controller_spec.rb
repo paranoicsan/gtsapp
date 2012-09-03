@@ -214,6 +214,74 @@ describe CompaniesController do
     end
   end
 
+  describe "GET request_improvement_reason" do
+
+    let(:company) { FactoryGirl.create :company }
+
+    def request_valid
+      get :request_improvement_reason, id: company.to_param
+    end
+
+    it "присваивает компанию @company" do
+      request_valid
+      assigns(:company).should eq(company)
+    end
+    it "генерирует шаблон для ввода причины отправки на доработку" do
+      request_valid
+      response.should be_success
+      response.should render_template :request_improvement_reason
+    end
+  end
+
+  describe "POST request_improvement" do
+
+    before(:each) do
+      FactoryGirl.create :company_status_need_improvement
+      @company = FactoryGirl.create :company
+    end
+
+    context "с верными параметрами" do
+      def post_valid
+        params ={
+            reason_need_improvement_on: Faker::Lorem.sentence
+        }
+        post :request_improvement, id: @company.to_param, company: params, format: 'js'
+      end
+      it "присваивает компанию как @company" do
+        post_valid
+        assigns(:company).should eq(@company)
+      end
+      it "меняет статус компании на Требует доработки" do
+        p = HashWithIndifferentAccess.new(
+            reason_need_improvement_on: Faker::Lorem.sentence,
+            company_status: CompanyStatus.need_improvement
+        )
+        Company.any_instance.should_receive(:update_attributes).with(p)
+        post :request_improvement, id: @company.to_param, company: p, format: 'js'
+      end
+      it "возвращает JavaScript-ответ для обновления данных на странице" do
+        post_valid
+        response.should be_success
+      end
+    end
+    context "с неверными параметрами" do
+      def post_invalid
+        params ={
+            reason_need_improvement_on: ""
+        }
+        post :request_improvement, id: @company.to_param, company: params, format: 'js'
+      end
+      it "присваивает компанию как @company" do
+        post_invalid
+        assigns(:company).should eq(@company)
+      end
+      it "занового генерирует шаблон для ввода причины обращения" do
+        post_invalid
+        response.should render_template :re_request_improvement_reason
+      end
+    end
+  end
+
   describe "POST validate_title" do
 
     let(:company) { FactoryGirl.create :company }

@@ -230,6 +230,30 @@ class CompaniesController < ApplicationController
     end
   end
 
+  ###
+  ## GET companies/:id/request_improvement_reason
+  def request_improvement_reason
+    @company = Company.find params[:id]
+    respond_to do |format|
+      format.html { render :layout => false }
+    end
+  end
+
+  ##
+  # POST companies/:id/request_improvement
+  # Меняет компании статус как "Требует внимания"
+  def request_improvement
+    @company = Company.find params[:id]
+    params[:company][:company_status] = CompanyStatus.need_improvement
+    @company.update_attributes(params[:company])
+
+    if @company.save
+      render :layout => false # отправка обратно JS-ответа с командой на закрытие диалога
+    else
+      render :template => 'companies/re_request_improvement_reason'
+    end
+  end
+
   ##
   # POST companies/validate_title
   # Проверяет валидность указанного названия компании

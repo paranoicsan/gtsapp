@@ -68,6 +68,10 @@
         Активировать
     = link_to "Изменить", edit_company_path(@company), :class => 'btn btn-mini', :id => 'company_edit_link'
 
+    -if (@current_user.is_admin? || @current_user.is_operator?) && !@company.need_improvement?
+      = link_to "На доработку", company_request_improvement_reason_path(@company), :class => 'btn btn-mini',
+      :id => 'company_need_improvement_link'
+
     -if @company.queued_for_deletion?
 
       = link_to "Отменить удаление", company_unqueue_for_delete_path(@company), :class => 'btn btn-mini', :id => 'company_undelete_link'
