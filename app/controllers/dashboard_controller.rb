@@ -1,3 +1,4 @@
+# Encoding: utf-8
 class DashboardController < ApplicationController
   before_filter :require_user
 
@@ -7,6 +8,7 @@ class DashboardController < ApplicationController
     @suspended_companies = suspended_companies # Компании на рассмотрении
     @suspended_contracts = suspended_contracts # Договора на рассмотрении
     @need_attention_companies = companies_need_attention # Компании, требующие внимания
+    @need_improvement_companies = companies_need_improvement # Компании, требующие доработки
 
     respond_to do |format|
       format.html # index.html.haml
@@ -16,6 +18,14 @@ class DashboardController < ApplicationController
 
   def companies_need_attention
     Company.need_attention_list
+  end
+
+  def companies_need_improvement
+    if current_user.is_agent?
+      Company.need_improvement_list_by_user(current_user.id)
+    else
+      Company.need_improvement_list
+    end
   end
 
   private

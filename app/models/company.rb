@@ -204,6 +204,22 @@ class Company < ActiveRecord::Base
   end
 
   ##
+  # Возвращает коллекцию всех компаний на доработке
+  # @return [Array] коллекция компаний
+  def self.need_improvement_list
+    Company.where(:company_status_id => CompanyStatus.need_improvement.id)
+  end
+
+  ##
+  # Возвращает коллекцию всех компаний на доработке для конкретного пользователя
+  # @@param [Integer] Ключ пользователя
+  # @return [Array] коллекция компаний
+  def self.need_improvement_list_by_user(id)
+    Company.where(:company_status_id => CompanyStatus.need_improvement.id,
+    :author_user_id => id)
+  end
+
+  ##
   # Определяет, поставлена ли компания на статус как требующая доработки агентом
   # @return [Boolean] Истина, если компания требует доработки
   def need_improvement?

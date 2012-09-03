@@ -224,6 +224,31 @@ describe Company do
     end
   end
 
+  describe ".need_improvement_list" do
+    it "возвращает компании на доработке" do
+      params = {
+          reason_need_improvement_on: Faker::Lorem.sentence,
+          company_status: FactoryGirl.create(:company_status_need_improvement)
+      }
+      company = FactoryGirl.create :company, params
+      Company.need_improvement_list.should eq([company])
+    end
+  end
+
+  describe ".need_improvement_list_by_user" do
+    it "возвращает компании на доработке для агента-автора" do
+      author = FactoryGirl.create(:user)
+      params = {
+          reason_need_improvement_on: Faker::Lorem.sentence,
+          company_status: FactoryGirl.create(:company_status_need_improvement),
+          author: author
+      }
+
+      company = FactoryGirl.create :company, params
+      Company.need_improvement_list_by_user(author.id).should eq([company])
+    end
+  end
+
   describe "#archived?" do
     let(:company) { FactoryGirl.create :company }
     let(:status) { FactoryGirl.create :company_status_archived }

@@ -20,7 +20,7 @@ describe DashboardController do
       @company_status_suspended = FactoryGirl.create :company_status_suspended
       @company_status_deleted = FactoryGirl.create :company_status_on_deletion
       @company_status_need_attention = FactoryGirl.create :company_status_need_attention
-
+      @company_status_need_improv = FactoryGirl.create :company_status_need_improvement
     end
 
     context "отображение договоров" do
@@ -64,6 +64,18 @@ describe DashboardController do
         get :index
         assigns(:need_attention_companies).should eq([company])
       end
+
+      it "присваивает компании, отправленные на доработку как @need_improvement_companies" do
+        attrs = {
+            company_status: @company_status_need_improv,
+            reason_need_improvement_on: Faker::Lorem.sentence,
+            author: @user
+        }
+        company = FactoryGirl.create :company, attrs
+        get :index
+        assigns(:need_improvement_companies).should eq([company])
+      end
+
     end
 
   end
