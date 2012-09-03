@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120830062031) do
+ActiveRecord::Schema.define(:version => 20120903095406) do
 
   create_table "addresses", :force => true do |t|
     t.string   "house"
@@ -70,6 +70,7 @@ ActiveRecord::Schema.define(:version => 20120830062031) do
     t.string   "comments"
     t.string   "reason_deleted_on"
     t.string   "reason_need_attention_on"
+    t.string   "reason_need_improvement_on"
   end
 
   create_table "company_rubrics", :force => true do |t|

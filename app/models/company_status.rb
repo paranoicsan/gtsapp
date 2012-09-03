@@ -32,4 +32,10 @@ class CompanyStatus < ActiveRecord::Base
     self.find_by_name "Требует внимания"
   end
 
+  ##
+  # Требует доработки
+  def self.need_improvement
+    self.find_by_name "Требует доработки"
+  end
+
 end

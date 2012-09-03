@@ -35,6 +35,11 @@ describe CompanyStatus do
       CompanyStatus.need_attention.should eq(status)
     end
 
+    it ".need_improvement возвращает объект статуса Требует доработки" do
+      status = FactoryGirl.create :company_status_need_improvement
+      CompanyStatus.need_improvement.should eq(status)
+    end
+
   end
 
 end

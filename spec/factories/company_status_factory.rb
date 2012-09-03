@@ -25,6 +25,10 @@ FactoryGirl.define do
       name "Требует внимания"
     end
 
+    factory :company_status_need_improvement do
+      name "Требует доработки"
+    end
+
   end
 
 end
