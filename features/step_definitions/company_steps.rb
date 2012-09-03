@@ -181,3 +181,22 @@ When /^Существует (\d+) компаний в архиве$/ do |cnt|
     @company = FactoryGirl.create :company, company_status: CompanyStatus.archived
   end
 end
+When /^Существует (\d+) компаний на доработке$/ do |cnt|
+  cnt.to_i.times do
+    attrs = {
+        company_status: CompanyStatus.need_improvement,
+        reason_need_improvement_on: Faker::Lorem.sentence
+    }
+    @company = FactoryGirl.create :company, attrs
+  end
+end
+When /^Существует (\d+) компаний на доработке, созданных мною$/ do |cnt|
+  cnt.to_i.times do
+    attrs = {
+        company_status: CompanyStatus.need_improvement,
+        reason_need_improvement_on: Faker::Lorem.sentence,
+        author: @user
+    }
+    @company = FactoryGirl.create :company, attrs
+  end
+end

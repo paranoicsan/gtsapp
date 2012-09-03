@@ -1,0 +1,19 @@
+- if @need_improvement_companies.any?
+  .span6
+    .well
+      %h3 Компании на доработке
+      %br
+      %table.table.table-striped#need_improvement_companies_list
+        %tbody
+          %tr
+            %th Название
+            %th Причина
+            %th Операции
+          - @need_improvement_companies.each do |company|
+            %tr
+              %td= link_to company.title, company_path(company)
+              %td= company.reason_need_improvement_on
+              %td
+                = link_to "Изменить", edit_company_path(company), class: "btn btn-mini"
+                -unless current_user.is_agent?
+                  = link_to "Активировать", activate_company_path(company), class: "btn btn-mini btn-success"

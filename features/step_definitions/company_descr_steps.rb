@@ -252,3 +252,37 @@ When /^Я нахожусь на странице архивной компани
   step %Q{Существует 1 компаний в архиве}
   visit company_path(@company)
 end
+Then /^Я (|не) вижу список компаний на доработке$/ do |negate|
+  table_id = 'need_improvement_companies_list'
+  if negate.eql?('не')
+    page.should_not have_selector("table##{table_id}")
+  else
+    # составляем ряды для таблицы
+    rows = ""
+    Company.all.each do |c|
+      rows = "#{rows}\n|#{c.title}|#{c.reason_need_improvement_on}|"
+    end
+    steps %Q{
+      Then Я вижу таблицу "#{table_id}" с компаниями
+        | fact_name | reason_need_improvement_on |
+        #{rows}
+          }
+  end
+end
+Then /^Я (|не) вижу список компаний на доработке, созданные мною$/ do |negate |
+  table_id = 'need_improvement_companies_list'
+  if negate.eql?('не')
+    page.should_not have_selector("table##{table_id}")
+  else
+    # составляем ряды для таблицы
+    rows = ""
+    Company.need_improvement_list_by_user(@user.id).each do |c|
+      rows = "#{rows}\n|#{c.title}|#{c.reason_need_improvement_on}|"
+    end
+    steps %Q{
+      Then Я вижу таблицу "#{table_id}" с компаниями
+        | fact_name | reason_need_improvement_on |
+        #{rows}
+          }
+  end
+end
