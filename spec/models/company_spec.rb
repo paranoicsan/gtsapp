@@ -201,6 +201,18 @@ describe Company do
     end
   end
 
+  describe "#need_improvement?" do
+    let(:company) { FactoryGirl.create :company }
+    let(:status) { FactoryGirl.create :company_status_need_improvement }
+    it "возвращает истину, если компания с указанным статусом" do
+      company.company_status = status
+      company.need_improvement?.should be_true
+    end
+    it "возвращает ложь, если компания с любым другим статусом" do
+      company.need_improvement?.should be_false
+    end
+  end
+
   describe ".need_attention_list" do
     it "возвращает компании, требующие внимания" do
       params = {
@@ -219,6 +231,7 @@ describe Company do
       @company = FactoryGirl.create :company_suspended
       @company.reason_need_attention_on = Faker::Lorem.sentences.join
       @company.reason_deleted_on = Faker::Lorem.sentences.join
+      @company.reason_need_improvement_on = Faker::Lorem.sentences.join
     end
 
     it "Сбрасывает причину запроса внимания" do
@@ -228,6 +241,10 @@ describe Company do
     it "Сбрасывает причину удаления" do
       Company.activate(@company.id)
       Company.find(@company.id).reason_deleted_on.should be_nil
+    end
+    it "Сбрасывает причину отправки на доработку" do
+      Company.activate(@company.id)
+      Company.find(@company.id).reason_need_improvement_on.should be_nil
     end
   end
 

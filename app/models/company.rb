@@ -13,6 +13,7 @@ class Company < ActiveRecord::Base
   validates_presence_of :title
   validates_presence_of :reason_deleted_on, :if => :queued_for_deletion?, :message => 'Не указана причина удаления'
   validates_presence_of :reason_need_attention_on, :if => :need_attention?, :message => 'Не указана причина обращения'
+  validates_presence_of :reason_need_improvement_on, :if => :need_improvement?, :message => 'Не указана причина необходимости доработки компании'
   #noinspection RailsParamDefResolve
   before_save :check_fields, only: [:create]
 
@@ -95,7 +96,8 @@ class Company < ActiveRecord::Base
     c.update_attributes({
                             :company_status_id => CompanyStatus.active.id,
                             :reason_need_attention_on => nil,
-                            :reason_deleted_on => nil
+                            :reason_deleted_on => nil,
+                            :reason_need_improvement_on => nil
                         })
     c.save
   end
@@ -199,6 +201,13 @@ class Company < ActiveRecord::Base
   # @return [Array] коллекции на удалении
   def self.need_attention_list
     Company.where(:company_status_id => CompanyStatus.need_attention.id)
+  end
+
+  ##
+  # Определяет, поставлена ли компания на статус как требующая доработки агентом
+  # @return [Boolean] Истина, если компания требует доработки
+  def need_improvement?
+    company_status ? company_status.eql?(CompanyStatus.need_improvement) : false
   end
 
 end
