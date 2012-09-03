@@ -200,3 +200,7 @@ When /^Существует (\d+) компаний на доработке, со
     @company = FactoryGirl.create :company, attrs
   end
 end
+When /^Я нахожусь на странице компании, отправленной на доработку$/ do
+  step %Q{Существует 1 компаний на доработке}
+  visit company_path @company
+end
