@@ -114,7 +114,7 @@ class ProductsController < ApplicationController
       else
         s = "Неизвестная операция"
     end
-    CompanyHistory.log(s, current_user.username, @contract.company.id)
+    CompanyHistory.log(s, current_user.id, @contract.company.id)
   end
 
   def get_contract

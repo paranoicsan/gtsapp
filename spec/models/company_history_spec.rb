@@ -9,10 +9,10 @@ describe CompanyHistory do
 
     let(:company) { FactoryGirl.create :company }
     let(:operation) { Faker::Lorem.words(1).join }
-    let(:username) { Faker::Internet.user_name }
+    let(:user_id) { FactoryGirl.create(:user).id }
 
     def log
-      CompanyHistory.log(operation, username, company.id)
+      CompanyHistory.log(operation, user_id, company.id)
     end
 
     it "создаёт запись об операции" do
@@ -26,9 +26,9 @@ describe CompanyHistory do
       CompanyHistory.last.operation.should eq(operation)
     end
 
-    it "сохраняет имя пользователя" do
+    it "сохраняет пользователя" do
       log
-      CompanyHistory.last.username.should eq(username)
+      CompanyHistory.last.user_id.should eq(user_id)
     end
 
   end
