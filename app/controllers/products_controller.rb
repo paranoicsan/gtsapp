@@ -43,6 +43,7 @@ class ProductsController < ApplicationController
 
     respond_to do |format|
       if @product.save
+        log_operation :create
         format.html { redirect_to @contract, notice: 'Product was successfully created.' }
         format.json { render json: @product, status: :created, location: @product }
       else
@@ -60,6 +61,7 @@ class ProductsController < ApplicationController
 
     respond_to do |format|
       if @product.update_attributes(params[:product])
+        log_operation :update
         format.html { redirect_to @contract, notice: 'Product was successfully updated.' }
         format.json { head :ok }
       else
@@ -74,6 +76,10 @@ class ProductsController < ApplicationController
   def destroy
     @product = Product.find(params[:id])
     contract_id = @product.contract_id
+
+    @contract = Contract.find contract_id
+    log_operation :destroy
+
     @product.destroy
 
     respond_to do |format|
@@ -94,7 +100,23 @@ class ProductsController < ApplicationController
     end
   end
 
-private
+  private
+  ##
+  # Пишет историю компании
+  def log_operation(operation)
+    case operation
+      when :create
+        s = "Продукт создан"
+      when :update
+        s = "Продукт изменён"
+      when :destroy
+        s = "Продукт удалён"
+      else
+        s = "Неизвестная операция"
+    end
+    CompanyHistory.log(s, current_user.username, @contract.company.id)
+  end
+
   def get_contract
     @contract = Contract.find(params[:contract_id]) if params[:contract_id]
     if params[:product]

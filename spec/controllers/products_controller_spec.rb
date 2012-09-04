@@ -102,6 +102,12 @@ describe ProductsController do
         post_valid
         response.should redirect_to(contract_url(contract))
       end
+
+      it "создаёт запись в истории компании" do
+        expect {
+          post_valid
+        }.to change(CompanyHistory, :count).by(1)
+      end
     end
 
     describe "with invalid params" do
@@ -162,6 +168,12 @@ describe ProductsController do
         put_valid
         assigns(:contract).should eq(contract)
       end
+
+      it "создаёт запись в истории компании" do
+        expect {
+          put_valid
+        }.to change(CompanyHistory, :count).by(1)
+      end
     end
 
     describe "with invalid params" do
@@ -205,6 +217,13 @@ describe ProductsController do
       product = create_valid
       delete :destroy, {:id => product.to_param}
       response.should redirect_to(contract_url(contract))
+    end
+
+    it "создаёт запись в истории компании" do
+      expect {
+        product = create_valid
+        delete :destroy, {:id => product.to_param}
+      }.to change(CompanyHistory, :count).by(1)
     end
   end
 
