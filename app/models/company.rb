@@ -5,6 +5,7 @@ class Company < ActiveRecord::Base
   belongs_to :agent, :class_name => 'User', :foreign_key => "agent_id"
   belongs_to :author, :class_name => 'User', :foreign_key => "author_user_id"
   belongs_to :editor, :class_name => 'User', :foreign_key => "editor_user_id"
+  has_many :company_histories, :dependent => :destroy
   has_many :contracts, :dependent => :destroy
   has_many :branches, :dependent => :destroy
   has_many :persons, :dependent => :destroy

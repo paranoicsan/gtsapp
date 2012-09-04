@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120903195934) do
+ActiveRecord::Schema.define(:version => 20120904201719) do
 
   create_table "addresses", :force => true do |t|
     t.string   "house"
@@ -71,6 +71,14 @@ ActiveRecord::Schema.define(:version => 20120903195934) do
     t.string   "reason_deleted_on"
     t.string   "reason_need_attention_on"
     t.string   "reason_need_improvement_on"
+  end
+
+  create_table "company_histories", :force => true do |t|
+    t.string   "username"
+    t.text     "operation"
+    t.integer  "company_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "company_rubrics", :force => true do |t|
@@ -245,6 +253,8 @@ ActiveRecord::Schema.define(:version => 20120903195934) do
   add_foreign_key "companies", "users", :name => "companies_agent_id_fk", :column => "agent_id"
   add_foreign_key "companies", "users", :name => "companies_author_user_id_fk", :column => "author_user_id"
   add_foreign_key "companies", "users", :name => "companies_editor_user_id_fk", :column => "editor_user_id"
+
+  add_foreign_key "company_histories", "companies", :name => "company_histories_company_id_fk"
 
   add_foreign_key "company_rubrics", "companies", :name => "company_rubrics_company_id_fk"
   add_foreign_key "company_rubrics", "rubrics", :name => "company_rubrics_rubric_id_fk"
