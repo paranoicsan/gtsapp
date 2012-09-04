@@ -294,3 +294,20 @@ Then /^Я (|не) могу завершить её доработку$/ do |nega
     step %Q{Я вижу, что статус компании - "Повторное рассмотрение"}
   end
 end
+Then /^Я (|не) вижу список компаний на повторном рассмотрении$/ do |negate|
+  table_id = 'second_suspend_companies_list'
+  if negate.eql?('не')
+    page.should_not have_selector("table##{table_id}")
+  else
+    # составляем ряды для таблицы
+    rows = ""
+    Company.all.each do |c|
+      rows = "#{rows}\n|#{c.title}|"
+    end
+    steps %Q{
+      Then Я вижу таблицу "#{table_id}" с компаниями
+        | fact_name |
+        #{rows}
+    }
+  end
+end

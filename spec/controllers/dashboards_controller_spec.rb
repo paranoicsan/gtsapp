@@ -21,6 +21,7 @@ describe DashboardController do
       @company_status_deleted = FactoryGirl.create :company_status_on_deletion
       @company_status_need_attention = FactoryGirl.create :company_status_need_attention
       @company_status_need_improv = FactoryGirl.create :company_status_need_improvement
+      @company_status_second_suspend = FactoryGirl.create :company_status_second_suspend
     end
 
     context "отображение договоров" do
@@ -76,6 +77,14 @@ describe DashboardController do
         assigns(:need_improvement_companies).should eq([company])
       end
 
+      it "присваивает компании на повторном рассмотрении как @second_suspend_companies" do
+        attrs = {
+            company_status: @company_status_second_suspend,
+        }
+        company = FactoryGirl.create :company, attrs
+        get :index
+        assigns(:second_suspend_companies).should eq([company])
+      end
     end
 
   end

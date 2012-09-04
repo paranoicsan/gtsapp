@@ -9,11 +9,16 @@ class DashboardController < ApplicationController
     @suspended_contracts = suspended_contracts # Договора на рассмотрении
     @need_attention_companies = companies_need_attention # Компании, требующие внимания
     @need_improvement_companies = companies_need_improvement # Компании, требующие доработки
+    @second_suspend_companies = companies_second_suspend # Компании на повторном рассмотрении
 
     respond_to do |format|
       format.html # index.html.haml
       format.json { head :ok }
     end
+  end
+
+  def companies_second_suspend
+    Company.find_all_by_company_status_id CompanyStatus.second_suspend.id
   end
 
   def companies_need_attention

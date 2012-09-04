@@ -205,3 +205,8 @@ When /^Я нахожусь на странице компании, отправ�
   step %Q{Существует 1 компаний на доработке}
   visit company_path @company
 end
+When /^Существует (\d+) компаний на повторном рассмотрении$/ do |cnt|
+  cnt.to_i.times do
+    @company = FactoryGirl.create :company, company_status: CompanyStatus.second_suspend
+  end
+end

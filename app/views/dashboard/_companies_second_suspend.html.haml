@@ -1,0 +1,20 @@
+- if @second_suspend_companies.any?
+  .span6
+    .well
+      %h3 Компании на повторном рассмотрении
+      %br
+      %table.table.table-striped#second_suspend_companies_list
+        %tbody
+          %tr
+            %th Название
+            %th Изменена
+            %th Операции
+          - @second_suspend_companies.each do |company|
+            %tr
+              %td= link_to company.title, company_path(company)
+              %td
+                = company.updated_at.strftime("%d.%m.%Y")
+                = company.editor.username
+              %td
+                -if current_user.is_admin? || current_user.is_operator?
+                  = link_to "Активировать", activate_company_path(company), class: "btn btn-mini btn-success"
