@@ -1,4 +1,4 @@
-- if @second_suspend_companies.any?
+- if @second_suspend_companies.any? && !current_user.is_agent?
   .span6
     .well
       %h3 Компании на повторном рассмотрении
