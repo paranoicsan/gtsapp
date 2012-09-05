@@ -60,6 +60,8 @@
                     %p
                       %small
                         = branch.all_websites_str
+                  -if branch.phones.any?
+                    =render :partial => 'company_show_phone_list', :locals => { :branch => branch }
                 %td
                   -unless branch.is_main?
                     = link_to 'Сделать головным', branch_make_main_path(branch), class: "btn btn-mini"

@@ -1,0 +1,17 @@
+-element_id = "#{branch.id}"
+#phone_list
+  %p.btn.btn-mini{onClick: "showPhones('#{element_id}')"}
+    Телефоны
+  %p
+  %table.table.table-striped.table-condensed{style: 'display: none', id:"branch_#{element_id}"}
+    %tr
+      %th
+      %th В печать?
+      %th Описание
+      %th
+    -branch.phones.each do |phone|
+      %tr
+        %td= phone.order_num.to_s
+        %td= check_box_tag("cb_publishable", 1, phone.publishable?, { :disabled => "disabled" })
+        %td= phone.description
+        %td= link_to phone.name, phone_path(phone)
