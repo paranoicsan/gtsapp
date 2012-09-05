@@ -114,7 +114,11 @@ describe AddressesController do
       end
 
       it "updates the requested address" do
-        p = HashWithIndifferentAccess.new(these: 'params')
+        p = HashWithIndifferentAccess.new(
+            these: 'params',
+            city_id: nil,
+            street_id: nil
+        )
         Address.any_instance.should_receive(:update_attributes).with(p)
         put :update, :id => address.to_param, :address => p
       end

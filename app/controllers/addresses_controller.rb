@@ -55,6 +55,8 @@ class AddressesController < ApplicationController
   # POST /addresses.json
   def create
     params[:address][:branch_id] = params[:branch_id]
+    params[:address][:city_id] = params[:city_id]
+    params[:address][:street_id] = params[:street_id]
     @address = Address.new(params[:address])
     @branch = Branch.find @address.branch_id
 
@@ -75,6 +77,9 @@ class AddressesController < ApplicationController
   def update
     @address = find_address params[:id]
     @branch = Branch.find @address.branch_id
+
+    params[:address][:city_id] = params[:city_id]
+    params[:address][:street_id] = params[:street_id]
 
     respond_to do |format|
       if @address.update_attributes(params[:address])

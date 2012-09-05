@@ -22,8 +22,11 @@
       -s = @address.street ? @address.street.name : ''
       = autocomplete_field_tag 'address_street', s, '',
       :placeholder => "Начните печатать для выбора", :id => 'address_street', :id_element => '#street_id'
+      -#,:onKeyUp => 'onStreetChanged()'
       -street_id = @address.street ? @address.street.id : ''
+      -street_city_id = @address.street ? @address.street.city_id : ''
       = hidden_field_tag :street_id, street_id
+      = hidden_field_tag :street_city_id, street_city_id
   .control-group
     = f.label :house, 'Дом', :class => 'control-label'
     .controls

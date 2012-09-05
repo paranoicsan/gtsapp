@@ -16,3 +16,16 @@ Then /^Я могу выбрать улицу с автозаполнением$/
     And Я выбираю "#{street}" из списка с автозаполнением с ключом "#{el_id}"
   }
 end
+When /^Я удаляю введённый населенный пункт$/ do
+  step %Q{Я ввожу " " в поле "address_city"}
+end
+Then /^Значение улицы сбрасывается$/ do
+  sleep 2
+  page.find("input#address_street")['value'].should eq("")
+end
+When /^Населённый пункт не выбран$/ do
+  step %Q{Я удаляю введённый населенный пункт}
+end
+Then /^Я не могу ввести название улицы$/ do
+  page.find("input#address_street")['disabled'].should be_true
+end
