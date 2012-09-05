@@ -29,11 +29,11 @@ describe Branch do
     end
   end
 
-  it "возвращает ошибку, если не указано фактическое название" do
+  it "нельзя создать без фактического названия" do
     branch = FactoryGirl.build :branch, fact_name: ''
     branch.should have(1).error_on(:fact_name)
   end
-  it "возвращает ошибку, если не указано юридическое название" do
+  it "нельзя создать без юридического названия" do
     branch = FactoryGirl.build :branch, legel_name: ''
     branch.should have(1).error_on(:legel_name)
   end
