@@ -8,7 +8,10 @@ describe PhonesController do
   let(:branch) { FactoryGirl.create :branch }
   
   before(:each) do
-    authorize_user    
+    authorize_user
+
+    @user = FactoryGirl.create :user
+    controller.stub(:current_user).and_return(@user)
   end
 
   def valid_attributes
@@ -64,17 +67,20 @@ describe PhonesController do
           post_valid
         }.to change(Phone, :count).by(1)
       end
-
       it "assigns a newly created phone as @phone" do
         post_valid
         assigns(:phone).should be_a(Phone)
         #noinspection RubyResolve
         assigns(:phone).should be_persisted
       end
-
       it "redirects to the parent Branch" do
         post_valid
         response.should redirect_to(branch)
+      end
+      it "создаёт запись в истории компании" do
+        expect {
+          post_valid
+        }.to change(CompanyHistory, :count).by(1)
       end
     end
 
@@ -114,15 +120,18 @@ describe PhonesController do
         Phone.any_instance.should_receive(:update_attributes).with(p)
         put :update, :id => phone.to_param, :phone => p
       end
-
       it "assigns the requested phone as @phone" do
         put_valid
         assigns(:phone).should eq(phone)
       end
-
       it "redirects to the branch" do
         put_valid
         response.should redirect_to(branch)
+      end
+      it "создаёт запись в истории компании" do
+        expect {
+          put_valid
+        }.to change(CompanyHistory, :count).by(1)
       end
     end
 
@@ -153,12 +162,17 @@ describe PhonesController do
         delete :destroy, :id => phone.to_param
       }.to change(Phone, :count).by(-1)
     end
-
     it "redirects to the phones list" do
       phone = create_valid
       delete :destroy, :id => phone.to_param
       #noinspection RubyResolve
       response.should redirect_to(branch_url(branch))
+    end
+    it "создаёт запись в истории компании" do
+      expect {
+        phone = create_valid
+        delete :destroy, :id => phone.to_param
+      }.to change(CompanyHistory, :count).by(1)
     end
   end
 

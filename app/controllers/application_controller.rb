@@ -49,6 +49,11 @@ class ApplicationController < ActionController::Base
             create: 'Филиал создан',
             update: 'Филиал изменён',
             destroy:'Филиал удалён'
+        },
+        phone: {
+            create: 'Телефон создан',
+            update: 'Телефон изменён',
+            destroy:'Телефон удалён'
         }
     }
   end

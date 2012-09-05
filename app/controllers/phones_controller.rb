@@ -52,6 +52,7 @@ class PhonesController < ApplicationController
 
     respond_to do |format|
       if @phone.save
+        log_operation :phone, :create, @branch.company.id
         format.html { redirect_to @branch, notice: 'Телефон создан.' }
         format.json { render json: @phone, status: :created, location: @phone }
       else
@@ -69,6 +70,7 @@ class PhonesController < ApplicationController
 
     respond_to do |format|
       if @phone.update_attributes(params[:phone])
+        log_operation :phone, :update, @branch.company.id
         format.html { redirect_to @branch, notice: 'Телефон изменён.' }
         format.json { head :ok }
       else
@@ -82,11 +84,12 @@ class PhonesController < ApplicationController
   # DELETE /phones/1.json
   def destroy
     @phone = Phone.find(params[:id])
-    branch_id = @phone.branch_id
+    @branch = Branch.find @phone.branch_id
+    log_operation :phone, :destroy, @branch.company.id
     @phone.destroy
 
     respond_to do |format|
-      format.html { redirect_to branch_url branch_id }
+      format.html { redirect_to branch_url @branch }
       format.json { head :ok }
     end
   end
