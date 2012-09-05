@@ -54,7 +54,11 @@ class ApplicationController < ActionController::Base
             create: 'Телефон создан',
             update: 'Телефон изменён',
             destroy:'Телефон удалён'
-        }
+        },
+        website: {
+            add: 'Веб-сайт добавлен',
+            remove:'Веб-сайт удалён',
+        },
     }
   end
 

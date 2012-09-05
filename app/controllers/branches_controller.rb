@@ -111,14 +111,12 @@ class BranchesController < ApplicationController
   end
 
   ##
-  #
   # Добавляет указанный веб-сайт к филиалу
-  #
+  # POST branches/:id/add_website
   def add_website
     @branch = Branch.find params[:id]
     if params[:branch_website]
       ws_name = params[:branch_website].strip
-
       if Website.valid? ws_name
 
         ws = Website.find_by_name ws_name
@@ -132,6 +130,7 @@ class BranchesController < ApplicationController
             flash[:website_error] = "Такой веб-сайт уже связан с этим филиалом."
           else
             @branch.websites << ws
+            log_operation :website, :add, @branch.company.id
           end
 
       else
@@ -155,6 +154,7 @@ class BranchesController < ApplicationController
       @branch.websites.delete ws
     end
     Website.delete ws
+    log_operation :website, :remove, @branch.company.id
     respond_to do |format|
       format.js { render :action => "add_website" }
     end

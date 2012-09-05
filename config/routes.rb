@@ -24,7 +24,7 @@ Gtsapp::Application.routes.draw do
 
   match 'branches/:id/make_main' => 'branches#make_main', :as => :branch_make_main
 
-  match 'branches/:id/add_website' => 'branches#add_website', :as => :branch_add_website, :method => :post
+  match 'branches/:id/add_website' => 'branches#add_website', :as => :branch_add_website#, :method => :post
   match 'branches/:id/delete_website/:website_id' => 'branches#delete_website', :as => :branch_delete_website
 
   match 'branches/:id/add_email' => 'branches#add_email', :as => :branch_add_email, :method => :post

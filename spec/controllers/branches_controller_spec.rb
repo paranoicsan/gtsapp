@@ -177,4 +177,45 @@ describe BranchesController do
     end
   end
 
+  describe "POST add_website" do
+    let(:branch) { create_valid }
+    def add_valid
+      post :add_website, id: branch.to_param, branch_website: Faker::Internet.url
+    end
+    it "добавляет сайт к филиалу" do
+      expect {
+        add_valid
+      }.to change(BranchWebsite, :count).by(1)
+    end
+    it "создаёт запись в истории компании" do
+      expect {
+        add_valid
+      }.to change(CompanyHistory, :count).by(1)
+    end
+  end
+
+  describe "GET delete_website" do
+    let(:website) { FactoryGirl.create :website }
+    before(:each) do
+      @branch = create_valid
+      @branch.websites << website
+      @branch.save
+
+      make_user_system
+    end
+    def delete_valid
+      get :delete_website, id: @branch.to_param, website_id: website.id
+    end
+    it "удаляет сайт из филиала" do
+      expect {
+        delete_valid
+      }.to change(BranchWebsite, :count).by(-1)
+    end
+    it "создаёт запись в истории компании" do
+      expect {
+        delete_valid
+      }.to change(CompanyHistory, :count).by(1)
+    end
+  end
+
 end
