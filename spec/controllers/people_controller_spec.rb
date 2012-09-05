@@ -79,21 +79,23 @@ describe PeopleController do
           post_valid
         }.to change(Person, :count).by(1)
       end
-
       it "assigns a newly created person as @person" do
         post_valid
         assigns(:person).should be_a(Person)
         assigns(:person).should be_persisted
       end
-
       it "присваивает родительскую компанию как @company" do
         post_valid
         assigns(:company).should eq(company)
       end
-
       it "перенаправляет на страницу компании" do
         post_valid
         response.should redirect_to(company_url(company))
+      end
+      it "создаёт запись в истории компании" do
+        expect {
+          post_valid
+        }.to change(CompanyHistory, :count).by(1)
       end
     end
 
@@ -141,20 +143,22 @@ describe PeopleController do
         Person.any_instance.should_receive(:update_attributes).with(p)
         put :update, :id => person.to_param, :person => p
       end
-
       it "assigns the requested person as @person" do
         put_valid
         assigns(:person).should eq(person)
       end
-
       it "перенаправляет на страницу компании" do
         put_valid
         response.should redirect_to(company_url(company))
       end
-
       it "присваивает родительскую компанию как @company" do
         put_valid
         assigns(:company).should eq(company)
+      end
+      it "создаёт запись в истории компании" do
+        expect {
+          put_valid
+        }.to change(CompanyHistory, :count).by(1)
       end
     end
 
@@ -190,11 +194,16 @@ describe PeopleController do
         delete :destroy, {:id => person.to_param}
       }.to change(Person, :count).by(-1)
     end
-
     it "перенаправляет на страницу компании" do
       person = create_valid
       delete :destroy, {:id => person.to_param}
       response.should redirect_to(company_url(company))
+    end
+    it "создаёт запись в истории компании" do
+      expect {
+        person = create_valid
+        delete :destroy, {:id => person.to_param}
+      }.to change(CompanyHistory, :count).by(1)
     end
   end
 

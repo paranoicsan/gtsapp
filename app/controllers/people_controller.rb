@@ -52,6 +52,7 @@ class PeopleController < ApplicationController
 
     respond_to do |format|
       if @person.save
+        log_operation :person, :create, @company.id
         format.html { redirect_to company_path(@person.company), notice: 'Person was successfully created.' }
         format.json { render json: @person, status: :created, location: @person }
       else
@@ -69,6 +70,7 @@ class PeopleController < ApplicationController
 
     respond_to do |format|
       if @person.update_attributes(params[:person])
+        log_operation :person, :update, @company.id
         format.html { redirect_to @company, notice: 'Person was successfully updated.' }
         format.json { head :ok }
       else
@@ -83,6 +85,7 @@ class PeopleController < ApplicationController
   def destroy
     @person = Person.find(params[:id])
     company_id = @person.company_id
+    log_operation :person, :destroy, company_id
     @person.destroy
 
     respond_to do |format|

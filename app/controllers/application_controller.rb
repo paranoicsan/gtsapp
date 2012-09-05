@@ -30,6 +30,11 @@ class ApplicationController < ActionController::Base
             create: 'Договор создан',
             update: 'Договор изменён',
             destroy:'Договор удалён'
+        },
+        person: {
+            create: 'Персона создана',
+            update: 'Персона изменена',
+            destroy:'Персона удалена'
         }
     }
   end
