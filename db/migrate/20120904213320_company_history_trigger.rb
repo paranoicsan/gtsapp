@@ -14,8 +14,6 @@ class CompanyHistoryTrigger < ActiveRecord::Migration
       END;$BODY$
         LANGUAGE plpgsql VOLATILE
         COST 100;
-      ALTER FUNCTION update_company_editor()
-        OWNER TO postgres;
       COMMENT ON FUNCTION update_company_editor() IS 'Обновляет редактора и время редактирования компании.';
     }
     execute %Q{
