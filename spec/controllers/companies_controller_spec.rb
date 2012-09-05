@@ -488,4 +488,45 @@ describe CompaniesController do
     end
   end
 
+  describe "GET add_rubric" do
+    let(:rubric) { FactoryGirl.create :rubric }
+    let(:company) { FactoryGirl.create :company, valid_attributes }
+    def add_valid
+      get :add_rubric, id: company.to_param, rub_id: rubric.id
+    end
+    it "добавляет рубрику к компании" do
+      expect {
+        add_valid
+      }.to change(CompanyRubric, :count).by(1)
+    end
+    it "создаёт запись в истории компании" do
+      expect {
+        add_valid
+      }.to change(CompanyHistory, :count).by(1)
+    end
+  end
+
+  describe "GET delete_rubric" do
+    let(:rubric) { FactoryGirl.create :rubric }
+    before(:each) do
+      @company = FactoryGirl.create :company, valid_attributes
+      @company.rubrics << rubric
+      @company.save
+    end
+
+    def delete_valid
+      get :delete_rubric, id: @company.to_param, rub_id: rubric.id
+    end
+    it "удаляет рубрику из компании" do
+      expect {
+        delete_valid
+      }.to change(CompanyRubric, :count).by(-1)
+    end
+    it "создаёт запись в истории компании" do
+      expect {
+        delete_valid
+      }.to change(CompanyHistory, :count).by(1)
+    end
+  end
+
 end

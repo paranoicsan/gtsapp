@@ -141,6 +141,7 @@ class CompaniesController < ApplicationController
     # проверяем, не добавляли ли раньше эту рубрику
     unless @company.rubrics.include? rub
       @company.rubrics << rub
+      log_operation :rubric, :add, @company.id
     end
     respond_to do |format|
       format.js { render :layout => false }
@@ -156,6 +157,7 @@ class CompaniesController < ApplicationController
     rub = Rubric.find params[:rub_id]
     if @company.rubrics.include? rub
       @company.rubrics.delete rub
+      log_operation :rubric, :remove, @company.id
     end
     respond_to do |format|
       format.js { render :action => "add_rubric" }
