@@ -218,4 +218,43 @@ describe BranchesController do
     end
   end
 
+  describe "POST add_email" do
+    let(:branch) { create_valid }
+    def add_valid
+      post :add_email, id: branch.to_param, branch_email: Faker::Internet.email
+    end
+    it "добавляет почту к филиалу" do
+      expect {
+        add_valid
+      }.to change(Email, :count).by(1)
+    end
+    it "создаёт запись в истории компании" do
+      expect {
+        add_valid
+      }.to change(CompanyHistory, :count).by(1)
+    end
+  end
+
+  describe "GET delete_email" do
+    let(:email) { FactoryGirl.create :email }
+    before(:each) do
+      @branch = create_valid
+      @branch.emails << email
+      @branch.save
+    end
+    def delete_valid
+      get :delete_email, id: @branch.to_param, email_id: email.id
+    end
+    it "удаляет почту из филиала" do
+      expect {
+        delete_valid
+      }.to change(Email, :count).by(-1)
+    end
+    it "создаёт запись в истории компании" do
+      expect {
+        delete_valid
+      }.to change(CompanyHistory, :count).by(1)
+    end
+  end
+
 end

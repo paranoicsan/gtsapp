@@ -161,9 +161,8 @@ class BranchesController < ApplicationController
   end
 
   ##
-  #
   # Добавляет указанный адрес электронной почты к филиалу
-  #
+  # POST branches/:id/add_email
   def add_email
     @branch = Branch.find params[:id]
 
@@ -176,6 +175,7 @@ class BranchesController < ApplicationController
         else
           em = Email.new :name => em_name
           @branch.emails << em
+          log_operation :email, :add, @branch.company.id
         end
       else
         flash[:email_error] = "Неверный адрес электронной почты."
@@ -187,9 +187,8 @@ class BranchesController < ApplicationController
   end
 
   ##
-  #
   # Удаляет адрес электронной почты от филиала и вообще из системы
-  #
+  # GET branches/:id/delete_email/:email_id
   def delete_email
     @branch = Branch.find params[:id]
     em = Email.find params[:email_id]
@@ -197,6 +196,7 @@ class BranchesController < ApplicationController
       @branch.emails.delete em
     end
     Email.delete em
+    log_operation :email, :remove, @branch.company.id
     respond_to do |format|
       format.js { render :action => "add_email" }
     end

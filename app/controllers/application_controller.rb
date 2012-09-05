@@ -59,6 +59,10 @@ class ApplicationController < ActionController::Base
             add: 'Веб-сайт добавлен',
             remove:'Веб-сайт удалён',
         },
+        email: {
+            add: 'Адрес электронной почты добавлен',
+            remove:'Адрес электронной почты удалён',
+        }
     }
   end
 
