@@ -7,7 +7,10 @@ describe AddressesController do
   let(:branch) { FactoryGirl.create :branch }
   
   before(:each) do
-    authorize_user    
+    authorize_user
+
+    @user = FactoryGirl.create :user
+    controller.stub(:current_user).and_return(@user)
   end
   
   def valid_attributes
@@ -62,17 +65,20 @@ describe AddressesController do
           post_valid
         }.to change(Address, :count).by(1)
       end
-
       it "assigns a newly created address as @address только авторизованным" do
         post_valid
         assigns(:address).should be_a(Address)
         #noinspection RubyResolve
         assigns(:address).should be_persisted
       end
-
       it "после создания переходит на страницу филиала" do
         post_valid
         response.should redirect_to(branch)
+      end
+      it "создаёт запись в истории компании" do
+        expect {
+          post_valid
+        }.to change(CompanyHistory, :count).by(1)
       end
     end
 
@@ -112,16 +118,19 @@ describe AddressesController do
         Address.any_instance.should_receive(:update_attributes).with(p)
         put :update, :id => address.to_param, :address => p
       end
-
       it "assigns the requested address as @address" do
         put_valid
         assigns(:address).should eq(address)
         assigns(:branch).should eq(branch)
       end
-
       it "redirects to the branch" do
         put_valid
         response.should redirect_to(branch)
+      end
+      it "создаёт запись в истории компании" do
+        expect {
+          put_valid
+        }.to change(CompanyHistory, :count).by(1)
       end
     end
 
@@ -152,11 +161,16 @@ describe AddressesController do
         delete :destroy, :id => address.to_param
       }.to change(Address, :count).by(-1)
     end
-
     it "redirects to страница филиала" do
       address = create_valid
       delete :destroy, :id => address.to_param
       response.should redirect_to(branch_url(branch))
+    end
+    it "создаёт запись в истории компании" do
+      expect {
+        address = create_valid
+        delete :destroy, :id => address.to_param
+      }.to change(CompanyHistory, :count).by(1)
     end
   end
 

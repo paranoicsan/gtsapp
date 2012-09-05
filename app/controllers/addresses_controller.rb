@@ -58,6 +58,7 @@ class AddressesController < ApplicationController
 
     respond_to do |format|
       if @address.save
+        log_operation :address, :create, @branch.company.id
         format.html { redirect_to @branch, notice: 'Адрес добавлен.' }
         format.json { render json: @address, status: :created, location: @address }
       else
@@ -75,6 +76,7 @@ class AddressesController < ApplicationController
 
     respond_to do |format|
       if @address.update_attributes(params[:address])
+        log_operation :address, :update, @branch.company.id
         format.html { redirect_to @branch, notice: 'Адрес изменён.' }
         format.json { head :ok }
       else
@@ -88,13 +90,14 @@ class AddressesController < ApplicationController
   # DELETE /addresses/1.json
   def destroy
     @address = find_address params[:id]
-    branch_id = @address.branch_id
+    @branch = Branch.find @address.branch_id
 
+    log_operation :address, :destroy, @branch.company.id
     @address.destroy
 
     respond_to do |format|
       #noinspection RubyResolve
-      format.html { redirect_to branch_url branch_id }
+      format.html { redirect_to branch_url @branch }
       format.json { head :ok }
     end
   end

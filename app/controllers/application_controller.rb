@@ -39,6 +39,11 @@ class ApplicationController < ActionController::Base
         rubric: {
             add: 'Рубрика добавлена к компании',
             remove:'Рубрика удалена из компании'
+        },
+        address: {
+            create: 'Адрес создан',
+            update: 'Адрес изменён',
+            destroy:'Адрес удалён'
         }
     }
   end
