@@ -3,6 +3,7 @@ class AddressesController < ApplicationController
   helper :application
   before_filter :require_user
   before_filter :get_branch
+  autocomplete :city, :name
 
   # Ищет адрес по укаазнному параметру
   # @param [Integer] id ключ адреса

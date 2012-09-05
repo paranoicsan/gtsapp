@@ -7,23 +7,17 @@
         - @address.errors.full_messages.each do |msg|
           %li= msg
 
-  -#.control-group
-  -#  = f.label :district_id, 'Район:', :class => 'control-label'
-  -#  .controls
-  -#    = f.select(:district_id, options_for_select(District.all.collect{ |el| [el.name, el.id] }),
-  -#    {}, {class: 'select_field'})
   .control-group
-    = f.label :city_id, 'Город', :class => 'control-label'
+    = f.label :city, 'Город', :class => 'control-label'
     .controls
-      = f.select(:city_id, options_for_select(City.all.collect{ |el| [el.name, el.id] }))
+      -s = @address.city ? @address.city.name : ''
+      = autocomplete_field_tag 'address_city', s, addresses_autocomplete_city_name_path,
+      :placeholder => "Начните печатать для выбора из списка", :id_element => '#city_id', :id => 'address_city_id'
+      = hidden_field_tag 'city_id'
   .control-group
     = f.label :street_id, 'Улица', :class => 'control-label'
     .controls
       = f.select(:street_id, options_for_select(Street.all.collect{ |el| [el.name, el.id] }))
-  -#.control-group
-  -#  = f.label :post_index_id, 'Почтовый индекс', :class => 'control-label'
-  -#  .controls
-  -#    = f.select(:post_index_id, options_for_select(PostIndex.all.collect{ |el| [el.code, el.id] }))
   .control-group
     = f.label :house, 'Дом', :class => 'control-label'
     .controls

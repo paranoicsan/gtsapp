@@ -10,3 +10,8 @@ end
 Then /^Я не могу сохранить филиал без юридического названия$/ do
   step %Q{Кнопка "btn_branch_save" - "не активна"}
 end
+When /^Я нахожусь на странице изменения адреса$/ do
+  @branch = @branch ? @branch : FactoryGirl.create(:branch)
+  @address = FactoryGirl.create :address
+  visit edit_address_path(@address)
+end
