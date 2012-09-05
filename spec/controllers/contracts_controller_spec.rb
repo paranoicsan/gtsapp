@@ -68,17 +68,20 @@ describe ContractsController do
           post_valid
         }.to change(Contract, :count).by(1)
       end
-
       it "assigns a newly created contract as @contract" do
         post_valid
         assigns(:contract).should be_a(Contract)
         #noinspection RubyResolve
         assigns(:contract).should be_persisted
       end
-
       it "redirects to the created contract" do
         post_valid
         response.should redirect_to(Contract.last)
+      end
+      it "создаёт запись в истории компании" do
+        expect {
+          post_valid
+        }.to change(CompanyHistory, :count).by(1)
       end
     end
 

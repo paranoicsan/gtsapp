@@ -2,6 +2,7 @@
 class ApplicationController < ActionController::Base
   helper :all
   helper_method :current_user_session, :current_user
+  before_filter :create_default_vars
   protect_from_forgery
 
   # Сохраняет в сессии путь, куда хотят попасть
@@ -15,6 +16,18 @@ class ApplicationController < ActionController::Base
   end
 
   private
+  ##
+  # Создаёт глобюальные переменные
+  def create_default_vars
+    # Коллекция операций над объектами
+    @object_operations = {
+        product: {
+            create: 'Продукт создан',
+            update: 'Продукт изменён',
+            destroy:'Продукт удалён'
+        }
+    }
+  end
 
   def current_user_session
     return @current_user_session if defined?(@current_user_session)
@@ -80,10 +93,18 @@ class ApplicationController < ActionController::Base
     false
   end
 
-
   def redirect_back_or_default(default)
     redirect_to(session[:return_to] || default)
     session[:return_to] = nil
   end
 
+  ##
+  # Пишет историю компании
+  # @param object [Symbol] Тип объекта, над которым выполняется операция
+  # @param operation [Symbol] Название операции
+  # @param company_id [Integer] Родительская компания
+  def log_operation(object, operation, company_id)
+    log_str = @object_operations[object][operation]
+    CompanyHistory.log(log_str, current_user.id, company_id)
+  end
 end
