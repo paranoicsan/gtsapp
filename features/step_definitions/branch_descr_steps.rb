@@ -13,5 +13,7 @@ end
 When /^Я нахожусь на странице изменения адреса$/ do
   @branch = @branch ? @branch : FactoryGirl.create(:branch)
   @address = FactoryGirl.create :address
+  @address.street.city_id = @address.city.id
+  @address.street.save
   visit edit_address_path(@address)
 end

@@ -4,6 +4,7 @@ class AddressesController < ApplicationController
   before_filter :require_user
   before_filter :get_branch
   autocomplete :city, :name
+  autocomplete :street, :name
 
   # Ищет адрес по укаазнному параметру
   # @param [Integer] id ключ адреса
@@ -101,6 +102,25 @@ class AddressesController < ApplicationController
       format.html { redirect_to branch_url @branch }
       format.json { head :ok }
     end
+  end
+
+  ##
+  # Переопределяем метод, возвращающий элементы автозаполнения
+  # для ограничивания выборки
+  def get_autocomplete_items(parameters)
+    items = super(parameters)
+
+    if params && params[:city_id]
+      # фильтрация улиц
+      @city = City.find params[:city_id]
+      if @city
+        items.where(:city_id => @city.id)
+      end
+    else
+      # всё остальное
+      items.all
+    end
+
   end
 
   private
