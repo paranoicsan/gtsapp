@@ -133,6 +133,12 @@ describe ContractsController do
         put_valid
         response.should redirect_to(contract)
       end
+
+      it "создаёт запись в истории компании" do
+        expect {
+          put_valid
+        }.to change(CompanyHistory, :count).by(1)
+      end
     end
 
     describe "with invalid params" do
@@ -156,19 +162,23 @@ describe ContractsController do
   end
 
   describe "DELETE destroy" do
-
     it "destroys the requested contract" do
       contract = create_valid
       expect {
         delete :destroy, {:id => contract.to_param}
       }.to change(Contract, :count).by(-1)
     end
-
     it "redirects to the contracts list" do
       contract = create_valid
       delete :destroy, {:id => contract.to_param}
       #noinspection RubyResolve
       response.should redirect_to(company_url(company))
+    end
+    it "создаёт запись в истории компании" do
+      expect {
+        contract = create_valid
+        delete :destroy, {:id => contract.to_param}
+      }.to change(CompanyHistory, :count).by(1)
     end
   end
 

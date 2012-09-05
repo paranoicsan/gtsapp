@@ -57,6 +57,7 @@ class ContractsController < ApplicationController
 
     respond_to do |format|
       if @contract.save
+        log_operation :contract, :create, @company.id
         format.html { redirect_to @contract, notice: 'Договор добавлен.' }
         format.json { render json: @contract, status: :created, location: @contract }
       else
@@ -73,6 +74,7 @@ class ContractsController < ApplicationController
 
     respond_to do |format|
       if @contract.update_attributes(params[:contract])
+        log_operation :contract, :update, @contract.company.id
         format.html { redirect_to @contract, notice: 'Contract was successfully updated.' }
         format.json { head :ok }
       else
@@ -87,6 +89,9 @@ class ContractsController < ApplicationController
   def destroy
     @contract = Contract.find(params[:id])
     company_id = @contract.company_id
+
+    log_operation :contract, :destroy, @contract.company.id
+
     @contract.destroy
 
     respond_to do |format|

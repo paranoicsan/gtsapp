@@ -25,6 +25,11 @@ class ApplicationController < ActionController::Base
             create: 'Продукт создан',
             update: 'Продукт изменён',
             destroy:'Продукт удалён'
+        },
+        contract: {
+            create: 'Договор создан',
+            update: 'Договор изменён',
+            destroy:'Договор удалён'
         }
     }
   end
