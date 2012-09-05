@@ -51,6 +51,7 @@ class BranchesController < ApplicationController
 
     respond_to do |format|
       if @branch.save
+        log_operation :branch, :create, @branch.company.id
         format.html { redirect_to @branch, notice: 'Филиал добавлен.' }
         format.json { render json: @branch, status: :created, location: @branch }
       else
@@ -68,6 +69,7 @@ class BranchesController < ApplicationController
 
     respond_to do |format|
       if @branch.update_attributes(params[:branch])
+        log_operation :branch, :update, @company.id
         format.html { redirect_to @branch, notice: 'Филиал изменён.' }
         format.json { head :ok }
       else
@@ -81,12 +83,13 @@ class BranchesController < ApplicationController
   # DELETE /branches/1.json
   def destroy
     @branch = Branch.find(params[:id])
-    company_id = @branch.company_id
+    @company = Company.find @branch.company_id
 
+    log_operation :branch, :destroy, @company.id
     @branch.destroy
 
     respond_to do |format|
-      format.html { redirect_to company_url company_id }
+      format.html { redirect_to company_url @company }
       format.json { head :ok }
     end
   end

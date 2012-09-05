@@ -44,6 +44,11 @@ class ApplicationController < ActionController::Base
             create: 'Адрес создан',
             update: 'Адрес изменён',
             destroy:'Адрес удалён'
+        },
+        branch: {
+            create: 'Филиал создан',
+            update: 'Филиал изменён',
+            destroy:'Филиал удалён'
         }
     }
   end

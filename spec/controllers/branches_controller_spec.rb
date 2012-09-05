@@ -7,7 +7,10 @@ describe BranchesController do
   let(:company) { FactoryGirl.create :company }
   
   before(:each) do
-    authorize_user            
+    authorize_user
+
+    @user = FactoryGirl.create :user
+    controller.stub(:current_user).and_return(@user)
   end
 
   # This should return the minimal set of attributes required to create a valid
@@ -64,20 +67,22 @@ describe BranchesController do
           post_valid
         }.to change(Branch, :count).by(1)
       end
-
       it "assigns a newly created branch as @branch" do
         post_valid
         assigns(:branch).should be_a(Branch)
         #noinspection RubyResolve
         assigns(:branch).should be_persisted
       end
-
       it "redirects to the created branch" do
         post_valid
         response.should redirect_to(Branch.last)
       end
+      it "создаёт запись в истории компании" do
+        expect {
+          post_valid
+        }.to change(CompanyHistory, :count).by(1)
+      end
     end
-
     describe "with invalid params" do
 
       def post_invalid
@@ -116,15 +121,18 @@ describe BranchesController do
         Branch.any_instance.should_receive(:update_attributes).with(p)
         put :update, :id => branch.to_param, :branch => p
       end
-
       it "assigns the requested branch as @branch" do
         put_valid
         assigns(:branch).should eq(branch)
       end
-
       it "redirects to the branch" do
         put_valid
         response.should redirect_to(branch)
+      end
+      it "создаёт запись в истории компании" do
+        expect {
+          put_valid
+        }.to change(CompanyHistory, :count).by(1)
       end
     end
 
@@ -155,12 +163,17 @@ describe BranchesController do
         delete :destroy, :id => branch.to_param
       }.to change(Branch, :count).by(-1)
     end
-
     it "перенаправляет на страницу компании" do
       branch = create_valid
       delete :destroy, :id => branch.to_param
       #noinspection RubyResolve
       response.should redirect_to(company_url(company))
+    end
+    it "создаёт запись в истории компании" do
+      expect {
+        branch = create_valid
+        delete :destroy, :id => branch.to_param
+      }.to change(CompanyHistory, :count).by(1)
     end
   end
 
