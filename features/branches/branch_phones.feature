@@ -52,7 +52,7 @@ Feature: У филиалов может быть несколько телефо
 #      |contact|director|fax|mobile|mobile_refix|name|order_num|publishable|
 #      |true   |true    |true|true|921           ||2      |false     |
       |fax|mobile|mobile_refix|name|order_num|publishable|description|
-      |true|true|921           ||2      |false     |приёмная   |
+      |true|true|921           |521627|10      |false     |приёмная   |
     And Я попадаю на страницу филиала "Филиал рогов" компании "Рога и копыта"
     And Я вижу сообщение "Телефон изменён."
 
@@ -99,4 +99,10 @@ Feature: У филиалов может быть несколько телефо
     Then Элемент "phone_name_group"  имеет класс "error"
     When Я ввожу "1234567" в поле "phone_name"
     Then Элемент "phone_name_group" не имеет класс "error"
+
+  @javascript
+  Scenario: Пользователь не может сохранить телефон без указания его номера
+    Given Я - "агент", авторизованный в системе
+    When Я нахожусь на странице создания телефона
+    Then Я не могу сохранить телефон без номера
 

@@ -75,6 +75,9 @@ mobilePhoneChange = ->
   else
     el.hide()
 
+  checkPhoneNumber()
+  validate()
+
 checkPhoneNumber = ->
   re = /^[0-9]{5,6}$/
   mre = /^[0-9]{7}$/
@@ -89,6 +92,7 @@ checkPhoneNumber = ->
   else
     el.addClass('error')
 
+  validate()
   showHideHelp($('#phone_name_help'), !check)
 
 checkPhoneMobilePrefix = ->
@@ -103,6 +107,7 @@ checkPhoneMobilePrefix = ->
   else
     el.addClass('error')
 
+  validate()
   showHideHelp($('#phone_mobile_refix_help'), !check)
 
 
@@ -113,7 +118,17 @@ showHideHelp = (el, show) ->
   else
     el.hide()
 
+validate = ->
+  valid = true
+  if $('#phone_name_group').hasClass('error')
+    valid = false
+  if $('#phone_mobile_refix_group').hasClass('error')
+    valid = false
 
+  if !valid
+    $('#btn_phone_save').attr('disabled', 'disabled')
+  else
+    $('#btn_phone_save').removeAttr('disabled')
 
 
 

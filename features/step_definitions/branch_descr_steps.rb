@@ -17,3 +17,10 @@ When /^Я нахожусь на странице изменения адреса
   @address.street.save
   visit edit_address_path(@address)
 end
+When /^Я нахожусь на странице создания телефона$/ do
+  @branch = @branch ? @branch : FactoryGirl.create(:branch)
+  visit new_branch_phone_path(@branch)
+end
+Then /^Я не могу сохранить телефон без номера$/ do
+  step %Q{Кнопка "btn_phone_save" - "не активна"}
+end
