@@ -27,7 +27,8 @@
   .control-group
     = f.label :amount, 'Сумма:', :class => 'control-label'
     .controls
-      = f.text_field :amount, :value => 0
+      -value = @contract.amount ? @contract.amount : 0
+      = f.text_field :amount, :value => value
   .control-group
     = f.label :date_sign, 'Дата подписания', :class => 'control-label'
     .controls
