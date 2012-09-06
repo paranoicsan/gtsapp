@@ -311,3 +311,34 @@ Then /^Я (|не) вижу список компаний на повторном
     }
   end
 end
+Then /^Я (|не) вижу список телефонов для филиала на странице компании$/ do |negate|
+  table_id = "branch_#{@branch.id}"
+  element = page.find("table##{table_id}")
+
+  if negate.eql?('не')
+    element['visible'].should be_false
+  else
+
+    # составляем ряды для таблицы
+    rows = ""
+    @branch.phones.each do |p|
+      rows = "#{rows}\n|#{p.order_num}|#{p.publishable}|"
+    end
+    steps %Q{
+      Then Я вижу таблицу "#{table_id}" с компаниями
+        | order_num | cb_publishable |
+        #{rows}
+    }
+  end
+end
+Then /^Я могу (скрыть|отобразить) список телефонов для филиала на странице компании$/ do |action|
+  id = "show_phones_#{@branch.id}"
+  step %{Я нажимаю на элемент с ключом "#{id}"}
+  elem = page.find("table#branch_#{@branch.id}")
+  if action.eql?("скрыть")
+    step %{Я нажимаю на элемент с ключом "#{id}"}
+    elem.should_not be_visible
+  else
+    elem.should be_visible
+  end
+end

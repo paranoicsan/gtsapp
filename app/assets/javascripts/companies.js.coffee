@@ -183,6 +183,12 @@ $ ->
     el.hide()
 
 ##
+# Обработчик показа списка телефонов для определённого филиала
+@showPhones = (branch_id) ->
+  phones = $('#branch_' + branch_id)
+  if phones.is(':visible') then phones.hide() else phones.show()
+
+##
 # Обработчик изменения названия
 onTitleChange = ->
   val = $('#company_title').val()

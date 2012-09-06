@@ -1,9 +1,9 @@
 -element_id = "#{branch.id}"
 #phone_list
-  %p.btn.btn-mini{onClick: "showPhones('#{element_id}')"}
+  %p.btn.btn-mini{onClick: "showPhones('#{element_id}')", id: "show_phones_#{element_id}"}
     Телефоны
   %p
-  %table.table.table-striped.table-condensed{style: 'display: none', id:"branch_#{element_id}"}
+  %table.table.table-striped.table-condensed.well{style: 'display: none', id:"branch_#{element_id}"}
     %tr
       %th
       %th В печать?

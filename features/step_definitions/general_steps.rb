@@ -142,3 +142,6 @@ end
 When /^Я вижу "([^"]*)" в поле "([^"]*)"$/ do |value, field_id|
   page.find_by_id(field_id)['value'].should eq(value)
 end
+When /^Я нажимаю на элемент с ключом "([^"]*)"$/ do |elem_id|
+  page.find(:xpath, "//*[@id='#{elem_id}']").click
+end
