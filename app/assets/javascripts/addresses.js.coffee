@@ -2,6 +2,10 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
+$ ->
+  $('#address_city_id').bind 'railsAutocomplete.select', (event, data) =>
+    onCityChanged()
+
 @onCityChanged= ->
 
   # подстановка ключа города для фильтрации улиц
@@ -16,23 +20,8 @@
     url = ''
 
   $('#address_street').attr('data-autocomplete', url)
-#  disableStreet(url == '' || ($('#street_city_id').val() != city_id && city_id != ''))
+
   disableStreet(url == '')
-
-#  # сброс указанной улицы при убранном или изменённом городе
-#  if city_id != el_city.val() && el_street.val('') != ''
-#    el_street.val('')
-#
-#  if el_city.val() == ''
-#    $('#city_id').val('')
-#    $('#street_city_id').val('')
-#    el_street.val('')
-#
-#  disableStreet($('#street_city_id').val() == '')
-
-#@onStreetChanged = ->
-#  city_id = $('#city_id').val()
-#  $('#street_city_id').val(city_id)
 
 disableStreet = (disable) ->
   el = $('#address_street')

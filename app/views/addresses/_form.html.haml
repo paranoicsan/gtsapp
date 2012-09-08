@@ -13,7 +13,7 @@
       -s = @address.city ? @address.city.name : ''
       = autocomplete_field_tag 'address_city', s, addresses_autocomplete_city_name_path,
       :placeholder => "Начните печатать для выбора из списка", :id_element => '#city_id', :id => 'address_city_id',
-      :onKeyUp => 'onCityChanged()'
+      :onKeyUp => 'onCityChanged()', :onChange => 'onCityChanged()'
       -city_id = @address.city ? @address.city.id : ''
       = hidden_field_tag 'city_id', city_id
   .control-group
