@@ -3,6 +3,7 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
 $ ->
+  onCityChanged()
   $('#address_city_id').bind 'railsAutocomplete.select', (event, data) =>
     onCityChanged()
 
