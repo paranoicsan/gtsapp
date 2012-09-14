@@ -277,4 +277,11 @@ class CompaniesController < ApplicationController
       format.html { render :partial => 'validate_title', :layout => false }
     end
   end
+
+  # GET /companies/:id/archive
+  def archive
+    c = Company.find params[:id]
+    c.archive if c
+    redirect_to request.referer
+  end
 end

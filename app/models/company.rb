@@ -234,4 +234,15 @@ class Company < ActiveRecord::Base
     company_status ? company_status.eql?(CompanyStatus.archived) : false
   end
 
+  ##
+  # Меняет для компании статус на архивный
+  def archive
+    update_attributes({
+                          :company_status_id => CompanyStatus.archived.id,
+                          :reason_need_attention_on => nil,
+                          :reason_deleted_on => nil,
+                          :reason_need_improvement_on => nil
+                      })
+  end
+
 end

@@ -253,6 +253,18 @@ describe CompaniesController do
     end
   end
 
+  describe "GET archive" do
+    before(:each) do
+      @company = FactoryGirl.create :company
+      FactoryGirl.create :company_status_archived
+    end
+    it "отправляет на страницу, с которой выполнялась операция" do
+      request.env["HTTP_REFERER"] = company_path(@company)
+      get :archive, id: @company.id
+      response.should redirect_to company_path(@company)
+    end
+  end
+
   describe "POST request_improvement" do
 
     before(:each) do

@@ -285,4 +285,31 @@ describe Company do
     end
   end
 
+  describe "#archive" do
+    before(:each)  do
+      active_status = FactoryGirl.create :company_status_active
+      @status = FactoryGirl.create :company_status_archived
+      @company = FactoryGirl.create :company, company_status: active_status
+    end
+    it "меняет статус компании на архивный" do
+      @company.archive
+      @company.company_status.should eq(@status)
+    end
+    it "Сбрасывает причину запроса внимания" do
+      @company.reason_need_attention_on = Faker::Lorem.sentences.join
+      @company.archive
+      @company.reason_need_attention_on.should be_nil
+    end
+    it "Сбрасывает причину удаления" do
+      @company.reason_deleted_on = Faker::Lorem.sentences.join
+      @company.archive
+      @company.reason_deleted_on.should be_nil
+    end
+    it "Сбрасывает причину отправки на доработку" do
+      @company.reason_need_improvement_on = Faker::Lorem.sentences.join
+      @company.archive
+      @company.reason_need_improvement_on.should be_nil
+    end
+  end
+
 end
