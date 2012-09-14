@@ -342,3 +342,15 @@ Then /^Я могу (скрыть|отобразить) список телефо
     elem.should be_visible
   end
 end
+Then /^Я (|не) могу поместить эту компанию в архив$/ do |negate|
+  id = "company_archive_link"
+
+  if negate.eql?('не')
+    page.should_not have_selector("a##{id}")
+  else
+    steps %{
+      When Я нажимаю на элемент с ключом "#{id}"
+      Then Я вижу, что статус компании - "В архиве"
+    }
+  end
+end

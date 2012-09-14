@@ -102,6 +102,9 @@
         = link_to "Удалить", company_request_delete_path(@company), :class => css, :id => 'company_delete_link',
         :onClick => 'clickCompanyDelete(event)'
 
+    -unless @company.archived?
+      = link_to "В архив", archive_company_path(@company), :class => 'btn btn-mini', :id => 'company_archive_link'
+
 -unless @current_user.is_admin? or @current_user.is_operator?
   -if @company.active?
     %p
