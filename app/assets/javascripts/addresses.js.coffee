@@ -17,7 +17,7 @@ $ ->
     url = '/addresses/autocomplete_street_name/' + city_id
 
   # ручное изменение
-  if $('#address_city_id').val().trim() == ''
+  if $('#address_city_id').val() && $('#address_city_id').val().trim() == ''
     url = ''
 
   $('#address_street').attr('data-autocomplete', url)
