@@ -271,6 +271,10 @@ describe Company do
       @company.reason_need_improvement_on = Faker::Lorem.sentences.join
     end
 
+    it "меняет статус компании на активный" do
+      Company.activate @company.id
+      Company.find(@company.id).company_status.should eq(@status_active)
+    end
     it "Сбрасывает причину запроса внимания" do
       Company.activate(@company.id)
       Company.find(@company.id).reason_need_attention_on.should be_nil
