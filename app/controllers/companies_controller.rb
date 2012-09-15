@@ -2,7 +2,7 @@
 class CompaniesController < ApplicationController
   helper :application
   before_filter :require_user
-  before_filter :require_system_users, :only => [:activate, :request_improvement, :request_improvement_reason]
+  before_filter :require_system_users, :only => [:request_improvement, :request_improvement_reason]
   autocomplete :rubric, :name
 
   # Подготавливает значения рубрикатора для вставки в СУБД
@@ -125,10 +125,13 @@ class CompaniesController < ApplicationController
   # Активирует указанную компанию - устанавливает ей статус как "Активна"
   # GET /companies/1/activate
   def activate
-    Company.activate params[:id]
-    # перебрасываем туда, откуда пришли
-    #redirect_to dashboard_url
-    redirect_to request.referer
+    c = Company.find params[:id]
+    if (@current_user.is_agent? && c.can_be_activated_by_agent?) || (@current_user.is_admin? || @current_user.is_operator?)
+      Company.activate params[:id]
+      redirect_to request.referer
+    else
+      require_system_users
+    end
   end
 
   ##

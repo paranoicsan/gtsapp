@@ -69,7 +69,7 @@
 
 %div{style: "text-align: center;"}
   .form-inline
-    -if (@current_user.is_admin? || @current_user.is_operator?) && !@company.active?
+    -if (@current_user.is_admin? || @current_user.is_operator? || @company.can_be_activated_by_agent?) && !@company.active?
       %a{ :href => activate_company_path(@company), :class => "btn btn-mini btn-success"}
         %i.icon-ok.icon-white
         Активировать

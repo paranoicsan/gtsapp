@@ -316,4 +316,11 @@ describe Company do
     end
   end
 
+  describe "#can_be_activated_by_agent?" do
+    it "возвращает истину, если текущий статус - архивный" do
+      company = FactoryGirl.create :company, company_status: FactoryGirl.create(:company_status_archived)
+      company.can_be_activated_by_agent?.should be_true
+    end
+  end
+
 end

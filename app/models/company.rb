@@ -1,4 +1,5 @@
 # encoding: utf-8
+#noinspection RubyTooManyMethodsInspection
 class Company < ActiveRecord::Base
   belongs_to :company_status
   belongs_to :company_source
@@ -243,6 +244,13 @@ class Company < ActiveRecord::Base
                           :reason_deleted_on => nil,
                           :reason_need_improvement_on => nil
                       })
+  end
+
+  ##
+  # Определяет, может ли компанию активировать агент
+  # @return [Boolean] Истину, если можно активировать
+  def can_be_activated_by_agent?
+    company_status_id.eql?(CompanyStatus.archived.id)
   end
 
 end
