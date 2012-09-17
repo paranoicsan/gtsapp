@@ -171,7 +171,7 @@ namespace :db do
         street.name = name
         street.save
       else
-        puts "Создана улица: #{name}"
+        puts "Street created: #{name}"
         Street.create(:old_id => old_id, :name => name, :city_id => new_city_id)
       end
 
