@@ -30,3 +30,18 @@ When /^Существует филиал с (\d+) телефонами$/ do |cnt
     FactoryGirl.create :phone, branch_id: @branch.id
   end
 end
+Then /^Я вижу список телефонов по индексу отображения$/ do
+  table_id = 'phones'
+
+  # составляем ряды для таблицы
+  rows = ""
+  @branch.phones_by_order.each do |p|
+    rows = "#{rows}\n|#{p.order_num}|"
+  end
+  steps %Q{
+    Then Я вижу таблицу "#{table_id}" с компаниями
+      | order_num |
+      #{rows}
+  }
+
+end

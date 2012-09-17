@@ -145,3 +145,6 @@ end
 When /^Я нажимаю на элемент с ключом "([^"]*)"$/ do |elem_id|
   page.find(:xpath, "//*[@id='#{elem_id}']").click
 end
+When /^Я нахожусь на странице филиала$/ do
+  visit branch_path(@branch)
+end

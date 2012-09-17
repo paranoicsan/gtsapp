@@ -67,4 +67,11 @@ class Branch < ActiveRecord::Base
     websites.each {|w| s = "#{s}#{w.name}, "}
     s.gsub(/, $/, "")
   end
+
+  ##
+  # Возвращает масив телефонов по индексу отображения
+  def phones_by_order
+    Phone.where("branch_id = ?", [id]).order("order_num ASC")
+  end
 end
+

@@ -56,23 +56,24 @@
 
       %p= link_to 'Добавить', new_branch_phone_path(@branch), class: 'btn btn-mini', id: 'phone_add'
 
-      -if @branch.phones.count > 0
+      -if @branch.phones.any?
         %table.table.table-striped.table-condensed{id: 'phones'}
-          %tr
-            %th
-            %th В печать?
-            %th Описание
-            %th
-            %th
-          -@branch.phones.each do |phone|
+          %tbody
             %tr
-              %td= phone.order_num.to_s
-              %td= check_box_tag("cb_publishable", 1, phone.publishable?, { :disabled => "disabled" })
-              %td= phone.description
-              %td= link_to phone.name, phone_path(phone)
-              %td
-                = link_to 'Изменить', edit_phone_path(phone), class: "btn btn-mini", id: "phone_edit"
-                = link_to 'Удалить', phone, :confirm => 'Вы уверены?', :method => :delete, :class => "btn btn-mini"
+              %th
+              %th В печать?
+              %th Описание
+              %th
+              %th
+            -@branch.phones_by_order.each do |phone|
+              %tr
+                %td= phone.order_num.to_s
+                %td= check_box_tag("cb_publishable", 1, phone.publishable?, { :disabled => "disabled" })
+                %td= phone.description
+                %td= link_to phone.name, phone_path(phone)
+                %td
+                  = link_to 'Изменить', edit_phone_path(phone), class: "btn btn-mini", id: "phone_edit"
+                  = link_to 'Удалить', phone, :confirm => 'Вы уверены?', :method => :delete, :class => "btn btn-mini"
 
 
 

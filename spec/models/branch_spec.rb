@@ -38,4 +38,16 @@ describe Branch do
     branch.should have(1).error_on(:legel_name)
   end
 
+  describe "#phones_by_order" do
+    def create_phone(branch_id)
+      FactoryGirl.create :phone, branch_id: branch_id
+    end
+    it "возвращает массив по порядку индекса отображения" do
+      branch = FactoryGirl.create :branch
+      p1 = create_phone(branch.id)
+      p2 = create_phone(branch.id)
+      branch.phones_by_order.should eq([p1, p2])
+    end
+  end
+
 end
