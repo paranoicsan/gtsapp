@@ -24,3 +24,9 @@ end
 Then /^Я не могу сохранить телефон без номера$/ do
   step %Q{Кнопка "btn_phone_save" - "не активна"}
 end
+When /^Существует филиал с (\d+) телефонами$/ do |cnt|
+  @branch = @branch ? @branch : FactoryGirl.create(:branch)
+  cnt.to_i.times do
+    FactoryGirl.create :phone, branch_id: @branch.id
+  end
+end

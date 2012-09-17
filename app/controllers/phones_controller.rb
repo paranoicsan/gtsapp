@@ -27,10 +27,12 @@ class PhonesController < ApplicationController
     end
   end
 
-  # GET /phones/new
-  # GET /phones/new.json
+  # GET /branches/:branch_id/phones/new
+  # GET /branches/:branch_id/phones/new.json
   def new
     @phone = Phone.new
+    @branch = Branch.find params[:branch_id]
+
 
     respond_to do |format|
       format.html # new.html.erb

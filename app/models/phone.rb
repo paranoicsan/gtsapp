@@ -5,8 +5,9 @@ class Phone < ActiveRecord::Base
 
   ##
   # Определяет самый низкий порядок отображения
+  # @param [Integer] Ключ филиала, для которого ищем следующий индекс телефона
   # @return [Integer] Самый низкий порядок отображения
-  def next_num_order
+  def next_num_order(branch_id)
     # текущий последний телефон по отображению
     cur_last_phone = Phone.where("branch_id = ?", [branch_id]).order("order_num DESC").first
     cur_last_phone ? cur_last_phone.order_num + 1 : 1
@@ -15,7 +16,7 @@ class Phone < ActiveRecord::Base
   private
   def check_fields
     if order_num.nil?
-      self.order_num = next_num_order
+      self.order_num = next_num_order(branch_id)
     end
   end
 end
