@@ -151,4 +151,30 @@ namespace :db do
   task :load_products => :environment do
     products
   end
+
+  desc 'Обновление списка улиц'
+  task :update_streets => :environment do
+    # по ключу улицы определяем, есть такая или нет
+    # если есть - обновляем ей название
+    # если нет - добавляем
+
+    CSV.foreach('db/data/street.csv', {:col_sep => ',', :quote_char => '"', :headers => true}) do |row|
+
+      old_id = row[0] # старый ключ улицы
+      name = row[1]
+      old_city_id = row[2] # старый ключ города
+      new_city_id = City.find_by_old_id(old_city_id).id # определяем новый
+
+      # ищем существующую
+      street = Street.find_by_old_id old_id
+      if street
+        street.name = name
+        street.save
+      else
+        puts "Создана улица: #{name}"
+        Street.create(:old_id => old_id, :name => name, :city_id => new_city_id)
+      end
+
+    end
+  end
 end
