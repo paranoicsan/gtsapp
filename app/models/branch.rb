@@ -67,7 +67,8 @@ class Branch < ActiveRecord::Base
   ##
   # Возвращает масив телефонов по индексу отображения
   def phones_by_order
-    Phone.where("branch_id = ?", [id]).order("order_num ASC")
+    #Phone.where("branch_id = ?", id).order("order_num ASC")
+    phones.order("order_num ASC")
   end
 
   ##
@@ -76,6 +77,15 @@ class Branch < ActiveRecord::Base
   def next_phone_order_index
     last_phone = phones_by_order.last
     last_phone && last_phone.order_num ? last_phone.order_num + 1 : 1
+  end
+
+  def update_phone_order
+    idx = 1
+    phones_by_order.each do |p|
+      p.update_attribute "order_num", idx
+      idx += 1
+      puts "#{p.id}-#{p.order_num}"
+    end
   end
 end
 

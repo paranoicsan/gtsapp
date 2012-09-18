@@ -63,4 +63,36 @@ describe Branch do
       branch.next_phone_order_index.should eq(2)
     end
   end
+
+  describe "#update_phone_order" do
+    PHONE_CNT = 5
+    before(:each) do
+      PHONE_CNT.times do |i|
+        FactoryGirl.create :phone, branch_id: branch.id, order_num: i+1
+      end
+    end
+    def delete_and_update(index)
+      branch.phones[index].destroy
+      branch.phones.reload
+      branch.update_phone_order
+      branch.reload
+    end
+
+    it "обновляет список телефонов при удалении первого" do
+      delete_and_update(0)
+      branch.phones[0].order_num.should eq(1)
+    end
+    it "обновляет список телефонов при удалении из середины" do
+      delete_and_update(PHONE_CNT-3)
+      branch.phones.count.times do |i|
+        branch.phones[i].order_num.should eq(i+1)
+      end
+    end
+    it "ничего не меняется при удалении последнего" do
+      delete_and_update(PHONE_CNT-1)
+      branch.phones[PHONE_CNT-2].order_num.should eq(PHONE_CNT-1)
+    end
+    it "обновляет список телефонов при добавлении нового"
+    it "обновляет список телефонов при изменении существующего"
+  end
 end
