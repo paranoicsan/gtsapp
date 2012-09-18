@@ -79,12 +79,18 @@ class Branch < ActiveRecord::Base
     last_phone && last_phone.order_num ? last_phone.order_num + 1 : 1
   end
 
-  def update_phone_order
+  ##
+  # Пересчитывает индексы для телефонов
+  # если происходило изменение индекса существовавшего ранее телефона,
+  # то это определяется временем изменений
+  # @param [Boolea] creation - флаг, что обновить порядок надо после создания нового телефона
+  def update_phone_order(creation=false)
     idx = 1
-    phones_by_order.each do |p|
+    direction = creation ? "DESC" : "ASC"
+    phones_by_order.order("updated_at #{direction}").each do |p|
       p.update_attribute "order_num", idx
       idx += 1
-      puts "#{p.id}-#{p.order_num}"
+      #puts "#{p.id}-#{p.order_num}"
     end
   end
 end

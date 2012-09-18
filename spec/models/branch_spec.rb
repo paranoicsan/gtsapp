@@ -92,7 +92,20 @@ describe Branch do
       delete_and_update(PHONE_CNT-1)
       branch.phones[PHONE_CNT-2].order_num.should eq(PHONE_CNT-1)
     end
-    it "обновляет список телефонов при добавлении нового"
-    it "обновляет список телефонов при изменении существующего"
+    it "обновляет список телефонов при добавлении нового" do
+      FactoryGirl.create :phone, branch_id: branch.id, order_num: 3
+      branch.update_phone_order(true)
+      branch.reload
+      branch.phones.count.times do |i|
+        branch.phones[i].order_num.should eq(i+1)
+      end
+    end
+    it "обновляет список телефонов при изменении существующего" do
+      moved_phone = branch.phones[3]
+      branch.phones[1].update_attribute "order_num", 4
+      branch.update_phone_order
+      moved_phone.reload
+      moved_phone.order_num.should eq(3)
+    end
   end
 end

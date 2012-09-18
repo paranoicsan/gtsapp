@@ -11,5 +11,5 @@ describe Phone do
     phone = FactoryGirl.build :phone, name: nil
     phone.should have(1).error_on(:name)
   end
-
+  describe ""
 end

@@ -55,6 +55,7 @@ class PhonesController < ApplicationController
     respond_to do |format|
       if @phone.save
         log_operation :phone, :create, @branch.company.id
+        @phone.branch.update_phone_order true
         format.html { redirect_to @branch, notice: 'Телефон создан.' }
         format.json { render json: @phone, status: :created, location: @phone }
       else
@@ -72,6 +73,7 @@ class PhonesController < ApplicationController
 
     respond_to do |format|
       if @phone.update_attributes(params[:phone])
+        @phone.branch.update_phone_order
         log_operation :phone, :update, @branch.company.id
         format.html { redirect_to @branch, notice: 'Телефон изменён.' }
         format.json { head :ok }
@@ -89,6 +91,7 @@ class PhonesController < ApplicationController
     @branch = Branch.find @phone.branch_id
     log_operation :phone, :destroy, @branch.company.id
     @phone.destroy
+    @phone.branch.update_phone_order
 
     respond_to do |format|
       format.html { redirect_to branch_url @branch }
