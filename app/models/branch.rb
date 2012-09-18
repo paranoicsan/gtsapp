@@ -12,10 +12,8 @@ class Branch < ActiveRecord::Base
   before_save :check_is_main
 
   ##
-  #
   # Обработка флага, что филиал является головным,
   # если он является единственным
-  #
   def check_is_main
     if Branch.find_all_by_company_id(self.company_id).count == 0
       self.is_main = true
@@ -23,10 +21,8 @@ class Branch < ActiveRecord::Base
   end
 
   ##
-  #
   # Устанавливает филиал как основной
   # и снимает этот флаг со всех остальных филиалов
-  #
   def make_main
     c_id = self.company_id
     Branch.find_all_by_company_id(c_id).each do |b|
@@ -72,6 +68,14 @@ class Branch < ActiveRecord::Base
   # Возвращает масив телефонов по индексу отображения
   def phones_by_order
     Phone.where("branch_id = ?", [id]).order("order_num ASC")
+  end
+
+  ##
+  # Определяет следующий порядок отображения для телефонов филиала
+  # @return [Integer] Самый низкий порядок отображения
+  def next_phone_order_index
+    last_phone = phones_by_order.last
+    last_phone && last_phone.order_num ? last_phone.order_num + 1 : 1
   end
 end
 

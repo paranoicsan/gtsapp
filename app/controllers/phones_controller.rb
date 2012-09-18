@@ -32,7 +32,7 @@ class PhonesController < ApplicationController
   def new
     @phone = Phone.new
     @branch = Branch.find params[:branch_id]
-
+    @phone.order_num = @branch.next_phone_order_index
 
     respond_to do |format|
       format.html # new.html.erb
@@ -97,6 +97,7 @@ class PhonesController < ApplicationController
   end
 
   private
+  ##
   # Определяет связанный филиал
   def get_branch
     @branch = Branch.find(params[:branch_id]) if params[:branch_id]

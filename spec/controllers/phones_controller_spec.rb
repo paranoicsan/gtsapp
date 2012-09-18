@@ -40,9 +40,17 @@ describe PhonesController do
   end
 
   describe "GET new" do
-    it "assigns a new phone as @phone" do
+    def get_valid
       get :new, valid_attributes
+    end
+    it "assigns a new phone as @phone" do
+      get_valid
       assigns(:phone).should be_a_new(Phone)
+    end
+    it "выставялет индекс следующий по порядку индекс отображения" do
+      FactoryGirl.create :phone, valid_attributes
+      get_valid
+      assigns(:phone).order_num.should eq(2)
     end
   end
 

@@ -321,7 +321,7 @@ Then /^Я (|не) вижу список телефонов для филиала
 
     # составляем ряды для таблицы
     rows = ""
-    @branch.phones.each do |p|
+    @branch.phones_by_order.each do |p|
       rows = "#{rows}\n|#{p.order_num}|#{p.publishable}|"
     end
     steps %Q{

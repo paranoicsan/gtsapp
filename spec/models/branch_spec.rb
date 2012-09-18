@@ -5,6 +5,19 @@ describe Branch do
 
   let(:branch) { FactoryGirl.create :branch }
 
+  it "фабрика корректна" do
+    b = FactoryGirl.create :branch
+    b.should be_valid
+  end
+  it "нельзя создать без фактического названия" do
+    branch = FactoryGirl.build :branch, fact_name: ''
+    branch.should have(1).error_on(:fact_name)
+  end
+  it "нельзя создать без юридического названия" do
+    branch = FactoryGirl.build :branch, legel_name: ''
+    branch.should have(1).error_on(:legel_name)
+  end
+
   describe "#all_emails_str" do
     it "возвращает все адреса через запятую" do
       3.times do
@@ -29,15 +42,6 @@ describe Branch do
     end
   end
 
-  it "нельзя создать без фактического названия" do
-    branch = FactoryGirl.build :branch, fact_name: ''
-    branch.should have(1).error_on(:fact_name)
-  end
-  it "нельзя создать без юридического названия" do
-    branch = FactoryGirl.build :branch, legel_name: ''
-    branch.should have(1).error_on(:legel_name)
-  end
-
   describe "#phones_by_order" do
     def create_phone(branch_id)
       FactoryGirl.create :phone, branch_id: branch_id
@@ -50,4 +54,13 @@ describe Branch do
     end
   end
 
+  describe "#next_phone_order_index" do
+    it "возвращает единицу для первого телефона" do
+      branch.next_phone_order_index.should eq(1)
+    end
+    it "возвращает следующий порядковый индекс отображения для телефонов" do
+      FactoryGirl.create :phone, branch_id: branch.id
+      branch.next_phone_order_index.should eq(2)
+    end
+  end
 end
