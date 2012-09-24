@@ -21,3 +21,8 @@ ru:
         email: Адрес электронной почты
         password: Пароль
         remember_me: Запомнить меня
+
+  will_paginate:
+    previous_label: "&#8592; Назад"
+    next_label: "Вперёд &#8594;"
+    page_gap: "&hellip;"
