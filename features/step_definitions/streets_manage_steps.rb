@@ -46,3 +46,9 @@ Then /^Я вижу сообщение об ошибке, если добавля
   click_button "Сохранить"
   page.should have_content("Такая улица уже есть в этом населённом пункте")
 end
+When /^Для города существуют (\d+) улиц$/ do |cnt|
+  @city = @city? @city : create_streets_for_city(1)
+  cnt.to_i.times do
+    FactoryGirl.create :street, city_id: @city.id
+  end
+end

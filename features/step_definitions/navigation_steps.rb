@@ -84,4 +84,5 @@ When /^Я нахожусь на странице просмотра списка
   visit streets_path
   step %Q{Я выбираю "#{@city.name}" из элемента "city_id"}
   click_button "Показать"
+  sleep 3
 end

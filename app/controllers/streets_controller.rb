@@ -90,7 +90,7 @@ class StreetsController < ApplicationController
   def streets_by_city
     @streets_by_city = []
     if params[:city_id]
-      @streets_by_city = Street.where('city_id = ?', params[:city_id]).order("name")
+      @streets_by_city = Street.where('city_id = ?', params[:city_id]).order("name").paginate(:page => params[:page], :per_page => 10)
     end
     respond_to do |format|
       format.js { render :layout => false }
