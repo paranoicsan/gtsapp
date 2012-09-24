@@ -15,17 +15,6 @@ class StreetsController < ApplicationController
     end
   end
 
-  # GET /streets/1
-  # GET /streets/1.json
-  def show
-    @street = Street.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @street }
-    end
-  end
-
   # GET /streets/new
   # GET /streets/new.json
   def new
@@ -49,8 +38,8 @@ class StreetsController < ApplicationController
 
     respond_to do |format|
       if @street.save
-        format.html { redirect_to @street, notice: 'Street was successfully created.' }
-        format.json { render json: @street, status: :created, location: @street }
+        format.html { redirect_to streets_path, notice: 'Street was successfully created.' }
+        format.json { render json: @streets, status: :created, location: @street }
       else
         format.html { render action: "new" }
         format.json { render json: @street.errors, status: :unprocessable_entity }
@@ -65,7 +54,7 @@ class StreetsController < ApplicationController
 
     respond_to do |format|
       if @street.update_attributes(params[:street])
-        format.html { redirect_to @street, notice: 'Street was successfully updated.' }
+        format.html { redirect_to streets_path, notice: 'Street was successfully updated.' }
         format.json { head :ok }
       else
         format.html { render action: "edit" }

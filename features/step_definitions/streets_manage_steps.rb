@@ -24,3 +24,25 @@ Then /^Я вижу сообщение об ошибке, если пытаюсь
   page.driver.browser.switch_to.alert.accept
   page.should have_content("Улица не может быть удалена. Она используется по крайней мере одним филиалом")
 end
+Then /^Я могу добавить улицу$/ do
+  find_link('Добавить улицу').click
+  current_path.should eq(new_street_path)
+end
+When /^Я нахожусь на странице создания улицы$/ do
+  @city = @city ? @city : FactoryGirl.create(:city)
+  visit new_street_path
+end
+Then /^Я не могу сохранить улицу без названия$/ do
+  el_id = "btn_street_save"
+  step %Q{Кнопка "#{el_id}" - "не активна"}
+end
+Then /^Я не могу сохранить улицу без населённого пункта$/ do
+  step %Q{Я не могу сохранить улицу без названия}
+end
+Then /^Я вижу сообщение об ошибке, если добавляю улицу с уже занятым названием$/ do
+  street = FactoryGirl.create :street, city_id: @city.id
+  fill_in :street_name, with: street.name
+  select @city.name, from: "street_city_id"
+  click_button "Сохранить"
+  page.should have_content("Такая улица уже есть в этом населённом пункте")
+end

@@ -5,28 +5,17 @@ describe StreetsController do
 
   before(:each) do
     authorize_user
+    @street = FactoryGirl.create :street
   end
 
-  # This should return the minimal set of attributes required to create a valid
-  # Street. As you add validations to Street, be sure to
-  # update the return value of this method accordingly.
   def valid_attributes
-    {}
+    FactoryGirl.attributes_for :street
   end
-  
+
   describe "GET index" do
     it "assigns all streets as @streets" do
-      street = Street.create! valid_attributes
-      get :index, {}
-      assigns(:streets).should eq([street])
-    end
-  end
-
-  describe "GET show" do
-    it "assigns the requested street as @street" do
-      street = Street.create! valid_attributes
-      get :show, {:id => street.to_param}
-      assigns(:street).should eq(street)
+      get :index
+      assigns(:streets).should eq([@street])
     end
   end
 
@@ -41,9 +30,8 @@ describe StreetsController do
   describe "GET edit" do
     it "assigns the requested street as @street" do
       make_user_system
-      street = Street.create! valid_attributes
-      get :edit, {:id => street.to_param}
-      assigns(:street).should eq(street)
+      get :edit, {:id => @street.to_param}
+      assigns(:street).should eq(@street)
     end
   end
 
@@ -55,6 +43,7 @@ describe StreetsController do
 
     describe "with valid params" do
       it "creates a new Street" do
+        puts valid_attributes.inspect
         expect {
           post :create, {:street => valid_attributes}
         }.to change(Street, :count).by(1)
@@ -67,9 +56,9 @@ describe StreetsController do
         assigns(:street).should be_persisted
       end
 
-      it "redirects to the created street" do
+      it "направляет на список улиц" do
         post :create, {:street => valid_attributes}
-        response.should redirect_to(Street.last)
+        response.should redirect_to(streets_path)
       end
     end
 
@@ -80,7 +69,6 @@ describe StreetsController do
         post :create, {:street => {}}
         assigns(:street).should be_a_new(Street)
       end
-
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         Street.any_instance.stub(:save).and_return(false)
@@ -98,42 +86,33 @@ describe StreetsController do
 
     describe "with valid params" do
       it "updates the requested street" do
-        street = Street.create! valid_attributes
-        # Assuming there are no other streets in the database, this
-        # specifies that the Street created on the previous line
-        # receives the :update_attributes message with whatever params are
-        # submitted in the request.
         Street.any_instance.should_receive(:update_attributes).with({:these.to_s => 'params'})
-        put :update, {:id => street.to_param, :street => {:these => 'params'}}
+        put :update, {:id => @street.to_param, :street => {:these => 'params'}}
       end
 
       it "assigns the requested street as @street" do
-        street = Street.create! valid_attributes
-        put :update, {:id => street.to_param, :street => valid_attributes}
-        assigns(:street).should eq(street)
+        put :update, {:id => @street.to_param, :street => valid_attributes}
+        assigns(:street).should eq(@street)
       end
 
-      it "redirects to the street" do
-        street = Street.create! valid_attributes
-        put :update, {:id => street.to_param, :street => valid_attributes}
-        response.should redirect_to(street)
+      it "направляет на список улиц" do
+        put :update, {:id => @street.to_param, :street => valid_attributes}
+        response.should redirect_to(streets_path)
       end
     end
 
     describe "with invalid params" do
       it "assigns the street as @street" do
-        street = Street.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Street.any_instance.stub(:save).and_return(false)
-        put :update, {:id => street.to_param, :street => {}}
-        assigns(:street).should eq(street)
+        put :update, {:id => @street.to_param, :street => {}}
+        assigns(:street).should eq(@street)
       end
 
       it "re-renders the 'edit' template" do
-        street = Street.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Street.any_instance.stub(:save).and_return(false)
-        put :update, {:id => street.to_param, :street => {}}
+        put :update, {:id => @street.to_param, :street => {}}
         response.should render_template("edit")
       end
     end
@@ -146,15 +125,13 @@ describe StreetsController do
     end
 
     it "destroys the requested street" do
-      street = Street.create! valid_attributes
       expect {
-        delete :destroy, {:id => street.to_param}
+        delete :destroy, {:id => @street.to_param}
       }.to change(Street, :count).by(-1)
     end
 
     it "redirects to the streets list" do
-      street = Street.create! valid_attributes
-      delete :destroy, {:id => street.to_param}
+      delete :destroy, {:id => @street.to_param}
       #noinspection RubyResolve
       response.should redirect_to(streets_url)
     end
