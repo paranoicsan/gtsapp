@@ -219,7 +219,7 @@ PLATFORMS
 
 DEPENDENCIES
   authlogic
-  bootstrap-will_paginate
+  bootstrap-will_paginate (~> 0.0.7)
   capybara
   chromedriver-helper
   coffee-rails (~> 3.1.0)
