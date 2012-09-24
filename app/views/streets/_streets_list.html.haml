@@ -1,7 +1,9 @@
 -if @streets_by_city && @streets_by_city.any?
   .well
-    = will_paginate @streets_by_city,  :remote => true, winner_window: 1, outer_window: 1, params: {city_id: 1}
-
+    = will_paginate @streets_by_city, inner_window: 1, outer_window: 1,
+    params: {city_id: @streets_by_city.first.city_id}
+    :javascript
+      $('.pagination a').attr('data-remote', 'true');
     %table.table.table-striped{id:'streets'}
       %thead
         %tr
