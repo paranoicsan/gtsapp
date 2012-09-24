@@ -40,7 +40,7 @@ end
 group :assets do
   gem 'sass-rails', "  ~> 3.1.0"
   gem 'uglifier'
-  gem 'bootstrap-will_paginate', " ~> 0.0.7"
+  gem 'bootstrap-will_paginate', " = 0.0.7"
 end
 
 group :test, :assets do
