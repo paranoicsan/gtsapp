@@ -266,7 +266,7 @@ Then /^Я (|не) вижу список компаний на доработке
       Then Я вижу таблицу "#{table_id}" с компаниями
         | fact_name | reason_need_improvement_on |
         #{rows}
-          }
+    }
   end
 end
 Then /^Я (|не) вижу список компаний на доработке, созданные мною$/ do |negate |

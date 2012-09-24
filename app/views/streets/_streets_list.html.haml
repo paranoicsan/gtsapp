@@ -1,0 +1,13 @@
+-if @streets_by_city && @streets_by_city.any?
+  .well
+    %table.table.table-striped{id:'streets'}
+      %thead
+        %tr
+          %th Название
+      %tbody
+        - @streets_by_city.each do |street|
+          %tr
+            %td= street.name
+            %td
+              = link_to "Изменить", edit_street_path(street), :class => 'btn btn-mini'
+              = link_to "Удалить", street_path(street), :method => :delete, :confirm => 'Удалить запись?', :class => 'btn btn-mini btn-danger'

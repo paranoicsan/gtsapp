@@ -84,4 +84,16 @@ class StreetsController < ApplicationController
       format.json { head :ok }
     end
   end
+
+  ##
+  # POST streets_by_city
+  def streets_by_city
+    @streets_by_city = []
+    if params[:city_id]
+      @streets_by_city = Street.where('city_id = ?', params[:city_id]).order("name")
+    end
+    respond_to do |format|
+      format.js { render :layout => false }
+    end
+  end
 end

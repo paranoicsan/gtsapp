@@ -60,6 +60,8 @@ Gtsapp::Application.routes.draw do
   match 'search' => 'search#index', :as => :search
   match 'search/company/do' => 'search#search_company', :as => :search_company
 
+  match 'streets_by_city' => 'streets#streets_by_city', :as => :streets_by_city
+
   root :to => 'user_sessions#new'
 
 end
