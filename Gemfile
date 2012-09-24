@@ -11,6 +11,7 @@ gem 'authlogic'
 gem 'easy_roles'
 gem 'will_paginate'
 gem 'twitter-bootstrap-rails'
+gem 'bootstrap-will_paginate', "0.0.7"
 gem 'jquery-ui-rails'
 gem 'rails3-jquery-autocomplete'
 gem 'unicode_utils'
@@ -40,7 +41,6 @@ end
 group :assets do
   gem 'sass-rails', "  ~> 3.1.0"
   gem 'uglifier'
-  gem 'bootstrap-will_paginate', "0.0.7"
 end
 
 group :test, :assets do
