@@ -1,7 +1,8 @@
 class Street < ActiveRecord::Base
   belongs_to :city
   has_many :street_indexes
-  has_many :addresses
+  #noinspection RailsParamDefResolve
+  has_many :addresses, :dependent => :restrict
 
   ##
   # Форматирует выборку, чтобы в название включалось название города

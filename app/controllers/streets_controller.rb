@@ -1,7 +1,8 @@
+#Encoding: utf-8
 class StreetsController < ApplicationController
   helper :application
   before_filter :require_user
-  before_filter :require_operator, :only => [:new, :edit, :update, :create, :destroy]
+  before_filter :require_system_users, :only => [:new, :edit, :update, :create, :destroy]
 
   # GET /streets
   # GET /streets.json
@@ -76,13 +77,23 @@ class StreetsController < ApplicationController
   # DELETE /streets/1
   # DELETE /streets/1.json
   def destroy
-    @street = Street.find(params[:id])
-    @street.destroy
+
+    begin
+      message = nil
+      @street = Street.find(params[:id])
+      @street.destroy
+    rescue
+      message = %Q{Улица не может быть удалена. Она используется по крайней мере одним филиалом.}
+    end
+
+    # определяем сообщение
+    params = message ? { error: message } : {}
 
     respond_to do |format|
-      format.html { redirect_to streets_url }
+      format.html { redirect_to streets_url, flash: params }
       format.json { head :ok }
     end
+
   end
 
   ##

@@ -13,5 +13,7 @@
       = select_tag("city_id", options_for_select(City.all.collect{ |s| [s.name, s.id] }), {:id => "city_id"})
       = submit_tag "Показать", {:id => "do_show", :class => 'btn'}
 
+  = render :partial => "shared/messages"
+
 #streets_by_city
   =render :partial => 'streets_list'

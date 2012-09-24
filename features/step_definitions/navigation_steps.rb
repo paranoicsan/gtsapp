@@ -79,3 +79,9 @@ When /^Я нахожусь на странице просмотра списка
   @city = create_streets_for_city # создаём несколько улиц для одного города
   visit streets_path
 end
+When /^Я нахожусь на странице просмотра списка улиц для города$/ do
+  @city = @city? @city : create_streets_for_city(1)
+  visit streets_path
+  step %Q{Я выбираю "#{@city.name}" из элемента "city_id"}
+  click_button "Показать"
+end

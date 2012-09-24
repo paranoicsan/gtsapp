@@ -32,7 +32,7 @@ describe StreetsController do
 
   describe "GET new" do
     it "assigns a new street as @street" do
-      make_user_operator
+      make_user_system
       get :new, {}
       assigns(:street).should be_a_new(Street)
     end
@@ -40,7 +40,7 @@ describe StreetsController do
 
   describe "GET edit" do
     it "assigns the requested street as @street" do
-      make_user_operator
+      make_user_system
       street = Street.create! valid_attributes
       get :edit, {:id => street.to_param}
       assigns(:street).should eq(street)
@@ -50,7 +50,7 @@ describe StreetsController do
   describe "POST create" do
 
     before(:each) do
-      make_user_operator
+      make_user_system
     end
 
     describe "with valid params" do
@@ -93,7 +93,7 @@ describe StreetsController do
   describe "PUT update" do
 
     before(:each) do
-      make_user_operator
+      make_user_system
     end
 
     describe "with valid params" do
@@ -142,7 +142,7 @@ describe StreetsController do
   describe "DELETE destroy" do
 
     before(:each) do
-      make_user_operator
+      make_user_system
     end
 
     it "destroys the requested street" do

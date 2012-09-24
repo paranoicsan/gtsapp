@@ -3,10 +3,11 @@ module AddressHelpers
 
   ##
   # Создаёт улицы для одного населённого пункта
+  # @param [Integer] Количество улиц, которое надо создать
   # @return [City] Созданный город, для которого создаются улицы
-  def create_streets_for_city
+  def create_streets_for_city(cnt=10)
     city = FactoryGirl.create :city
-    10.times do
+    cnt.times do
       FactoryGirl.create :street, city_id: city.id
     end
     city
