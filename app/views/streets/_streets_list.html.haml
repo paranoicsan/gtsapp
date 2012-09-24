@@ -1,9 +1,6 @@
 -if @streets_by_city && @streets_by_city.any?
   .well
-    = will_paginate @streets_by_city, inner_window: 1, outer_window: 1,
-    params: {city_id: @streets_by_city.first.city_id}
-    :javascript
-      $('.pagination a').attr('data-remote', 'true');
+    = will_paginate @streets_by_city, inner_window: 1, outer_window: 1, params: {city_id: @streets_by_city.first.city_id}
     %table.table.table-striped{id:'streets'}
       %thead
         %tr
@@ -16,7 +13,4 @@
               = link_to "Изменить", edit_street_path(street), :class => 'btn btn-mini'
               = link_to "Удалить", street_path(street), :method => :delete, :confirm => 'Удалить запись?', :class => 'btn btn-mini btn-danger'
 
-    = will_paginate @streets_by_city, inner_window: 1, outer_window: 1,
-    params: {city_id: @streets_by_city.first.city_id}
-    :javascript
-      $('.pagination a').attr('data-remote', 'true');
+    = will_paginate @streets_by_city, inner_window: 1, outer_window: 1, params: {city_id: @streets_by_city.first.city_id}
