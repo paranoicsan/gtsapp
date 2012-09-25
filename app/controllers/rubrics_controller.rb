@@ -1,7 +1,8 @@
+#Encoding: utf-8
 class RubricsController < ApplicationController
   helper :application
   before_filter :require_user
-  before_filter :require_system_users, :only => [:index, :show, :new, :edit, :update, :create, :destroy]
+  before_filter :require_admin
 
   # GET /rubrics
   # GET /rubrics.json
@@ -16,14 +17,14 @@ class RubricsController < ApplicationController
 
   # GET /rubrics/1
   # GET /rubrics/1.json
-  def show
-    @rubric = Rubric.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @rubric }
-    end
-  end
+  #def show
+  #  @rubric = Rubric.find(params[:id])
+  #
+  #  respond_to do |format|
+  #    format.html # show.html.erb
+  #    format.json { render json: @rubric }
+  #  end
+  #end
 
   # GET /rubrics/new
   # GET /rubrics/new.json
@@ -48,7 +49,7 @@ class RubricsController < ApplicationController
 
     respond_to do |format|
       if @rubric.save
-        format.html { redirect_to @rubric, notice: 'Rubric was successfully created.' }
+        format.html { redirect_to rubrics_path, notice: 'Rubric was successfully created.' }
         format.json { render json: @rubric, status: :created, location: @rubric }
       else
         format.html { render action: "new" }
@@ -64,7 +65,7 @@ class RubricsController < ApplicationController
 
     respond_to do |format|
       if @rubric.update_attributes(params[:rubric])
-        format.html { redirect_to @rubric, notice: 'Rubric was successfully updated.' }
+        format.html { redirect_to rubrics_path, notice: 'Rubric was successfully updated.' }
         format.json { head :ok }
       else
         format.html { render action: "edit" }
