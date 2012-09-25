@@ -1,0 +1,18 @@
+# encoding: utf-8
+= render :partial => "shared/messages"
+
+.page-header
+  %h1
+    Отчёты
+
+.container-fluid
+  .row-fluid
+    .span5
+      .well
+        %h4 Отчёт по агенту
+        %p
+          Формирует отчёт по активности выбранного агента за указанный промежуток времени.
+          Содержит информацию о созданных агентом компаниях. Показывает компании, в которых
+          агентом произведены изменения.
+        -#%p.pull-right
+        = link_to "Показать", "#", class: "btn btn-report-prepare pull-right"

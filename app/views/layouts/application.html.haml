@@ -21,6 +21,9 @@
               %ul.nav
                 %li{ class: top_menu_active?(companies_path) }
                   = link_to "Компании", companies_path
+                - if @current_user && (@current_user.is_admin? || @current_user.is_operator?)
+                  %li{ class: top_menu_active?(search_path) }
+                    = link_to "Отчёты", reports_path
                 %li{ class: top_menu_active?(search_path) }
                   = link_to "Поиск", search_path
 
