@@ -98,3 +98,9 @@ Then /^Я вижу сообщение об ошибке, если пытаюсь
   click_link('Удалить')
   page.should have_content("Рубрика используется в одной из компаний или в продукте.")
 end
+Then /^Я могу изменить рубрику$/ do
+  visit edit_rubric_path(@rubric)
+  fill_in :rubric_name, with: Faker::Lorem.words.join
+  click_button "Сохранить"
+  current_path.should eq(rubrics_path)
+end

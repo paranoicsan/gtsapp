@@ -3,7 +3,7 @@ require 'faker'
 FactoryGirl.define do
 
   factory :rubric do
-    name { Faker::Lorem.words(1).join }
+    name { Faker::Lorem.words.join }
     social true
 
     factory :rubric_comercial do

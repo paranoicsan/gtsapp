@@ -10,13 +10,13 @@ $ ->
 nameChange = ->
   val = $('#rubric_name').val()
   check = if val then val.trim().length == 0 else true
-  el = $('#name_group')
+  el = $('#rub_name_group')
   if check then el.addClass('error') else el.removeClass('error')
   validate()
 
 validate = ->
   valid = true
-  if $('#name_group').hasClass('error')
+  if $('#rub_name_group').hasClass('error')
     valid = false
 
   el = $('#btn_rubric_save')
