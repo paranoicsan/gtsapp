@@ -1,9 +1,15 @@
+# Encoding: utf-8
 class Rubric < ActiveRecord::Base
-  has_many :company_rubric
-  has_many :keywords
-  has_many :products
+  #noinspection RailsParamDefResolve
+  has_many :company_rubric, :dependent => :restrict
+  #noinspection RailsParamDefResolve
+  has_many :keywords, :dependent => :restrict
+  #noinspection RailsParamDefResolve
+  has_many :products, :dependent => :restrict
   belongs_to :rubric_keyword
-  validates_presence_of :name
+  validates_presence_of :name, :message => "Укажите название рубрики."
+  validates_uniqueness_of :name, :message => "Такая рубрика уже существует.", :case_sensitive => false
+
   scope :social, where(:social => true)
   scope :commercial, where(:social => false)
 

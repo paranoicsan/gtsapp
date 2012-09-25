@@ -21,8 +21,6 @@ describe Street do
   it "не может быть создан дубликат улицы в пределах города" do
     street = FactoryGirl.create :street
     new_street = FactoryGirl.build :street, name: street.name.downcase, city_id: street.city_id
-    puts new_street.name
-    puts street.name
     new_street.should have(1).error_on(:name)
   end
 end
