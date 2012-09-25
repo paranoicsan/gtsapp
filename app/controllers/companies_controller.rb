@@ -77,6 +77,7 @@ class CompaniesController < ApplicationController
 
     respond_to do |format|
       if @company.save
+        log_operation :company, :create, @company.id
         format.html { redirect_to @company, notice: 'Компания добавлена' }
         format.json { render json: @company, status: :created, location: @company }
       else
@@ -99,6 +100,7 @@ class CompaniesController < ApplicationController
 
     respond_to do |format|
       if @company.update_attributes(params[:company])
+        log_operation :company, :update, @company.id
         format.html { redirect_to @company, notice: 'Company was successfully updated.' }
         format.json { head :ok }
       else

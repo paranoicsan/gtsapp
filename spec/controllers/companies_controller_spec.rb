@@ -384,17 +384,20 @@ describe CompaniesController do
           post_valid
         }.to change(Company, :count).by(1)
       end
-
       it "assigns a newly created company as @company" do
         post_valid
         assigns(:company).should be_a(Company)
         #noinspection RubyResolve
         assigns(:company).should be_persisted
       end
-
       it "redirects to the created company" do
         post_valid
         response.should redirect_to(Company.last)
+      end
+      it "создаёт запись в истории компании" do
+        expect {
+          post_valid
+        }.to change(CompanyHistory, :count).by(1)
       end
     end
 
@@ -443,15 +446,18 @@ describe CompaniesController do
         Company.any_instance.should_receive(:update_attributes).with(p)
         put :update, :id => @company.to_param, :company => p
       end
-
       it "assigns the requested company as @company" do
         put_valid
         assigns(:company).should eq(@company)
       end
-
       it "redirects to the company" do
         put_valid
         response.should redirect_to(@company)
+      end
+      it "создаёт запись в истории компании" do
+        expect {
+          put_valid
+        }.to change(CompanyHistory, :count).by(1)
       end
     end
 

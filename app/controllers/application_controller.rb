@@ -62,6 +62,10 @@ class ApplicationController < ActionController::Base
         email: {
             add: 'Адрес электронной почты добавлен',
             remove:'Адрес электронной почты удалён',
+        },
+        company: {
+            create: 'Создана компания',
+            update: 'Компания обновлена'
         }
     }
   end
