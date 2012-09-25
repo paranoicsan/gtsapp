@@ -3,7 +3,8 @@ class Rubric < ActiveRecord::Base
   #noinspection RailsParamDefResolve
   has_many :company_rubric, :dependent => :restrict
   #noinspection RailsParamDefResolve
-  has_many :keywords, :dependent => :restrict
+  has_many :rubric_keywords, :dependent => :restrict
+  has_many :keywords, :through => :rubric_keyword
   #noinspection RailsParamDefResolve
   has_many :products, :dependent => :restrict
   belongs_to :rubric_keyword

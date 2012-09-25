@@ -49,7 +49,7 @@ When /^Выпадающее меню "([^"]*)" содержит только с�
 end
 When /^Существует (\d+) рубрик$/ do |cnt|
   cnt.to_i.times do
-    FactoryGirl.create :rubric
+   @rubric = FactoryGirl.create :rubric
   end
 end
 When /^Я нахожусь на странице просмотра списка рубрик$/ do
@@ -63,4 +63,10 @@ Then /^Я (|не) вижу список рубрик$/ do |negate|
   else
     page.should have_selector(sel)
   end
+end
+Then /^Я могу удалить рубрику$/ do
+  s = rubric_path(@rubric)
+  page.should have_link('Удалить', href: s, method: 'delete')
+  click_link('Удалить')
+  step %Q{Я не вижу список рубрик}
 end
