@@ -1,12 +1,13 @@
+#Encoding: utf-8
 class RubricsController < ApplicationController
   helper :application
   before_filter :require_user
-  before_filter :require_system_users, :only => [:index, :show, :new, :edit, :update, :create, :destroy]
+  before_filter :require_admin
 
   # GET /rubrics
   # GET /rubrics.json
   def index
-    @rubrics = Rubric.all
+    @rubrics = Rubric.order("name")
 
     respond_to do |format|
       format.html # index.html.erb
@@ -16,14 +17,14 @@ class RubricsController < ApplicationController
 
   # GET /rubrics/1
   # GET /rubrics/1.json
-  def show
-    @rubric = Rubric.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @rubric }
-    end
-  end
+  #def show
+  #  @rubric = Rubric.find(params[:id])
+  #
+  #  respond_to do |format|
+  #    format.html # show.html.erb
+  #    format.json { render json: @rubric }
+  #  end
+  #end
 
   # GET /rubrics/new
   # GET /rubrics/new.json
@@ -48,7 +49,7 @@ class RubricsController < ApplicationController
 
     respond_to do |format|
       if @rubric.save
-        format.html { redirect_to @rubric, notice: 'Rubric was successfully created.' }
+        format.html { redirect_to rubrics_path, notice: 'Rubric was successfully created.' }
         format.json { render json: @rubric, status: :created, location: @rubric }
       else
         format.html { render action: "new" }
@@ -64,7 +65,7 @@ class RubricsController < ApplicationController
 
     respond_to do |format|
       if @rubric.update_attributes(params[:rubric])
-        format.html { redirect_to @rubric, notice: 'Rubric was successfully updated.' }
+        format.html { redirect_to rubrics_path, notice: 'Rubric was successfully updated.' }
         format.json { head :ok }
       else
         format.html { render action: "edit" }
@@ -76,11 +77,18 @@ class RubricsController < ApplicationController
   # DELETE /rubrics/1
   # DELETE /rubrics/1.json
   def destroy
-    @rubric = Rubric.find(params[:id])
-    @rubric.destroy
+    begin
+      message = nil
+      @rubric = Rubric.find(params[:id])
+      @rubric.destroy
+    rescue
+      message = %Q{Рубрика используется в одной из компаний или в продукте.}
+    end
 
+    # определяем сообщение
+    params = message ? { error: message } : {}
     respond_to do |format|
-      format.html { redirect_to rubrics_url }
+      format.html { redirect_to rubrics_url, flash: params }
       format.json { head :ok }
     end
   end

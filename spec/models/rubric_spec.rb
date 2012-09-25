@@ -16,6 +16,21 @@ describe Rubric do
 
   end
 
+  it "фабрика корректна" do
+    rubric = FactoryGirl.create :rubric
+    rubric.should be_valid
+  end
+  it "не может быть создана без названия" do
+    rubric = FactoryGirl.build :rubric, name: nil
+    rubric.should have(1).error_on(:name)
+  end
+  it "не может быть создан дубликат рубрики по имени" do
+    s = Faker::Lorem.words.join
+    FactoryGirl.create :rubric, name: s
+    rubric = FactoryGirl.build :rubric, name: s
+    rubric.should have(1).error_on(:name)
+  end
+
   describe ".by_rubricator" do
     it "возвращает все социальные для рубрикатора - 1" do
       rubs = Rubric.by_rubricator 1

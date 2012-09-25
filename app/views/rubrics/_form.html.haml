@@ -1,16 +1,15 @@
-= form_for @rubric, :html => { :class => 'form-horizontal' } do |f|
-  .control-group
-    = f.label :old_id, :class => 'control-label'
-    .controls
-      = f.number_field :old_id, :class => 'number_field'
-  .control-group
-    = f.label :name, :class => 'control-label'
+= form_for @rubric, :html => { :class => 'well form-inline', :id => 'new_rubric_form' } do |f|
+  -if @rubric.errors.any?
+    #error_explanation
+      %h2= "Ошибки:"
+      %ul
+        - @rubric.errors.full_messages.each do |msg|
+          %li= msg
+  .control-group#rub_name_group
+    = f.label :name, 'Название', :class => 'control-label'
     .controls
       = f.text_field :name, :class => 'text_field'
-  .control-group
-    = f.label :social, :class => 'control-label'
-    .controls
-      = f.check_box :social, :class => 'check_box'
+
   .form-actions
-    = f.submit nil, :class => 'btn btn-primary'
-    = link_to t('.cancel', :default => t("helpers.links.cancel")), rubrics_path, :class => 'btn'
+    = f.submit 'Сохранить', :class => 'btn btn-primary', id: 'btn_rubric_save'
+    = link_to 'Отмена', rubrics_path, :class => 'btn'
