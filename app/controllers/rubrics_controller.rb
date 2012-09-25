@@ -77,11 +77,18 @@ class RubricsController < ApplicationController
   # DELETE /rubrics/1
   # DELETE /rubrics/1.json
   def destroy
-    @rubric = Rubric.find(params[:id])
-    @rubric.destroy
+    begin
+      message = nil
+      @rubric = Rubric.find(params[:id])
+      @rubric.destroy
+    rescue
+      message = %Q{Рубрика используется в одной из компаний или в продукте.}
+    end
 
+    # определяем сообщение
+    params = message ? { error: message } : {}
     respond_to do |format|
-      format.html { redirect_to rubrics_url }
+      format.html { redirect_to rubrics_url, flash: params }
       format.json { head :ok }
     end
   end

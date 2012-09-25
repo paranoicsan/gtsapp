@@ -70,3 +70,31 @@ Then /^Я могу удалить рубрику$/ do
   click_link('Удалить')
   step %Q{Я не вижу список рубрик}
 end
+Then /^Я могу добавить рубрику$/ do
+  click_link('Добавить рубрику')
+  current_path.should eq(new_rubric_path)
+end
+When /^Я нахожусь на странице создания рубрики$/ do
+  visit new_rubric_path
+end
+Then /^Я не могу сохранить рубрику без названия$/ do
+  el_id = "btn_rubric_save"
+  step %Q{Кнопка "#{el_id}" - "не активна"}
+end
+Then /^Я вижу сообщение об ошибке, если добавляю рубрику с уже занятым названием$/ do
+  fill_in :rubric_name, with: @rubric.name
+  click_button "Сохранить"
+  page.should have_content("Такая рубрика уже существует")
+end
+Then /^Я вижу сообщение об ошибке, если пытаюсь удалить рубрику, используемую в продукте$/ do
+  FactoryGirl.create :product, rubric_id: @rubric.id # продукт на рубрику
+  click_link('Удалить')
+  page.should have_content("Рубрика используется в одной из компаний или в продукте")
+end
+Then /^Я вижу сообщение об ошибке, если пытаюсь удалить рубрику, используемую в компании$/ do
+  company = create_company
+  company.rubrics << @rubric
+  company.save
+  click_link('Удалить')
+  page.should have_content("Рубрика используется в одной из компаний или в продукте.")
+end

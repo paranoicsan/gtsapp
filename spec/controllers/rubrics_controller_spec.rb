@@ -122,7 +122,6 @@ describe RubricsController do
         delete :destroy, {:id => @rubric.to_param}
       }.to change(Rubric, :count).by(-1)
     end
-
     it "redirects to the rubrics list" do
       delete :destroy, {:id => @rubric.to_param}
       #noinspection RubyResolve
