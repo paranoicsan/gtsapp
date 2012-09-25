@@ -12,4 +12,13 @@ class ReportController < ApplicationController
     end
   end
 
+  ##
+  # GET /reports/by_agent
+  def by_agent
+    respond_to do |format|
+      format.html
+      format.json { head :ok }
+    end
+  end
+
 end

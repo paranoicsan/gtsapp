@@ -61,6 +61,7 @@ Gtsapp::Application.routes.draw do
   match 'search/company/do' => 'search#search_company', :as => :search_company
 
   match 'reports' => 'report#index', :as => :reports
+  match 'reports/by_agent' =>  'report#by_agent', :as => :report_by_agent
 
   match 'streets_by_city' => 'streets#streets_by_city', :as => :streets_by_city
 

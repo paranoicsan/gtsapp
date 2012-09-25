@@ -1,10 +1,14 @@
 # Encoding: utf-8
 Then /^Я могу сформировать отчёт по агенту$/ do
   page.should have_content("Отчёт по агенту")
+  find("a[href='#{report_by_agent_path}'][text()='Показать']").click
+  current_path.should eq(report_by_agent_path)
 end
 When /^Я заполняю параметр ы отчёта$/ do
-  # TODO: здесь нужны шаги для выбора агента из списка и ввода начального и конечного месяца и года
-  pending
+  create_agents
+  visit report_by_agent_path
+  select @agent.username, from: 'report_agent'
+  step %Q{Кнопка "do_report_by_agent" - "активна"}
 end
 Then /^Я вижу результаты отчёта$/ do
   # TODO: Проверять, что таблица с результатами содержит нужную инорфмацию

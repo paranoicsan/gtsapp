@@ -1,0 +1,23 @@
+# encoding: utf-8
+= render :partial => "shared/messages"
+
+.page-header
+  %h1
+    Отчёт по агенту
+    %p
+      %small
+        = link_to "Отчёты", reports_path
+
+.container-fluid
+  .row-fluid
+    .span10
+      .well
+        = form_tag nil, :remote => true, :method => :post, :class => 'form-horizontal well' do
+          .control-group#agent_group
+            = label_tag 'Агент:', nil, :class => 'control-label'
+            .controls
+              = select_tag("report_agent", options_for_select(User.agents.collect{ |u| [u.username, u.id] }),
+              {:prompt => "Выберите агента", :id => "report_agent"})
+          .form-actions
+            = submit_tag "Показать", {:disabled => "disabled", :id => "do_report_by_agent", :class => 'btn'}
+            = link_to "Очистить", "#", id: 'do_reset', class: 'btn', onClick: 'resetFields()'

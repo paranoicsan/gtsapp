@@ -9,7 +9,14 @@ describe ReportController do
 
   describe "GET 'index'" do
     it "returns http success" do
-      get 'index'
+      get :index
+      response.should be_success
+    end
+  end
+
+  describe "GET 'by_agent'" do
+    it "returns http success" do
+      get :by_agent
       response.should be_success
     end
   end
