@@ -7,7 +7,7 @@ class RubricsController < ApplicationController
   # GET /rubrics
   # GET /rubrics.json
   def index
-    @rubrics = Rubric.all
+    @rubrics = Rubric.order("name")
 
     respond_to do |format|
       format.html # index.html.erb
