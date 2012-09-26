@@ -47,8 +47,7 @@ When /^Я нахожусь на странице отчётов компаний
   visit report_company_by_street_path
 end
 When /^Я уже ввёл населенный пункт$/ do
-  el_id = "address_city"
-  step %Q{Я ввожу "#{@address.city.name}" в поле "#{el_id}"}
+  step %Q{Я могу выбрать населённый пункт автозаполнением}
 end
 Then /^Я (|не) могу сформировать отчёт компаний по улице$/ do |negate|
   s = negate.eql?("не") ? "не активна" : "активна"
