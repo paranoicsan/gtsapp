@@ -1,13 +1,10 @@
 $ ->
-  $('report_agent').change ->
+  $('#report_agent').change ->
     reportAgentChange()
   reportAgentChange()
 
 reportAgentChange = ->
-  val = $('#report_agent').val()
-  console.log val
-  check = if val then val != -1 else true
-  console.log check
+  check = if $('#report_agent').val() == "" then true else false
   el = $('#agent_group')
   if check then el.addClass('error') else el.removeClass('error')
   validate()

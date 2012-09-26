@@ -18,6 +18,16 @@
             .controls
               = select_tag("report_agent", options_for_select(User.agents.collect{ |u| [u.username, u.id] }),
               {:prompt => "Выберите агента", :id => "report_agent"})
+          .control-group#period_start_group
+            = label_tag 'Начало периода:', nil, :class => 'control-label'
+            .controls
+              = select_date(Date.today - 2.month, :prefix => 'period_start', :discard_day => true)
+          .control-group#period_start_group
+            = label_tag 'Конец периода:', nil, :class => 'control-label'
+            .controls
+              = select_date(Date.today, :prefix => 'period_end', :discard_day => true)
           .form-actions
             = submit_tag "Показать", {:disabled => "disabled", :id => "do_report_by_agent", :class => 'btn'}
             = link_to "Очистить", "#", id: 'do_reset', class: 'btn', onClick: 'resetFields()'
+
+  =render :partial => "report_by_agent"

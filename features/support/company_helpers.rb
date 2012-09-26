@@ -63,6 +63,17 @@ module CompanyHelpers
     FactoryGirl.create :company
   end
 
+  ##
+  # Создаёт несколько записей в истории для указанного агента
+  # @param [User] Агент, для которого делаются записи
+  def create_history(agent)
+    company_1 = FactoryGirl.create :company, author_user_id: agent.id
+    CompanyHistory.log("создал компанию", agent.id, company_1.id)
+    CompanyHistory.log("обновил компанию", agent.id, company_1.id)
+    company_2 = FactoryGirl.create :company
+    CompanyHistory.log("добавил рубрику", agent.id, company_2.id)
+  end
+
 end
 
 World(CompanyHelpers)

@@ -62,6 +62,7 @@ Gtsapp::Application.routes.draw do
 
   match 'reports' => 'report#index', :as => :reports
   match 'reports/by_agent' =>  'report#by_agent', :as => :report_by_agent
+  match 'reports/prepare_by_agent' =>  'report#prepare_by_agent', :as => :report_prepare_by_agent, :via => :post
 
   match 'streets_by_city' => 'streets#streets_by_city', :as => :streets_by_city
 
