@@ -38,3 +38,9 @@ Then /^Я могу попасть на страницу формирования
   find("a[href='#{report_company_by_street_path}'][text()='Показать']").click
   current_path.should eq(report_company_by_street_path)
 end
+When /^Я нахожусь на странице отчётов компаний по улице$/ do
+  @company = create_company
+  branch = FactoryGirl.create :branch, company_id: @company.id
+  @address = FactoryGirl.create :address, branch_id: branch.id
+  visit report_company_by_street_path
+end

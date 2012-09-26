@@ -1,5 +1,4 @@
 # Encoding: utf-8
-
 Then /^Я могу выбрать населённый пункт автозаполнением$/ do
   city = @address.city.name
   el_id = 'address_city'
