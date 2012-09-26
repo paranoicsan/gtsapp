@@ -31,7 +31,17 @@ describe ReportController do
     end
 
     def post_valid
-      post :prepare_by_agent, agent_id: user.id, format: :js
+      params = {
+          report_agent: user.id,
+          report_period_start: 3.month.ago,
+          report_period_end: DateTime.now,
+          format: :js
+      }
+      post :prepare_by_agent, params
+    end
+    it "возвращает искомого агента как @report_agent" do
+      post_valid
+      assigns(:report_agent).should eq(user)
     end
     it "возвращает набор данных как @report_result" do
       write_history

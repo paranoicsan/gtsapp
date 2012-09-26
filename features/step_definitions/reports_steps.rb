@@ -14,10 +14,18 @@ When /^Я заполняю параметры отчёта$/ do
   step %Q{Кнопка "do_report_by_agent" - "активна"}
   click_button("Показать")
 end
-Then /^Я вижу результаты отчёта$/ do
-  # TODO: Проверять, что таблица с результатами содержит нужную инорфмацию
-  # по истории агента. Т.е. предварительно необходимо совершить несколько действий
-  # А ещё вернее, надо просто добавить в таблицу несколько записей наверное.
-  el_id = "agent_operations"
-  page.should have_selector(el_id)
+Then /^Я вижу список операций пользователя$/ do
+  el_id = "report_results_table"
+
+  # составляем ряды для таблицы
+  rows = ""
+  CompanyHistory.all.each do |c|
+    rows = "#{rows}\n|#{c.company.title}|#{c.operation}|#{c.updated_at.strftime("%d.%m.%Y %H:%M")}|"
+  end
+  steps %Q{
+      Then Я вижу таблицу "#{el_id}" с компаниями
+        | title | operation | updated_at |
+        #{rows}
+        }
+
 end

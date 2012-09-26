@@ -1,0 +1,22 @@
+-if @report_result
+  .row-fluid
+    .span10
+      .well
+        -if @report_result.any?
+          %h4
+            Операции для агента
+            = @report_agent.username
+          %br
+          %table#report_results_table.table.table-striped
+            %tr
+              %th Компания
+              %th Операция
+              %th
+            -@report_result.each do |rr|
+              %tr
+                %td= rr.company.title
+                %td= rr.operation
+                %td= rr.created_at.strftime("%d.%m.%Y %H:%M")
+        -else
+          %p
+            Нет данных.
