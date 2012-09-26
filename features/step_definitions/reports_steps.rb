@@ -41,6 +41,16 @@ end
 When /^Я нахожусь на странице отчётов компаний по улице$/ do
   @company = create_company
   branch = FactoryGirl.create :branch, company_id: @company.id
-  @address = FactoryGirl.create :address, branch_id: branch.id
+  city = FactoryGirl.create :city
+  street = FactoryGirl.create :street, city_id: city.id
+  @address = FactoryGirl.create :address, branch_id: branch.id, street_id: street.id, city_id: city.id
   visit report_company_by_street_path
+end
+When /^Я уже ввёл населенный пункт$/ do
+  el_id = "address_city"
+  step %Q{Я ввожу "#{@address.city.name}" в поле "#{el_id}"}
+end
+Then /^Я (|не) могу сформировать отчёт компаний по улице$/ do |negate|
+  s = negate.eql?("не") ? "не активна" : "активна"
+  step %Q{Кнопка "do_report_company_by_street" - "#{s}"}
 end
