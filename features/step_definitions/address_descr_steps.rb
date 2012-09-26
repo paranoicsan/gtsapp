@@ -17,9 +17,9 @@ Then /^Я могу выбрать улицу с автозаполнением$/
 end
 When /^Я удаляю введённый населенный пункт$/ do
   step %Q{Я ввожу " " в поле "address_city"}
+  sleep 4
 end
 Then /^Значение улицы сбрасывается$/ do
-  sleep 2
   page.find("input#address_street")['value'].should eq("")
 end
 When /^Населённый пункт не выбран$/ do
