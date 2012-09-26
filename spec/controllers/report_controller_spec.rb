@@ -14,51 +14,65 @@ describe ReportController do
     end
   end
 
-  describe "GET 'by_agent'" do
-    it "returns http success" do
-      get :by_agent
-      response.should be_success
-    end
-  end
+  context "by_agent" do
 
-  describe "POST prepare_by_agent" do
-
-    let(:user) { FactoryGirl.create(:user_agent) }
-    let(:company) { FactoryGirl.create(:company, author_user_id: user.id) }
-
-    def write_history
-      CompanyHistory.log("ttt", user.id, company.id)
+    describe "GET 'by_agent'" do
+      it "returns http success" do
+        get :by_agent
+        response.should be_success
+      end
     end
 
-    def post_valid
-      params = {
-          report_agent: user.id,
-          report_period_start: {
-              month: 3.month.ago.month,
-              year: 3.month.ago.year,
-            },
-          report_period_end: {
-              month: DateTime.now.month,
-              year: DateTime.now.year
+    describe "POST prepare_by_agent" do
+
+      let(:user) { FactoryGirl.create(:user_agent) }
+      let(:company) { FactoryGirl.create(:company, author_user_id: user.id) }
+
+      def write_history
+        CompanyHistory.log("ttt", user.id, company.id)
+      end
+
+      def post_valid
+        params = {
+            report_agent: user.id,
+            report_period_start: {
+                month: 3.month.ago.month,
+                year: 3.month.ago.year,
               },
-          format: :js
-      }
-      post :prepare_by_agent, params
+            report_period_end: {
+                month: DateTime.now.month,
+                year: DateTime.now.year
+                },
+            format: :js
+        }
+        post :prepare_by_agent, params
+      end
+      it "возвращает искомого агента как @report_agent" do
+        post_valid
+        assigns(:report_agent).should eq(user)
+      end
+      it "возвращает набор данных как @report_result" do
+        write_history
+        post_valid
+        assigns(:report_result).should eq([CompanyHistory.first])
+      end
+      it "возвращает JavaScript-ответ для обновления данных на странице" do
+        post_valid
+        response.should be_success
+      end
     end
-    it "возвращает искомого агента как @report_agent" do
-      post_valid
-      assigns(:report_agent).should eq(user)
-    end
-    it "возвращает набор данных как @report_result" do
-      write_history
-      post_valid
-      assigns(:report_result).should eq([CompanyHistory.first])
-    end
-    it "возвращает JavaScript-ответ для обновления данных на странице" do
-      post_valid
-      response.should be_success
-    end
+
   end
 
+  context "company_by_street" do
+
+    describe "GET 'company_by_street'" do
+      it "returns http success" do
+        get :company_by_street
+        response.should be_success
+      end
+    end
+
+  end
 
 end
