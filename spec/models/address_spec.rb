@@ -64,4 +64,14 @@ describe Address do
 
   end
 
+  describe "#by_street" do
+    before(:each) do
+      @street = FactoryGirl.create :street
+      @address = FactoryGirl.create :address, street_id: @street.id
+    end
+    it "возвращает массив адресов по улице" do
+      Address.by_street(@street.id).should eq([@address])
+    end
+  end
+
 end

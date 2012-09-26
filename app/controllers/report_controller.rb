@@ -46,9 +46,18 @@ class ReportController < ApplicationController
 
   def prepare_company_by_street
     street_id = params[:street_id]
+
+    # Ищем компании
+    companies = []
+    Address.by_street(street_id).each do |a|
+      if a.branch.is_main
+        companies << a.branch.company
+      end
+    end
+
     @report_result = {
         street: Street.find(street_id),
-        companies: Company.find_all_by_street(street_id)
+        companies: companies
     }
     render :layout => false
   end

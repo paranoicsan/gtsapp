@@ -29,4 +29,11 @@ class Address < ActiveRecord::Base
     s.gsub(/, $/, "")
 
   end
+
+  ##
+  #  Возвращает все адреса по указанной улице
+  def self.by_street(street_id)
+    where("street_id = ?", street_id)
+  end
+
 end
