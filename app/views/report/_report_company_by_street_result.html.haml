@@ -1,0 +1,20 @@
+-if @report_result
+  .row-fluid
+    .span10
+      .well
+        %h4
+          = "Компании по улице #{@report_result[:street].name} (#{@report_result[:street].city.name})"
+        %br
+        -if @report_result[:companies].any?
+          %table#report_results_table.table.table-striped
+            %tr
+              %th Компания
+              %th Информация
+            -@report_result[:companies].each do |rr|
+              %tr
+                %td
+                  =link_to rr.title, company_path(rr)
+                %td
+        -else
+          %p
+            Компаний не найдено

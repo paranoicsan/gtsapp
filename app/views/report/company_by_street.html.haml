@@ -29,6 +29,6 @@
               = hidden_field_tag 'street_id'
           .form-actions
             = submit_tag "Показать", {:disabled => "disabled", :id => "do_report_company_by_street", :class => 'btn'}
-  -#
-  -##report_results_container
-  -#  =render :partial => "report_by_agent_result"
+
+  #report_results_container
+    =render :partial => "report_company_by_street_result"

@@ -18,10 +18,10 @@ Then /^Я вижу список операций пользователя$/ do
     rows = "#{rows}\n|#{c.company.title}|#{c.operation}|#{c.updated_at.strftime("%d.%m.%Y %H:%M")}|"
   end
   steps %Q{
-      Then Я вижу таблицу "#{el_id}" с компаниями
-        | title | operation | updated_at |
-        #{rows}
-        }
+    Then Я вижу таблицу "#{el_id}" с компаниями
+      | title | operation | updated_at |
+      #{rows}
+  }
 
 end
 Then /^Я (|не) могу сформировать отчёт по агенту$/ do |negate|
@@ -52,4 +52,26 @@ end
 Then /^Я (|не) могу сформировать отчёт компаний по улице$/ do |negate|
   s = negate.eql?("не") ? "не активна" : "активна"
   step %Q{Кнопка "do_report_company_by_street" - "#{s}"}
+end
+When /^Я заполняю параметры отчёта компании по улице$/ do
+  steps %Q{
+    When Я могу выбрать населённый пункт автозаполнением
+    Then Я могу выбрать улицу с автозаполнением
+    And Кнопка "do_report_company_by_street" - "активна"
+  }
+  click_button("Показать")
+end
+Then /^Я вижу список компаний по выбранной улице$/ do
+  el_id = "report_results_table"
+
+  # составляем ряды для таблицы
+  rows = ""
+  Company.all.each do |c|
+    rows = "#{rows}\n|#{c.title}|"
+  end
+  steps %Q{
+    Then Я вижу таблицу "#{el_id}" с компаниями
+      | title |
+      #{rows}
+  }
 end

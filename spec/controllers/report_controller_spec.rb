@@ -73,6 +73,37 @@ describe ReportController do
       end
     end
 
+    describe "POST prepare_company_by_street" do
+
+      before(:each) do
+        @street = FactoryGirl.create :street
+        @company = FactoryGirl.create :company
+        b = FactoryGirl.create :branch, company_id: @company.id
+        FactoryGirl.create :address, branch_id: b.id, city_id: @street.city.id, street_id: @street.id
+      end
+
+      def post_valid
+        params = {
+            street_id: @street.id,
+            format: :js
+        }
+        post :prepare_company_by_street, params
+      end
+
+      it "возвращает объект улицы как элемент Hash" do
+        post_valid
+        assigns(:report_result)[:street].should eq(@street)
+      end
+      it "возвращает найденные компании как элеент Hash" do
+        post_valid
+        assigns(:report_result)[:companies].should eq([@company])
+      end
+      it "возвращает JavaScript-ответ для обновления данных на странице" do
+        post_valid
+        response.should be_success
+      end
+    end
+
   end
 
 end

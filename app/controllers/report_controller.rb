@@ -44,4 +44,13 @@ class ReportController < ApplicationController
     render :layout => false
   end
 
+  def prepare_company_by_street
+    street_id = params[:street_id]
+    @report_result = {
+        street: Street.find(street_id),
+        companies: Company.find_all_by_street(street_id)
+    }
+    render :layout => false
+  end
+
 end
