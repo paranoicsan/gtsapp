@@ -1,15 +1,10 @@
 # Encoding: utf-8
-Then /^Я могу сформировать отчёт по агенту$/ do
+Then /^Я могу попасть на страницу формирования отчёта$/ do
   page.should have_content("Отчёт по агенту")
   find("a[href='#{report_by_agent_path}'][text()='Показать']").click
   current_path.should eq(report_by_agent_path)
 end
 When /^Я заполняю параметры отчёта$/ do
-  create_agents # создаём набор агентов
-  create_history @agent # создаём операции для указанного агента
-
-  visit report_by_agent_path
-
   select @agent.username, from: 'report_agent'
   step %Q{Кнопка "do_report_by_agent" - "активна"}
   click_button("Показать")
@@ -28,4 +23,13 @@ Then /^Я вижу список операций пользователя$/ do
         #{rows}
         }
 
+end
+Then /^Я (|не) могу сформировать отчёт по агенту$/ do |negate|
+  s = negate.eql?("не") ? "не активна" : "активна"
+  step %Q{Кнопка "do_report_by_agent" - "#{s}"}
+end
+When /^Я нахожусь на странице отчётов по агенту$/ do
+  create_agents # создаём набор агентов
+  create_history @agent # создаём операции для указанного агента
+  visit report_by_agent_path
 end

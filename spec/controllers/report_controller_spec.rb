@@ -33,8 +33,14 @@ describe ReportController do
     def post_valid
       params = {
           report_agent: user.id,
-          report_period_start: 3.month.ago,
-          report_period_end: DateTime.now,
+          report_period_start: {
+              month: 3.month.ago.month,
+              year: 3.month.ago.year,
+            },
+          report_period_end: {
+              month: DateTime.now.month,
+              year: DateTime.now.year
+              },
           format: :js
       }
       post :prepare_by_agent, params

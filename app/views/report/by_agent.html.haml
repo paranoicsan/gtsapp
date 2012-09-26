@@ -28,7 +28,6 @@
               = select_date(Date.today, :prefix => 'report_period_end', :discard_day => true)
           .form-actions
             = submit_tag "Показать", {:disabled => "disabled", :id => "do_report_by_agent", :class => 'btn'}
-            = link_to "Очистить", "#", id: 'do_reset', class: 'btn', onClick: 'resetFields()'
 
   #report_results_container
     =render :partial => "report_by_agent_result"

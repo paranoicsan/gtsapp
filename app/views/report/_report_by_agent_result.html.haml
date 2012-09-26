@@ -14,7 +14,8 @@
               %th
             -@report_result.each do |rr|
               %tr
-                %td= rr.company.title
+                %td
+                  = link_to rr.company.title, company_path(rr.company)
                 %td= rr.operation
                 %td= rr.created_at.strftime("%d.%m.%Y %H:%M")
         -else
