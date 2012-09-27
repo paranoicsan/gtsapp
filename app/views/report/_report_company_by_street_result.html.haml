@@ -36,6 +36,25 @@
                     -rr.persons.each do |per|
                       %li
                         =per.full_info
+                  %p Почта
+                  %ul
+                    -rr.branches_sorted.each do |b|
+                      -if b.all_emails_str.length > 0
+                        %li
+                          =b.all_emails_str
+                  %p Вебс-сайты
+                  %ul
+                    -rr.branches_sorted.each do |b|
+                      -if b.all_websites_str.length > 0
+                        %li
+                          =b.all_websites_str
+                  %p Рубрики
+                  -s = ""
+                  -rr.rubrics.each do |rub|
+                    -s = %Q{#{s}  #{rub.name},}
+                  %p
+                    =s.gsub(/,$/, '')
+
 
           -else
             %p

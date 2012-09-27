@@ -44,14 +44,19 @@ When /^Я нахожусь на странице отчётов компаний
   street = FactoryGirl.create :street, city_id: city.id
   3.times do
     branch = FactoryGirl.create :branch, company_id: @company.id
-    2.times do
-      FactoryGirl.create :phone, branch_id: branch.id, order_num: 1
-    end
+    # персоны
+    2.times { FactoryGirl.create :phone, branch_id: branch.id, order_num: 1 }
+    # почта
+    3.times { FactoryGirl.create :email, branch_id: branch.id }
+    # сайты
+    3.times { branch.websites <<  FactoryGirl.create(:website) }
+
     @address = FactoryGirl.create :address, branch_id: branch.id, street_id: street.id, city_id: city.id
   end
 
   #персоны
   3.times { FactoryGirl.create :person, company_id: @company.id }
+
 
   visit report_company_by_street_path
 end
@@ -110,4 +115,21 @@ When /^Я вижу список персон для каждой компани�
   @company.persons.each do |p|
     page.should have_content(p.full_info)
   end
+end
+When /^Я вижу электронную почту для каждой компании$/ do
+  @company.branches_sorted.each do |b|
+    page.should have_content(b.all_emails_str)
+  end
+end
+When /^Я вижу веб-сайты для каждой компании$/ do
+  @company.branches_sorted.each do |b|
+    page.should have_content(b.all_websites_str)
+  end
+end
+When /^Я вижу все рубрики для каждой компании$/ do
+  s = ""
+  @company.rubrics.each do |rub|
+    s = %Q{#{s}  #{rub.name},}
+  end
+  page.should have_content(s.gsub(/,$/, ''))
 end
