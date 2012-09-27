@@ -27,11 +27,24 @@ describe Person do
     person.should have(1).error_on(:email)
   end
 
-  describe ".full_name" do
+  describe "#full_name" do
     it "возвращает полное имя через пробелы" do
       person = FactoryGirl.create :person
       person.full_name.should eq("#{person.second_name} #{person.name} #{person.middle_name}")
     end
   end
 
+  describe "#full_info" do
+    it "выводит все данные в строку через запятую" do
+      person = FactoryGirl.create :person
+      s = ""      
+      s = s + %Q{#{person.position}, } if person.position
+      s = s + %Q{#{person.full_name}, }
+      s = s + %Q{#{person.phone}, } if person.phone
+      s = s + %Q{#{person.email}, } if person.email
+      s = s.gsub(/,$/, '')
+      person.full_info.should eq(s)
+    end
+  end
+  
 end

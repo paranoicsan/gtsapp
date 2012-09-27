@@ -13,4 +13,16 @@ class Person < ActiveRecord::Base
   def full_name
     "#{second_name} #{name} #{middle_name}".strip
   end
+
+  ##
+  # Выводит все данные в строку через запятую
+  # @return [String]
+  def full_info
+    s = ""
+    s = s + %Q{#{position}, } if position
+    s = s + %Q{#{full_name}, }
+    s = s + %Q{#{phone}, } if phone
+    s = s + %Q{#{email}, } if email
+    s.gsub(/,$/, '')
+  end
 end

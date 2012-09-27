@@ -49,6 +49,10 @@ When /^Я нахожусь на странице отчётов компаний
     end
     @address = FactoryGirl.create :address, branch_id: branch.id, street_id: street.id, city_id: city.id
   end
+
+  #персоны
+  3.times { FactoryGirl.create :person, company_id: @company.id }
+
   visit report_company_by_street_path
 end
 When /^Я уже ввёл населенный пункт$/ do
@@ -100,5 +104,16 @@ When /^Я вижу список телефонов для каждой комп�
       s = %Q{#{p.name_formatted} - #{p.description}}
       page.should have_content(s)
     end
+  end
+end
+When /^Я вижу список персон для каждой компании$/ do
+  @company.persons.each do |p|
+    s = ""
+    s = s + %Q{#{p.position}, } if p.position
+    s = s + %Q{#{p.full_name}, }
+    s = s + %Q{#{p.phone}, } if p.phone
+    s = s + %Q{#{p.email}, } if p.email
+    s = s.gsub(/,$/, '')
+    page.should have_content(s)
   end
 end
