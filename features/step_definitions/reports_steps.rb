@@ -108,12 +108,6 @@ When /^Я вижу список телефонов для каждой комп�
 end
 When /^Я вижу список персон для каждой компании$/ do
   @company.persons.each do |p|
-    s = ""
-    s = s + %Q{#{p.position}, } if p.position
-    s = s + %Q{#{p.full_name}, }
-    s = s + %Q{#{p.phone}, } if p.phone
-    s = s + %Q{#{p.email}, } if p.email
-    s = s.gsub(/,$/, '')
-    page.should have_content(s)
+    page.should have_content(p.full_info)
   end
 end

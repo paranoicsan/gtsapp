@@ -31,6 +31,11 @@
                       -b.phones_by_order.each do |p|
                         %li
                           =%Q{#{p.name_formatted} - #{p.description}}
+                  %p Персоны
+                  %ul
+                    -rr.persons.each do |per|
+                      %li
+                        =per.full_info
 
           -else
             %p
