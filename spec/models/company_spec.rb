@@ -323,4 +323,11 @@ describe Company do
     end
   end
 
+  describe "#main_branch" do
+    it "возвращает головной филиал" do
+      branch = FactoryGirl.create :branch
+      branch.company.main_branch.should eq(branch)
+    end
+  end
+
 end

@@ -253,4 +253,10 @@ class Company < ActiveRecord::Base
     company_status_id.eql?(CompanyStatus.archived.id)
   end
 
+  ##
+  # Возвращает головной филиал для компании
+  def main_branch
+    Branch.where("company_id = ? and is_main = true", id).first
+  end
+
 end
