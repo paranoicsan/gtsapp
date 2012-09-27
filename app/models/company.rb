@@ -19,7 +19,6 @@ class Company < ActiveRecord::Base
   #noinspection RailsParamDefResolve
   before_save :check_fields, only: [:create]
 
-
   def self.suspended
     where(:company_status_id => CompanyStatus.suspended.id)
   end

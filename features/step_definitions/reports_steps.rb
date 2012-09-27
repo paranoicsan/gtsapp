@@ -39,7 +39,8 @@ Then /^Я могу попасть на страницу формирования
   current_path.should eq(report_company_by_street_path)
 end
 When /^Я нахожусь на странице отчётов компаний по улице$/ do
-  @company = create_company
+  create_company_statuses
+  @company = create_company true
   city = FactoryGirl.create :city
   street = FactoryGirl.create :street, city_id: city.id
   3.times do
@@ -53,6 +54,13 @@ When /^Я нахожусь на странице отчётов компаний
 
     @address = FactoryGirl.create :address, branch_id: branch.id, street_id: street.id, city_id: city.id
   end
+
+  # создаём ещё одну компанию по этому адресу, но эта компания будет неактивна
+  lambda {
+      company = FactoryGirl.create :company_suspended
+      branch = FactoryGirl.create :branch, company_id: company.id
+      FactoryGirl.create :address, branch_id: branch.id, street_id: street.id, city_id: city.id
+  }
 
   #персоны
   3.times { FactoryGirl.create :person, company_id: @company.id }
@@ -77,12 +85,13 @@ When /^Я заполняю параметры отчёта компании по
   }
   click_button("Показать")
 end
-Then /^Я вижу список компаний по выбранной улице$/ do
+Then /^Я вижу список (активных|всех) компаний по выбранной улице$/ do |filter|
   el_id = "report_results_table"
 
   # составляем ряды для таблицы
   rows = ""
-  Company.all.each do |c|
+  cs = filter.eql?("активных") ? Company.where("company_status_id = ?", CompanyStatus.active.id) : Company.all
+  cs.each do |c|
     rows = "#{rows}\n|#{c.title}\\n#{@company.main_branch.fact_name}, #{@company.main_branch.legel_name}|"
   end
   steps %Q{
@@ -141,4 +150,8 @@ When /^Я вижу информацию о договоре для каждой 
       page.should have_content(c.info)
     end
   end
+end
+When /^Я заполняю параметры отчёта компании по улице для поиска всех компаний$/ do
+  choose("filter_all")
+  step %Q{Я заполняю параметры отчёта компании по улице}
 end

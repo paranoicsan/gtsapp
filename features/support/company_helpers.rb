@@ -59,8 +59,12 @@ module CompanyHelpers
   ##
   # Создаёт компанию при помощи фабрики
   # @return [Company] Созданный экземпляр компании
-  def create_company
-    FactoryGirl.create :company
+  def create_company(active=false)
+    if active
+      FactoryGirl.create :company, company_status_id: CompanyStatus.active.id
+    else
+      FactoryGirl.create :company
+    end
   end
 
   ##

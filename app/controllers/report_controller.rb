@@ -44,6 +44,8 @@ class ReportController < ApplicationController
     render :layout => false
   end
 
+  ##
+  # POST /reports/prepare_company_by_street
   def prepare_company_by_street
     street_id = params[:street_id]
 
@@ -51,13 +53,19 @@ class ReportController < ApplicationController
     companies = []
     Address.by_street(street_id).each do |a|
       if a.branch.is_main
-        companies << a.branch.company
+        c = a.branch.company
+        if params[:filter] == "active"
+          companies << c if c.active?
+        else
+          companies << c
+        end
       end
     end
 
     @report_result = {
         street: Street.find(street_id),
-        companies: companies
+        companies: companies,
+        filter: params[:filter].eql?("active") ? :active : :all
     }
     render :layout => false
   end

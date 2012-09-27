@@ -85,6 +85,7 @@ describe ReportController do
       def post_valid
         params = {
             street_id: @street.id,
+            filter: :active,
             format: :js
         }
         post :prepare_company_by_street, params
@@ -101,6 +102,19 @@ describe ReportController do
       it "возвращает JavaScript-ответ для обновления данных на странице" do
         post_valid
         response.should be_success
+      end
+      it "поумолчанию возвращает флаг, что только активные компании надо искать" do
+        post_valid
+        assigns(:report_result)[:filter].should eq(:active)
+      end
+      it "возвращает тип компаний, который надо искать как элемент Hash" do
+        params = {
+            street_id: @street.id,
+            filter: :all,
+            format: :js
+        }
+        post :prepare_company_by_street, params
+        assigns(:report_result)[:filter].should eq(:all)
       end
     end
 
