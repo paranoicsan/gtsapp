@@ -57,6 +57,8 @@ When /^Я нахожусь на странице отчётов компаний
   #персоны
   3.times { FactoryGirl.create :person, company_id: @company.id }
 
+  # договора
+  2.times { FactoryGirl.create :contract_active, company_id: @company.id }
 
   visit report_company_by_street_path
 end
@@ -132,4 +134,11 @@ When /^Я вижу все рубрики для каждой компании$/ 
     s = %Q{#{s}  #{rub.name},}
   end
   page.should have_content(s.gsub(/,$/, ''))
+end
+When /^Я вижу информацию о договоре для каждой компании$/ do
+  @company.contracts.each do |c|
+    if c.active?
+      page.should have_content(c.info)
+    end
+  end
 end

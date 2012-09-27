@@ -54,6 +54,12 @@
                     -s = %Q{#{s}  #{rub.name},}
                   %p
                     =s.gsub(/,$/, '')
+                  %p Активные договора
+                  %ul
+                    -rr.contracts.each do |c|
+                      -if c.active?
+                        %li
+                          =c.info
 
 
           -else
