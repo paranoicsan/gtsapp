@@ -54,4 +54,10 @@ class Contract < ActiveRecord::Base
   def active?
     self.contract_status == ContractStatus.active
   end
+
+  ##
+  # выводит указанную информацию в виде строки
+  def info
+    %Q{#{number}, #{project_code.name}, #{amount}}
+  end
 end
