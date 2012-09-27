@@ -12,20 +12,21 @@
   .row-fluid
     .span10
       .well
-        = form_tag report_prepare_company_by_street_path, :remote => true, :method => :post, :class => 'form-horizontal well' do
+        = form_tag report_prepare_company_by_street_path, :remote => true, :method => :post,
+        :class => 'form-horizontal well' do
           .control-group#city-group.error
             = label_tag 'Город', nil, :class => 'control-label'
             .controls
               = autocomplete_field_tag 'address_city', nil, addresses_autocomplete_city_name_path,
-              :placeholder => "Начните печатать для выбора из списка", :id_element => '#city_id', :id => 'address_city',
-              :onKeyUp => 'onCityChanged()', :onChange => 'onCityChanged()'
+              :placeholder => "Начните печатать для выбора из списка", :id_element => '#city_id', :id => 'address_city'
+              -#:onKeyUp => 'repoCompStr_StreetChanged()', :onChange => 'repoCompStr_StreetChanged()'
               = hidden_field_tag 'city_id'
           .control-group#street-group.error
             = label_tag 'Улица', nil, :class => 'control-label'
             .controls
               = autocomplete_field_tag 'address_street', nil, '', :placeholder => "Начните печатать для выбора",
-              :id => 'address_street', :id_element => '#street_id',
-              :onKeyUp => 'onStreetChanged()', :onChange => 'onStreetChanged()'
+              :id => 'address_street', :id_element => '#street_id'
+              -#:onKeyUp => 'onStreetChanged()', :onChange => 'onStreetChanged()'
               = hidden_field_tag 'street_id'
           .form-actions
             = submit_tag "Показать", {:disabled => "disabled", :id => "do_report_company_by_street", :class => 'btn'}
