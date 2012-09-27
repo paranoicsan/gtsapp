@@ -40,10 +40,12 @@ Then /^Я могу попасть на страницу формирования
 end
 When /^Я нахожусь на странице отчётов компаний по улице$/ do
   @company = create_company
-  branch = FactoryGirl.create :branch, company_id: @company.id
   city = FactoryGirl.create :city
   street = FactoryGirl.create :street, city_id: city.id
-  @address = FactoryGirl.create :address, branch_id: branch.id, street_id: street.id, city_id: city.id
+  3.times do
+    branch = FactoryGirl.create :branch, company_id: @company.id
+    @address = FactoryGirl.create :address, branch_id: branch.id, street_id: street.id, city_id: city.id
+  end
   visit report_company_by_street_path
 end
 When /^Я уже ввёл населенный пункт$/ do
@@ -67,11 +69,25 @@ Then /^Я вижу список компаний по выбранной ули�
   # составляем ряды для таблицы
   rows = ""
   Company.all.each do |c|
-    rows = "#{rows}\n|#{c.title}|"
+    rows = "#{rows}\n|#{c.title}\\n#{@company.main_branch.fact_name}, #{@company.main_branch.legel_name}|"
   end
   steps %Q{
     Then Я вижу таблицу "#{el_id}" с компаниями
       | title |
       #{rows}
   }
+end
+When /^Я вижу список филиалов для каждой компании$/ do
+  # проверка головного филиала
+  branch = @company.main_branch
+  s = "#{branch.fact_name}, #{branch.legel_name}, #{branch.address.full_address}"
+  page.should have_content(s)
+
+  # проверка остальных филиалов
+  @company.branches_sorted.each do |b|
+    unless b.is_main
+      s = "#{b.fact_name}, #{b.legel_name}, #{b.address.full_address}"
+      page.should have_content(s)
+    end
+  end
 end

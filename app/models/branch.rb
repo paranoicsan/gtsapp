@@ -11,14 +11,6 @@ class Branch < ActiveRecord::Base
   belongs_to :company
   before_save :check_is_main
 
-  ##
-  # Обработка флага, что филиал является головным,
-  # если он является единственным
-  def check_is_main
-    if Branch.find_all_by_company_id(self.company_id).count == 0
-      self.is_main = true
-    end
-  end
 
   ##
   # Устанавливает филиал как основной
@@ -93,5 +85,16 @@ class Branch < ActiveRecord::Base
       #puts "#{p.id}-#{p.order_num}"
     end
   end
+
+  private
+  ##
+  # Обработка флага, что филиал является головным,
+  # если он является единственным
+  def check_is_main
+    if Branch.find_all_by_company_id(self.company_id).count == 0
+      self.is_main = true
+    end
+  end
+
 end
 
