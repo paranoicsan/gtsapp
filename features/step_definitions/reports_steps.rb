@@ -44,6 +44,9 @@ When /^Я нахожусь на странице отчётов компаний
   street = FactoryGirl.create :street, city_id: city.id
   3.times do
     branch = FactoryGirl.create :branch, company_id: @company.id
+    2.times do
+      FactoryGirl.create :phone, branch_id: branch.id, order_num: 1
+    end
     @address = FactoryGirl.create :address, branch_id: branch.id, street_id: street.id, city_id: city.id
   end
   visit report_company_by_street_path
@@ -87,6 +90,14 @@ When /^Я вижу список филиалов для каждой компа�
   @company.branches_sorted.each do |b|
     unless b.is_main
       s = "#{b.fact_name}, #{b.legel_name}, #{b.address.full_address}"
+      page.should have_content(s)
+    end
+  end
+end
+When /^Я вижу список телефонов для каждой компании$/ do
+  @company.branches_sorted.each do |b|
+    b.phones_by_order.each do |p|
+      s = %Q{#{p.name_formatted} - #{p.description}}
       page.should have_content(s)
     end
   end
