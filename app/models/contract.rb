@@ -58,6 +58,8 @@ class Contract < ActiveRecord::Base
   ##
   # выводит указанную информацию в виде строки
   def info
-    %Q{#{number}, #{project_code.name}, #{amount}}
+    s = "#{number}, "
+    s = %Q{#{s}#{project_code.name}, } unless project_code.nil?
+    %Q{#{s}#{amount}}
   end
 end

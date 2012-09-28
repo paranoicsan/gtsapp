@@ -14,6 +14,11 @@ describe Contract do
       s = %Q{#{contract.number}, #{code.name}, #{contract.amount}}
       contract.info.should eq(s)
     end
+    it "не выводит код проекта, если он не указан" do
+      contract = FactoryGirl.create :contract, project_code: nil
+      s = %Q{#{contract.number}, #{contract.amount}}
+      contract.info.should eq(s)
+    end
   end
 
 end
