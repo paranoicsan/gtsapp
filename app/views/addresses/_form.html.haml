@@ -7,21 +7,21 @@
         - @address.errors.full_messages.each do |msg|
           %li= msg
 
-  .control-group
+  .control-group#addr-city-group
     = f.label :city, 'Город', :class => 'control-label'
     .controls
-      -s = @address.city ? @address.city.name : ''
-      = autocomplete_field_tag 'address_city', s, addresses_autocomplete_city_name_path,
-      :placeholder => "Начните печатать для выбора из списка", :id_element => '#city_id', :id => 'address_city_id',
-      :onKeyUp => 'onCityChanged()', :onChange => 'onCityChanged()'
+      -s = @address.city ? @address.city.name : nil
+      = autocomplete_field_tag 'address_city_id', s, addresses_autocomplete_city_name_path,
+      :placeholder => "Начните печатать для выбора из списка", :id_element => '#city_id', :id => 'address_city_id'
+      -#:onKeyUp => 'onCityChanged()', :onChange => 'onCityChanged()'
       -city_id = @address.city ? @address.city.id : ''
-      = hidden_field_tag 'city_id', city_id
-  .control-group
+      = hidden_field_tag :city_id, city_id
+  .control-group#addr-street-group
     = f.label :street, 'Улица', :class => 'control-label'
     .controls
       -s = @address.street ? @address.street.name : ''
-      = autocomplete_field_tag 'address_street', s, '',
-      :placeholder => "Начните печатать для выбора", :id => 'address_street', :id_element => '#street_id'
+      = autocomplete_field_tag 'addr_address_street', s, '',
+      :placeholder => "Начните печатать для выбора", :id => 'addr_address_street', :id_element => '#street_id'
       -street_id = @address.street ? @address.street.id : ''
       -street_city_id = @address.street ? @address.street.city_id : ''
       = hidden_field_tag :street_id, street_id
@@ -63,7 +63,7 @@
     .controls
       = f.text_field :litera
   .form-actions
-    = f.submit 'Сохранить', :class => 'btn btn-primary'
+    = f.submit 'Сохранить', :class => 'btn btn-primary', id: 'btn_address_save'
     - path = @branch ? branch_path(@branch) : address_path(@address)
     = link_to 'Отмена', path, :class => 'btn'
 

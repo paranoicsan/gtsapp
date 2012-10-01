@@ -82,6 +82,8 @@ repoAgent_AgentChange = ->
   # ручное изменение
   if $('#address_city').val() && $('#address_city').val().trim() == ''
     url = ''
+  if !$('#address_city').val() && city_id != ''
+    url = ''
 
   $('#address_street').attr('data-autocomplete', url)
 

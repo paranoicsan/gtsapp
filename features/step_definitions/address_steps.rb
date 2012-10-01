@@ -5,6 +5,22 @@ When /^Для филиала "([^"]*)" компании "([^"]*)" создаю �
   #noinspection RubyResolve
   visit branch_path branch
   click_link "Добавить адрес"
+
+  street = FactoryGirl.create :street
+  city = street.city
+
+  el_id = 'address_city_id'
+  steps %Q{
+    When Я ввожу "#{city.name}" в поле "#{el_id}"
+    And Я выбираю "#{city.name}" из списка с автозаполнением с ключом "#{el_id}"
+  }
+
+  el_id = 'addr_address_street'
+  steps %Q{
+    When Я ввожу "#{street.name}" в поле "#{el_id}"
+    And Я выбираю "#{street.name}" из списка с автозаполнением с ключом "#{el_id}"
+  }
+
   table.hashes.each do |info|
     # |cabinet|case|entrance|house|litera|office|other|pavilion|stage|
     fill_in 'address_cabinet', :with => info[:cabinet]
@@ -37,7 +53,7 @@ When /^Я вижу адрес со следующей информацией$/ d
 end
 When /^Для филиала "([^"]*)" компании "([^"]*)" существует адрес$/ do |bname, cname|
   @branch = find_branch(bname, cname)
-  @branch.address = Address.create({:house => 111})
+  @branch.address = FactoryGirl.create :address, branch_id: @branch.id, house: "111"
 end
 Then /^Я не вижу ссылку "([^"]*)" на странице филиала "([^"]*)" компании "([^"]*)"$/ do |link_name, bname, cname|
   branch = find_branch(bname, cname)

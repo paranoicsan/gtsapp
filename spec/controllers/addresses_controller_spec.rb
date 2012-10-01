@@ -14,7 +14,9 @@ describe AddressesController do
   end
   
   def valid_attributes
-    {:branch_id => branch.id}
+    {
+        branch_id: branch.id,
+    }
   end
   
   def create_valid
@@ -56,8 +58,9 @@ describe AddressesController do
     describe "with valid params" do
 
       def post_valid
+        street = FactoryGirl.create :street
         params = FactoryGirl.attributes_for :address, branch_id: branch.id
-        post :create, {:address => params, :branch_id => branch.id}
+        post :create, :address => params, branch_id: branch.id, street_id: street.id, city_id: street.city_id
       end
 
       it "creates a new Address" do
@@ -110,7 +113,10 @@ describe AddressesController do
     describe "with valid params" do
 
       def put_valid
-        put :update, :id => address.to_param, :address => valid_attributes
+        street = FactoryGirl.create :street
+        params = FactoryGirl.attributes_for :address, branch_id: branch.id
+        put :update, :id => address.to_param, :address => params, branch_id: branch.id, street_id: street.id,
+            city_id: street.city_id
       end
 
       it "updates the requested address" do

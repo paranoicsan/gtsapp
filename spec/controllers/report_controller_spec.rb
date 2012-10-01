@@ -77,7 +77,7 @@ describe ReportController do
 
       before(:each) do
         @street = FactoryGirl.create :street
-        @company = FactoryGirl.create :company
+        @company = FactoryGirl.create :company, company_status_id: FactoryGirl.create(:company_status_active).id
         b = FactoryGirl.create :branch, company_id: @company.id
         FactoryGirl.create :address, branch_id: b.id, city_id: @street.city.id, street_id: @street.id
       end
