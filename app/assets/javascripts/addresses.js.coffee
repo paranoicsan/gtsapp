@@ -47,7 +47,7 @@ $ ->
   # ручное изменение
   if $('#addr_address_street').val() && $('#addr_address_street').val().trim() == ''
     err = true
-  if !$('#addr_address_street').val() && city_id != ''
+  if !$('#addr_address_street').val()
     err = true
 
   if err then el.addClass('error') else el.removeClass('error')
