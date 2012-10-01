@@ -7,6 +7,8 @@ class Address < ActiveRecord::Base
   belongs_to :branch
 
   validates_presence_of :branch_id
+  validates_presence_of :city_id, :message => 'Укажите населённый пункт'
+  validates_presence_of :street_id, :message => 'Укажите улицу'
 
   # Форматирует объект адреса в строку с условными обозначениями
   # @return [string] строка адреса

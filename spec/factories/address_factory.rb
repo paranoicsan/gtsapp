@@ -19,10 +19,6 @@ FactoryGirl.define do
     #a.post_index
     a.street
 
-    factory :address_wout_city do
-      city nil
-    end
-
   end
 
 

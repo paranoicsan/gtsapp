@@ -7,10 +7,17 @@ describe Address do
     #noinspection RubyResolve
     FactoryGirl.create(:address).should be_valid
   end
-
   it "Не может быть создан без филиала" do
     #noinspection RubyResolve
     FactoryGirl.build(:address, branch: nil).should_not be_valid
+  end
+  it "Не может быть создан без населённого пункта" do
+    address = FactoryGirl.build :address, city_id: nil
+    address.should have(1).error_on(:city_id)
+  end
+  it "Не может быть создан без улицы" do
+    address = FactoryGirl.build :address, street_id: nil
+    address.should have(1).error_on(:street_id)
   end
 
   describe ".full_address возвращает отформатированную строку полного адреса" do
@@ -51,12 +58,14 @@ describe Address do
     end
 
     it "пустые параметры должен пропускать" do
-      address = FactoryGirl.create :address_wout_city
+      address = FactoryGirl.create :address, house: ""
 
-      params = FactoryGirl.attributes_for :address_wout_city # чистые атрибуты адреса
+      params = FactoryGirl.attributes_for :address
       params[:other] = address.other
-      params[:city] = ""
+      params[:city] = address.city.name
       params[:street] = address.street.name
+      params[:house] = ""
+
 
       s = format_address params
       address.full_address.should eq(s)
