@@ -77,18 +77,32 @@ describe ReportController do
 
       before(:each) do
         @street = FactoryGirl.create :street
-        @company = FactoryGirl.create :company, company_status_id: FactoryGirl.create(:company_status_active).id
+        @company = FactoryGirl.create :company, company_status_id: FactoryGirl.create(:company_status_active).id,
+                                      rubricator: 3
         b = FactoryGirl.create :branch, company_id: @company.id
         FactoryGirl.create :address, branch_id: b.id, city_id: @street.city.id, street_id: @street.id
       end
 
-      def post_valid
-        params = {
+      def valid_attributes
+        {
             street_id: @street.id,
             filter: :active,
-            format: :js
+            format: :js,
+            rubricator_filter: 3
         }
-        post :prepare_company_by_street, params
+      end
+
+      def post_valid
+        post :prepare_company_by_street, valid_attributes
+      end
+
+      ##
+      # Создаёт и возвращет компанию по указанной улице
+      def create_company_for(street, status_id, rubricator)
+        com = FactoryGirl.create :company, company_status_id: status_id, rubricator: rubricator
+        b = FactoryGirl.create :branch, company_id: com.id
+        FactoryGirl.create :address, branch_id: b.id, city_id: street.city.id, street_id: street.id
+        com
       end
 
       it "возвращает объект улицы как элемент Hash" do
@@ -115,6 +129,43 @@ describe ReportController do
         }
         post :prepare_company_by_street, params
         assigns(:report_result)[:filter].should eq(:all)
+      end
+
+      context "фильтр по рубрикатору" do
+        it "возвращает фильтр рубрикатора как элемент Hash" do
+          post_valid
+          assigns(:report_result)[:rubricator_filter].should eq(3)
+        end
+        it "возвращает компании с полным рубрикатором когда указан полный фильтр" do
+          @company.update_attribute "rubricator", 3
+          params = valid_attributes
+          params[:rubricator_filter] = 3
+          post :prepare_company_by_street, params
+          assigns(:report_result)[:companies].should eq([@company])
+        end
+        it "возвращает компании с полным или коммерческим рубрикатором когда указан коммерческий фильтр" do
+
+          # создаём ещё одну компанию с другим рубрикатором
+          com = create_company_for @street, CompanyStatus.active.id, 2
+          com2 = create_company_for @street, CompanyStatus.active.id, 3
+
+          @company.update_attribute "rubricator", 1
+          params = valid_attributes
+          params[:rubricator_filter] = 2
+          post :prepare_company_by_street, params
+          assigns(:report_result)[:companies].should eq([com, com2])
+        end
+        it "возвращает компании с полным или социальным рубрикатором когда указан социальный фильтр" do
+          # создаём ещё одну компанию с другим рубрикатором
+          com = create_company_for @street, CompanyStatus.active.id, 1
+          com2 = create_company_for @street, CompanyStatus.active.id, 3
+
+          @company.update_attribute "rubricator", 2
+          params = valid_attributes
+          params[:rubricator_filter] = 1
+          post :prepare_company_by_street, params
+          assigns(:report_result)[:companies].should eq([com, com2])
+        end
       end
     end
 

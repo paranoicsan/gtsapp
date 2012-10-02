@@ -41,6 +41,7 @@ end
 When /^Я нахожусь на странице отчётов компаний по улице$/ do
   create_company_statuses
   @company = create_company true
+  @company.update_attribute "rubricator", 3 # ставим ей полный рубрикатор
   city = FactoryGirl.create :city
   street = FactoryGirl.create :street, city_id: city.id
   3.times do
@@ -62,6 +63,13 @@ When /^Я нахожусь на странице отчётов компаний
       FactoryGirl.create :address, branch_id: branch.id, street_id: street.id, city_id: city.id
   }
 
+  # создаём еще одну компанию с другими рубрикаторами
+  2.times do |i|
+    company = FactoryGirl.create :company, rubricator: i+1
+    branch = FactoryGirl.create :branch, company_id: company.id
+    FactoryGirl.create :address, branch_id: branch.id, street_id: street.id, city_id: city.id
+  end
+
   #персоны
   3.times { FactoryGirl.create :person, company_id: @company.id }
 
@@ -71,7 +79,7 @@ When /^Я нахожусь на странице отчётов компаний
   visit report_company_by_street_path
 end
 When /^Я уже ввёл населенный пункт$/ do
-  step %Q{Я могу выбрать населённый пункт автозаполнением}
+  step %Q{Я могу выбрать населённый пункт автозаполнением "address_city"}
 end
 Then /^Я (|не) могу сформировать отчёт компаний по улице$/ do |negate|
   s = negate.eql?("не") ? "не активна" : "активна"
@@ -79,27 +87,27 @@ Then /^Я (|не) могу сформировать отчёт компаний 
 end
 When /^Я заполняю параметры отчёта компании по улице$/ do
   steps %Q{
-    When Я могу выбрать населённый пункт автозаполнением
-    Then Я могу выбрать улицу с автозаполнением
+    When Я могу выбрать населённый пункт автозаполнением "address_city"
+    Then Я могу выбрать улицу с автозаполнением "address_street"
     And Кнопка "do_report_company_by_street" - "активна"
   }
   click_button("Показать")
 end
-Then /^Я вижу список (активных|всех) компаний по выбранной улице$/ do |filter|
-  el_id = "report_results_table"
-
-  # составляем ряды для таблицы
-  rows = ""
-  cs = filter.eql?("активных") ? Company.where("company_status_id = ?", CompanyStatus.active.id) : Company.all
-  cs.each do |c|
-    rows = "#{rows}\n|#{c.title}\\n#{@company.main_branch.fact_name}, #{@company.main_branch.legel_name}|"
-  end
-  steps %Q{
-    Then Я вижу таблицу "#{el_id}" с компаниями
-      | title |
-      #{rows}
-  }
-end
+#Then /^Я вижу список (активных|всех) компаний по выбранной улице$/ do |filter|
+#  el_id = "report_results_table"
+#
+#  # составляем ряды для таблицы
+#  rows = ""
+#  cs = filter.eql?("активных") ? Company.where("company_status_id = ?", CompanyStatus.active.id) : Company.all
+#  cs.each do |c|
+#    rows = "#{rows}\n|#{c.title}\\n#{@company.main_branch.fact_name}, #{@company.main_branch.legel_name}|"
+#  end
+#  steps %Q{
+#    Then Я вижу таблицу "#{el_id}" с компаниями
+#      | title |
+#      #{rows}
+#  }
+#end
 When /^Я вижу список филиалов для каждой компании$/ do
   # проверка головного филиала
   branch = @company.main_branch
@@ -153,5 +161,43 @@ When /^Я вижу информацию о договоре для каждой 
 end
 When /^Я заполняю параметры отчёта компании по улице для поиска всех компаний$/ do
   choose("filter_all")
+  step %Q{Я заполняю параметры отчёта компании по улице с выбором рубрикатора "полный"}
+end
+When /^Я заполняю параметры отчёта компании по улице с выбором рубрикатора "([^"]*)"$/ do |arg|
+  el_id = "rubricator_filter_"
+  case arg
+    when "полный"
+      el_id += "3"
+      @rub_filter = 3
+    when "социальный"
+      el_id += "1"
+      @rub_filter = 1
+    when "коммерческий"
+      el_id += "2"
+      @rub_filter = 2
+    else
+      raise "Unknown rubricator type"
+  end
+  choose(el_id)
   step %Q{Я заполняю параметры отчёта компании по улице}
+end
+Then /^Я вижу список (активных|всех) компаний по выбранной улице в соответствии с рубрикатором$/ do |filter|
+  el_id = "report_results_table"
+
+  # составляем ряды для таблицы
+  rows = ""
+  if filter.eql?("активных")
+    cs = Company.where("company_status_id = ? and (rubricator = ? or rubricator = 3)", CompanyStatus.active.id, @rub_filter).
+        order("title")
+  else
+    cs = Company.where("rubricator = ? or rubricator = 3", @rub_filter).order("title")
+  end
+  cs.each do |c|
+    rows = "#{rows}\n|#{c.title}\\n#{@company.main_branch.fact_name}, #{@company.main_branch.legel_name}|"
+  end
+  steps %Q{
+    Then Я вижу таблицу "#{el_id}" с компаниями
+      | title |
+      #{rows}
+        }
 end

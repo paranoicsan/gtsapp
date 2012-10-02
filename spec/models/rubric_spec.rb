@@ -54,4 +54,16 @@ describe Rubric do
       end
     end
   end
+
+  describe ".rubricator_name_for" do
+    it "возвращает название социального" do
+      Rubric.rubricator_name_for(1).should eq("Социальный")
+    end
+    it "возвращает название полного" do
+      Rubric.rubricator_name_for(3).should eq("Полный")
+    end
+    it "возвращает название коммерческого" do
+      Rubric.rubricator_name_for(2).should eq("Коммерческий")
+    end
+  end
 end

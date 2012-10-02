@@ -54,10 +54,14 @@ class ReportController < ApplicationController
     Address.by_street(street_id).each do |a|
       if a.branch.is_main
         c = a.branch.company
-        if params[:filter] == "active"
-          companies << c if c.active?
-        else
-          companies << c
+
+        # для полного рубрикатора всегда есть попадание в любое условие
+        if c.rubricator.eql?(params[:rubricator_filter].to_i) || c.rubricator.eql?(3)
+          if params[:filter] == "active"
+            companies << c if c.active?
+          else
+            companies << c
+          end
         end
       end
     end
@@ -65,7 +69,8 @@ class ReportController < ApplicationController
     @report_result = {
         street: Street.find(street_id),
         companies: companies,
-        filter: params[:filter].eql?("active") ? :active : :all
+        filter: params[:filter].eql?("active") ? :active : :all,
+        rubricator_filter: params[:rubricator_filter].to_i
     }
     render :layout => false
   end

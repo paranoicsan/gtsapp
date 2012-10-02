@@ -1,32 +1,35 @@
 # Encoding: utf-8
-Then /^Я могу выбрать населённый пункт автозаполнением$/ do
+Then /^Я могу выбрать населённый пункт автозаполнением "([^"]*)"$/ do |el_id|
   city = @address ? @address.city.name : FactoryGirl.create(:city)
-  el_id = 'address_city_id'
+  el_id = el_id.eql?("") ? 'address_city_id' : el_id
   steps %Q{
     When Я ввожу "#{city}" в поле "#{el_id}"
     And Я выбираю "#{city}" из списка с автозаполнением с ключом "#{el_id}"
   }
 end
-Then /^Я могу выбрать улицу с автозаполнением$/ do
+Then /^Я могу выбрать улицу с автозаполнением "([^"]*)"$/ do |el_id|
   street = @address.street.name
-  el_id = 'addr_address_street'
+  el_id = el_id.eql?("") ? 'addr_address_street' : el_id
   steps %Q{
     When Я ввожу "#{street}" в поле "#{el_id}"
     And Я выбираю "#{street}" из списка с автозаполнением с ключом "#{el_id}"
   }
 end
-When /^Я удаляю введённый населенный пункт$/ do
-  step %Q{Я ввожу " " в поле "address_city_id"}
+When /^Я удаляю введённый населенный пункт "([^"]*)"$/ do |el_id|
+  el_id = el_id.eql?("") ? 'address_city_id' : el_id
+  step %Q{Я ввожу " " в поле "#{el_id}"}
   sleep 2
 end
-Then /^Значение улицы сбрасывается$/ do
-  page.find("input#addr_address_street")['value'].should eq("")
+Then /^Значение улицы сбрасывается "([^"]*)"$/ do |el_id|
+  el_id = el_id.eql?("") ? 'addr_address_street' : el_id
+  page.find("input##{el_id}")['value'].should eq("")
 end
-When /^Населённый пункт не выбран$/ do
-  step %Q{Я удаляю введённый населенный пункт}
+When /^Населённый пункт не выбран "([^"]*)"$/ do |el_id|
+  step %Q{Я удаляю введённый населенный пункт "#{el_id}"}
 end
-Then /^Я не могу ввести название улицы$/ do
-  page.find("input#addr_address_street")['disabled'].should be_true
+Then /^Я не могу ввести название улицы "([^"]*)"$/ do |el_id|
+  el_id = el_id.eql?("") ? 'addr_address_street' : el_id
+  page.find("input##{el_id}")['disabled'].should be_true
 end
 When /^Я нахожусь на странице создания адреса$/ do
   @branch = @branch ? @branch : FactoryGirl.create(:branch)

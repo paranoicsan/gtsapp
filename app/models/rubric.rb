@@ -32,4 +32,17 @@ class Rubric < ActiveRecord::Base
     end
   end
 
+  def self.rubricator_name_for(type)
+    case type
+      when 1
+        "Социальный"
+      when 2
+        "Коммерческий"
+      when 3
+        "Полный"
+      else
+        raise "Unknown rubricator type"
+    end
+  end
+
 end

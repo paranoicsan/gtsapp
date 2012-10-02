@@ -58,13 +58,7 @@ class Company < ActiveRecord::Base
   # Выводит текстовое обозначение рубриктора для компании
   # @return [string] Текстовое значение рубрикатора
   def rubricator_name
-    case self.rubricator
-      when 1 then "Социальный"
-      when 2 then "Коммерческий"
-      when 3 then "Полный"
-      else
-        "Не указан"
-    end
+    Rubric.rubricator_name_for rubricator
   end
 
   ##

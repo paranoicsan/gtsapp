@@ -4,6 +4,9 @@
       .well
         %h4
           = "Компании по улице #{@report_result[:street].name} (#{@report_result[:street].city.name})"
+        %p
+          Рубрикатор:
+          = Rubric.rubricator_name_for(@report_result[:rubricator_filter])
         %br
         -if @report_result[:companies].any?
           %table#report_results_table.table.table-striped
