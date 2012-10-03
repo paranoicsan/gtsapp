@@ -61,12 +61,6 @@ class ReportController < ApplicationController
         rubricator_filter: params[:rubricator_filter].to_i
     }
     store_params # сохраняем в сессии параметры
-
-    # TEST
-    params[:format] = "pdf"
-    export_company_by_street
-    # TEST end
-
     render :layout => false
   end
 

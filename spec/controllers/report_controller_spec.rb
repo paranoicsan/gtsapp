@@ -3,6 +3,15 @@ require 'spec_helper'
 
 describe ReportController do
 
+  ##
+  # Создаёт и возвращет компанию по указанной улице
+  def create_company_for(street, status_id, rubricator)
+    com = FactoryGirl.create :company, company_status_id: status_id, rubricator: rubricator
+    b = FactoryGirl.create :branch, company_id: com.id
+    FactoryGirl.create :address, branch_id: b.id, city_id: street.city.id, street_id: street.id
+    com
+  end
+
   before(:each) do
     make_user_system
   end
@@ -96,14 +105,7 @@ describe ReportController do
         post :prepare_company_by_street, valid_attributes
       end
 
-      ##
-      # Создаёт и возвращет компанию по указанной улице
-      def create_company_for(street, status_id, rubricator)
-        com = FactoryGirl.create :company, company_status_id: status_id, rubricator: rubricator
-        b = FactoryGirl.create :branch, company_id: com.id
-        FactoryGirl.create :address, branch_id: b.id, city_id: street.city.id, street_id: street.id
-        com
-      end
+
 
       it "возвращает объект улицы как элемент Hash" do
         post_valid
@@ -185,12 +187,28 @@ describe ReportController do
 
     describe "GET company_by_street_export" do
       it "возвращает сгенерированный файл" do
+        # создаём полный набор атрибутов для компании для покрытия кода
+
+        street = FactoryGirl.create(:street)
         session[:report_params] = {
-            street_id: FactoryGirl.create(:street).id,
+            street_id: street.id,
             filter: :active,
             format: :js,
             rubricator_filter: 3
         }
+        company = create_company_for street, FactoryGirl.create(:company_status_active).id, 3
+        FactoryGirl.create :person, company_id: company.id
+        company.rubrics << FactoryGirl.create(:rubric)
+
+        b = FactoryGirl.create :branch, company_id: company.id
+        FactoryGirl.create :address, branch_id: b.id, city_id: street.city.id, street_id: street.id
+
+        b.emails << FactoryGirl.create(:email)
+        b.websites << FactoryGirl.create(:website)
+
+        b.phones << FactoryGirl.create(:phone, branch_id: b.id)
+        FactoryGirl.create(:contract_active, company_id: company.id)
+
         controller.stub(:render)
         controller.should_receive(:send_data).with(any_args)
         get :company_by_street_export, format: :pdf
