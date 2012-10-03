@@ -17,6 +17,7 @@ gem 'rails3-jquery-autocomplete'
 gem 'unicode_utils'
 gem 'russian', '~> 0.6.0'
 gem 'prawn'
+gem "prawnto_2", :require => "prawnto"
 
 group :development, :test do
   gem 'debugger', :require => 'ruby-debug'

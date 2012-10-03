@@ -131,6 +131,20 @@ describe ReportController do
         assigns(:report_result)[:filter].should eq(:all)
       end
 
+      context "сохраняет параметры формирования отчёта в сессии" do
+        before(:each) do
+          post_valid
+        end
+        it "сохраняет ключ улицы" do
+          session[:report_params][:street_id].should eq(valid_attributes[:street_id])
+        end
+        it "сохраняет фильтр по статусу компании" do
+          session[:report_params][:filter].should eq(valid_attributes[:filter])
+        end
+        it "сохраняет фильтр по рубрикатору" do
+          session[:report_params][:rubricator_filter].should eq(valid_attributes[:rubricator_filter])
+        end
+      end
       context "фильтр по рубрикатору" do
         it "возвращает фильтр рубрикатора как элемент Hash" do
           post_valid
@@ -166,6 +180,14 @@ describe ReportController do
           post :prepare_company_by_street, params
           assigns(:report_result)[:companies].should eq([com, com2])
         end
+      end
+    end
+
+    describe "GET pdf" do
+      it "возвращает сгенерированный файл" do
+        controller.stub(:render)
+        controller.should_receive(:send_data).with(any_args)
+        get :company_by_street_export, format: :pdf
       end
     end
 

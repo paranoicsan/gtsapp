@@ -72,7 +72,58 @@ class ReportController < ApplicationController
         filter: params[:filter].eql?("active") ? :active : :all,
         rubricator_filter: params[:rubricator_filter].to_i
     }
+    store_params # сохраняем в сессии параметры
     render :layout => false
+  end
+
+  ##
+  # GET /reports/company_by_street/export/:format
+  def company_by_street_export
+    unless params[:format]
+      render :nothing => true
+    end
+    send_data export_company_by_street,
+              :filename => "company_by_street_export.#{params[:format]}",
+              :type => "application/pdf"
+  end
+
+  def export_company_by_street
+    case params[:format].downcase
+      when "pdf"
+        company_by_street_pdf
+      else
+        nil
+    end
+  end
+
+  ##
+  # Сохраняет параметры отчёта в сессии
+  private
+  def store_params
+    session[:report_params] = {
+        street_id: @report_result[:street].id,
+        filter: @report_result[:filter],
+        rubricator_filter: @report_result[:rubricator_filter],
+    }
+  end
+
+  ##
+  # Генерация PDF
+  def company_by_street_pdf
+    Prawn::Document.new do
+      # привязываем шрифты
+      s = "#{Rails.root}/lib/fonts"
+      font_families.update(
+          "Verdana" => {
+              :bold => "#{s}/verdanab.ttf",
+              :italic => "#{s}/verdanai.ttf",
+              :normal  => "#{s}/verdana.ttf" })
+      font "Verdana", :size => 10
+
+      text "Рога и копыта", :align => :center
+      text "Address: аываыаыва"
+      text "Email: ваффафафафаыаыв"
+    end.render
   end
 
 end

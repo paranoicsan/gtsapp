@@ -201,3 +201,12 @@ Then /^Я вижу список (активных|всех) компаний п�
       #{rows}
         }
 end
+Then /^Я могу сохранить отчёт в формате (PDF)$/ do |format|
+  case format.upcase
+    when 'PDF'
+      el_id = 'report_export_pdf'
+    else
+      raise "Unknown export format"
+  end
+  page.should have_selector("a##{el_id}")
+end
