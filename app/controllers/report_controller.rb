@@ -94,6 +94,8 @@ class ReportController < ApplicationController
       when "pdf"
         rep = ReportCompanyByStreetPDF.new
         rep.street_id = session[:report_params][:street_id]
+        rep.filter = session[:report_params][:filter]
+        rep.filter_rubricator = session[:report_params][:rubricator_filter].to_i
         rep.to_pdf
       else
         nil

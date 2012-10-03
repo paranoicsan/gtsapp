@@ -16,9 +16,10 @@ class ReportCompanyByStreetPDF < Prawn::Document
             :bold => "#{s}/verdanab.ttf",
             :italic => "#{s}/verdanai.ttf",
             :normal  => "#{s}/verdana.ttf" })
-    font "Verdana", :size => 10
 
     write_header # пишем заголовок
+
+    font "Verdana", :size => 10
 
     text "Address: аываыаыва"
     text "Email: ваффафафафаыаыв"
@@ -34,7 +35,9 @@ class ReportCompanyByStreetPDF < Prawn::Document
   end
 
   def write_header
-    text address_summary, :align => :center
+    font "Verdana", :size => 14
+    text address_summary
+    text %Q{Рубрикатор: #{Rubric.rubricator_name_for(filter_rubricator)}}
   end
 
 end
