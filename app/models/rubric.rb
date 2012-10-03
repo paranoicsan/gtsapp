@@ -32,6 +32,9 @@ class Rubric < ActiveRecord::Base
     end
   end
 
+  ##
+  # Возвращает буквенное обозначение рубрикатора
+  # @param [Integer] Тип рубрикатора
   def self.rubricator_name_for(type)
     case type
       when 1

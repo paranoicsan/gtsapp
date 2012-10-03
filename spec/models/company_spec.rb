@@ -330,4 +330,17 @@ describe Company do
     end
   end
 
+  describe ".by_street" do
+    it "возвращает список компаний на указанной улице" do
+      street = FactoryGirl.create :street
+      FactoryGirl.create :company_status_active
+      company = FactoryGirl.create :company, company_status_id: CompanyStatus.active.id, rubricator: 3
+      3.times do
+        b = FactoryGirl.create :branch, company_id: company.id
+        FactoryGirl.create :address, branch_id: b.id, street_id: street.id, city_id: street.city.id
+      end
+
+      Company.by_street street.id, filter: :all, rubricator_filter: 3
+    end
+  end
 end

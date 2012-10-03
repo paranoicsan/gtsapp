@@ -252,4 +252,25 @@ class Company < ActiveRecord::Base
     Branch.where("company_id = ? and is_main = true", id).first
   end
 
+  ##
+  # Возвращает масив компаний, чьи головные филиалы лежат на улице
+  def self.by_street(street_id, options)
+    companies = []
+    Address.by_street(street_id).each do |a|
+      if a.branch.is_main
+        c = a.branch.company
+
+        # для полного рубрикатора всегда есть попадание в любое условие
+        if c.rubricator.eql?(options[:rubricator_filter].to_i) || c.rubricator.eql?(3)
+          if options[:filter] == "active"
+            companies << c if c.active?
+          else
+            companies << c
+          end
+        end
+      end
+    end
+    companies
+  end
+
 end

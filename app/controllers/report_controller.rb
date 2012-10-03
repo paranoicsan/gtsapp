@@ -52,21 +52,7 @@ class ReportController < ApplicationController
     street_id = params[:street_id]
 
     # Ищем компании
-    companies = []
-    Address.by_street(street_id).each do |a|
-      if a.branch.is_main
-        c = a.branch.company
-
-        # для полного рубрикатора всегда есть попадание в любое условие
-        if c.rubricator.eql?(params[:rubricator_filter].to_i) || c.rubricator.eql?(3)
-          if params[:filter] == "active"
-            companies << c if c.active?
-          else
-            companies << c
-          end
-        end
-      end
-    end
+    companies = Company.by_street street_id, params
 
     @report_result = {
         street: Street.find(street_id),
@@ -75,6 +61,12 @@ class ReportController < ApplicationController
         rubricator_filter: params[:rubricator_filter].to_i
     }
     store_params # сохраняем в сессии параметры
+
+    # TEST
+    params[:format] = "pdf"
+    export_company_by_street
+    # TEST end
+
     render :layout => false
   end
 
@@ -89,6 +81,8 @@ class ReportController < ApplicationController
               :type => "application/pdf"
   end
 
+  ##
+  # Экспортирует отчёт в различные форматы
   def export_company_by_street
     case params[:format].downcase
       when "pdf"
