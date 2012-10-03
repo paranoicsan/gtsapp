@@ -1,4 +1,6 @@
 # Encoding: utf-8
+require "company_by_street_pdf"
+
 class ReportController < ApplicationController
   before_filter :require_user
   before_filter :require_system_users
@@ -90,7 +92,7 @@ class ReportController < ApplicationController
   def export_company_by_street
     case params[:format].downcase
       when "pdf"
-        company_by_street_pdf
+        ReportCompanyByStreetPDF.new.to_pdf
       else
         nil
     end
@@ -107,23 +109,5 @@ class ReportController < ApplicationController
     }
   end
 
-  ##
-  # Генерация PDF
-  def company_by_street_pdf
-    Prawn::Document.new do
-      # привязываем шрифты
-      s = "#{Rails.root}/lib/fonts"
-      font_families.update(
-          "Verdana" => {
-              :bold => "#{s}/verdanab.ttf",
-              :italic => "#{s}/verdanai.ttf",
-              :normal  => "#{s}/verdana.ttf" })
-      font "Verdana", :size => 10
-
-      text "Рога и копыта", :align => :center
-      text "Address: аываыаыва"
-      text "Email: ваффафафафаыаыв"
-    end.render
-  end
 
 end
