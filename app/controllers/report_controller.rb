@@ -92,7 +92,9 @@ class ReportController < ApplicationController
   def export_company_by_street
     case params[:format].downcase
       when "pdf"
-        ReportCompanyByStreetPDF.new.to_pdf
+        rep = ReportCompanyByStreetPDF.new
+        rep.street_id = session[:report_params][:street_id]
+        rep.to_pdf
       else
         nil
     end
