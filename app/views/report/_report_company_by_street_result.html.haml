@@ -2,12 +2,16 @@
   .row-fluid
     .span10
       .well
-        %h4
-          = "Компании по улице #{@report_result[:street].name} (#{@report_result[:street].city.name})"
-        %p
-          Рубрикатор:
-          = Rubric.rubricator_name_for(@report_result[:rubricator_filter])
-        %br
+        %div
+          %h4
+            = "Компании по улице #{@report_result[:street].name} (#{@report_result[:street].city.name})"
+          .reporesult-header.reporesult-header-left
+            Рубрикатор:
+            = Rubric.rubricator_name_for(@report_result[:rubricator_filter])
+          -if @report_result[:companies].any?
+            .reporesult-header.reporesult-header-right
+              скачать PDF
+
         -if @report_result[:companies].any?
           %table#report_results_table.table.table-striped
             %tr
@@ -64,7 +68,6 @@
                         %li
                           =c.info
 
-
-          -else
-            %p
-              Компаний не найдено
+        -else
+          .reporesult-message.alert
+            %h5 Компаний не найдено.

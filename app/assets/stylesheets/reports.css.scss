@@ -1,3 +1,15 @@
-.btn-report-prepare {
-  //float: right;
+.reporesult-header {
+  position: relative;
+  margin: 10px;
+  width: 100%;
+}
+.reporesult-header-left {
+  float: left;
+}
+.reporesult-header-right {
+  float: right;
+}
+.reporesult-message {
+  position: relative;
+  margin-top: 100px;
 }
