@@ -10,8 +10,10 @@
             = Rubric.rubricator_name_for(@report_result[:rubricator_filter])
           -if @report_result[:companies].any?
             .reporesult-header.reporesult-header-right
-              =link_to image_tag('pdf-icon.gif', {alt: 'скачать PDF', title: 'скачать PDF'}), report_company_by_street_export_path(format: :pdf),
+              =link_to image_tag('export_pdf.png', {alt: 'скачать PDF', title: 'скачать PDF'}), report_company_by_street_export_path(format: :pdf),
               id: 'report_export_pdf'
+              =link_to image_tag('export_rtf.png', {alt: 'скачать RTF', title: 'скачать RTF'}), report_company_by_street_export_path(format: :rtf),
+              id: 'report_export_rtf'
 
         -if @report_result[:companies].any?
           %table#report_results_table.table.table-striped

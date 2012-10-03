@@ -201,10 +201,12 @@ Then /^Я вижу список (активных|всех) компаний п�
       #{rows}
         }
 end
-Then /^Я могу сохранить отчёт в формате (PDF)$/ do |format|
+Then /^Я могу сохранить отчёт в формате (PDF|RTF)$/ do |format|
   case format.upcase
     when 'PDF'
       el_id = 'report_export_pdf'
+    when 'RTF'
+      el_id = 'report_export_rtf'
     else
       raise "Unknown export format"
   end
