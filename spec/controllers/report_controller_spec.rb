@@ -183,8 +183,14 @@ describe ReportController do
       end
     end
 
-    describe "GET pdf" do
+    describe "GET company_by_street_export" do
       it "возвращает сгенерированный файл" do
+        session[:report_params] = {
+            street_id: FactoryGirl.create(:street).id,
+            filter: :active,
+            format: :js,
+            rubricator_filter: 3
+        }
         controller.stub(:render)
         controller.should_receive(:send_data).with(any_args)
         get :company_by_street_export, format: :pdf
