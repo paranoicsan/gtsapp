@@ -16,7 +16,9 @@ gem 'jquery-ui-rails'
 gem 'rails3-jquery-autocomplete'
 gem 'unicode_utils'
 gem 'russian', '~> 0.6.0'
-gem 'prawn'
+
+gem 'prawn' # генерация PDF
+gem 'rtf' # генерация RTF
 
 group :development, :test do
   gem 'debugger', :require => 'ruby-debug'

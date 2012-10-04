@@ -1,9 +1,12 @@
 # Encoding: utf-8
 require "company_by_street_pdf"
+require "company_by_street_rtf"
 
 class ReportController < ApplicationController
   before_filter :require_user
   before_filter :require_system_users
+
+  include RTF
 
   ##
   # GET /reports
@@ -88,7 +91,8 @@ class ReportController < ApplicationController
         rep.filter_rubricator = session[:report_params][:rubricator_filter].to_i
         rep.to_pdf
       when "rtf"
-        nil
+        rep = ReportCompanyByStreetRTF.new(Font.new(Font::ROMAN, 'Times New Roman'))
+        rep.to_rtf
       else
         nil
     end
