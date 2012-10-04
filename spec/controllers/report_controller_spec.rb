@@ -186,9 +186,8 @@ describe ReportController do
     end
 
     describe "GET company_by_street_export" do
-      it "возвращает сгенерированный файл" do
+      before(:each) do
         # создаём полный набор атрибутов для компании для покрытия кода
-
         street = FactoryGirl.create(:street)
         session[:report_params] = {
             street_id: street.id,
@@ -208,10 +207,16 @@ describe ReportController do
 
         b.phones << FactoryGirl.create(:phone, branch_id: b.id)
         FactoryGirl.create(:contract_active, company_id: company.id)
-
+      end
+      it "возвращает сгенерированный PDF" do
         controller.stub(:render)
-        controller.should_receive(:send_data).with(any_args)
+        controller.should_receive(:send_data)
         get :company_by_street_export, format: :pdf
+      end
+      it "возвращает сгенерированный RTF" do
+        controller.stub(:render)
+        controller.should_receive(:send_data)
+        get :company_by_street_export, format: :rtf
       end
     end
 

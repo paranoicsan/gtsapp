@@ -70,21 +70,25 @@ class ReportController < ApplicationController
     unless params[:format]
       render :nothing => true
     end
-    send_data export_company_by_street,
-              :filename => "company_by_street_export.#{params[:format]}",
-              :type => "application/pdf"
+    format = params[:format].downcase
+    send_data export_company_by_street(format),
+              :filename => "company_by_street_export.#{format}",
+              :type => ReportHelper.mime_type(format)
   end
 
   ##
   # Экспортирует отчёт в различные форматы
-  def export_company_by_street
-    case params[:format].downcase
+  # @param [String] Формат, в котором надо выгружать результаты
+  def export_company_by_street(format)
+    case format
       when "pdf"
         rep = ReportCompanyByStreetPDF.new
         rep.street_id = session[:report_params][:street_id]
         rep.filter = session[:report_params][:filter]
         rep.filter_rubricator = session[:report_params][:rubricator_filter].to_i
         rep.to_pdf
+      when "rtf"
+        nil
       else
         nil
     end
