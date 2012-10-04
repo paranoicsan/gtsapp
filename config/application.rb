@@ -1,6 +1,5 @@
 #Encoding: utf-8
 require File.expand_path('../boot', __FILE__)
-
 require 'rails/all'
 
 if defined?(Bundler)
@@ -24,9 +23,6 @@ module Gtsapp
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
-
-    # подставляем пути с отчётами
-    config.autoload_paths << 'lib/reports'
 
     config.generators do |g|
       #Здесь я отключил генерацию rspec файлов для вьюх, хелперов, роутинга и запросов
