@@ -8,6 +8,8 @@ module ReportHelper
         "application/pdf"
       when "rtf"
         "application/rtf"
+      when "xls"
+        "application/excel"
       else
         raise "Unknown format"
     end

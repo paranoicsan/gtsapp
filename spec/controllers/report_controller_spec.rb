@@ -218,6 +218,11 @@ describe ReportController do
         controller.should_receive(:send_data)
         get :company_by_street_export, format: :rtf
       end
+      it "возвращает сгенерированный XLS" do
+        controller.stub(:render)
+        controller.should_receive(:send_data)
+        get :company_by_street_export, format: :xls
+      end
     end
 
   end

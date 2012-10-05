@@ -1,12 +1,10 @@
 # Encoding: utf-8
 require_dependency 'reports/company_by_street_pdf'
 require_dependency 'reports/company_by_street_rtf'
+require_dependency 'reports/company_by_street_xls'
 
 
 class ReportController < ApplicationController
-
-
-
   before_filter :require_user
   before_filter :require_system_users
 
@@ -78,9 +76,12 @@ class ReportController < ApplicationController
       render :nothing => true
     end
     format = params[:format].downcase
-    send_data export_company_by_street(format),
-              :filename => "company_by_street_export.#{format}",
-              :type => ReportHelper.mime_type(format)
+    data = export_company_by_street(format)
+    unless data.nil?
+      send_data data,
+                :filename => "company_by_street_export.#{format}",
+                :type => ReportHelper.mime_type(format)
+    end
   end
 
   ##
@@ -100,6 +101,8 @@ class ReportController < ApplicationController
         rep.filter = session[:report_params][:filter]
         rep.filter_rubricator = session[:report_params][:rubricator_filter].to_i
         rep.to_rtf
+      when "xls"
+        rep = 1
       else
         nil
     end
