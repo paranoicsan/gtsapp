@@ -140,7 +140,7 @@ class ReportCompanyByStreetPDF < Prawn::Document
     font "Verdana", size: 10
     text "(*) #{company.main_branch.fact_name}, #{company.main_branch.legel_name}, #{company.main_branch.address.full_address}"
     company.branches_sorted.each do |b|
-      unless b.is_main
+      unless b.is_main && b.address.nil?
         text "#{b.fact_name}, #{b.legel_name}, #{b.address.full_address}"
       end
     end
