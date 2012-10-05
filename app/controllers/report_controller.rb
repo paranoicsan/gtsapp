@@ -1,8 +1,6 @@
 # Encoding: utf-8
-#require "company_by_street_pdf"
-#require "company_by_street_rtf"
-require_dependency 'lib/reports/company_by_street_pdf'
-require_dependency 'lib/reports/company_by_street_rtf'
+require_dependency 'reports/company_by_street_pdf'
+require_dependency 'reports/company_by_street_rtf'
 
 
 class ReportController < ApplicationController

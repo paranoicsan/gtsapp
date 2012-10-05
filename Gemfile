@@ -19,6 +19,7 @@ gem 'russian', '~> 0.6.0'
 
 gem 'prawn' # генерация PDF
 gem 'rtf' # генерация RTF
+gem 'spreadsheet' # генерация Excel
 
 group :development, :test do
   gem 'debugger', :require => 'ruby-debug'
