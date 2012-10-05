@@ -139,8 +139,10 @@ class ReportCompanyByStreetXLS < Spreadsheet::Workbook
     row_cnt = cnt + 1
 
     company.branches_sorted.each do |b|
-      unless b.is_main && b.address.nil?
-        @sheet.row(row_cnt + 1).push "#{b.fact_name}, #{b.legel_name}, #{b.address.full_address}"
+      unless b.is_main
+        s = "#{b.fact_name}, #{b.legel_name}"
+        s = "#{s}, #{b.address.full_address}" unless b.address.nil?
+        @sheet.row(row_cnt + 1).push s
         row_cnt += 1
       end
     end
