@@ -38,87 +38,84 @@ class ReportCompanyByStreetRTF < RTF::Document
 
       write_addresses c # адреса
       write_phones c # телефоны
-      #write_persons c # персоны
-      #write_emails c # Почта
-      #write_websites c # веб-сайты
-      #write_rubrics c # рубрики
-      #write_contracts c # активные договора
+      write_persons c # персоны
+      write_emails c # Почта
+      write_websites c # веб-сайты
+      write_rubrics c # рубрики
+      write_contracts c # активные договора
+
+      2.times { paragraph.line_break }
     end
   end
 
   def write_contracts(company)
-    font "Verdana", size: 10, style: :italic
-    text "Активные договора"
-    move_down 5
-    font "Verdana", size: 10
-    company.contracts.each do |c|
-      if c.active?
-        text c.info
+    write_section_header("Активные договора")
+    paragraph do |p|
+      company.contracts.each do |c|
+        if c.active?
+          p << c.info
+          p.line_break
+        end
       end
     end
-    move_down 10
+  end
+
+  ##
+  # Пишет название секции отчёта
+  # @param [String] title Название секции
+  def write_section_header(title)
+    paragraph.apply(@styles['SectionHeader']) do |p|
+      p.line_break
+      p << title
+    end
   end
 
   def write_rubrics(company)
-    font "Verdana", size: 10, style: :italic
-    text "Рубрики"
-    move_down 5
-    font "Verdana", size: 10
-
-    company.rubrics.each do |rub|
-      text rub.name
+    write_section_header("Рубрики")
+    paragraph do |p|
+      company.rubrics.each do |rub|
+        p << rub.name
+        p.line_break
+      end
     end
-
-    move_down 10
   end
 
   def write_websites(company)
-    font "Verdana", size: 10, style: :italic
-    text "Веб-сайты"
-    move_down 5
-    font "Verdana", size: 10
-
-    company.branches_sorted.each do |b|
-      if b.all_websites_str.length > 0
-        text b.all_websites_str
+    write_section_header("Веб-сайты")
+    paragraph do |p|
+      company.branches_sorted.each do |b|
+        if b.all_websites_str.length > 0
+          p << b.all_websites_str
+          p.line_break
+        end
       end
     end
-
-    move_down 10
   end
 
   def write_emails(company)
-    font "Verdana", size: 10, style: :italic
-    text "Почта"
-    move_down 5
-    font "Verdana", size: 10
-
-    company.branches_sorted.each do |b|
-      if b.all_emails_str.length > 0
-        text b.all_emails_str
+    write_section_header("Почта")
+    paragraph do |p|
+      company.branches_sorted.each do |b|
+        if b.all_emails_str.length > 0
+          p << b.all_emails_str
+          p.line_break
+        end
       end
     end
-    move_down 10
   end
 
   def write_persons(company)
-    font "Verdana", size: 10, style: :italic
-    text "Персоны"
-    move_down 5
-    font "Verdana", size: 10
-
-    company.persons.each do |per|
-      text per.full_info
+    write_section_header("Персоны")
+    paragraph do |par|
+      company.persons.each do |per|
+        par << per.full_info
+        par.line_break
+      end
     end
-
-    move_down 10
   end
 
   def write_phones(company)
-    paragraph.apply(@styles['SectionHeader']) do |p|
-      p.line_break
-      p << "Телефоны"
-    end
+    write_section_header("Телефоны")
     paragraph do |par|
       company.branches_sorted.each do |b|
         b.phones_by_order.each do |p|
@@ -130,10 +127,7 @@ class ReportCompanyByStreetRTF < RTF::Document
   end
 
   def write_addresses(company)
-    paragraph.apply(@styles['SectionHeader']) do |p|
-      p.line_break
-      p << "Адреса"
-    end
+    write_section_header("Адреса")
     paragraph << "(*) #{company.main_branch.fact_name}, #{company.main_branch.legel_name}, #{company.main_branch.address.full_address}"
     paragraph do |p|
       company.branches_sorted.each do |b|
