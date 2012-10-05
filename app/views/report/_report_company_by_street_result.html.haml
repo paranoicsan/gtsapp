@@ -35,8 +35,9 @@
                       ="#{rr.main_branch.fact_name}, #{rr.main_branch.legel_name}, #{rr.main_branch.address.full_address}"
                     -rr.branches_sorted.each do |b|
                       -unless b.is_main
-                        %li
-                          ="#{b.fact_name}, #{b.legel_name}, #{b.address.full_address}"
+                        -unless b.address.nil?
+                          %li
+                            ="#{b.fact_name}, #{b.legel_name}, #{b.address.full_address}"
                   %p Телефоны
                   %ul
                     -rr.branches_sorted.each do |b|
