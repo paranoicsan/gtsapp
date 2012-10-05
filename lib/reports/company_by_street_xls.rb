@@ -40,83 +40,81 @@ class ReportCompanyByStreetXLS < Spreadsheet::Workbook
 
       cnt = write_addresses c, cnt + 3 # адреса
       cnt = write_phones c, cnt + 2 # телефоны
-      #write_persons c # персоны
-      #write_emails c # Почта
-      #write_websites c # веб-сайты
-      #write_rubrics c # рубрики
-      #write_contracts c # активные договора
+      cnt = write_persons c, cnt + 1 # персоны
+      cnt = write_emails c, cnt + 1 # Почта
+      cnt = write_websites c, cnt + 1 # веб-сайты
+      cnt = write_rubrics c, cnt + 1 # рубрики
+      cnt = write_contracts c, cnt + 1 # активные договора
 
       cnt += 2
     end
   end
 
-  #def write_contracts(company)
-  #  font "Verdana", size: 10, style: :italic
-  #  text "Активные договора"
-  #  move_down 5
-  #  font "Verdana", size: 10
-  #  company.contracts.each do |c|
-  #    if c.active?
-  #      text c.info
-  #    end
-  #  end
-  #  move_down 10
-  #end
-  #
-  #def write_rubrics(company)
-  #  font "Verdana", size: 10, style: :italic
-  #  text "Рубрики"
-  #  move_down 5
-  #  font "Verdana", size: 10
-  #
-  #  company.rubrics.each do |rub|
-  #    text rub.name
-  #  end
-  #
-  #  move_down 10
-  #end
-  #
-  #def write_websites(company)
-  #  font "Verdana", size: 10, style: :italic
-  #  text "Веб-сайты"
-  #  move_down 5
-  #  font "Verdana", size: 10
-  #
-  #  company.branches_sorted.each do |b|
-  #    if b.all_websites_str.length > 0
-  #      text b.all_websites_str
-  #    end
-  #  end
-  #
-  #  move_down 10
-  #end
-  #
-  #def write_emails(company)
-  #  font "Verdana", size: 10, style: :italic
-  #  text "Почта"
-  #  move_down 5
-  #  font "Verdana", size: 10
-  #
-  #  company.branches_sorted.each do |b|
-  #    if b.all_emails_str.length > 0
-  #      text b.all_emails_str
-  #    end
-  #  end
-  #  move_down 10
-  #end
-  #
-  #def write_persons(company)
-  #  font "Verdana", size: 10, style: :italic
-  #  text "Персоны"
-  #  move_down 5
-  #  font "Verdana", size: 10
-  #
-  #  company.persons.each do |per|
-  #    text per.full_info
-  #  end
-  #
-  #  move_down 10
-  #end
+  def write_contracts(company, cnt)
+    @sheet.row(cnt).set_format(0, @italic)
+    @sheet.row(cnt).push "Активные договора"
+    row_cnt = cnt + 1
+    company.contracts.each do |c|
+      if c.active?
+        @sheet.row(row_cnt).push c.info
+        row_cnt += 1
+      end
+    end
+    row_cnt
+  end
+
+  def write_rubrics(company, cnt)
+    @sheet.row(cnt).set_format(0, @italic)
+    @sheet.row(cnt).push "Рубрики"
+    row_cnt = cnt + 1
+
+    company.rubrics.each do |rub|
+      @sheet.row(row_cnt).push rub.name
+      row_cnt += 1
+    end
+
+    row_cnt
+  end
+
+  def write_websites(company, cnt)
+    @sheet.row(cnt).set_format(0, @italic)
+    @sheet.row(cnt).push "Веб-сайты"
+    row_cnt = cnt + 1
+
+    company.branches_sorted.each do |b|
+      if b.all_websites_str.length > 0
+        @sheet.row(row_cnt).push b.all_websites_str
+        row_cnt += 1
+      end
+    end
+
+    row_cnt
+  end
+
+  def write_emails(company, cnt)
+    @sheet.row(cnt).set_format(0, @italic)
+    @sheet.row(cnt).push "Почта"
+    row_cnt = cnt + 1
+
+    company.branches_sorted.each do |b|
+      if b.all_emails_str.length > 0
+        @sheet.row(row_cnt).push b.all_emails_str
+        row_cnt += 1
+      end
+    end
+    row_cnt
+  end
+
+  def write_persons(company, cnt)
+    @sheet.row(cnt).set_format(0, @italic)
+    @sheet.row(cnt).push "Персоны"
+    row_cnt = cnt + 1
+    company.persons.each do |per|
+      @sheet.row(row_cnt).push per.full_info
+      row_cnt += 1
+    end
+    row_cnt
+  end
 
   def write_phones(company, cnt)
     @sheet.row(cnt).set_format(0, @italic)

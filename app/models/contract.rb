@@ -60,6 +60,6 @@ class Contract < ActiveRecord::Base
   def info
     s = "#{number}, "
     s = %Q{#{s}#{project_code.name}, } unless project_code.nil?
-    %Q{#{s}#{amount}}
+    %Q{#{s}#{amount}руб.}
   end
 end
