@@ -102,7 +102,16 @@ class ReportController < ApplicationController
         rep.filter_rubricator = session[:report_params][:rubricator_filter].to_i
         rep.to_rtf
       when "xls"
-        rep = 1
+        rep = ReportCompanyByStreetXLS.new
+        rep.street_id = session[:report_params][:street_id]
+        rep.filter = session[:report_params][:filter]
+        rep.filter_rubricator = session[:report_params][:rubricator_filter].to_i
+
+        rep.to_xls
+
+        path = StringIO.new
+        rep.write path
+        path.string
       else
         nil
     end
