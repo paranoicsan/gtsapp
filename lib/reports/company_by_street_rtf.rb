@@ -37,7 +37,6 @@ class ReportCompanyByStreetRTF < RTF::Document
       end
 
       write_addresses c # адреса
-      write_phones c # телефоны
       write_persons c # персоны
       write_emails c # Почта
       write_websites c # веб-сайты
@@ -72,11 +71,14 @@ class ReportCompanyByStreetRTF < RTF::Document
 
   def write_rubrics(company)
     write_section_header("Рубрики")
+
+    s = ""
+    company.rubrics.each { |rub| s = "#{s}#{rub.name}, " }
+    s = s.gsub(/, $/, "")
+
     paragraph do |p|
-      company.rubrics.each do |rub|
-        p << rub.name
-        p.line_break
-      end
+      p << s
+      p.line_break
     end
   end
 
@@ -114,30 +116,18 @@ class ReportCompanyByStreetRTF < RTF::Document
     end
   end
 
-  def write_phones(company)
-    write_section_header("Телефоны")
-    paragraph do |par|
-      company.branches_sorted.each do |b|
-        b.phones_by_order.each do |p|
-          par << %Q{#{p.name_formatted} - #{p.description}}
-          par.line_break
-        end
-      end
+  def write_phones(branch, par)
+    branch.phones_by_order.each do |p|
+      par << %Q{#{p.name_formatted(true)} - #{p.description}}
+      par.line_break
     end
   end
 
   def write_addresses(company)
     write_section_header("Адреса")
-    paragraph << "(*) #{company.main_branch.fact_name}, #{company.main_branch.legel_name}, #{company.main_branch.address.full_address}"
-    paragraph do |p|
-      company.branches_sorted.each do |b|
-        unless b.is_main
-          s = "#{b.fact_name}, #{b.legel_name}"
-          s = "#{s}, #{b.address.full_address}" unless b.address.nil?
-          p << s
-          p.line_break
-        end
-      end
+    write_branch company.main_branch
+    company.branches_sorted.each do |b|
+      write_branch(b) unless b.is_main?
     end
   end
 
@@ -154,6 +144,25 @@ class ReportCompanyByStreetRTF < RTF::Document
     end
     paragraph << %Q{Рубрикатор: #{Rubric.rubricator_name_for(filter_rubricator)}}
     paragraph.line_break
+  end
+
+  ##
+  # Пишет информацию по филиалам и их телефонам
+  def write_branch(branch)
+    s = branch.is_main? ? "(*)" : ""
+    paragraph do |p|
+      p << "#{s} #{branch.fact_name}"
+      p.line_break
+    end
+    ps = RTF::ParagraphStyle.new
+    ps.left_indent = 200
+    paragraph(ps) do |p|
+      unless branch.address.nil?
+        p << branch.address.full_address
+        2.times {p.line_break}
+      end
+      write_phones branch, p
+    end
   end
 
 end
