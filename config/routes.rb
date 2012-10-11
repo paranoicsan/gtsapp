@@ -70,6 +70,8 @@ Gtsapp::Application.routes.draw do
   match 'reports/prepare_company_by_street' =>  'report#prepare_company_by_street', :as => :report_prepare_company_by_street, :via => :post
 
   match 'streets_by_city' => 'streets#streets_by_city', :as => :streets_by_city
+  match 'streets/export/:format' => 'streets#streets_by_city_export', :as => :streets_by_city_export, :via => :get
+
 
   root :to => 'user_sessions#new'
 

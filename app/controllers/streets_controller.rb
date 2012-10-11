@@ -1,5 +1,10 @@
 #Encoding: utf-8
+require_dependency 'reports/street_by_city_rtf.rb'
+
 class StreetsController < ApplicationController
+
+  include RTF
+
   helper :application
   before_filter :require_user
   before_filter :require_system_users, :only => [:new, :edit, :update, :create, :destroy]
@@ -92,8 +97,67 @@ class StreetsController < ApplicationController
     if params[:city_id]
       @streets_by_city = Street.where('city_id = ?', params[:city_id]).order("name").paginate(:page => params[:page], :per_page => 100)
     end
+    store_params # сохраняем параметры в сессии
     respond_to do |format|
       format.js { render :layout => false }
     end
   end
+
+  ##
+  # GET /sreets/export/:format
+  def streets_by_city_export
+    unless params[:format]
+      render :nothing => true
+    end
+    format = params[:format].downcase
+    data = export_by_city(format)
+    if data.nil?
+      redirect_to streets_path, notice: 'Возникли ошибки при формирования отчёта'
+    else
+      send_data data,
+                :filename => "streets.#{format}",
+                :type => ReportHelper.mime_type(format)
+    end
+  end
+
+  ##
+  # Экспортирует отчёт в различные форматы
+  # @param [String] Формат, в котором надо выгружать результаты
+  def export_by_city(format)
+    case format
+      when "pdf"
+        #rep = ReportCompanyByStreetPDF.new
+        #rep.street_id = session[:report_params][:street_id]
+        #rep.filter = session[:report_params][:filter]
+        #rep.filter_rubricator = session[:report_params][:rubricator_filter].to_i
+        #rep.to_pdf
+      when "rtf"
+        rep = ReportStreetByCityRTF.new(Font.new(Font::ROMAN, 'Times New Roman'))
+        rep.city_id = session[:report_params][:city_id]
+        rep.get_data
+      when "xls"
+        #rep = ReportCompanyByStreetXLS.new
+        #rep.street_id = session[:report_params][:street_id]
+        #rep.filter = session[:report_params][:filter]
+        #rep.filter_rubricator = session[:report_params][:rubricator_filter].to_i
+        #
+        #rep.to_xls
+        #
+        #path = StringIO.new
+        #rep.write path
+        #path.string
+      else
+        nil
+    end
+  end
+
+  ##
+  # Сохраняет параметры отчёта в сессии
+  private
+  def store_params
+    session[:report_params] = {
+        city_id: params[:city_id] ? params[:city_id].to_i : nil
+    }
+  end
+
 end

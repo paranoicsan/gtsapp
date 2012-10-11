@@ -137,18 +137,58 @@ describe StreetsController do
     end
   end
 
-  describe "#streets_by_city" do
+  context "streets_by_city" do
+
     before(:each) do
       @city = FactoryGirl.create :city
       @street = FactoryGirl.create :street, city_id: @city.id
     end
-    it "возвращает пустой набор @streets_by_city, если не указан город" do
-      get :streets_by_city, city_id: nil
-      assigns(:streets_by_city).should eq([])
-    end
-    it "возвращает набор улиц для указанного города" do
+
+    def get_valid
       get :streets_by_city, city_id: @city.id
-      assigns(:streets_by_city).should eq([@street])
+    end
+
+    context "сохраняет параметры формирования отчёта в сессии" do
+      before(:each) do
+        get_valid
+      end
+      it "сохраняет ключ населённого пункта" do
+        session[:report_params][:city_id].should eq(@city.id)
+      end
+    end
+
+    describe "POST streets_by_city" do
+
+      it "возвращает пустой набор @streets_by_city, если не указан город" do
+        get :streets_by_city, city_id: nil
+        assigns(:streets_by_city).should eq([])
+      end
+      it "возвращает набор улиц для указанного города" do
+        get :streets_by_city, city_id: @city.id
+        assigns(:streets_by_city).should eq([@street])
+      end
+    end
+
+    describe "GET streets_by_city_export" do
+
+      it "возвращает сгенерированный PDF" do
+        pending
+        controller.stub(:render)
+        controller.should_receive(:send_data)
+        get :streets_by_city_export, format: :pdf
+      end
+      it "возвращает сгенерированный RTF" do
+        controller.stub(:render)
+        controller.should_receive(:send_data)
+        get :streets_by_city_export, format: :rtf
+      end
+      it "возвращает сгенерированный XLS" do
+        pending
+        controller.stub(:render)
+        controller.should_receive(:send_data)
+        get :streets_by_city_export, format: :xls
+      end
     end
   end
+
 end
