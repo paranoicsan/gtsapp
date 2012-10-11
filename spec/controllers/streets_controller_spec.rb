@@ -144,10 +144,6 @@ describe StreetsController do
       @street = FactoryGirl.create :street, city_id: @city.id
     end
 
-    def get_valid
-      get :streets_by_city, city_id: @city.id
-    end
-
     context "сохраняет параметры формирования отчёта в сессии" do
       before(:each) do
         get_valid
@@ -170,9 +166,15 @@ describe StreetsController do
     end
 
     describe "GET streets_by_city_export" do
+      before(:each) do
+        get_valid
+      end
+
+      def get_valid
+        get :streets_by_city, city_id: @city.id
+      end
 
       it "возвращает сгенерированный PDF" do
-        pending
         controller.stub(:render)
         controller.should_receive(:send_data)
         get :streets_by_city_export, format: :pdf

@@ -52,7 +52,7 @@ When /^Для города существуют (\d+) улиц$/ do |cnt|
     FactoryGirl.create :street, city_id: @city.id
   end
 end
-Then /^Я не вижу ссылку для сохранения результатов в формате (.*)$/ do |format|
+Then /^Я (|не) вижу ссылку для сохранения результатов в формате (.*)$/ do |negate, format|
   case format.upcase
     when 'PDF'
       el_id = 'report_export_pdf'
@@ -63,5 +63,9 @@ Then /^Я не вижу ссылку для сохранения результ�
     else
       raise "Unknown export format"
   end
-  page.should have_selector("a##{el_id}")
+  if negate.eql?("не")
+    page.should_not have_selector("a##{el_id}")
+  else
+    page.should have_selector("a##{el_id}")
+  end
 end

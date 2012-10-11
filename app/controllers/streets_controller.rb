@@ -1,5 +1,6 @@
 #Encoding: utf-8
 require_dependency 'reports/street_by_city_rtf.rb'
+require_dependency 'reports/street_by_city_pdf.rb'
 
 class StreetsController < ApplicationController
 
@@ -126,11 +127,9 @@ class StreetsController < ApplicationController
   def export_by_city(format)
     case format
       when "pdf"
-        #rep = ReportCompanyByStreetPDF.new
-        #rep.street_id = session[:report_params][:street_id]
-        #rep.filter = session[:report_params][:filter]
-        #rep.filter_rubricator = session[:report_params][:rubricator_filter].to_i
-        #rep.to_pdf
+        rep = ReportStreetByCityPDF.new
+        rep.city_id = session[:report_params][:city_id]
+        rep.get_data
       when "rtf"
         rep = ReportStreetByCityRTF.new(Font.new(Font::ROMAN, 'Times New Roman'))
         rep.city_id = session[:report_params][:city_id]

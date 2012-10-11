@@ -25,7 +25,6 @@ class ReportStreetByCityRTF < RTF::Document
   def write_streets
     paragraph do |p|
       Street.where("city_id = ?", city_id).order("name ASC").each do |street|
-      #Street.find_all_by_city_id(city_id).each do |street|
         p << street.name
         p.line_break
       end
