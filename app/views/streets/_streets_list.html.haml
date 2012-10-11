@@ -5,6 +5,15 @@
       %thead
         %tr
           %th Название
+          %th
+            -if @streets_by_city.any?
+              .reporesult-header.reporesult-header-right
+                =link_to image_tag('export_pdf.png', {alt: 'скачать PDF', title: 'скачать PDF'}), report_company_by_street_export_path(format: :pdf),
+                id: 'report_export_pdf'
+                =link_to image_tag('export_rtf.png', {alt: 'скачать RTF', title: 'скачать RTF'}), report_company_by_street_export_path(format: :rtf),
+                id: 'report_export_rtf'
+                =link_to image_tag('export_excel.png', {alt: 'скачать Excel-формат', title: 'скачать Excel-формат'}), report_company_by_street_export_path(format: :xls),
+                id: 'report_export_xls'
       %tbody
         - @streets_by_city.each do |street|
           %tr

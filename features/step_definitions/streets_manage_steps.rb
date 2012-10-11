@@ -52,3 +52,16 @@ When /^Для города существуют (\d+) улиц$/ do |cnt|
     FactoryGirl.create :street, city_id: @city.id
   end
 end
+Then /^Я не вижу ссылку для сохранения результатов в формате (.*)$/ do |format|
+  case format.upcase
+    when 'PDF'
+      el_id = 'report_export_pdf'
+    when 'RTF'
+      el_id = 'report_export_rtf'
+    when 'XLS'
+      el_id = 'report_export_xls'
+    else
+      raise "Unknown export format"
+  end
+  page.should have_selector("a##{el_id}")
+end
