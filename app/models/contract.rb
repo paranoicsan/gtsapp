@@ -57,9 +57,20 @@ class Contract < ActiveRecord::Base
 
   ##
   # выводит указанную информацию в виде строки
+  # № 7, заключен: 01.01.2012, пакет «Лого», «Цветная страница в рубрике», cумма: 25000
+  # @return [String] Отформатрованную строку с информацией о договоре
   def info
-    s = "#{number}, "
-    s = %Q{#{s}#{project_code.name}, } unless project_code.nil?
-    %Q{#{s}#{amount}руб.}
+    s = "№ #{number}, "
+    s = "#{s}#{project_code.name}, " unless project_code.nil?
+    s = "#{s}заключён: #{date_sign.strftime("%d.%m.%Y")}, " unless date_sign.nil?
+
+    # обрабатываем продукты
+    if products.any?
+      products.each do |p|
+        s = %Q{#{s}"#{p.product_type.name}", }
+      end
+    end
+
+    %Q{#{s}сумма: #{amount}руб.}
   end
 end

@@ -23,56 +23,66 @@
               %th Компания
               %th Информация
             -@report_result[:companies].each do |rr|
+              -m_branch = rr.main_branch
               %tr
-                %td
+                %td{style: "width:40%"}
                   =link_to rr.title, company_path(rr)
                   %p
-                    ="#{rr.main_branch.fact_name}, #{rr.main_branch.legel_name}"
+                    ="#{m_branch.fact_name}, #{m_branch.legel_name}"
                 %td
-                  %p Адреса
                   %ul
                     %li
-                      ="#{rr.main_branch.fact_name}, #{rr.main_branch.legel_name}, #{rr.main_branch.address.full_address}"
-                    -rr.branches_sorted.each do |b|
-                      -unless b.is_main
-                        -unless b.address.nil?
-                          %li
-                            ="#{b.fact_name}, #{b.legel_name}, #{b.address.full_address}"
-                  %p Телефоны
-                  %ul
-                    -rr.branches_sorted.each do |b|
-                      -b.phones_by_order.each do |p|
+                      %p.text-bold
+                        ="#{m_branch.fact_name}"
+                      -unless m_branch.address.nil?
+                        %p
+                          ="#{m_branch.address.full_address}"
+                      -if m_branch.phones.any?
+                        -m_branch.phones_by_order.each do |p|
+                          =%Q{#{p.name_formatted(true)} - #{p.description}}
+                          %br
+                  -rr.branches_sorted.each do |b|
+                    %ul
+                      -unless b.is_main?
                         %li
-                          =%Q{#{p.name_formatted} - #{p.description}}
-                  %p Персоны
+                          %p.text-bold
+                            ="#{b.fact_name}"
+                          -unless b.address.nil?
+                            %p
+                              ="#{b.address.full_address}"
+                          -if b.phones.any?
+                            -b.phones_by_order.each do |p|
+                              =%Q{#{p.name_formatted(true)} - #{p.description}}
+                              %br
+
+                  %p.reporesult-section-header Персоны
                   %ul
                     -rr.persons.each do |per|
                       %li
                         =per.full_info
-                  %p Почта
+                  %p.reporesult-section-header Почта
                   %ul
                     -rr.branches_sorted.each do |b|
                       -if b.all_emails_str.length > 0
                         %li
                           =b.all_emails_str
-                  %p Веб-сайты
+                  %p.reporesult-section-header Веб-сайты
                   %ul
                     -rr.branches_sorted.each do |b|
                       -if b.all_websites_str.length > 0
                         %li
                           =b.all_websites_str
-                  %p Рубрики
+                  %p.reporesult-section-header Рубрики
                   -s = ""
                   -rr.rubrics.each do |rub|
                     -s = %Q{#{s}  #{rub.name},}
                   %p
                     =s.gsub(/,$/, '')
-                  %p Активные договора
+                  %p.reporesult-section-header Договора
                   %ul
                     -rr.contracts.each do |c|
-                      -if c.active?
-                        %li
-                          =c.info
+                      %li
+                        =c.info
 
         -else
           .reporesult-message.alert
