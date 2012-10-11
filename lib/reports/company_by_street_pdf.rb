@@ -40,47 +40,41 @@ class ReportCompanyByStreetPDF < Prawn::Document
       text c.title
       font "Verdana", size: 10
       text "#{c.main_branch.fact_name}, #{c.main_branch.legel_name}"
-      move_down 5
+      move_down 10
 
       write_addresses c # адреса
-      write_phones c # телефоны
       write_persons c # персоны
       write_emails c # Почта
       write_websites c # веб-сайты
       write_rubrics c # рубрики
       write_contracts c # активные договора
+
+      move_down 20
     end
   end
 
   def write_contracts(company)
-    font "Verdana", size: 10, style: :italic
-    text "Активные договора"
+    text "<u>Договоры</u>", inline_format: true
     move_down 5
     font "Verdana", size: 10
-    company.contracts.each do |c|
-      if c.active?
-         text c.info
-      end
-    end
+    company.contracts.each {|c| text c.info }
     move_down 10
   end
 
   def write_rubrics(company)
-    font "Verdana", size: 10, style: :italic
-    text "Рубрики"
+    text "<u>Рубрики</u>", inline_format: true
     move_down 5
     font "Verdana", size: 10
 
-    company.rubrics.each do |rub|
-      text rub.name
-    end
+    s = ""
+    company.rubrics.each { |rub| s = "#{s}#{rub.name}, " }
+    text s.gsub(/, $/, "")
 
     move_down 10
   end
 
   def write_websites(company)
-    font "Verdana", size: 10, style: :italic
-    text "Веб-сайты"
+    text "<u>Веб-сайты</u>", inline_format: true
     move_down 5
     font "Verdana", size: 10
 
@@ -94,8 +88,7 @@ class ReportCompanyByStreetPDF < Prawn::Document
   end
 
   def write_emails(company)
-    font "Verdana", size: 10, style: :italic
-    text "Почта"
+    text "<u>Почта</u>", inline_format: true
     move_down 5
     font "Verdana", size: 10
 
@@ -108,8 +101,7 @@ class ReportCompanyByStreetPDF < Prawn::Document
   end
 
   def write_persons(company)
-    font "Verdana", size: 10, style: :italic
-    text "Персоны"
+    text "<u>Персоны</u>", inline_format: true
     move_down 5
     font "Verdana", size: 10
 
@@ -120,32 +112,18 @@ class ReportCompanyByStreetPDF < Prawn::Document
     move_down 10
   end
 
-  def write_phones(company)
-    font "Verdana", size: 10, style: :italic
-    text "Телефоны"
-    move_down 5
-    font "Verdana", size: 10
-    company.branches_sorted.each do |b|
-      b.phones_by_order.each do |p|
-        text %Q{#{p.name_formatted} - #{p.description}}
-      end
+  def write_phones(branch)
+    branch.phones_by_order.each do |p|
+      text %Q{#{p.name_formatted(true)} - #{p.description}}
     end
     move_down 10
   end
 
   def write_addresses(company)
-    font "Verdana", size: 10, style: :italic
-    text "Адреса"
+    text "<u>Адреса</u>", inline_format: true
     move_down 5
-    font "Verdana", size: 10
-    text "(*) #{company.main_branch.fact_name}, #{company.main_branch.legel_name}, #{company.main_branch.address.full_address}"
-    company.branches_sorted.each do |b|
-      unless b.is_main
-        s = "#{b.fact_name}, #{b.legel_name}"
-        s = "#{s}, #{b.address.full_address}" unless b.address.nil?
-        text s
-      end
-    end
+    write_branch(company.main_branch) # головной филиал
+    company.branches_sorted.each { |b| write_branch b unless b.is_main? }
     move_down 10
   end
 
@@ -161,6 +139,21 @@ class ReportCompanyByStreetPDF < Prawn::Document
     text address_summary
     text %Q{Рубрикатор: #{Rubric.rubricator_name_for(filter_rubricator)}}
     move_down 20
+  end
+
+  ##
+  # Пишет информацию по филиалам и их телефонам
+  def write_branch(branch)
+    s = branch.is_main? ? "(*)" : ""
+    text "#{s} #{branch.fact_name}"
+    move_down 5
+    indent(20) do
+      unless branch.address.nil?
+        text branch.address.full_address
+        move_down 5
+      end
+      write_phones branch
+    end
   end
 
 end
