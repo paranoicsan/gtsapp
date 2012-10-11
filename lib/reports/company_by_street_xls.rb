@@ -14,6 +14,7 @@ class ReportCompanyByStreetXLS < Spreadsheet::Workbook
 
     @bold = Spreadsheet::Format.new :weight => :bold
     @italic = Spreadsheet::Format.new :italic => true
+    @underline = Spreadsheet::Format.new :underline => true
 
     write_header # пишем заголовок
     write_companies # пишем сами компании
@@ -39,8 +40,7 @@ class ReportCompanyByStreetXLS < Spreadsheet::Workbook
       @sheet.row(cnt + 1).push "#{c.main_branch.fact_name}, #{c.main_branch.legel_name}"
 
       cnt = write_addresses c, cnt + 3 # адреса
-      cnt = write_phones c, cnt + 2 # телефоны
-      cnt = write_persons c, cnt + 1 # персоны
+      cnt = write_persons c, cnt # персоны
       cnt = write_emails c, cnt + 1 # Почта
       cnt = write_websites c, cnt + 1 # веб-сайты
       cnt = write_rubrics c, cnt + 1 # рубрики
@@ -51,33 +51,31 @@ class ReportCompanyByStreetXLS < Spreadsheet::Workbook
   end
 
   def write_contracts(company, cnt)
-    @sheet.row(cnt).set_format(0, @italic)
-    @sheet.row(cnt).push "Активные договора"
+    @sheet.row(cnt).set_format(0, @underline)
+    @sheet.row(cnt).push "Договора"
     row_cnt = cnt + 1
     company.contracts.each do |c|
-      if c.active?
-        @sheet.row(row_cnt).push c.info
-        row_cnt += 1
-      end
+      @sheet.row(row_cnt).push c.info
+      row_cnt += 1
     end
     row_cnt
   end
 
   def write_rubrics(company, cnt)
-    @sheet.row(cnt).set_format(0, @italic)
+    @sheet.row(cnt).set_format(0, @underline)
     @sheet.row(cnt).push "Рубрики"
     row_cnt = cnt + 1
 
-    company.rubrics.each do |rub|
-      @sheet.row(row_cnt).push rub.name
-      row_cnt += 1
-    end
+    s = ""
+    company.rubrics.each { |rub| s = "#{s}#{rub.name}, " }
+    s = s.gsub(/, $/, "")
+    @sheet.row(row_cnt).push s
 
-    row_cnt
+    row_cnt + 1
   end
 
   def write_websites(company, cnt)
-    @sheet.row(cnt).set_format(0, @italic)
+    @sheet.row(cnt).set_format(0, @underline)
     @sheet.row(cnt).push "Веб-сайты"
     row_cnt = cnt + 1
 
@@ -92,7 +90,7 @@ class ReportCompanyByStreetXLS < Spreadsheet::Workbook
   end
 
   def write_emails(company, cnt)
-    @sheet.row(cnt).set_format(0, @italic)
+    @sheet.row(cnt).set_format(0, @underline)
     @sheet.row(cnt).push "Почта"
     row_cnt = cnt + 1
 
@@ -106,7 +104,7 @@ class ReportCompanyByStreetXLS < Spreadsheet::Workbook
   end
 
   def write_persons(company, cnt)
-    @sheet.row(cnt).set_format(0, @italic)
+    @sheet.row(cnt).set_format(0, @underline)
     @sheet.row(cnt).push "Персоны"
     row_cnt = cnt + 1
     company.persons.each do |per|
@@ -116,38 +114,44 @@ class ReportCompanyByStreetXLS < Spreadsheet::Workbook
     row_cnt
   end
 
-  def write_phones(company, cnt)
-    @sheet.row(cnt).set_format(0, @italic)
-    @sheet.row(cnt).push "Телефоны"
-
-    row_cnt = cnt + 1
-
-    company.branches_sorted.each do |b|
-      b.phones_by_order.each do |p|
-        @sheet.row(row_cnt).push %Q{#{p.name_formatted} - #{p.description}}
-        row_cnt += 1
-      end
+  def write_phones(branch, row_pos)
+    branch.phones_by_order.each do |p|
+      @sheet.row(row_pos)[1] = %Q{#{p.name_formatted(true)} - #{p.description}}
+      row_pos += 1
     end
-    row_cnt
+    row_pos+1
   end
 
   def write_addresses(company, cnt)
-    @sheet.row(cnt).set_format(0, @italic)
+    @sheet.row(cnt).set_format(0, @underline)
     @sheet.row(cnt).push "Адреса"
-    @sheet.row(cnt+1).push "(*) #{company.main_branch.fact_name}, #{company.main_branch.legel_name}, #{company.main_branch.address.full_address}"
 
     row_cnt = cnt + 1
 
+    # пишем филиалы с телефонами
+    row_cnt = write_branch company.main_branch, row_cnt
     company.branches_sorted.each do |b|
       unless b.is_main
-        s = "#{b.fact_name}, #{b.legel_name}"
-        s = "#{s}, #{b.address.full_address}" unless b.address.nil?
-        @sheet.row(row_cnt + 1).push s
+        row_cnt = write_branch b, row_cnt
         row_cnt += 1
       end
     end
 
     row_cnt
   end
+
+  ##
+  # Пишет информацию по филиалам и их телефонам
+  def write_branch(branch, row_pos)
+    s = branch.is_main? ? "(*) " : ""
+    @sheet.row(row_pos).push "#{s}#{branch.fact_name}"
+
+    row_pos += 1
+    @sheet.row(row_pos)[1] = branch.address.full_address unless branch.address.nil?
+
+    row_pos += 2
+    write_phones branch, row_pos
+  end
+
 
 end
