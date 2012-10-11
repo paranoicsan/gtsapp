@@ -50,6 +50,9 @@ describe Company do
         @company.rubricator = 3
         assert @company.rubricator_name == "Полный", "Полный рубрикатор не выводится по имени"
       end
+      it "возвращает информацию, что рубрикатор не указан, если его нет" do
+        assert @company.rubricator_name == "Не указан"
+      end
     end
 
   end

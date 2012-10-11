@@ -3,6 +3,7 @@ When /^Я создаю новую компанию с названием "([^"]*
   #noinspection RubyResolve
   visit new_company_path
   fill_in "company_title", :with => company_title
+  check("company_rubricator_0")
   click_button "Сохранить"
   @company = Company.find_by_title company_title
 end
@@ -91,6 +92,7 @@ When /^Я создаю новую компанию через веб-интер�
     #noinspection RubyResolve
     visit new_company_path
     fill_in "company_title", :with => param[:title]
+    check("company_rubricator_0")
     select param[:source_name], :from => "company_company_source_id"
     click_button "Сохранить"
   end
@@ -102,6 +104,7 @@ When /^Я изменяю компанию "([^"]*)" параметрами$/ do 
   table.hashes.each do |param|
     select param[:source_name], :from => "company_company_source_id"
   end
+  check("company_rubricator_0")
   click_button "Сохранить"
 end
 When /^Я выбираю истоник "([^"]*)"$/ do |source_name|

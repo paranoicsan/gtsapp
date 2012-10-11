@@ -18,7 +18,7 @@ end
 Then /^Я вижу сообщение об ошибке, если пытаюсь удалить улицу, используемую в адресе$/ do
   street = @city.streets.first
   # сорздаём адрес на нашу улицу
-  FactoryGirl.create :address, city_id: @city_id, street_id: street.id
+  FactoryGirl.create :address, city_id: @city.id, street_id: street.id
 
   click_link('Удалить')
   page.driver.browser.switch_to.alert.accept

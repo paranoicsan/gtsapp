@@ -111,13 +111,13 @@ end
 When /^Я вижу список филиалов для каждой компании$/ do
   # проверка головного филиала
   branch = @company.main_branch
-  s = "#{branch.fact_name}, #{branch.legel_name}, #{branch.address.full_address}"
+  s = "#{branch.fact_name}"
   page.should have_content(s)
 
   # проверка остальных филиалов
   @company.branches_sorted.each do |b|
     unless b.is_main
-      s = "#{b.fact_name}, #{b.legel_name}, #{b.address.full_address}"
+      s = "#{b.fact_name}"
       page.should have_content(s)
     end
   end
@@ -125,7 +125,7 @@ end
 When /^Я вижу список телефонов для каждой компании$/ do
   @company.branches_sorted.each do |b|
     b.phones_by_order.each do |p|
-      s = %Q{#{p.name_formatted} - #{p.description}}
+      s = %Q{#{p.name_formatted(true)} - #{p.description}}
       page.should have_content(s)
     end
   end
