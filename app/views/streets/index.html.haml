@@ -10,7 +10,7 @@
   #s_address_city.control-group
     = label_tag 'Населённый пункт:', nil, :class => 'control-label'
     .controls
-      = select_tag("city_id", options_for_select(City.all.collect{ |s| [s.name, s.id] }), {:id => "city_id"})
+      = select_tag("city_id", options_for_select(City.order("name").collect{ |s| [s.name, s.id] }), {:id => "city_id"})
       = submit_tag "Показать", {:id => "do_show", :class => 'btn'}
 
   = render :partial => "shared/messages"

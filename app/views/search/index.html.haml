@@ -24,7 +24,7 @@
           #s_address_city.control-group
             = label_tag 'Город:', nil, :class => 'control-label'
             .controls
-              = select_tag("select_search_city", options_for_select(City.all.collect{ |s| [s.name, s.id] },
+              = select_tag("select_search_city", options_for_select(City.order("name").collect{ |s| [s.name, s.id] },
               (session[:search_params][:city] if session[:search_params])),
                 {:prompt => "Выберите город или населённый пункт", :id => "select_search_city"})
           #s_address_street.control-group
