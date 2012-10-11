@@ -21,5 +21,15 @@ describe Phone do
       s = %Q{(921) #{phone.name}}
       phone.name_formatted.should eq(s)
     end
+    it "добавляет Телефон перед номером по запросу" do
+      phone = FactoryGirl.create :phone
+      s = %Q(Телефон: #{phone.name})
+      phone.name_formatted(true).should eq(s)
+    end
+    it "добавляет Телефон/факс перед номером для факса по запросу" do
+      phone = FactoryGirl.create :phone, fax: true
+      s = %Q(Телефон/факс: #{phone.name})
+      phone.name_formatted(true).should eq(s)
+    end
   end
 end
