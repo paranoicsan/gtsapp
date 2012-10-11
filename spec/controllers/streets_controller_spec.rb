@@ -145,10 +145,8 @@ describe StreetsController do
     end
 
     context "сохраняет параметры формирования отчёта в сессии" do
-      before(:each) do
-        get_valid
-      end
       it "сохраняет ключ населённого пункта" do
+        get :streets_by_city, city_id: @city.id
         session[:report_params][:city_id].should eq(@city.id)
       end
     end
@@ -185,7 +183,6 @@ describe StreetsController do
         get :streets_by_city_export, format: :rtf
       end
       it "возвращает сгенерированный XLS" do
-        pending
         controller.stub(:render)
         controller.should_receive(:send_data)
         get :streets_by_city_export, format: :xls

@@ -12,8 +12,8 @@
                 id: 'report_export_pdf'
                 =link_to image_tag('export_rtf.png', {alt: 'скачать RTF', title: 'скачать RTF'}), streets_by_city_export_path(format: :rtf),
                 id: 'report_export_rtf'
-                -#=link_to image_tag('export_excel.png', {alt: 'скачать Excel-формат', title: 'скачать Excel-формат'}), streets_by_city_export_path(format: :xls),
-                -#id: 'report_export_xls'
+                =link_to image_tag('export_excel.png', {alt: 'скачать Excel-формат', title: 'скачать Excel-формат'}), streets_by_city_export_path(format: :xls),
+                id: 'report_export_xls'
       %tbody
         - @streets_by_city.each do |street|
           %tr

@@ -1,6 +1,7 @@
 #Encoding: utf-8
 require_dependency 'reports/street_by_city_rtf.rb'
 require_dependency 'reports/street_by_city_pdf.rb'
+require_dependency 'reports/street_by_city_xls.rb'
 
 class StreetsController < ApplicationController
 
@@ -135,16 +136,14 @@ class StreetsController < ApplicationController
         rep.city_id = session[:report_params][:city_id]
         rep.get_data
       when "xls"
-        #rep = ReportCompanyByStreetXLS.new
-        #rep.street_id = session[:report_params][:street_id]
-        #rep.filter = session[:report_params][:filter]
-        #rep.filter_rubricator = session[:report_params][:rubricator_filter].to_i
-        #
-        #rep.to_xls
-        #
-        #path = StringIO.new
-        #rep.write path
-        #path.string
+        rep = ReportStreetByCityXLS.new
+        rep.city_id = session[:report_params][:city_id]
+        rep.get_data
+
+        path = StringIO.new
+        rep.write path
+        path.string
+
       else
         nil
     end

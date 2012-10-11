@@ -58,7 +58,7 @@ class Company < ActiveRecord::Base
   # Выводит текстовое обозначение рубриктора для компании
   # @return [string] Текстовое значение рубрикатора
   def rubricator_name
-    rubricator.nil? || 0 ? "Не указан" : Rubric.rubricator_name_for(rubricator)
+    rubricator.nil? || (rubricator == 0) ? "Не указан" : Rubric.rubricator_name_for(rubricator)
   end
 
   ##
