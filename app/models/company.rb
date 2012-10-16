@@ -262,7 +262,7 @@ class Company < ActiveRecord::Base
 
         # для полного рубрикатора всегда есть попадание в любое условие
         if c.rubricator.eql?(options[:rubricator_filter].to_i) || c.rubricator.eql?(3)
-          if options[:filter] == "active"
+          if options[:filter].to_s.eql?("active")
             companies << c if c.active?
           else
             companies << c
