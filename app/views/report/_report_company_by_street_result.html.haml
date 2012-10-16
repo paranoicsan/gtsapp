@@ -73,11 +73,11 @@
                         %li
                           =b.all_websites_str
                   %p.reporesult-section-header Рубрики
-                  -s = ""
-                  -rr.rubrics.each do |rub|
-                    -s = %Q{#{s}  #{rub.name},}
                   %p
-                    =s.gsub(/,$/, '')
+                    -rr.rubrics.each do |rub|
+                      =rub.name
+                      %br
+
                   %p.reporesult-section-header Договора
                   %ul
                     -rr.contracts.each do |c|

@@ -66,10 +66,10 @@ class ReportCompanyByStreetXLS < Spreadsheet::Workbook
     @sheet.row(cnt).push "Рубрики"
     row_cnt = cnt + 1
 
-    s = ""
-    company.rubrics.each { |rub| s = "#{s}#{rub.name}, " }
-    s = s.gsub(/, $/, "")
-    @sheet.row(row_cnt).push s
+    company.rubrics.each do |rub|
+      @sheet.row(row_cnt).push rub.name
+      row_cnt += 1
+    end
 
     row_cnt + 1
   end

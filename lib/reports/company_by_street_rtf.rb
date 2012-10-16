@@ -72,13 +72,11 @@ class ReportCompanyByStreetRTF < RTF::Document
   def write_rubrics(company)
     write_section_header("Рубрики")
 
-    s = ""
-    company.rubrics.each { |rub| s = "#{s}#{rub.name}, " }
-    s = s.gsub(/, $/, "")
-
     paragraph do |p|
-      p << s
-      p.line_break
+      company.rubrics.each do |rub|
+        p << rub.name
+        p.line_break
+      end
     end
   end
 

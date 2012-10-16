@@ -148,7 +148,7 @@ end
 When /^Я вижу все рубрики для каждой компании$/ do
   s = ""
   @company.rubrics.each do |rub|
-    s = %Q{#{s}  #{rub.name},}
+    s = %Q{#{s}  #{rub.name}}
   end
   page.should have_content(s.gsub(/,$/, ''))
 end

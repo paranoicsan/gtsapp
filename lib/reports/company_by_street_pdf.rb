@@ -66,9 +66,7 @@ class ReportCompanyByStreetPDF < Prawn::Document
     move_down 5
     font "Verdana", size: 10
 
-    s = ""
-    company.rubrics.each { |rub| s = "#{s}#{rub.name}, " }
-    text s.gsub(/, $/, "")
+    company.rubrics.each { |rub| text rub.name }
 
     move_down 10
   end
