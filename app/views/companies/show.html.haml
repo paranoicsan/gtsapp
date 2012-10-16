@@ -9,140 +9,141 @@
       - if request.referer && request.referer.split(/\?/)[0].eql?(search_url)
         = link_to "Назад к результатам поиска", search_path + '?back_to'
 
+.container-fluid
   .row-fluid
     .span4
       .well#company-info
         =render :partial => "info"
 
     .span8
-      .well
-        %h3.well-title
-          Рубрики
-        .form-inline
-          = autocomplete_field_tag 'company_rubric', '', companies_autocomplete_rubric_name_path, :onKeyup => "onRubSelect()",
-          :placeholder => "Начните печатать для выбора из списка", :id_element => '#rubric_id', :id => 'company_rubric_id'
-          = hidden_field_tag 'rubric_id'
-          = hidden_field_tag 'company_id', @company.id
-          = link_to "Добавить рубрику", "#", :id => "add_rub_link", :remote => true, :class => "btn btn-small",
-          :onClick => "$('#company_rubric_id').val('')"
-        %p
-          #rubrics_list
-            = render :partial => "rubrics_list"
+      -#.well
+      %h3.well-title
+        Рубрики
+      .form-inline
+        = autocomplete_field_tag 'company_rubric', '', companies_autocomplete_rubric_name_path, :onKeyup => "onRubSelect()",
+        :placeholder => "Начните печатать для выбора из списка", :id_element => '#rubric_id', :id => 'company_rubric_id'
+        = hidden_field_tag 'rubric_id'
+        = hidden_field_tag 'company_id', @company.id
+        = link_to "Добавить рубрику", "#", :id => "add_rub_link", :remote => true, :class => "btn btn-small",
+        :onClick => "$('#company_rubric_id').val('')"
+      %p
+        #rubrics_list
+          = render :partial => "rubrics_list"
 
   .row-fluid
     .span12
-      .well
-        %h3.well-title
-          Филиалы
+      -#.well
+      %h3.well-title
+        Филиалы
 
-        %p= link_to 'Создать', new_company_branch_path(@company), class: "btn btn-mini"
+      %p= link_to 'Создать', new_company_branch_path(@company), class: "btn btn-mini"
 
-        -if @company.branches_sorted.any?
-          %table#branches.table.table-striped
+      -if @company.branches_sorted.any?
+        %table#branches.table.table-striped
+          %tr
+            %th Головной
+            %th Информация
+            %th Операции
+          -@company.branches_sorted.each do |branch|
             %tr
-              %th Головной
-              %th Информация
-              %th Операции
-            -@company.branches_sorted.each do |branch|
-              %tr
-                %td= check_box_tag("cb_branch_main", 1, branch.is_main?, { :disabled => "disabled" })
-                %td
-                  %p
-                    = link_to branch.formatted_name, branch_path(branch)
+              %td= check_box_tag("cb_branch_main", 1, branch.is_main?, { :disabled => "disabled" })
+              %td
+                %p
+                  = link_to branch.formatted_name, branch_path(branch)
+                %p
+                  %small
+                    = branch.address.full_address if branch.address
+                -if branch.emails.any?
                   %p
                     %small
-                      = branch.address.full_address if branch.address
-                  -if branch.emails.any?
-                    %p
-                      %small
-                        = branch.all_emails_str
-                  -if branch.websites.any?
-                    %p
-                      %small
-                        = branch.all_websites_str
-                  -if branch.phones.any?
-                    =render :partial => 'company_show_phone_list', :locals => { :branch => branch }
-                %td
-                  -unless branch.is_main?
-                    = link_to 'Сделать головным', branch_make_main_path(branch), class: "btn btn-mini"
-                  %a{ :href => edit_branch_path(branch), :class => "btn btn-mini"}
-                    %i.icon-edit.icon-white
+                      = branch.all_emails_str
+                -if branch.websites.any?
+                  %p
+                    %small
+                      = branch.all_websites_str
+                -if branch.phones.any?
+                  =render :partial => 'company_show_phone_list', :locals => { :branch => branch }
+              %td
+                -unless branch.is_main?
+                  = link_to 'Сделать головным', branch_make_main_path(branch), class: "btn btn-mini"
+                %a{ :href => edit_branch_path(branch), :class => "btn btn-mini"}
+                  %i.icon-edit
+                  Изменить
+                %a{ :href => branch_path(branch), :class => "btn btn-mini",
+                "data-confirm" => "Вы уверены?",  "data-method" => "delete", :rel => "nofollow" }
+                  %i.icon-trash
+                  Удалить
+
+  .row-fluid
+    .span12
+      -#.well
+      %h3.well-title
+        Персоны
+
+      %p= link_to 'Создать', new_company_person_path(@company), class: "btn btn-mini",
+      id: 'company_person_add'
+
+      -if @company.persons.any?
+        %table#people.table.table-striped
+          %tr
+            %th Должность
+            %th ФИО
+            %th Телефон
+            %th Email
+          -@company.persons.each do |person|
+            %tr
+              %td= person.position
+              %td
+                =link_to person.full_name, person_path(person), id: 'company_person_view'
+              %td= person.phone
+              %td= person.email
+              %td
+                %a{ :href => edit_person_path(person), :class => "btn btn-mini", :id => 'company_person_edit_link'}
+                  %i.icon-edit
+                  Изменить
+                %a{ :href => person_path(person), :class => "btn btn-mini", :id => 'compane_person_delete_link',
+                "data-confirm" => "Вы уверены?", "data-method" => "delete", :rel => "nofollow" }
+                  %i.icon-trash
+                  Удалить
+
+
+
+  .row-fluid
+    .span12
+      -#.well
+      %h3.well-title Договоры
+
+      -if @current_user.is_admin? || @current_user.is_operator?
+        %p= link_to 'Создать', new_company_contract_path(@company), class: "btn btn-mini", id: 'contract_create'
+
+      -if @company.contracts.any?
+        -# | number | project_code | date_sign  | amount | contract_status_id |
+        %table#contracts.table.table-striped
+          %tr
+            %th №
+            %th Проект
+            %th Подписан
+            %th Сумма
+            %th Статус
+            %th Операции
+          -@company.contracts.each do |contract|
+            %tr
+              %td= link_to contract.number, contract_path(contract)
+              %td= contract.project_code.name if contract.project_code
+              %td= contract.date_sign.strftime("%d.%m.%Y") if contract.date_sign
+              %td= contract.amount
+              %td= contract.contract_status.name if contract.contract_status
+              %td
+                -if contract.can_activate?(@current_user)
+                  =link_to 'Активировать', activate_contract_path(contract),
+                  :class => 'btn btn-success btn-mini'
+
+                -if contract.can_delete?(@current_user)
+                  %a{ :href => edit_contract_path(contract), :class => "btn btn-mini"}
+                    %i.icon-edit
                     Изменить
-                  %a{ :href => branch_path(branch), :class => "btn btn-mini",
+                  %a{ :href => contract_path(contract), :class => "btn btn-mini",
                   "data-confirm" => "Вы уверены?",  "data-method" => "delete", :rel => "nofollow" }
-                    %i.icon-trash.icon-white
+                    %i.icon-trash
                     Удалить
-
-  .row-fluid
-    .span12
-      .well
-        %h3.well-title
-          Персоны
-
-        %p= link_to 'Создать', new_company_person_path(@company), class: "btn btn-mini",
-        id: 'company_person_add'
-
-        -if @company.persons.any?
-          %table#people.table.table-striped
-            %tr
-              %th Должность
-              %th ФИО
-              %th Телефон
-              %th Email
-            -@company.persons.each do |person|
-              %tr
-                %td= person.position
-                %td
-                  =link_to person.full_name, person_path(person), id: 'company_person_view'
-                %td= person.phone
-                %td= person.email
-                %td
-                  %a{ :href => edit_person_path(person), :class => "btn btn-mini", :id => 'company_person_edit_link'}
-                    %i.icon-edit.icon-white
-                    Изменить
-                  %a{ :href => person_path(person), :class => "btn btn-mini", :id => 'compane_person_delete_link',
-                  "data-confirm" => "Вы уверены?", "data-method" => "delete", :rel => "nofollow" }
-                    %i.icon-trash.icon-white
-                    Удалить
-
-
-
-  .row-fluid
-    .span12
-      .well
-        %h3.well-title Договоры
-
-        -if @current_user.is_admin? || @current_user.is_operator?
-          %p= link_to 'Создать', new_company_contract_path(@company), class: "btn btn-mini", id: 'contract_create'
-
-        -if @company.contracts.any?
-          -# | number | project_code | date_sign  | amount | contract_status_id |
-          %table#contracts.table.table-striped
-            %tr
-              %th №
-              %th Проект
-              %th Подписан
-              %th Сумма
-              %th Статус
-              %th Операции
-            -@company.contracts.each do |contract|
-              %tr
-                %td= link_to contract.number, contract_path(contract)
-                %td= contract.project_code.name if contract.project_code
-                %td= contract.date_sign.strftime("%d.%m.%Y") if contract.date_sign
-                %td= contract.amount
-                %td= contract.contract_status.name if contract.contract_status
-                %td
-                  -if contract.can_activate?(@current_user)
-                    =link_to 'Активировать', activate_contract_path(contract),
-                    :class => 'btn btn-success btn-mini'
-
-                  -if contract.can_delete?(@current_user)
-                    %a{ :href => edit_contract_path(contract), :class => "btn btn-mini"}
-                      %i.icon-edit.icon-white
-                      Изменить
-                    %a{ :href => contract_path(contract), :class => "btn btn-mini",
-                    "data-confirm" => "Вы уверены?",  "data-method" => "delete", :rel => "nofollow" }
-                      %i.icon-trash.icon-white
-                      Удалить
 

@@ -1,23 +1,23 @@
 -if @report_result
   .row-fluid
     .span10
-      .well
-        -if @report_result.any?
-          %h4
-            Операции для агента
-            = @report_agent.username
-          %br
-          %table#report_results_table.table.table-striped
+      -#.well
+      -if @report_result.any?
+        %h4
+          Операции для агента
+          = @report_agent.username
+        %br
+        %table#report_results_table.table.table-striped
+          %tr
+            %th Компания
+            %th Операция
+            %th
+          -@report_result.each do |rr|
             %tr
-              %th Компания
-              %th Операция
-              %th
-            -@report_result.each do |rr|
-              %tr
-                %td
-                  = link_to rr.company.title, company_path(rr.company)
-                %td= rr.operation
-                %td= rr.created_at.strftime("%d.%m.%Y %H:%M")
-        -else
-          %p
-            Нет данных.
+              %td
+                = link_to rr.company.title, company_path(rr.company)
+              %td= rr.operation
+              %td= rr.created_at.strftime("%d.%m.%Y %H:%M")
+      -else
+        %p
+          Нет данных.

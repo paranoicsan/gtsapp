@@ -11,45 +11,45 @@
 .container-fluid
   .row-fluid
     .span10
-      .well
-        = form_tag report_prepare_company_by_street_path, :remote => true, :method => :post,
-        :class => 'form-horizontal well' do
-          .control-group#city-group.error
-            = label_tag 'Город', nil, :class => 'control-label'
-            .controls
-              = autocomplete_field_tag 'address_city', nil, addresses_autocomplete_city_name_path,
-              :placeholder => "Начните печатать для выбора из списка", :id_element => '#city_id', :id => 'address_city'
-              = hidden_field_tag 'city_id'
-          .control-group#street-group.error
-            = label_tag 'Улица', nil, :class => 'control-label'
-            .controls
-              = autocomplete_field_tag 'address_street', nil, '', :placeholder => "Начните печатать для выбора",
-              :id => 'address_street', :id_element => '#street_id'
-              = hidden_field_tag 'street_id'
-          .control-group
-            = label_tag "Компании", nil, :class => 'control-label'
-            .controls
-              %label.radio
-                активные
-                = radio_button_tag "filter", "active", true
-              %label.radio
-                все
-                = radio_button_tag "filter", "all", false
-          .control-group
-            = label_tag "Рубрикатор", nil, :class => 'control-label'
-            .controls
-              %label.radio
-                полный
-                = radio_button_tag "rubricator_filter", 3, true
-              %label.radio
-                коммерческий
-                = radio_button_tag "rubricator_filter", 2, false
-              %label.radio
-                социальный
-                = radio_button_tag "rubricator_filter", 1, false
+      -#.well
+      = form_tag report_prepare_company_by_street_path, :remote => true, :method => :post,
+      :class => 'form-horizontal well' do
+        .control-group#city-group.error
+          = label_tag 'Город', nil, :class => 'control-label'
+          .controls
+            = autocomplete_field_tag 'address_city', nil, addresses_autocomplete_city_name_path,
+            :placeholder => "Начните печатать для выбора из списка", :id_element => '#city_id', :id => 'address_city'
+            = hidden_field_tag 'city_id'
+        .control-group#street-group.error
+          = label_tag 'Улица', nil, :class => 'control-label'
+          .controls
+            = autocomplete_field_tag 'address_street', nil, '', :placeholder => "Начните печатать для выбора",
+            :id => 'address_street', :id_element => '#street_id'
+            = hidden_field_tag 'street_id'
+        .control-group
+          = label_tag "Компании", nil, :class => 'control-label'
+          .controls
+            %label.radio
+              активные
+              = radio_button_tag "filter", "active", true
+            %label.radio
+              все
+              = radio_button_tag "filter", "all", false
+        .control-group
+          = label_tag "Рубрикатор", nil, :class => 'control-label'
+          .controls
+            %label.radio
+              полный
+              = radio_button_tag "rubricator_filter", 3, true
+            %label.radio
+              коммерческий
+              = radio_button_tag "rubricator_filter", 2, false
+            %label.radio
+              социальный
+              = radio_button_tag "rubricator_filter", 1, false
 
-          .form-actions
-            = submit_tag "Показать", {:disabled => "disabled", :id => "do_report_company_by_street", :class => 'btn'}
+        .form-actions
+          = submit_tag "Показать", {:disabled => "disabled", :id => "do_report_company_by_street", :class => 'btn'}
 
   #report_results_container
     =render :partial => "report_company_by_street_result"

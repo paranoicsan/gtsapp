@@ -11,23 +11,23 @@
 .container-fluid
   .row-fluid
     .span10
-      .well
-        = form_tag report_prepare_by_agent_path, :remote => true, :method => :post, :class => 'form-horizontal well' do
-          .control-group#agent_group
-            = label_tag 'Агент:', nil, :class => 'control-label'
-            .controls
-              = select_tag("report_agent", options_for_select(User.agents.collect{ |u| [u.username, u.id] }),
-              {:prompt => "Выберите агента", :id => "report_agent"})
-          .control-group#period_start_group
-            = label_tag 'Начало периода:', nil, :class => 'control-label'
-            .controls
-              = select_date(Date.today - 2.month, :prefix => 'report_period_start', :discard_day => true)
-          .control-group#period_start_group
-            = label_tag 'Конец периода:', nil, :class => 'control-label'
-            .controls
-              = select_date(Date.today, :prefix => 'report_period_end', :discard_day => true)
-          .form-actions
-            = submit_tag "Показать", {:disabled => "disabled", :id => "do_report_by_agent", :class => 'btn'}
+      -#.well
+      = form_tag report_prepare_by_agent_path, :remote => true, :method => :post, :class => 'form-horizontal well' do
+        .control-group#agent_group
+          = label_tag 'Агент:', nil, :class => 'control-label'
+          .controls
+            = select_tag("report_agent", options_for_select(User.agents.collect{ |u| [u.username, u.id] }),
+            {:prompt => "Выберите агента", :id => "report_agent"})
+        .control-group#period_start_group
+          = label_tag 'Начало периода:', nil, :class => 'control-label'
+          .controls
+            = select_date(Date.today - 2.month, :prefix => 'report_period_start', :discard_day => true)
+        .control-group#period_start_group
+          = label_tag 'Конец периода:', nil, :class => 'control-label'
+          .controls
+            = select_date(Date.today, :prefix => 'report_period_end', :discard_day => true)
+        .form-actions
+          = submit_tag "Показать", {:disabled => "disabled", :id => "do_report_by_agent", :class => 'btn'}
 
   #report_results_container
     =render :partial => "report_by_agent_result"
