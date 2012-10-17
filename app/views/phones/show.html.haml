@@ -1,11 +1,10 @@
-= render :partial => "shared/messages"
-
 .page-header
   %h1
     Телефон
     %p
       %small= link_to @branch.fact_name, branch_path(@branch)
 
+  = render :partial => "shared/messages"
 
 .container-fluid
   .row-fluid
