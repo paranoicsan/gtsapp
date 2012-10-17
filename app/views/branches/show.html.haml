@@ -2,95 +2,38 @@
 
 .page-header
   %h1
-    Филиал
+    =@branch.fact_name
     %p
       %small= link_to @company.title, company_path(@company)
 
 
-.container-fluid
-  .row-fluid
-    .span4.well
-      %h3.well-title Информация
-      %table.table.table-condensed
-        %tbody
-          -if @branch.is_main?
-            %tr
-              %td{colsspan: 2}
-                %p.tl Головной филиал
-          %tr
-            %td
-              %p.tl.t-cell-label Форма собств.:
-            %td
-              = @branch.form_type.name if @branch.form_type
-          %tr
-            %td
-              %p.tl.t-cell-label Факт. название:
-            %td= @branch.fact_name
-          %tr
-            %td
-              %p.tl.t-cell-label Юр. название:
-            %td= @branch.legel_name
-          -if @branch.comments
-            %tr
-              %td{colspan: 2}
-                %p=@branch.comments
-      %div{style: "text-align: center;"}
-        .form-inline
-          = link_to 'К компании', company_path(@company), :class => 'btn btn-small'
-          = link_to "Изменить", edit_branch_path(@branch), :class => 'btn btn-small'
-          = link_to "Удалить", branch_path(@branch), :method => "delete", :confirm => "Вы уверены?", :class => 'btn btn-danger btn-small'
+.container
+  .row
+    .span4
+      .well
+        =render :partial => 'branches/info'
 
-    .span8.well
-      %h3.well-title Адрес
-      -if @branch.address
-        %p
-          =@branch.address.full_address
-        %p
-          = link_to 'Изменить', edit_address_path(@branch.address), class: 'btn btn-mini'
-          = link_to 'Удалить', @branch.address, :confirm => 'Вы уверены?', :method => :delete, class: 'btn btn-mini btn-danger'
-      -else
-        = link_to 'Добавить адрес', new_branch_address_path(@branch), class: 'btn btn-small'
+    .span8
+      %ul.nav.nav-tabs#branch-tabs
+        %li.active
+          =link_to '#branch-address' do
+            Адрес
+        %li
+          =link_to '#branch-phones' do
+            Телефоны
+        %li
+          =link_to '#branch-emails' do
+            Почта
+        %li
+          =link_to '#branch-websites' do
+            Веб-сайты
 
-    .span8.well
-      %h3.well-title Телефоны
-
-      %p= link_to 'Добавить', new_branch_phone_path(@branch), class: 'btn btn-mini', id: 'phone_add'
-
-      -if @branch.phones.any?
-        %table.table.table-striped.table-condensed{id: 'phones'}
-          %tbody
-            %tr
-              %th
-              %th В печать?
-              %th Описание
-              %th
-              %th
-            -@branch.phones_by_order.each do |phone|
-              %tr
-                %td= phone.order_num.to_s
-                %td= check_box_tag("cb_publishable", 1, phone.publishable?, { :disabled => "disabled" })
-                %td= phone.description
-                %td= link_to phone.name, phone_path(phone)
-                %td
-                  = link_to 'Изменить', edit_phone_path(phone), class: "btn btn-mini", id: "phone_edit"
-                  = link_to 'Удалить', phone, :confirm => 'Вы уверены?', :method => :delete, :class => "btn btn-mini"
-
-
-
-
-  .row-fluid
-    .span4.well
-      %h3.well-title Веб-сайты
-      = form_tag branch_add_website_path(@branch), {:remote => true, :method => :post, class: "form-inline"} do
-        = text_field_tag "branch_website", "", :placeholder => "http://www.example.com", :size => 70
-        = submit_tag "Добавить", {id: "branch_add_website", :class => "btn btn-small"}
-      #websites_list
-        = render :partial => "websites_list"
-
-    .span4.well
-      %h3.well-title Электронная почта
-      = form_tag branch_add_email_path(@branch), {:remote => true, :method => :post, class: "form-inline"} do
-        = text_field_tag "branch_email", "", :placeholder => "test@test.com", :size => 70
-        = submit_tag "Добавить", {:id => "branch_add_email", :class => "btn btn-small"}
-      #emails_list
-        = render :partial => "emails_list"
+      .tab-content
+        .tab-pane.active#branch-address
+          =render :partial => 'branches/address'
+        .tab-pane#branch-phones
+          =render :partial => 'branches/phones'
+        .tab-pane#branch-emails
+          =render :partial => 'branches/emails'
+        .tab-pane#branch-websites
+          =render :partial => 'branches/websites'

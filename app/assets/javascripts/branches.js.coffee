@@ -4,6 +4,13 @@
 
 # прячем ссылку для добавления веб-сайта
 $ ->
+
+  # активация Tabs
+  $('#branch-tabs a:first').tab('show')
+  $('#branch-tabs a').click (e) ->
+    e.preventDefault()
+    $(this).tab('show')
+
   el = $('#branch_add_website')
   el.attr('disabled', 'disabled')
   $('#branch_website').keyup ->
@@ -37,7 +44,7 @@ legelNameChange = ->
   validate()
 
 # Обработка изменений в строке с веб-адресом филиала
-wsChange = ->
+@wsChange = ->
   el = $('#branch_add_website')
   if $('#branch_website').val().length > 0
     el.removeAttr 'disabled'
@@ -45,7 +52,7 @@ wsChange = ->
     el.attr('disabled', 'disabled')
 
 # Обработка изменений в строке с адресом электронной почты
-emChange = ->
+@emChange = ->
   el = $('#branch_add_email')
   if $('#branch_email').val().length > 0
     el.removeAttr 'disabled'

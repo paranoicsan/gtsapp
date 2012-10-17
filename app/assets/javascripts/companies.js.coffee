@@ -3,7 +3,8 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
 $ ->
-  $('#company-tabs a:first').tab('show') # активация Tabs
+  # активация Tabs
+  $('#company-tabs a:first').tab('show')
   $('#company-tabs a').click (e) ->
       e.preventDefault()
       $(this).tab('show')

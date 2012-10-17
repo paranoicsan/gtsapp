@@ -14,5 +14,6 @@
         %td= ws.name
         %td
           -unless @current_user.is_agent?
-            =link_to "Удалить", branch_delete_website_path(@branch, ws), :confirm => 'Вы уверены?', :remote => true,
-            :class => "btn btn-mini"
+            = link_to branch_delete_website_path(@branch, ws), :method => :delete, :confirm => 'Удалить запись?',
+            title: 'Удалить', class: 'btn btn-mini', :rel => "nofollow", :remote => true do
+              =glyph(:remove)

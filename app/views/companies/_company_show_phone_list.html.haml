@@ -1,7 +1,9 @@
 -element_id = "#{branch.id}"
 #phone_list
-  %p.btn.btn-mini{onClick: "showPhones('#{element_id}')", id: "show_phones_#{element_id}"}
-    Телефоны
+  %p
+    =link_to '#', class: 'btn btn-mini', onClick: "showPhones('#{element_id}')", id: "show_phones_#{element_id}" do
+      =glyph("eye-open")
+      Телефоны
   %p
   %table.table.table-striped.table-condensed.well{style: 'display: none', id:"branch_#{element_id}"}
     %tbody
