@@ -1,5 +1,3 @@
-= render :partial => "shared/messages"
-
 .page-header
   %h1
     = @company.title
@@ -8,6 +6,8 @@
     %p
       - if request.referer && request.referer.split(/\?/)[0].eql?(search_url)
         = link_to "Назад к результатам поиска", search_path + '?back_to'
+
+  = render :partial => "shared/messages"
 
 .container
   .row

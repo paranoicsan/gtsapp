@@ -1,6 +1,3 @@
-
-= render :partial => "shared/messages"
-
 .page-header
   %h1{id:'contract_number'}
     = @contract.number
@@ -8,114 +5,22 @@
       %small
         = link_to @contract.company.title, company_path(@contract.company)
 
-.container-fluid
-  .row-fluid
-    .span5.well
+  = render :partial => "shared/messages"
 
-      %h3.well-title Информация
-      %table.table.table-condensed{id: 'contract_info'}
-        %tbody
-          -if @contract.contract_status
-            %tr
-              %td
-                %p.tl.t-cell-label Статус:
-              %td
-                %p{id:'contract_status'}
-                  = @contract.contract_status.name
+.container
+  .row
+    .span5
+      .well
+        =render :partial => 'contracts/info'
 
-          -if @contract.project_code
-            %tr
-              %td
-                %p.tl.t-cell-label Проект:
-              %td
-                %p{id:'contract_project_code'}
-                  = @contract.project_code.name
-
-          -if @contract.date_sign
-            %tr
-              %td
-                %p.tl.t-cell-label Заключён:
-              %td
-                %p{id:'contract_date_sign'}
-                  = @contract.date_sign.strftime("%d.%m.%Y")
-
-          -if @contract.amount
-            %tr
-              %td
-                %p.tl.t-cell-label Сумма:
-              %td
-                %p{id:'contract_amount'}
-                  = @contract.amount
-
-          %tr
-            %td
-              %p.tl.t-cell-label Бонусы:
-            %td
-              %p{id:'contract_bonus'}
-                - if @contract.bonus?
-                  Есть
-                - else
-                  Нет
-
-          -if @contract.company_legel_name
-            -if @contract.company_legel_name.length > 0
-              %tr
-                %td
-                  %p.tl.t-cell-label Юр. имя заказчика:
-                %td
-                  %p{id:'contract_company_legel_name'}
-                    = @contract.company_legel_name
-
-          -if @contract.person
-            -if @contract.person.length > 0
-              %tr
-                %td
-                  %p.tl.t-cell-label Представитель заказчика:
-                %td
-                  %p{id:'contract_person'}
-                    = @contract.person
-
-          -if @contract.company_details
-            -if @contract.company_details.length > 0
-              %tr
-                %td
-                  %p.tl.t-cell-label Реквизиты заказчика:
-                %td
-                  %p{id:'contract_company_details'}
-                    = @contract.company_details
-
-          -if @contract.number_of_dicts
-            %tr
-              %td
-                %p.tl.t-cell-label Количество справочников:
-              %td
-                %p{id:'contract_number_of_dicts'}
-                  = @contract.number_of_dicts
-
-          %tr
-            %td
-              %p.tl.t-cell-label Добавлен:
-            %td
-              %p{id:''}
-                = @contract.created_at.localtime.strftime("%d.%m.%Y")
-
-      .form-actions
-        = link_to 'К компании', company_path(@contract.company), :class => 'btn btn-small'
-        -if @contract.can_activate?(current_user)
-          = link_to 'Активировать', activate_contract_path(@contract), :class => 'btn btn-success btn-small'
-        -if @contract.can_delete?(current_user)
-          = link_to 'Изменить', edit_contract_path(@contract), :class => 'btn btn-small'
-          = link_to 'Удалить', contract_path(@contract), :method => "delete", :confirm => 'Вы уверены?', :class => 'btn  btn-small btn-danger'
+    .span7
+      %ul.nav.nav-tabs#contracts-tabs
+        %li.active
+          =link_to '#contract-products' do
+            Продукты
+      .tab-content
+        .tab-pane.active#contract-products
+          =render :partial => 'contracts/products'
 
 
-    .span7.well
-
-      %h3.well-title
-        Продукты
-
-      - unless current_user.is_agent?
-        %p= link_to 'Добавить', new_contract_product_path(@contract), class: 'btn btn-mini', id: 'contract_product_add'
-
-      #products_list
-        = render :partial => "products_list"
 

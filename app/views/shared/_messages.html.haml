@@ -1,9 +1,9 @@
 #message
   - if flash[:notice]
-    #notice
+    #notice.alert.alert-success
       = flash[:notice]
   - if flash[:error]
-    #warning
+    #warning.alert.alert-error
       Ошибка:
       - if flash[:error].is_a?(Array)
         - flash[:error].each do |msg|
