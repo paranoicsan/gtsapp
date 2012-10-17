@@ -23,9 +23,10 @@
               %tr
                 %td= rub.name
                 %td
-                  = link_to edit_rubric_path(rub), :class => 'btn btn-mini', title: "Изменить" do
-                    =glyph(:edit)
-                  = link_to rubric_path(rub), :method => :delete, :confirm => 'Удалить запись?',
-                  :class => 'btn btn-mini', title: "Удалить" do
-                    =glyph(:remove)
+                  .btn-group
+                    = link_to edit_rubric_path(rub), :class => 'btn btn-mini', title: "Изменить" do
+                      =glyph(:edit)
+                    = link_to rubric_path(rub), :method => :delete, :confirm => 'Удалить запись?',
+                    :class => 'btn btn-mini', title: "Удалить" do
+                      =glyph(:remove)
 

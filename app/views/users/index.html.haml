@@ -28,9 +28,10 @@
               %td= user.email
               %td= user.roles.map { |role| role.to_s }.join(", ")
               %td
-                = link_to edit_user_path(user), class: 'btn btn-mini', title: 'Изменить' do
-                  =glyph(:edit)
-                -unless current_user.eql?(user)
-                  = link_to user_path(user), :method => :delete, :confirm => 'Are you sure?', title: 'Удалить', class: 'btn btn-mini' do
-                    =glyph(:remove)
+                .btn-group
+                  = link_to edit_user_path(user), class: 'btn btn-mini', title: 'Изменить' do
+                    =glyph(:edit)
+                  -unless current_user.eql?(user)
+                    = link_to user_path(user), :method => :delete, :confirm => 'Are you sure?', title: 'Удалить', class: 'btn btn-mini' do
+                      =glyph(:remove)
 

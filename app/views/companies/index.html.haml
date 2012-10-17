@@ -39,11 +39,12 @@
                 = company.editor_name
               %td= company.rubricator_name
               %td
-                = link_to edit_company_path(company), :class => 'btn btn-mini', title: "Изменить" do
-                  =glyph(:edit)
-                -if @current_user.is_admin? || @current_user.is_operator?
-                  = link_to company_path(company), :method => :delete, :confirm => 'Удалить запись?',
-                  :class => 'btn btn-mini', title: "Удалить" do
-                    =glyph(:remove)
+                .btn-group
+                  = link_to edit_company_path(company), :class => 'btn btn-mini', title: "Изменить" do
+                    =glyph(:edit)
+                  -if @current_user.is_admin? || @current_user.is_operator?
+                    = link_to company_path(company), :method => :delete, :confirm => 'Удалить запись?',
+                    :class => 'btn btn-mini', title: "Удалить" do
+                      =glyph(:remove)
 
       = will_paginate @companies, class: "pagination pagination-centered"

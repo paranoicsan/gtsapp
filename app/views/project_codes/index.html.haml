@@ -22,9 +22,10 @@
           %tr
             %td= pcode.name
             %td
-              = link_to edit_project_code_path(pcode), :class => 'btn btn-mini', :id => 'project_code_edit_' + pcode.id.to_s,
-              title: 'Изменить' do
-                =glyph(:edit)
-              = link_to pcode, :confirm => 'Вы уверены?', :method => :delete, :id => 'project_code_delete_' + pcode.id.to_s,
-              title: 'Удалить', class: 'btn btn-mini' do
-                =glyph(:remove)
+              .btn-group
+                = link_to edit_project_code_path(pcode), :class => 'btn btn-mini', :id => 'project_code_edit_' + pcode.id.to_s,
+                title: 'Изменить' do
+                  =glyph(:edit)
+                = link_to pcode, :confirm => 'Вы уверены?', :method => :delete, :id => 'project_code_delete_' + pcode.id.to_s,
+                title: 'Удалить', class: 'btn btn-mini' do
+                  =glyph(:remove)

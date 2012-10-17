@@ -33,8 +33,9 @@
             %td= product.bonus_site
             %td= product.price
             %td
-              = link_to edit_product_type_path(product), :class => 'btn btn-mini', title: "Изменить" do
-                =glyph(:edit)
-              = link_to product, :method => :delete, :confirm => 'Удалить запись?',
-              :class => 'btn btn-mini', title: "Удалить" do
-                =glyph(:remove)
+              .btn-group
+                = link_to edit_product_type_path(product), :class => 'btn btn-mini', title: "Изменить" do
+                  =glyph(:edit)
+                = link_to product, :method => :delete, :confirm => 'Удалить запись?',
+                :class => 'btn btn-mini', title: "Удалить" do
+                  =glyph(:remove)

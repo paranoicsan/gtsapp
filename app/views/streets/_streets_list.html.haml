@@ -19,10 +19,11 @@
           %tr
             %td= street.name
             %td
-              = link_to edit_street_path(street), :class => 'btn btn-mini', title: "Изменить" do
-                =glyph(:edit)
-              = link_to street_path(street), :method => :delete, :confirm => 'Удалить запись?',
-              :class => 'btn btn-mini', title: "Удалить" do
-                =glyph(:remove)
+              .btn-group
+                = link_to edit_street_path(street), :class => 'btn btn-mini', title: "Изменить" do
+                  =glyph(:edit)
+                = link_to street_path(street), :method => :delete, :confirm => 'Удалить запись?',
+                :class => 'btn btn-mini', title: "Удалить" do
+                  =glyph(:remove)
 
     = will_paginate @streets_by_city, inner_window: 1, outer_window: 1, params: {city_id: @streets_by_city.first.city_id}
