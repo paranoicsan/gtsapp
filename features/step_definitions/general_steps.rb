@@ -148,3 +148,6 @@ end
 When /^Я нахожусь на странице филиала$/ do
   visit branch_path(@branch)
 end
+When /^Я нажимаю на ссылку с ключом "([^"]*)"$/ do |el_id|
+  find("##{el_id}").click
+end

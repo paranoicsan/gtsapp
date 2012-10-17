@@ -117,5 +117,7 @@ Then /^Я вижу таблицу "([^"]*)" с телефонами$/ do |table_
   page.should_not have_selector(:xpath, "//table[@id='#{table_id}']/*/tr[#{idx}]")
 end
 When /^Я удаляю телефон$/ do
-  find("a[href='#{phone_path(@phone)}'][text()='Удалить']").click
+  s = phone_path(@phone)
+  find("a[href='#{s}'][data-method='delete']").click
+  page.driver.browser.switch_to.alert.accept
 end

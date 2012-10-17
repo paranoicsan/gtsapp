@@ -4,9 +4,8 @@ When /^Я создаю филиал с фактическим названием
   @company = Company.find_by_title cname
   #noinspection RubyResolve
   visit company_path @company
-  #noinspection RubyResolve
-  s = new_company_branch_path(@company)
-  find("a[href='#{s}'][text()='Создать']").click
+  step %Q{Я активирую закладку "Филиалы"}
+  find("#btn_branch_add").click
   fill_in "branch_legel_name", :with => "Legel name - #{bname}"
   fill_in "branch_fact_name", :with => bname
   select "МУП", :from => "branch_form_type_id"
@@ -162,8 +161,9 @@ When /^Я удаляю веб-сайт "([^"]*)" из филиала "([^"]*)"$/
   ws = b.websites.find_by_name ws_name
   #noinspection RubyResolve
   s = branch_delete_website_path b, ws
-  page.find(%{a[href = "#{s}"]}).click
+  find("a[href='#{s}'][data-method='delete']").click
   page.driver.browser.switch_to.alert.accept
+  sleep 2
 end
 When /^Я вижу таблицу "([^"]*)" с адресами$/ do |table_id, table|
   xpth = "//table[@id='#{table_id}']"

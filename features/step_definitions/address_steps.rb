@@ -67,7 +67,7 @@ Then /^Я удаляю адрес на странице филиала "([^"]*)"
   visit branch_path branch
   #noinspection RubyResolve
   s = address_path(branch.address)
-  find("a[href='#{s}'][text()='Удалить']").click
+  find("a[href='#{s}'][data-method='delete']").click
 end
 When /^Я вижу ссылку "([^"]*)"$/ do |link_name|
   page.should have_content link_name
