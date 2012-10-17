@@ -1,0 +1,27 @@
+%p
+  =link_to new_company_person_path(@company), class: "btn btn-mini", id: 'company_person_add' do
+    =glyph(:plus)
+    Добавить
+
+-if @company.persons.any?
+  %table#people.table.table-striped
+    %tr
+      %th Должность
+      %th ФИО
+      %th Телефон
+      %th Email
+      %th
+    -@company.persons.each do |person|
+      %tr
+        %td= person.position
+        %td
+          =link_to person.full_name, person_path(person), id: 'company_person_view'
+        %td= person.phone
+        %td= person.email
+        %td
+          .btn-group
+            = link_to edit_person_path(person), class: 'btn btn-mini', title: 'Изменить', it: 'company_person_edit_link' do
+              =glyph(:edit)
+            = link_to person_path(person), :method => :delete, :confirm => 'Удалить запись?', title: 'Удалить',
+            class: 'btn btn-mini', :rel => "nofollow", :id => 'compane_person_delete_link' do
+              =glyph(:remove)

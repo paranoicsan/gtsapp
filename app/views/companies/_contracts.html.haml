@@ -1,0 +1,34 @@
+-if @current_user.is_admin? || @current_user.is_operator?
+  %p
+    =link_to new_company_contract_path(@company), class: "btn btn-mini", id: 'contract_create' do
+      =glyph(:plus)
+      Добавить
+
+-if @company.contracts.any?
+  %table#contracts.table.table-striped
+    %tr
+      %th №
+      %th Проект
+      %th Подписан
+      %th Сумма
+      %th Статус
+      %th
+    -@company.contracts.each do |contract|
+      %tr
+        %td= link_to contract.number, contract_path(contract)
+        %td= contract.project_code.name if contract.project_code
+        %td= contract.date_sign.strftime("%d.%m.%Y") if contract.date_sign
+        %td= contract.amount
+        %td= contract.contract_status.name if contract.contract_status
+        %td
+          .btn-group
+            -if contract.can_activate?(@current_user)
+              =link_to activate_contract_path(contract), class: "btn btn-mini", title: 'Активировать' do
+                =glyph(:ok)
+
+            -if contract.can_delete?(@current_user)
+              =link_to edit_contract_path(contract), class: "btn btn-mini", title: 'Изменить' do
+                =glyph(:edit)
+              = link_to contract_path(contract), :method => :delete, :confirm => 'Удалить запись?', title: 'Удалить',
+              class: 'btn btn-mini', :rel => "nofollow" do
+                =glyph(:remove)

@@ -3,6 +3,12 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
 $ ->
+  $('#company-tabs a:first').tab('show') # активация Tabs
+  $('#company-tabs a').click (e) ->
+      e.preventDefault()
+      $(this).tab('show')
+
+
   $('#add_rub_link').hide() # прячем ссылку для добавления рубрики
 
   # обработчик названия компании

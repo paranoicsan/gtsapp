@@ -1,0 +1,42 @@
+%p
+  =link_to new_company_branch_path(@company), class: "btn btn-mini" do
+    =glyph(:plus)
+    Добавить
+
+-if @company.branches_sorted.any?
+  %table#branches.table.table-striped
+    %tr
+      %th Головной
+      %th Информация
+      %th Операции
+    -@company.branches_sorted.each do |branch|
+      %tr
+        %td
+          -if branch.is_main?
+            %span.badge.badge-success
+              =glyph(:ok)
+        %td
+          %p
+            = link_to branch.formatted_name, branch_path(branch)
+          %p
+            %small
+              = branch.address.full_address if branch.address
+          -if branch.emails.any?
+            %p
+              %small
+                = branch.all_emails_str
+          -if branch.websites.any?
+            %p
+              %small
+                = branch.all_websites_str
+          -if branch.phones.any?
+            =render :partial => 'company_show_phone_list', :locals => { :branch => branch }
+        %td
+          .btn-group
+            -unless branch.is_main?
+              = link_to 'Сделать головным', branch_make_main_path(branch), class: "btn btn-mini"
+            = link_to edit_branch_path(branch), class: 'btn btn-mini', title: 'Изменить' do
+              =glyph(:edit)
+            = link_to branch_path(branch), :method => :delete, :confirm => 'Удалить запись?', title: 'Удалить',
+            class: 'btn btn-mini', :rel => "nofollow" do
+              =glyph(:remove)
