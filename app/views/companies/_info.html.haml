@@ -77,8 +77,8 @@
 
       -if (@current_user.is_admin? || @current_user.is_operator?) && !@company.need_improvement?
         -unless @company.archived? || @company.need_attention? || @company.queued_for_deletion?
-          =link_to edit_company_path(@company), :class => "btn btn-mini", title: 'На доработку',
-          :id => 'company_request_improvement_reason_path', onClick: 'clickCompanyNeedImprovement(event)' do
+          =link_to company_request_improvement_reason_path(@company), :class => "btn btn-mini", title: 'На доработку',
+          :id => 'company_need_improvement_link', onClick: 'clickCompanyNeedImprovement(event)' do
             =glyph("eye-open")
 
       -if @current_user.is_agent? && @company.need_improvement?
@@ -104,7 +104,7 @@
         -else
           -css = 'btn btn-mini'
           -css = @company.queued_for_deletion? ? css + ' disabled' : css
-          =link_to company_request_delete_path(@company), :class => css, title: 'Удалить', :confirm => "Вы уверены?",
+          =link_to company_request_delete_path(@company), :class => css, title: 'Удалить',
           :id => 'company_delete_link', :onClick => 'clickCompanyDelete(event)' do
             =glyph(:trash)
 

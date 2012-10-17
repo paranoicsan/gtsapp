@@ -150,7 +150,7 @@ When /^Я нахожусь на странице компании$/ do
   visit company_path @company
 end
 When /^Я удаляю компанию$/ do
-  step %Q{Я нажимаю на ссылку "Удалить" с ключом "company_delete_link"}
+  step %Q{Я нажимаю на ссылку с ключом "company_delete_link"}
 end
 When /^Я ввожу причину удаления$/ do
   step %Q{Кнопка "btn_reason_delete_submit" - "не активна"}
