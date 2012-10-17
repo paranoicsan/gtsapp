@@ -16,7 +16,6 @@
         =render :partial => "info"
 
     .span8
-      -#.well
       %h3.well-title
         Рубрики
       .form-inline
@@ -32,11 +31,13 @@
 
   .row-fluid
     .span12
-      -#.well
       %h3.well-title
         Филиалы
 
-      %p= link_to 'Создать', new_company_branch_path(@company), class: "btn btn-mini"
+      %p
+        =link_to new_company_branch_path(@company), class: "btn btn-mini" do
+          =glyph(:plus)
+          Добавить
 
       -if @company.branches_sorted.any?
         %table#branches.table.table-striped
@@ -46,7 +47,10 @@
             %th Операции
           -@company.branches_sorted.each do |branch|
             %tr
-              %td= check_box_tag("cb_branch_main", 1, branch.is_main?, { :disabled => "disabled" })
+              %td
+                -if branch.is_main?
+                  %span.badge.badge-success
+                    =glyph(:ok)
               %td
                 %p
                   = link_to branch.formatted_name, branch_path(branch)
@@ -64,24 +68,24 @@
                 -if branch.phones.any?
                   =render :partial => 'company_show_phone_list', :locals => { :branch => branch }
               %td
-                -unless branch.is_main?
-                  = link_to 'Сделать головным', branch_make_main_path(branch), class: "btn btn-mini"
-                %a{ :href => edit_branch_path(branch), :class => "btn btn-mini"}
-                  %i.icon-edit
-                  Изменить
-                %a{ :href => branch_path(branch), :class => "btn btn-mini",
-                "data-confirm" => "Вы уверены?",  "data-method" => "delete", :rel => "nofollow" }
-                  %i.icon-trash
-                  Удалить
+                .btn-group
+                  -unless branch.is_main?
+                    = link_to 'Сделать головным', branch_make_main_path(branch), class: "btn btn-mini"
+                  = link_to edit_branch_path(branch), class: 'btn btn-mini', title: 'Изменить' do
+                    =glyph(:edit)
+                  = link_to branch_path(branch), :method => :delete, :confirm => 'Удалить запись?', title: 'Удалить',
+                  class: 'btn btn-mini', :rel => "nofollow" do
+                    =glyph(:remove)
 
   .row-fluid
     .span12
-      -#.well
       %h3.well-title
         Персоны
 
-      %p= link_to 'Создать', new_company_person_path(@company), class: "btn btn-mini",
-      id: 'company_person_add'
+      %p
+        =link_to new_company_person_path(@company), class: "btn btn-mini", id: 'company_person_add' do
+          =glyph(:plus)
+          Добавить
 
       -if @company.persons.any?
         %table#people.table.table-striped
@@ -90,6 +94,7 @@
             %th ФИО
             %th Телефон
             %th Email
+            %th
           -@company.persons.each do |person|
             %tr
               %td= person.position
@@ -98,26 +103,25 @@
               %td= person.phone
               %td= person.email
               %td
-                %a{ :href => edit_person_path(person), :class => "btn btn-mini", :id => 'company_person_edit_link'}
-                  %i.icon-edit
-                  Изменить
-                %a{ :href => person_path(person), :class => "btn btn-mini", :id => 'compane_person_delete_link',
-                "data-confirm" => "Вы уверены?", "data-method" => "delete", :rel => "nofollow" }
-                  %i.icon-trash
-                  Удалить
-
+                .btn-group
+                  = link_to edit_person_path(person), class: 'btn btn-mini', title: 'Изменить', it: 'company_person_edit_link' do
+                    =glyph(:edit)
+                  = link_to person_path(person), :method => :delete, :confirm => 'Удалить запись?', title: 'Удалить',
+                  class: 'btn btn-mini', :rel => "nofollow", :id => 'compane_person_delete_link' do
+                    =glyph(:remove)
 
 
   .row-fluid
     .span12
-      -#.well
       %h3.well-title Договоры
 
       -if @current_user.is_admin? || @current_user.is_operator?
-        %p= link_to 'Создать', new_company_contract_path(@company), class: "btn btn-mini", id: 'contract_create'
+        %p
+          =link_to new_company_contract_path(@company), class: "btn btn-mini", id: 'contract_create' do
+            =glyph(:plus)
+            Добавить
 
       -if @company.contracts.any?
-        -# | number | project_code | date_sign  | amount | contract_status_id |
         %table#contracts.table.table-striped
           %tr
             %th №
@@ -125,7 +129,7 @@
             %th Подписан
             %th Сумма
             %th Статус
-            %th Операции
+            %th
           -@company.contracts.each do |contract|
             %tr
               %td= link_to contract.number, contract_path(contract)
@@ -134,16 +138,16 @@
               %td= contract.amount
               %td= contract.contract_status.name if contract.contract_status
               %td
-                -if contract.can_activate?(@current_user)
-                  =link_to 'Активировать', activate_contract_path(contract),
-                  :class => 'btn btn-success btn-mini'
+                .btn-group
+                  -if contract.can_activate?(@current_user)
+                    =link_to activate_contract_path(contract), class: "btn btn-mini", title: 'Активировать' do
+                      =glyph(:ok)
 
-                -if contract.can_delete?(@current_user)
-                  %a{ :href => edit_contract_path(contract), :class => "btn btn-mini"}
-                    %i.icon-edit
-                    Изменить
-                  %a{ :href => contract_path(contract), :class => "btn btn-mini",
-                  "data-confirm" => "Вы уверены?",  "data-method" => "delete", :rel => "nofollow" }
-                    %i.icon-trash
-                    Удалить
+                  -if contract.can_delete?(@current_user)
+                    =link_to edit_contract_path(contract), class: "btn btn-mini", title: 'Изменить' do
+                      =glyph(:edit)
+                    = link_to contract_path(contract), :method => :delete, :confirm => 'Удалить запись?', title: 'Удалить',
+                    class: 'btn btn-mini', :rel => "nofollow" do
+                      =glyph(:remove)
+
 

@@ -1,7 +1,7 @@
 -if @streets_by_city && @streets_by_city.any?
-  .well.pagination-centered
+  .pagination-centered
     = will_paginate @streets_by_city, inner_window: 1, outer_window: 1, params: {city_id: @streets_by_city.first.city_id}
-    %table.table.table-striped{id:'streets'}
+    %table.table.table-bordered.table-striped{id:'streets'}
       %thead
         %tr
           %th Название
@@ -19,7 +19,10 @@
           %tr
             %td= street.name
             %td
-              = link_to "Изменить", edit_street_path(street), :class => 'btn btn-mini'
-              = link_to "Удалить", street_path(street), :method => :delete, :confirm => 'Удалить запись?', :class => 'btn btn-mini btn-danger'
+              = link_to edit_street_path(street), :class => 'btn btn-mini', title: "Изменить" do
+                =glyph(:edit)
+              = link_to street_path(street), :method => :delete, :confirm => 'Удалить запись?',
+              :class => 'btn btn-mini', title: "Удалить" do
+                =glyph(:remove)
 
     = will_paginate @streets_by_city, inner_window: 1, outer_window: 1, params: {city_id: @streets_by_city.first.city_id}

@@ -2,18 +2,24 @@
   %h1
     Улицы
 
-.well
-  %p
-    =link_to "Добавить улицу", new_street_path, :class => 'btn'
-= form_tag streets_by_city_path, {:remote => true, :method => :post, :class => 'well form-horizontal',
-:id => 'search_form_plain'} do
-  #s_address_city.control-group
-    = label_tag 'Населённый пункт:', nil, :class => 'control-label'
-    .controls
-      = select_tag("city_id", options_for_select(City.order("name").collect{ |s| [s.name, s.id] }), {:id => "city_id"})
-      = submit_tag "Показать", {:id => "do_show", :class => 'btn'}
+.container
+  .row
+    .span10
 
-  = render :partial => "shared/messages"
+      %p
+        =link_to new_street_path, :class => 'btn' do
+          =glyph(:plus)
+          Добавить улицу
 
-#streets_by_city
-  =render :partial => 'streets_list'
+      = form_tag streets_by_city_path, {:remote => true, :method => :post, :class => 'well form-horizontal',
+      :id => 'search_form_plain'} do
+        #s_address_city.control-group
+          = label_tag 'Населённый пункт:', nil, :class => 'control-label'
+          .controls
+            = select_tag("city_id", options_for_select(City.order("name").collect{ |s| [s.name, s.id] }), {:id => "city_id"})
+            = submit_tag "Показать", {:id => "do_show", :class => 'btn'}
+
+        = render :partial => "shared/messages"
+
+      #streets_by_city
+        =render :partial => 'streets_list'

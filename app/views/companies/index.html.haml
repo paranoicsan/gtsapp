@@ -4,35 +4,46 @@
     %p
       %small Зарегистрированные в каталоге
 
-.well
+.container
+  .row
+    .span12
 
-  %p
-    = link_to "Добавить компанию", new_company_path, :class => 'btn'
-  %table.table.table-striped{id:'companies'}
-    %thead
-      %tr
-        %th Статус
-        %th Название
-        %th Добавлена
-        %th Изменена
-        %th Рубрикатор
-        %th Операции
-    %tbody
-      - @companies.each do |company|
-        %tr
-          %td= company.company_status.name
-          %td= link_to company.title, company
-          %td
-            - if company.date_added
-              = company.date_added.strftime("%d.%m.%Y")
-              = company.author_name
-          %td
-            = company.updated_at.strftime("%d.%m.%Y %H:%M")
-            = company.editor_name
-          %td= company.rubricator_name
-          %td
-            = link_to "Изменить", edit_company_path(company), :class => 'btn btn-mini'
-            -if @current_user.is_admin? || @current_user.is_operator?
-              = link_to "Удалить", company_path(company), :method => :delete, :confirm => 'Удалить запись?', :class => 'btn btn-mini btn-danger'
+      = render :partial => "shared/messages"
 
-  = will_paginate @companies, class: "pagination pagination-centered"
+      %p
+        = link_to new_company_path, class: 'btn' do
+          =glyph(:plus)
+          Добавить
+
+      %table.table.table-bordered.table-striped{id:'companies'}
+        %thead
+          %tr
+            %th Статус
+            %th Название
+            %th Добавлена
+            %th Изменена
+            %th Рубрикатор
+            %th Операции
+        %tbody
+          - @companies.each do |company|
+            %tr
+              %td
+                =status_span(company.company_status)
+              %td= link_to company.title, company
+              %td
+                - if company.date_added
+                  = company.date_added.strftime("%d.%m.%Y")
+                  = company.author_name
+              %td
+                = company.updated_at.strftime("%d.%m.%Y %H:%M")
+                = company.editor_name
+              %td= company.rubricator_name
+              %td
+                = link_to edit_company_path(company), :class => 'btn btn-mini', title: "Изменить" do
+                  =glyph(:edit)
+                -if @current_user.is_admin? || @current_user.is_operator?
+                  = link_to company_path(company), :method => :delete, :confirm => 'Удалить запись?',
+                  :class => 'btn btn-mini', title: "Удалить" do
+                    =glyph(:remove)
+
+      = will_paginate @companies, class: "pagination pagination-centered"

@@ -4,13 +4,13 @@
     %tr
       %th Наименование
       %th Социальная?
-      %th Операции
+      %th
     -@company.rubrics.each do |rub|
       %tr
         %td= rub.name
         %td= check_box_tag("social", 1, rub.social?, { :disabled => "disabled" })
         %td
-          %a.btn.btn-mini{:href => company_delete_rubric_path(@company, rub), "data-remote" => "true",
-          "data-confirm" => "Вы уверены?"}
-            %i.icon-trash
-            Удалить
+          = link_to company_delete_rubric_path(@company, rub), :method => :delete, :confirm => 'Вы уверены?',
+          title: 'Удалить', class: 'btn btn-mini' do
+            =glyph(:remove)
+

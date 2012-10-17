@@ -1,18 +1,19 @@
-# encoding: utf-8
-= render :partial => "shared/messages"
-
 .page-header
   %h1
     Продукты
 
-.container-fluid
-  .row-fluid
-    .span12.well
+.container
+  .row
+    .span12
+
+      = render :partial => "shared/messages"
 
       %p
-        = link_to 'Добавить', new_product_type_path, class: 'btn'
+        = link_to new_product_type_path, class: 'btn' do
+          =glyph(:plus)
+          Добавить
 
-      %table.table.table-striped
+      %table.table.table-striped.table-bordered
         %tr
           %th Наименование
           %th Размер, мм
@@ -32,5 +33,8 @@
             %td= product.bonus_site
             %td= product.price
             %td
-              = link_to 'Изменить', edit_product_type_path(product), :class => 'btn btn-mini'
-              = link_to 'Удалить', product, :confirm => 'Вы уверены?', :method => :delete, :class => 'btn btn-mini btn-danger'
+              = link_to edit_product_type_path(product), :class => 'btn btn-mini', title: "Изменить" do
+                =glyph(:edit)
+              = link_to product, :method => :delete, :confirm => 'Удалить запись?',
+              :class => 'btn btn-mini', title: "Удалить" do
+                =glyph(:remove)

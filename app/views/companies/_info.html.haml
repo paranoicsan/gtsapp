@@ -7,7 +7,7 @@
       %td
         %p{id:'company_status'}
           - if @company.company_status
-            = @company.company_status.name
+            =status_span(@company.company_status)
           - else
             Нет статуса
     -if @company.need_attention?
@@ -69,53 +69,52 @@
 
 %div{style: "text-align: center;"}
   .form-inline
-    -if (@current_user.is_admin? || @current_user.is_operator? || @company.can_be_activated_by_agent?) && !@company.active?
-      %a{ :href => activate_company_path(@company), :class => "btn btn-mini btn-success"}
-        %i.icon-ok.icon-white
-        Активировать
-    = link_to "Изменить", edit_company_path(@company), :class => 'btn btn-mini', :id => 'company_edit_link'
+    .btn-group
+      -if (@current_user.is_admin? || @current_user.is_operator? || @company.can_be_activated_by_agent?) && !@company.active?
+        =link_to activate_company_path(@company), :class => "btn btn-mini", title: 'Активировать' do
+          =glyph(:ok)
+      =link_to edit_company_path(@company), :class => "btn btn-mini", title: 'Изменить', :id => 'company_edit_link' do
+        =glyph(:edit)
 
-    -if (@current_user.is_admin? || @current_user.is_operator?) && !@company.need_improvement?
-      -unless @company.archived? || @company.need_attention? || @company.queued_for_deletion?
-        = link_to "На доработку", company_request_improvement_reason_path(@company), :class => 'btn btn-mini',
-        :id => 'company_need_improvement_link', onClick: 'clickCompanyNeedImprovement(event)'
+      -if (@current_user.is_admin? || @current_user.is_operator?) && !@company.need_improvement?
+        -unless @company.archived? || @company.need_attention? || @company.queued_for_deletion?
+          =link_to edit_company_path(@company), :class => "btn btn-mini", title: 'На доработку',
+          :id => 'company_request_improvement_reason_path', onClick: 'clickCompanyNeedImprovement(event)' do
+            =glyph("eye-open")
 
-    -if @current_user.is_agent? && @company.need_improvement?
-      = link_to "Доработана", company_improve_path(@company), :class => 'btn btn-mini btn-success',
-      :id => 'company_improve_link'
+      -if @current_user.is_agent? && @company.need_improvement?
+        =link_to company_improve_path(@company), :class => "btn btn-mini", title: 'Доработана', :id => 'company_improve_link' do
+          =glyph(:ok)
 
-    -if @company.queued_for_deletion?
+      -if @company.queued_for_deletion?
 
-      = link_to "Отменить удаление", company_unqueue_for_delete_path(@company), :class => 'btn btn-mini', :id => 'company_undelete_link'
+        =link_to company_unqueue_for_delete_path(@company), :class => "btn btn-mini", title: 'Отменить удаление',
+        :id => 'company_undelete_link' do
+          =glyph("ban-circle")
 
-      -unless @current_user.is_agent?
-        = link_to "Удалить", company_path(@company), :method => "delete", :confirm => "Вы уверены?",
-        :class => 'btn btn-danger btn-mini', :id => 'company_delete_link'
+        -unless @current_user.is_agent?
+          =link_to company_path(@company), :class => "btn btn-mini", title: 'Удалить', :confirm => "Вы уверены?",
+          :id => 'company_delete_link' do
+            =glyph(:trash)
 
-    -else
-      -if @current_user.is_admin? || @current_user.is_operator?
-        = link_to "Удалить", company_path(@company), :method => "delete", :confirm => "Вы уверены?",
-        :class => 'btn btn-danger btn-mini', :id => 'company_delete_link'
       -else
-        -css = 'btn btn-danger btn-mini'
-        -css = @company.queued_for_deletion? ? css + ' disabled' : css
-        = link_to "Удалить", company_request_delete_path(@company), :class => css, :id => 'company_delete_link',
-        :onClick => 'clickCompanyDelete(event)'
+        -if @current_user.is_admin? || @current_user.is_operator?
+          =link_to company_path(@company), :class => "btn btn-mini", title: 'Удалить', :confirm => "Вы уверены?",
+          :id => 'company_delete_link' do
+            =glyph(:trash)
+        -else
+          -css = 'btn btn-mini'
+          -css = @company.queued_for_deletion? ? css + ' disabled' : css
+          =link_to company_request_delete_path(@company), :class => css, title: 'Удалить', :confirm => "Вы уверены?",
+          :id => 'company_delete_link', :onClick => 'clickCompanyDelete(event)' do
+            =glyph(:trash)
 
-    -unless @company.archived?
-      = link_to "В архив", archive_company_path(@company), :class => 'btn btn-mini', :id => 'company_archive_link'
+      -unless @company.archived?
+        =link_to archive_company_path(@company), :class => "btn btn-mini", title: 'В архив', :id => 'company_archive_link' do
+          =glyph("folder-close")
 
--unless @current_user.is_admin? or @current_user.is_operator?
-  -if @company.active?
-    %p
-      #need_attention
-        %table.table.table-condensed{id: 'company_need_attention'}
-          %tbody
-            %tr
-              %td
-                %p
-                  %small
-                    Если компания требует реакции со стороны администратора, отправьте ему обращение
-                %p{style: "text-align:center;"}
-                  = link_to "Отправить администратору", company_request_attention_reason_path(@company), class: 'btn btn-mini',
-                  id: 'company_request_attention_link', onClick: 'clickCompanyNeedAttention(event)'
+      -unless @current_user.is_admin? or @current_user.is_operator?
+        -if @company.active?
+          =link_to company_request_attention_reason_path(@company), :class => "btn btn-mini", title: 'Отправить администратору',
+          :id => 'company_request_attention_link', onClick: 'clickCompanyNeedAttention(event)' do
+            =glyph("exclamation-sign")
