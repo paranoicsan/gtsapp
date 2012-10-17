@@ -10,7 +10,7 @@ gem 'haml-rails'
 gem 'authlogic'
 gem 'easy_roles'
 gem 'will_paginate'
-gem 'twitter-bootstrap-rails'
+gem 'twitter-bootstrap-rails', "~> 2.1.4"
 gem 'bootstrap-will_paginate', "0.0.7"
 gem 'jquery-ui-rails'
 gem 'rails3-jquery-autocomplete'
