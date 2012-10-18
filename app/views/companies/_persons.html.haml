@@ -20,7 +20,7 @@
         %td= person.email
         %td
           .btn-group
-            = link_to edit_person_path(person), class: 'btn btn-mini', title: 'Изменить', it: 'company_person_edit_link' do
+            = link_to edit_person_path(person), class: 'btn btn-mini', title: 'Изменить', id: 'company_person_edit_link' do
               =glyph(:edit)
             = link_to person_path(person), :method => :delete, :confirm => 'Удалить запись?', title: 'Удалить',
             class: 'btn btn-mini', :rel => "nofollow", :id => 'compane_person_delete_link' do

@@ -6,7 +6,7 @@ When /^Я вижу таблицу "([^"]*)" с персонами$/ do |table_id
   table.hashes.each do |row|
     row.each_with_index do |data, i|
 
-      row_xpth = "//table[@id='#{table_id}']/tr[#{idx}]/td[#{i+1}]"
+      row_xpth = "//table[@id='#{table_id}']/*/tr[#{idx}]/td[#{i+1}]"
 
       re = /^cb_(.*)/
       if re.match(data[0])
