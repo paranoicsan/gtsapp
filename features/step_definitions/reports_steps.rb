@@ -1,6 +1,6 @@
 # Encoding: utf-8
 Then /^Я могу попасть на страницу формирования отчёта по агенту$/ do
-  page.should have_content("Отчёт по агенту")
+  page.should have_content("По агенту")
   find("a[href='#{report_by_agent_path}'][text()='Показать']").click
   current_path.should eq(report_by_agent_path)
 end
@@ -34,7 +34,7 @@ When /^Я нахожусь на странице отчётов по агент�
   visit report_by_agent_path
 end
 Then /^Я могу попасть на страницу формирования отчёта компании по улице$/ do
-  page.should have_content("Отчёт компаний по улице")
+  page.should have_content("Компании по улицам")
   find("a[href='#{report_company_by_street_path}'][text()='Показать']").click
   current_path.should eq(report_company_by_street_path)
 end
