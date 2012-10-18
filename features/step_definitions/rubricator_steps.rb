@@ -71,7 +71,7 @@ Then /^Я могу удалить рубрику$/ do
   step %Q{Я не вижу список рубрик}
 end
 Then /^Я могу добавить рубрику$/ do
-  click_link('Добавить рубрику')
+  find('#btn_rubric_add').click
   current_path.should eq(new_rubric_path)
 end
 When /^Я нахожусь на странице создания рубрики$/ do
