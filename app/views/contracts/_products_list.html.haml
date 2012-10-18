@@ -13,6 +13,6 @@
           .btn-group
             =link_to edit_product_path(p), :class => "btn btn-mini", :id => 'contract_product_edit', title: 'Изменить' do
               =glyph(:edit)
-            =link_to product_path(p), :class => "btn btn-mini", "data-confirm" => "Вы уверены?", :id => 'contract_product_edit',
-            title: 'Удалить' do
+            =link_to product_path(p), :class => "btn btn-mini", "data-confirm" => "Вы уверены?", :id => 'contract_product_delete',
+            title: 'Удалить', "data-method" => "delete" do
               =glyph(:remove)

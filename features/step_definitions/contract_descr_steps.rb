@@ -91,7 +91,7 @@ Then /^Я (не|) могу активировать договор$/ do |negate|
   if negate.eql?('не')
     page.should_not have_link('Активировать', href: s)
   else
-    page.find("a[href='#{s}'][text()='Активировать']").click
+    page.find("a[href='#{s}']").click
     step %Q{Я нахожусь на странице компании}
     Contract.find(@contract.id).contract_status.should eq(ContractStatus.active)
   end
