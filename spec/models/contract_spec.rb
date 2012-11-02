@@ -29,13 +29,11 @@ describe Contract do
     it "не выводит код проекта, если он не указан" do
       contract = FactoryGirl.create :contract, project_code: nil
       s = %Q{№ #{contract.number}, сумма: #{contract.amount}руб.}
-      puts s
       contract.info.should eq(s)
     end
     it "не выводит дату заключения, если она есть" do
       contract = FactoryGirl.create :contract
       s = %Q{№ #{contract.number}, #{contract.project_code.name}, сумма: #{contract.amount}руб.}
-      puts s
       contract.info.should eq(s)
     end
   end
