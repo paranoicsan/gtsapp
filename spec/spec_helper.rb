@@ -76,6 +76,11 @@ Spork.prefork do
     config.after(:each) do
       DatabaseCleaner.clean
     end
+
+    config.after(:all) do
+      DatabaseCleaner.clean_with(:truncation)
+    end
+
   end
 end
 

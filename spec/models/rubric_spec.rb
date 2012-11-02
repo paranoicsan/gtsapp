@@ -3,19 +3,6 @@ require 'spec_helper'
 
 describe Rubric do
 
-  before(:all) do
-    r1 = Rubric.create name: 'rub_1', social: true
-    r2 = Rubric.create name: 'rub_2', social: true
-    r3 = Rubric.create name: 'rub_3', social: false
-    r4 = Rubric.create name: 'rub_4', social: false
-    r5 = Rubric.create name: 'rub_5', social: true
-
-    @all = [r1, r2, r3, r4, r5]
-    @social = [r1, r2, r5]
-    @commercial = [r3, r4]
-
-  end
-
   it "фабрика корректна" do
     rubric = FactoryGirl.create :rubric
     rubric.should be_valid
@@ -32,6 +19,19 @@ describe Rubric do
   end
 
   describe ".by_rubricator" do
+    before(:all) do
+      r1 = Rubric.create name: 'rub_1', social: true
+      r2 = Rubric.create name: 'rub_2', social: true
+      r3 = Rubric.create name: 'rub_3', social: false
+      r4 = Rubric.create name: 'rub_4', social: false
+      r5 = Rubric.create name: 'rub_5', social: true
+
+      @all = [r1, r2, r3, r4, r5]
+      @social = [r1, r2, r5]
+      @commercial = [r3, r4]
+
+    end
+
     it "возвращает все социальные для рубрикатора - 1" do
       rubs = Rubric.by_rubricator 1
       assert rubs.count == @social.count, "Количество рубрик не совпадает!"
