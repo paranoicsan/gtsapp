@@ -2,6 +2,7 @@
 require 'rubygems'
 require 'spork'
 require 'factory_girl'
+require "selenium-webdriver"
 
 #uncomment the following line to use spork with the debugger
 #require 'spork/ext/ruby-debug'
@@ -33,20 +34,26 @@ Spork.prefork do
 
 
   if ENV['HEADLESS']
+
     require 'headless'
     headless = Headless.new
     at_exit do
       headless.destroy
     end
 
+    Capybara.register_driver :selenium do |app|
+      Capybara::Selenium::Driver.new(app, :browser => :chrome)
+    end
+
     Before("@selenium,@javascript", "~@no-headless") do
-      headless.start# if Capybara.current_driver == :selenium
+      headless.start if Capybara.current_driver == :selenium
     end
 
     After("@selenium,@javascript", "~@no-headless") do
-      headless.stop# if Capybara.current_driver == :selenium
+      headless.stop if Capybara.current_driver == :selenium
     end
   else
+
     Capybara.register_driver :selenium do |app|
       Capybara::Selenium::Driver.new(app, :browser => :chrome)
     end
