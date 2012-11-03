@@ -15,7 +15,6 @@ Spork.prefork do
 
   ActionController::Base.asset_host = Capybara.app_host
 
-  Capybara.default_selector = :css
 
   ActionController::Base.allow_rescue = false
 
@@ -29,9 +28,13 @@ Spork.prefork do
   #Cucumber::Rails::Database.javascript_strategy = :transaction
   Cucumber::Rails::Database.javascript_strategy = :truncation
 
-  Capybara.register_driver :selenium do |app|
-    Capybara::Selenium::Driver.new(app, :browser => :chrome)
-  end
+  Capybara.default_selector = :css
+  Capybara.server_boot_timeout = 50
+
+  #CI test
+  #Capybara.register_driver :selenium do |app|
+  #  Capybara::Selenium::Driver.new(app, :browser => :chrome)
+  #end
 
   if ENV['HEADLESS']
     require 'headless'
@@ -41,11 +44,11 @@ Spork.prefork do
     end
 
     Before("@selenium,@javascript", "~@no-headless") do
-      headless.start if Capybara.current_driver == :selenium
+      headless.start# if Capybara.current_driver == :selenium
     end
 
     After("@selenium,@javascript", "~@no-headless") do
-      headless.stop if Capybara.current_driver == :selenium
+      headless.stop# if Capybara.current_driver == :selenium
     end
   end
 
