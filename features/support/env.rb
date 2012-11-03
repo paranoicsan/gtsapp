@@ -31,10 +31,6 @@ Spork.prefork do
   Capybara.default_selector = :css
   Capybara.server_boot_timeout = 50
 
-  #CI test
-  #Capybara.register_driver :selenium do |app|
-  #  Capybara::Selenium::Driver.new(app, :browser => :chrome)
-  #end
 
   if ENV['HEADLESS']
     require 'headless'
@@ -49,6 +45,10 @@ Spork.prefork do
 
     After("@selenium,@javascript", "~@no-headless") do
       headless.stop# if Capybara.current_driver == :selenium
+    end
+  else
+    Capybara.register_driver :selenium do |app|
+      Capybara::Selenium::Driver.new(app, :browser => :chrome)
     end
   end
 
