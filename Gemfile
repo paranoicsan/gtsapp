@@ -23,7 +23,7 @@ gem 'rtf' # RTF
 gem 'spreadsheet' # Excel
 
 group :development, :test do
-  gem 'debugger', :require => 'ruby-debug'
+  gem 'debugger', "1.2.1", :require => 'ruby-debug'
   gem 'simplecov', :require => false
   gem 'rspec'
   gem 'rspec-rails'

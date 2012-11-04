@@ -31,6 +31,7 @@ Spork.prefork do
 
   Capybara.default_selector = :css
   Capybara.server_boot_timeout = 50
+  Capybara.default_wait_time = 50
 
 
   if ENV['HEADLESS']
@@ -67,5 +68,6 @@ Spork.each_run do
     SimpleCov.start 'rails'
   end
 
+  DatabaseCleaner.clean_with :truncation
   FactoryGirl.reload
 end
