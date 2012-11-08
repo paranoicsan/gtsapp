@@ -32,6 +32,29 @@ describe ReportController do
       end
     end
 
+    describe "POST prepare_by_rubric" do
+
+      def post_valid
+        params = {
+            format: :js
+        }
+        post :prepare_by_rubric, params
+      end
+      it "возвращает искомый набор компаний как @report_companies" do
+        post_valid
+        assigns(:report_companies).should eq(user)
+      end
+      it "возвращает набор данных как @report_result" do
+        write_history
+        post_valid
+        assigns(:report_result).should eq([CompanyHistory.first])
+      end
+      it "возвращает JavaScript-ответ для обновления данных на странице" do
+        post_valid
+        response.should be_success
+      end
+    end
+
   end
 
   context "by_agent" do
