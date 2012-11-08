@@ -14,6 +14,14 @@ FactoryGirl.define do
     #noinspection RubyResolve
     editor
 
+    factory :company_active do
+      company_status { FactoryGirl.create :company_status_active }
+    end
+
+    factory :company_archived do
+      company_status { FactoryGirl.create :company_status_archived }
+    end
+
     factory :company_suspended do
       company_status { FactoryGirl.create :company_status_suspended }
     end

@@ -220,7 +220,10 @@ Then /^Я могу попасть на страницу формирования
   current_path.should eq(report_by_rubric_path)
 end
 When /^Я нахожусь на странице отчётов по рубрике$/ do
-  2.times { create_company true } # создаём набор компаний и рубрик
+  # создаём набор компаний и рубрик
+  2.times { FactoryGirl.create :company_status_active }
+  2.times { FactoryGirl.create :company_status_archived }
+
   @rubric = FactoryGirl.create :rubric
   Company.all.each do |c|
     c.rubrics << @rubric
@@ -230,4 +233,34 @@ end
 Then /^Я (|не) могу сформировать отчёт по рубрике$/ do |negate|
   s = negate.eql?("не") ? "не активна" : "активна"
   step %Q{Кнопка "do_report_by_rubric" - "#{s}"}
+end
+When /^Я заполняю параметры отчёта по рубрике для компаний (активные|архивные|все)$/ do |filter|
+  @cfilter = filter
+  case filter
+    when "активные"
+      choose("filter_active")
+    when "архивные"
+      choose("filter_archived")
+    else
+      choose("filter_all")
+  end
+  steps %Q{
+    When Я выбираю "#{@rubric.name}" из элемента "report_rubric"
+    And Кнопка "do_report_by_rubric" - "активна"
+  }
+  click_button("Показать")
+end
+Then /^Then Я вижу список компаний в соответствии с фильтром$/ do
+  #sid = -1
+  case @cfilter
+    when "активные"
+      sid = CompanyStatus.active.id
+    when "архивные"
+      sid = CompanyStatus.archived.id
+    else
+      sid = -1
+  end
+  Company.find_all_by_company_status_id(sid).each do |c|
+    page.should have_content(c.title)
+  end
 end
