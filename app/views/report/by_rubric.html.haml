@@ -18,6 +18,18 @@
           .controls
             = select_tag("report_rubric", options_for_select(Rubric.order(:name).collect{ |u| [u.name, u.id] }),
             {:prompt => "Выберите рубрику", :id => "report_rubric"})
+        .control-group
+          = label_tag "Компании", nil, :class => 'control-label'
+          .controls
+            %label.radio
+              активные
+              = radio_button_tag "filter", "active", true
+            %label.radio
+              архивные
+              = radio_button_tag "filter", "archived", false
+            %label.radio
+              все
+              = radio_button_tag "filter", "all", false
         .form-actions
           = submit_tag "Показать", {:disabled => "disabled", :id => "do_report_by_rubric", :class => 'btn'}
 
