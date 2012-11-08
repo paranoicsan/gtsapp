@@ -23,6 +23,17 @@ describe ReportController do
     end
   end
 
+  context "by_rubric" do
+
+    describe "GET by_rubric" do
+      it "возвращает положительный ответ" do
+        get :by_rubric
+        response.should be_success
+      end
+    end
+
+  end
+
   context "by_agent" do
 
     describe "GET 'by_agent'" do

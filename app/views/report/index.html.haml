@@ -25,3 +25,16 @@
       = link_to "Показать", report_by_agent_path, class: "btn pull-right btn-mini"
     .span6
       = link_to "Показать", report_company_by_street_path, class: "btn btn-mini pull-right"
+
+-if @current_user.is_admin?
+  .container
+    .row
+      .span6
+
+        %h4 По рубрике
+        %p
+          Показывает все зарегистрированные компании, входящие в указанную рубрику.
+
+    .row
+      .span6
+        = link_to "Показать", report_by_rubric_path, class: "btn pull-right btn-mini"

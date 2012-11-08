@@ -1,0 +1,25 @@
+# encoding: utf-8
+.page-header
+  %h1
+    Отчёт по рубрике
+    %p
+      %small
+        = link_to "Отчёты", reports_path
+
+= render :partial => "shared/messages"
+
+
+.container-fluid
+  .row-fluid
+    .span10
+      = form_tag report_prepare_by_agent_path, :remote => true, :method => :post, :class => 'form-horizontal well' do
+        .control-group#rubric_group
+          = label_tag 'Рубрика:', nil, :class => 'control-label'
+          .controls
+            = select_tag("report_rubric", options_for_select(Rubric.order(:name).collect{ |u| [u.name, u.id] }),
+            {:prompt => "Выберите рубрику", :id => "report_rubric"})
+        .form-actions
+          = submit_tag "Показать", {:disabled => "disabled", :id => "do_report_by_rubric", :class => 'btn'}
+
+  #report_results_container
+    -#=render :partial => "report_by_agent_result"

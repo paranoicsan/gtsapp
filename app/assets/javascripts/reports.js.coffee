@@ -15,6 +15,13 @@ $ ->
   repoAgent_AgentChange()
 
   #######################################
+  # Отчёт по рубрикам
+  #######################################
+  $('#report_rubric').change ->
+    repoRubric_RubChange()
+  repoRubric_RubChange()
+
+  #######################################
   # Отчёт компаний по улицам
   #######################################
 #  onReportAgentCityChanged()
@@ -46,9 +53,27 @@ repoAgent_AgentChange = ->
   el = $('#agent_group')
   if check then el.addClass('error') else el.removeClass('error')
 
-  valid = if $('#agent_group').hasClass('error') then false else true
+  valid = if el.hasClass('error') then false else true
 
   el = $('#do_report_by_agent')
+  if !valid
+    el.attr('disabled', 'disabled')
+  else
+    el.removeAttr('disabled')
+
+##########################################################################
+# Отчёт по рубрикам
+##########################################################################
+##
+# Изменение в выпадающем меню со списком агентов
+repoRubric_RubChange = ->
+  check = if $('#report_rubric').val() == "" then true else false
+  el = $('#rubric_group')
+  if check then el.addClass('error') else el.removeClass('error')
+
+  valid = if el.hasClass('error') then false else true
+
+  el = $('#do_report_by_rubric')
   if !valid
     el.attr('disabled', 'disabled')
   else
