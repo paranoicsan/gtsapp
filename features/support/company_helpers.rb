@@ -72,7 +72,7 @@ module CompanyHelpers
   # @return [Company] Созданный экземпляр компании
   def create_company_wstatus(status)
     company = FactoryGirl.create :company, company_status_id: status.id
-    3.times { FactoryGirl.create :branch, company_id: company.id }
+    2.times { FactoryGirl.create :branch, company_id: company.id }
   end
 
   ##

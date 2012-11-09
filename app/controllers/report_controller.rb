@@ -66,11 +66,11 @@ class ReportController < ApplicationController
     # Ищем компании
     case params[:filter].to_sym
       when :active
-        cs = Company.active.paginate(:page => params[:page], :per_page => 20)
+        cs = Company.active
       when :archived
-        cs = Company.archived.paginate(:page => params[:page], :per_page => 20)
+        cs = Company.archived
       else
-        cs = Company.paginate(:page => params[:page], :per_page => 20)
+        cs = Company.all
     end
 
     companies = []

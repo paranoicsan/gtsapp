@@ -220,8 +220,9 @@ Then /^Я могу попасть на страницу формирования
   current_path.should eq(report_company_by_rubric_path)
 end
 When /^Я нахожусь на странице отчётов по рубрике$/ do
-  2.times { FactoryGirl.create :company_active }
-  2.times { FactoryGirl.create :company_archived }
+
+  2.times { create_company_wstatus CompanyStatus.active }
+  2.times { create_company_wstatus CompanyStatus.archived }
 
   @rubric = FactoryGirl.create :rubric
   Company.all.each do |c|
