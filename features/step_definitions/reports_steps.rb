@@ -226,7 +226,9 @@ When /^Я нахожусь на странице отчётов по рубри�
   @rubric = FactoryGirl.create :rubric
   Company.all.each do |c|
     c.rubrics << @rubric
+    c.save
   end
+
   visit report_company_by_rubric_path
 end
 Then /^Я (|не) могу сформировать отчёт по рубрике$/ do |negate|
@@ -238,10 +240,13 @@ When /^Я заполняю параметры отчёта по рубрике �
   case filter
     when "активные"
       choose("filter_active")
+      @cfilter = :active
     when "архивные"
       choose("filter_archived")
+      @cfilter = :archived
     else
       choose("filter_all")
+      @cfilter = :all
   end
   steps %Q{
     When Я выбираю "#{@rubric.name}" из элемента "report_rubric"
@@ -249,17 +254,17 @@ When /^Я заполняю параметры отчёта по рубрике �
   }
   click_button("Показать")
 end
-Then /^Then Я вижу список компаний в соответствии с фильтром$/ do
-  #sid = -1
-  case @cfilter
-    when "активные"
-      sid = CompanyStatus.active.id
-    when "архивные"
-      sid = CompanyStatus.archived.id
+Then /^Я вижу список компаний в соответствии с фильтром$/ do
+  case @cfilter.to_sym
+    when :active
+      cs = Company.active
+    when :archived
+      cs = Company.archived
     else
-      sid = -1
+      cs = Company.all
   end
-  Company.find_all_by_company_status_id(sid).each do |c|
+
+  cs.find_all{|company| company.rubrics.include?(@rubric)}.each do |c|
     page.should have_content(c.title)
   end
 end

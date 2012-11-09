@@ -66,18 +66,26 @@ class ReportController < ApplicationController
     # Ищем компании
     case params[:filter].to_sym
       when :active
-        companies = Company.active
+        cs = Company.active.paginate(:page => params[:page], :per_page => 20)
       when :archived
-        companies = Company.archived
+        cs = Company.archived.paginate(:page => params[:page], :per_page => 20)
       else
-        companies = Company.all
+        cs = Company.paginate(:page => params[:page], :per_page => 20)
     end
 
+    companies = []
+    rubric = Rubric.find(params[:report_rubric])
+    cs.find_all{ |item| item.rubrics.include?(rubric) }.each do |c|
+      companies << c
+    end
     @report_result = {
         companies: companies,
+        rubric_name: rubric.name,
+        rubric: rubric,
         filter: params[:filter] ? params[:filter].to_sym : -1
     }
     store_params # сохраняем в сессии параметры
+
     render :layout => false
   end
 
@@ -96,6 +104,7 @@ class ReportController < ApplicationController
         rubricator_filter: params[:rubricator_filter].to_i
     }
     store_params # сохраняем в сессии параметры
+
     render :layout => false
   end
 
@@ -107,6 +116,7 @@ class ReportController < ApplicationController
     end
     format = params[:format].downcase
     data = export_company_by_street(format)
+
     unless data.nil?
       send_data data,
                 :filename => "company_by_street_export.#{format}",
@@ -154,6 +164,7 @@ class ReportController < ApplicationController
     session[:report_params] = {
         street_id: @report_result[:street] ? @report_result[:street].id : -1,
         filter: @report_result[:filter] ? @report_result[:filter] : -1,
+        rubric_name: @report_result[:rubric_name],
         rubricator_filter: @report_result[:rubricator_filter] ? @report_result[:rubricator_filter] : -1
     }
   end

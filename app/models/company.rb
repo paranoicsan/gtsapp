@@ -18,8 +18,8 @@ class Company < ActiveRecord::Base
   validates_presence_of :reason_need_improvement_on, :if => :need_improvement?, :message => 'Не указана причина необходимости доработки компании'
   #noinspection RailsParamDefResolve
   before_save :check_fields, only: [:create]
-  scope :active, where(:company_status_id => CompanyStatus.active ? CompanyStatus.active.id : -1)
-  scope :archived, where(:company_status_id => CompanyStatus.archived ? CompanyStatus.archived.id : -1)
+  scope :active, where(:company_status_id => CompanyStatus.active.nil? ? -1 : CompanyStatus.active.id)
+  scope :archived, where(:company_status_id => CompanyStatus.archived.nil? ? -1 : CompanyStatus.archived.id)
 
   def self.suspended
     where(:company_status_id => CompanyStatus.suspended.id)

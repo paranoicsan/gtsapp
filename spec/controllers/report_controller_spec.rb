@@ -36,10 +36,15 @@ describe ReportController do
       before(:each) do
         2.times { FactoryGirl.create :company_active }
         2.times { FactoryGirl.create :company_archived }
+        @rubric = FactoryGirl.create :rubric
+        Company.all.each do |c|
+          c.rubrics << @rubric
+        end
       end
       def post_valid2(filter = :all)
         params = {
             filter: filter,
+            report_rubric: @rubric.id,
             format: :js
         }
         post :prepare_company_by_rubric, params
@@ -47,6 +52,10 @@ describe ReportController do
       it "возвращает набор данных как @report_result" do
         post_valid2
         assigns(:report_result).should_not eq({})
+      end
+      it "возвращает название выбранной рубрики" do
+        post_valid2
+        assigns(:report_result)[:rubric_name].should eq(@rubric.name)
       end
       it "возвращает все компании, если выставлен фильтр" do
         companies = Company.all

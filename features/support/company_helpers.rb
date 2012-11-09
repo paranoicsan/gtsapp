@@ -68,6 +68,14 @@ module CompanyHelpers
   end
 
   ##
+  # Создаёт компанию при помощи фабрики c указанным статусом
+  # @return [Company] Созданный экземпляр компании
+  def create_company_wstatus(status)
+    company = FactoryGirl.create :company, company_status_id: status.id
+    3.times { FactoryGirl.create :branch, company_id: company.id }
+  end
+
+  ##
   # Создаёт несколько записей в истории для указанного агента
   # @param [User] Агент, для которого делаются записи
   def create_history(agent)
@@ -77,6 +85,8 @@ module CompanyHelpers
     company_2 = FactoryGirl.create :company
     CompanyHistory.log("добавил рубрику", agent.id, company_2.id)
   end
+
+
 
 end
 
