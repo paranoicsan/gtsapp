@@ -12,7 +12,7 @@
 .container-fluid
   .row-fluid
     .span10
-      = form_tag report_prepare_by_agent_path, :remote => true, :method => :post, :class => 'form-horizontal well' do
+      = form_tag report_prepare_company_by_rubric_path, :remote => true, :method => :post, :class => 'form-horizontal well' do
         .control-group#rubric_group
           = label_tag 'Рубрика:', nil, :class => 'control-label'
           .controls

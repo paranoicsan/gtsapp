@@ -216,19 +216,17 @@ Then /^Я могу сохранить отчёт в формате (PDF|RTF|XLS)
 end
 Then /^Я могу попасть на страницу формирования отчёта по рубрикам$/ do
   page.should have_content("По рубрике")
-  find("a[href='#{report_by_rubric_path}'][text()='Показать']").click
-  current_path.should eq(report_by_rubric_path)
+  find("a[href='#{report_company_by_rubric_path}'][text()='Показать']").click
+  current_path.should eq(report_company_by_rubric_path)
 end
 When /^Я нахожусь на странице отчётов по рубрике$/ do
-  # создаём набор компаний и рубрик
-  2.times { FactoryGirl.create :company_status_active }
-  2.times { FactoryGirl.create :company_status_archived }
+  create_companies # создаём набор компаний и рубрик
 
   @rubric = FactoryGirl.create :rubric
   Company.all.each do |c|
     c.rubrics << @rubric
   end
-  visit report_by_rubric_path
+  visit report_company_by_rubric_path
 end
 Then /^Я (|не) могу сформировать отчёт по рубрике$/ do |negate|
   s = negate.eql?("не") ? "не активна" : "активна"

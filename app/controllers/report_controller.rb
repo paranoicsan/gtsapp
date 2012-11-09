@@ -29,8 +29,8 @@ class ReportController < ApplicationController
   end
 
   ##
-  # GET /reports/by_rubric
-  def by_rubric
+  # GET /reports/company_by_rubric
+  def company_by_rubric
     respond_to do |format|
       format.html
       format.json { head :ok }
@@ -57,6 +57,27 @@ class ReportController < ApplicationController
     #end_p = "#{params[:report_period_end][:day]}-#{params[:report_period_end][:month]}-#{params[:report_period_end][:year]}"
 
     @report_result = CompanyHistory.where("user_id = ? and created_at >= ? AND created_at <= ? ", agent_id, start, end_p)
+    render :layout => false
+  end
+
+  ##
+  # POST /reports/prepare_company_by_street
+  def prepare_company_by_rubric
+    # Ищем компании
+    case params[:filter].to_sym
+      when :active
+        companies = Company.active
+      when :archived
+        companies = Company.archived
+      else
+        companies = Company.all
+    end
+
+    @report_result = {
+        companies: companies,
+        filter: params[:filter] ? params[:filter].to_sym : -1
+    }
+    store_params # сохраняем в сессии параметры
     render :layout => false
   end
 
@@ -131,9 +152,9 @@ class ReportController < ApplicationController
   private
   def store_params
     session[:report_params] = {
-        street_id: @report_result[:street].id,
-        filter: @report_result[:filter],
-        rubricator_filter: @report_result[:rubricator_filter],
+        street_id: @report_result[:street] ? @report_result[:street].id : -1,
+        filter: @report_result[:filter] ? @report_result[:filter] : -1,
+        rubricator_filter: @report_result[:rubricator_filter] ? @report_result[:rubricator_filter] : -1
     }
   end
 

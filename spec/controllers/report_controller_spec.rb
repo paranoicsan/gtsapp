@@ -23,34 +23,48 @@ describe ReportController do
     end
   end
 
-  context "by_rubric" do
+  context "company_by_rubric" do
 
-    describe "GET by_rubric" do
+    describe "GET company_by_rubric" do
       it "возвращает положительный ответ" do
-        get :by_rubric
+        get :company_by_rubric
         response.should be_success
       end
     end
 
-    describe "POST prepare_by_rubric" do
-
-      def post_valid
+    describe "POST prepare_company_by_rubric" do
+      before(:each) do
+        2.times { FactoryGirl.create :company_active }
+        2.times { FactoryGirl.create :company_archived }
+      end
+      def post_valid2(filter = :all)
         params = {
+            filter: filter,
             format: :js
         }
-        post :prepare_by_rubric, params
-      end
-      it "возвращает искомый набор компаний как @report_companies" do
-        post_valid
-        assigns(:report_companies).should eq(user)
+        post :prepare_company_by_rubric, params
       end
       it "возвращает набор данных как @report_result" do
-        write_history
-        post_valid
-        assigns(:report_result).should eq([CompanyHistory.first])
+        post_valid2
+        assigns(:report_result).should_not eq({})
+      end
+      it "возвращает все компании, если выставлен фильтр" do
+        companies = Company.all
+        post_valid2
+        assigns(:report_result)[:companies].should eq(companies)
+      end
+      it "возвращает активные компании, если выставлен фильтр" do
+        companies = Company.active
+        post_valid2(:active)
+        assigns(:report_result)[:companies].should eq(companies)
+      end
+      it "возвращает архивные компании, если выставлен фильтр" do
+        companies = Company.all
+        post_valid2
+        assigns(:report_result)[:companies].should eq(companies)
       end
       it "возвращает JavaScript-ответ для обновления данных на странице" do
-        post_valid
+        post_valid2
         response.should be_success
       end
     end

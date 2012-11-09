@@ -65,7 +65,8 @@ Gtsapp::Application.routes.draw do
   match 'reports/by_agent' =>  'report#by_agent', :as => :report_by_agent
   match 'reports/prepare_by_agent' =>  'report#prepare_by_agent', :as => :report_prepare_by_agent, :via => :post
 
-  match 'reports/by_rubric' => 'report#by_rubric', :as => :report_by_rubric
+  match 'reports/company_by_rubric' => 'report#company_by_rubric', :as => :report_company_by_rubric
+  match 'reports/prepare_company_by_rubric' =>  'report#prepare_company_by_rubric', :as => :report_prepare_company_by_rubric, :via => :post
 
   match 'reports/company_by_street' =>  'report#company_by_street', :as => :report_company_by_street
   match 'reports/company_by_street/export/:format' =>  'report#company_by_street_export', :as => :report_company_by_street_export, :via => :get
