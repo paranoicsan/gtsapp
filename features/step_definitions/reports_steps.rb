@@ -220,7 +220,8 @@ Then /^Я могу попасть на страницу формирования
   current_path.should eq(report_company_by_rubric_path)
 end
 When /^Я нахожусь на странице отчётов по рубрике$/ do
-  create_companies # создаём набор компаний и рубрик
+  2.times { FactoryGirl.create :company_active }
+  2.times { FactoryGirl.create :company_archived }
 
   @rubric = FactoryGirl.create :rubric
   Company.all.each do |c|

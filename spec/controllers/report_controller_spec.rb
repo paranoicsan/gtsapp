@@ -55,12 +55,12 @@ describe ReportController do
       end
       it "возвращает активные компании, если выставлен фильтр" do
         companies = Company.active
-        post_valid2(:active)
+        post_valid2 :active
         assigns(:report_result)[:companies].should eq(companies)
       end
       it "возвращает архивные компании, если выставлен фильтр" do
-        companies = Company.all
-        post_valid2
+        companies = Company.archived
+        post_valid2 :archived
         assigns(:report_result)[:companies].should eq(companies)
       end
       it "возвращает JavaScript-ответ для обновления данных на странице" do
