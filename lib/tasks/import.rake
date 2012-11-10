@@ -68,7 +68,14 @@ namespace :db do
 
       old_street_id = row[0]
       old_index_id = row[1]
-      new_street_id = Street.find_by_old_id(old_street_id).id
+      street = Street.find_by_old_id(old_street_id)
+      if street
+        new_street_id = street.id
+      else
+        new_street_id = nil
+        puts "Cannot find street with ID = #{old_street_id}"
+      end
+
       new_index_id = PostIndex.find_by_old_id(old_index_id).id
 
       StreetIndex.create(:street_id => new_street_id, :post_index_id => new_index_id,
