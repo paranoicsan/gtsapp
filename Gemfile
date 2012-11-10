@@ -33,6 +33,7 @@ end
 
 group :test do
   gem 'sqlite3'
+  gem 'headless'
   gem 'cucumber-rails', require: false
   gem 'database_cleaner'
   gem 'capybara'
