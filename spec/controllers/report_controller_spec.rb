@@ -25,6 +25,15 @@ describe ReportController do
 
   context "company_by_rubric" do
 
+    def create_data
+      2.times { FactoryGirl.create :company_active }
+      2.times { FactoryGirl.create :company_archived }
+      @rubric = FactoryGirl.create :rubric
+      Company.all.each do |c|
+        c.rubrics << @rubric
+      end
+    end
+
     describe "GET company_by_rubric" do
       it "возвращает положительный ответ" do
         get :company_by_rubric
@@ -34,12 +43,7 @@ describe ReportController do
 
     describe "POST prepare_company_by_rubric" do
       before(:each) do
-        2.times { FactoryGirl.create :company_active }
-        2.times { FactoryGirl.create :company_archived }
-        @rubric = FactoryGirl.create :rubric
-        Company.all.each do |c|
-          c.rubrics << @rubric
-        end
+        create_data
       end
       def post_valid2(filter = :all)
         params = {
@@ -75,6 +79,22 @@ describe ReportController do
       it "возвращает JavaScript-ответ для обновления данных на странице" do
         post_valid2
         response.should be_success
+      end
+    end
+
+    describe "GET company_by_rubric/export" do
+      before(:each) do
+        create_data
+        session[:report_params] = {
+            filter: :active,
+            format: :js,
+            rubric_id: @rubric.id
+        }
+      end
+      it "возвращает сгенерированный PDF" do
+        controller.stub(:render)
+        controller.should_receive(:send_data)
+        get :company_by_rubric_export, format: :pdf
       end
     end
 

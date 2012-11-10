@@ -2,7 +2,7 @@
 require_dependency 'reports/company_by_street_pdf'
 require_dependency 'reports/company_by_street_rtf'
 require_dependency 'reports/company_by_street_xls'
-
+require_dependency 'reports/company_by_rubric_pdf'
 
 class ReportController < ApplicationController
   before_filter :require_user
@@ -63,21 +63,8 @@ class ReportController < ApplicationController
   ##
   # POST /reports/prepare_company_by_street
   def prepare_company_by_rubric
-    # Ищем компании
-    case params[:filter].to_sym
-      when :active
-        cs = Company.active
-      when :archived
-        cs = Company.archived
-      else
-        cs = Company.all
-    end
-
-    companies = []
     rubric = Rubric.find(params[:report_rubric])
-    cs.find_all{ |item| item.rubrics.include?(rubric) }.each do |c|
-      companies << c
-    end
+    companies = ReportHelper.find_companies rubric, params[:filter]
     @report_result = {
         companies: companies,
         rubric_name: rubric.name,
@@ -87,6 +74,53 @@ class ReportController < ApplicationController
     store_params # сохраняем в сессии параметры
 
     render :layout => false
+  end
+
+  ##
+  # GET /reports/company_by_rubric/export/:format
+  def company_by_rubric_export
+    unless params[:format] && session[:report_params]
+      render :nothing => true
+    end
+    format = params[:format].downcase
+    data = export_company_by_rubric format
+    unless data.nil?
+      send_data data,
+                :filename => "company_by_rubric_export.#{format}",
+                :type => ReportHelper.mime_type(format)
+    end
+  end
+
+  ##
+  # Экспортирует отчёт в различные форматы
+  # @param [String] Формат, в котором надо выгружать результаты
+  def export_company_by_rubric(format)
+    case format
+      when "pdf"
+        rep = ReportCompanyByRubricPDF.new
+        rep.filter = session[:report_params][:filter]
+        rep.rubric = Rubric.find session[:report_params][:rubric_id]
+        rep.to_pdf
+      #when "rtf"
+      #  rep = ReportCompanyByStreetRTF.new(Font.new(Font::ROMAN, 'Times New Roman'))
+      #  rep.street_id = session[:report_params][:street_id]
+      #  rep.filter = session[:report_params][:filter]
+      #  rep.filter_rubricator = session[:report_params][:rubricator_filter].to_i
+      #  rep.to_rtf
+      #when "xls"
+      #  rep = ReportCompanyByStreetXLS.new
+      #  rep.street_id = session[:report_params][:street_id]
+      #  rep.filter = session[:report_params][:filter]
+      #  rep.filter_rubricator = session[:report_params][:rubricator_filter].to_i
+      #
+      #  rep.to_xls
+      #
+      #  path = StringIO.new
+      #  rep.write path
+      #  path.string
+      else
+        nil
+    end
   end
 
   ##
@@ -165,9 +199,9 @@ class ReportController < ApplicationController
         street_id: @report_result[:street] ? @report_result[:street].id : -1,
         filter: @report_result[:filter] ? @report_result[:filter] : -1,
         rubric_name: @report_result[:rubric_name],
+        rubric_id: @report_result[:rubric] ? @report_result[:rubric].id : -1,
         rubricator_filter: @report_result[:rubricator_filter] ? @report_result[:rubricator_filter] : -1
     }
   end
-
 
 end

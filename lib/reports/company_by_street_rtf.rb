@@ -1,12 +1,8 @@
 # Encoding: utf-8
-class ReportCompanyByStreetRTF < RTF::Document
+require_dependency 'reports/company_by_street.rb'
 
-  # Улица
-  attr_accessor :street_id
-  # Фитльтр по статусу компаний
-  attr_accessor :filter
-  # Фильтр по типу рубрикатора
-  attr_accessor :filter_rubricator
+class ReportCompanyByStreetRTF < RTF::Document
+  include CompanyByStreet
 
   def to_rtf
     @styles = {}

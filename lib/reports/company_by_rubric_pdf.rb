@@ -1,10 +1,8 @@
 # Encoding: utf-8
-require_dependency 'reports/company_by_street.rb'
+require_dependency 'reports/company_by_rubric'
 
-class ReportCompanyByStreetPDF < Prawn::Document
-  include CompanyByStreet
-
-
+class ReportCompanyByRubricPDF < Prawn::Document
+  include CompanyByRubric
 
   def to_pdf
     # привязываем шрифты
@@ -30,7 +28,8 @@ class ReportCompanyByStreetPDF < Prawn::Document
   end
 
   def write_companies
-    companies = Company.by_street street_id, filter: filter, rubricator_filter: filter_rubricator
+    #companies = Company.by_street street_id, filter: filter, rubricator_filter: filter_rubricator
+    companies = get_companies
     companies.each do |c|
 
       # названия компании
@@ -123,17 +122,12 @@ class ReportCompanyByStreetPDF < Prawn::Document
     move_down 10
   end
 
-  ##
-  # Формирует строку c адресным фильтром
-  def address_summary
-    street = Street.find(street_id)
-    %Q{#{street.name} (#{street.city.name})}
-  end
-
   def write_header
     font "Verdana", :size => 14
-    text address_summary
-    text %Q{Рубрикатор: #{Rubric.rubricator_name_for(filter_rubricator)}}
+    text %Q{Рубрика: #{rubric.name}}
+    move_down 10
+    font "Verdana", :size => 12
+    text get_filter_text
     move_down 20
   end
 

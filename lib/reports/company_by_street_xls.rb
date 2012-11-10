@@ -1,12 +1,8 @@
 # Encoding: utf-8
-class ReportCompanyByStreetXLS < Spreadsheet::Workbook
+require_dependency 'reports/company_by_street.rb'
 
-  # Улица
-  attr_accessor :street_id
-  # Фитльтр по статусу компаний
-  attr_accessor :filter
-  # Фильтр по типу рубрикатора
-  attr_accessor :filter_rubricator
+class ReportCompanyByStreetXLS < Spreadsheet::Workbook
+  include CompanyByStreet
 
   def to_xls
     # создаём один лист
