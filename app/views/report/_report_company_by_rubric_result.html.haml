@@ -31,20 +31,22 @@
             %tr
               %td{style: "width:40%"}
                 =link_to rr.title, company_path(rr)
-                %p
-                  ="#{m_branch.fact_name}, #{m_branch.legel_name}"
+                -if m_branch
+                  %p
+                    ="#{m_branch.fact_name}, #{m_branch.legel_name}"
               %td
-                %ul
-                  %li
-                    %p.text-bold
-                      ="#{m_branch.fact_name}"
-                    -unless m_branch.address.nil?
-                      %p
-                        ="#{m_branch.address.full_address}"
-                    -if m_branch.phones.any?
-                      -m_branch.phones_by_order.each do |p|
-                        =%Q{#{p.name_formatted(true)} - #{p.description}}
-                        %br
+                -if m_branch
+                  %ul
+                    %li
+                      %p.text-bold
+                        ="#{m_branch.fact_name}"
+                      -unless m_branch.address.nil?
+                        %p
+                          ="#{m_branch.address.full_address}"
+                      -if m_branch.phones.any?
+                        -m_branch.phones_by_order.each do |p|
+                          =%Q{#{p.name_formatted(true)} - #{p.description}}
+                          %br
                 -rr.branches_sorted.each do |b|
                   %ul
                     -unless b.is_main?
