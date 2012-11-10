@@ -3,6 +3,7 @@ require_dependency 'reports/company_by_street_pdf'
 require_dependency 'reports/company_by_street_rtf'
 require_dependency 'reports/company_by_street_xls'
 require_dependency 'reports/company_by_rubric_pdf'
+require_dependency 'reports/company_by_rubric_xls'
 
 class ReportController < ApplicationController
   before_filter :require_user
@@ -107,17 +108,15 @@ class ReportController < ApplicationController
       #  rep.filter = session[:report_params][:filter]
       #  rep.filter_rubricator = session[:report_params][:rubricator_filter].to_i
       #  rep.to_rtf
-      #when "xls"
-      #  rep = ReportCompanyByStreetXLS.new
-      #  rep.street_id = session[:report_params][:street_id]
-      #  rep.filter = session[:report_params][:filter]
-      #  rep.filter_rubricator = session[:report_params][:rubricator_filter].to_i
-      #
-      #  rep.to_xls
-      #
-      #  path = StringIO.new
-      #  rep.write path
-      #  path.string
+      when "xls"
+        rep = ReportCompanyByRubricXLS.new
+        rep.filter = session[:report_params][:filter]
+        rep.rubric = Rubric.find session[:report_params][:rubric_id]
+        rep.to_xls
+
+        path = StringIO.new
+        rep.write path
+        path.string
       else
         nil
     end

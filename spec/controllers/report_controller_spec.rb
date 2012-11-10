@@ -96,6 +96,11 @@ describe ReportController do
         controller.should_receive(:send_data)
         get :company_by_rubric_export, format: :pdf
       end
+      it "возвращает сгенерированный XLS" do
+        controller.stub(:render)
+        controller.should_receive(:send_data)
+        get :company_by_rubric_export, format: :xls
+      end
     end
 
   end

@@ -18,8 +18,8 @@
             id: 'report_export_pdf'
             -#=link_to image_tag('export_rtf.png', {alt: 'скачать RTF', title: 'скачать RTF'}), report_company_by_rubric_export_path(format: :rtf),
             -#id: 'report_export_rtf'
-            -#=link_to image_tag('export_excel.png', {alt: 'скачать Excel-формат', title: 'скачать Excel-формат'}), report_company_by_rubric_export_path(format: :xls),
-            -#id: 'report_export_xls'
+            =link_to image_tag('export_excel.png', {alt: 'скачать Excel-формат', title: 'скачать Excel-формат'}), report_company_by_rubric_export_path(format: :xls),
+            id: 'report_export_xls'
 
       -if @report_result[:companies].any?
         %table#report_results_table.table.table-striped
