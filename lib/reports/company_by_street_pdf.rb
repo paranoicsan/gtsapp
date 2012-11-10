@@ -33,14 +33,16 @@ class ReportCompanyByStreetPDF < Prawn::Document
     companies = Company.by_street street_id, filter: filter, rubricator_filter: filter_rubricator
     companies.each do |c|
 
-      # названия компании
-      font "Verdana", size: 12, style: :bold
-      text c.title
-      font "Verdana", size: 10
-      text "#{c.main_branch.fact_name}, #{c.main_branch.legel_name}"
-      move_down 10
+      if c.branches.any?
+        # названия компании
+        font "Verdana", size: 12, style: :bold
+        text c.title
+        font "Verdana", size: 10
+        text "#{c.main_branch.fact_name}, #{c.main_branch.legel_name}"
+        move_down 10
 
-      write_addresses c # адреса
+        write_addresses c # адреса
+      end
       write_persons c # персоны
       write_emails c # Почта
       write_websites c # веб-сайты

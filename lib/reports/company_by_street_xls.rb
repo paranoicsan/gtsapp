@@ -30,12 +30,14 @@ class ReportCompanyByStreetXLS < Spreadsheet::Workbook
     companies = Company.by_street street_id, filter: filter, rubricator_filter: filter_rubricator
     companies.each do |c|
 
-      # названия компании
-      @sheet.row(cnt).set_format(0, @bold)
-      @sheet.row(cnt).push c.title
-      @sheet.row(cnt + 1).push "#{c.main_branch.fact_name}, #{c.main_branch.legel_name}"
+      if c.branches.any?
+        # названия компании
+        @sheet.row(cnt).set_format(0, @bold)
+        @sheet.row(cnt).push c.title
+        @sheet.row(cnt + 1).push "#{c.main_branch.fact_name}, #{c.main_branch.legel_name}"
 
-      cnt = write_addresses c, cnt + 3 # адреса
+        cnt = write_addresses c, cnt + 3 # адреса
+      end
       cnt = write_persons c, cnt # персоны
       cnt = write_emails c, cnt + 1 # Почта
       cnt = write_websites c, cnt + 1 # веб-сайты
