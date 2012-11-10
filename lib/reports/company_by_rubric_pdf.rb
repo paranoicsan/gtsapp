@@ -37,7 +37,7 @@ class ReportCompanyByRubricPDF < Prawn::Document
         font "Verdana", size: 12, style: :bold
         text c.title
         font "Verdana", size: 10
-        text "#{c.main_branch.fact_name}, #{c.main_branch.legel_name}"
+        text "#{c.main_branch.fact_name}, #{c.main_branch.legel_name}" unless c.main_branch.nil?
         move_down 10
 
         write_addresses c # адреса
@@ -126,7 +126,7 @@ class ReportCompanyByRubricPDF < Prawn::Document
 
   def write_header
     font "Verdana", :size => 14
-    text %Q{Рубрика: #{rubric.name}}
+    text %Q{Рубрика: #{rubric.name}} unless rubric.nil?
     move_down 10
     font "Verdana", :size => 12
     text get_filter_text
@@ -136,15 +136,17 @@ class ReportCompanyByRubricPDF < Prawn::Document
   ##
   # Пишет информацию по филиалам и их телефонам
   def write_branch(branch)
-    s = branch.is_main? ? "(*)" : ""
-    text "#{s} #{branch.fact_name}"
-    move_down 5
-    indent(20) do
-      unless branch.address.nil?
-        text branch.address.full_address
-        move_down 5
+    unless branch.nil?
+      s = branch.is_main? ? "(*)" : ""
+      text "#{s} #{branch.fact_name}"
+      move_down 5
+      indent(20) do
+        unless branch.address.nil?
+          text branch.address.full_address
+          move_down 5
+        end
+        write_phones branch
       end
-      write_phones branch
     end
   end
 

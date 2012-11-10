@@ -18,8 +18,7 @@ class ReportCompanyByRubricXLS < Spreadsheet::Workbook
   end
 
   def write_header
-    @sheet.row(0).push %Q{Рубрика: #{rubric.name})}
-    @sheet.row(1).push get_filter_text
+    @sheet.row(0).push %Q{Рубрика: #{rubric.name})} unless rubric.nil?
   end
 
   def write_companies
@@ -33,7 +32,7 @@ class ReportCompanyByRubricXLS < Spreadsheet::Workbook
       if c.branches.any?
         @sheet.row(cnt).set_format(0, @bold)
         @sheet.row(cnt).push c.title
-        @sheet.row(cnt + 1).push "#{c.main_branch.fact_name}, #{c.main_branch.legel_name}"
+        @sheet.row(cnt + 1).push "#{c.main_branch.fact_name}, #{c.main_branch.legel_name}" unless c.main_branch.nil?
 
         cnt = write_addresses c, cnt + 3 # адреса
       end
@@ -141,14 +140,16 @@ class ReportCompanyByRubricXLS < Spreadsheet::Workbook
   ##
   # Пишет информацию по филиалам и их телефонам
   def write_branch(branch, row_pos)
-    s = branch.is_main? ? "(*) " : ""
-    @sheet.row(row_pos).push "#{s}#{branch.fact_name}"
+    unless branch.nil?
+      s = branch.is_main? ? "(*) " : ""
+      @sheet.row(row_pos).push "#{s}#{branch.fact_name}"
 
-    row_pos += 1
-    @sheet.row(row_pos)[1] = branch.address.full_address unless branch.address.nil?
+      row_pos += 1
+      @sheet.row(row_pos)[1] = branch.address.full_address unless branch.address.nil?
 
-    row_pos += 2
-    write_phones branch, row_pos
+      row_pos += 2
+      write_phones branch, row_pos
+    end
   end
 
 

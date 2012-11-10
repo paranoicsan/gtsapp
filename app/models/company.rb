@@ -110,7 +110,7 @@ class Company < ActiveRecord::Base
   # Отсортированный набор филиалов
   # @return [Array] Коллекция филиалов
   def branches_sorted
-    self.branches.order("is_main DESC, fact_name ASC")
+    branches.order("is_main DESC, fact_name ASC")
   end
 
   def self.suspended_by_user(user_id)
