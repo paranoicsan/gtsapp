@@ -25,14 +25,16 @@ class ReportCompanyByStreetRTF < RTF::Document
     companies = Company.by_street street_id, filter: filter, rubricator_filter: filter_rubricator
     companies.each do |c|
 
-      # названия компании
-      paragraph do |p|
-        p.apply(@styles['HEADER']) << c.title
-        p.line_break
-        p << "#{c.main_branch.fact_name}, #{c.main_branch.legel_name}"
-      end
+      if c.branches.any?
+        # названия компании
+        paragraph do |p|
+          p.apply(@styles['HEADER']) << c.title
+          p.line_break
+          p << "#{c.main_branch.fact_name}, #{c.main_branch.legel_name}"
+        end
 
-      write_addresses c # адреса
+        write_addresses c # адреса
+      end
       write_persons c # персоны
       write_emails c # Почта
       write_websites c # веб-сайты
