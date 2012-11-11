@@ -212,15 +212,7 @@ Then /^Я могу сохранить отчёт в формате (PDF|RTF|XLS)
     else
       raise "Unknown export format"
   end
-  selector = "a##{el_id}"
-
-  begin
-    page.wait_until{ page.have_selector(selector)}
-  rescue Capybara::TimeoutError
-    puts "Failed at waiting for loading export_by_rubric results."
-  end
-
-  page.should have_selector(selector)
+  page.should have_selector("a##{el_id}")
 end
 Then /^Я могу попасть на страницу формирования отчёта по рубрикам$/ do
   page.should have_content("По рубрике")
@@ -272,6 +264,7 @@ Then /^Я вижу список компаний в соответствии с 
     else
       cs = Company.all
   end
+  puts cs.count
 
   cs.find_all{|company| company.rubrics.include?(@rubric)}.each do |c|
     page.should have_content(c.title)
