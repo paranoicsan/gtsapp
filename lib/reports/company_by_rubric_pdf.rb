@@ -33,15 +33,19 @@ class ReportCompanyByRubricPDF < Prawn::Document
     companies.each do |c|
 
       # названия компании
+      font "Verdana", size: 12, style: :bold
+      text c.title
+
       if c.branches.any?
-        font "Verdana", size: 12, style: :bold
-        text c.title
         font "Verdana", size: 10
         text "#{c.main_branch.fact_name}, #{c.main_branch.legel_name}" unless c.main_branch.nil?
         move_down 10
 
         write_addresses c # адреса
       end
+      move_down 10
+
+      font "Verdana", size: 10
       write_persons c # персоны
       write_emails c # Почта
       write_websites c # веб-сайты
@@ -121,7 +125,6 @@ class ReportCompanyByRubricPDF < Prawn::Document
     move_down 5
     write_branch(company.main_branch) # головной филиал
     company.branches_sorted.each { |b| write_branch b unless b.is_main? }
-    move_down 10
   end
 
   def write_header

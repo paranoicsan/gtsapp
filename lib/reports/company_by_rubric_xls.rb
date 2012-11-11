@@ -29,15 +29,16 @@ class ReportCompanyByRubricXLS < Spreadsheet::Workbook
     companies.each do |c|
 
       # названия компании
+      @sheet.row(cnt).set_format(0, @bold)
+      @sheet.row(cnt).push c.title
+
       if c.branches.any?
-        @sheet.row(cnt).set_format(0, @bold)
-        @sheet.row(cnt).push c.title
         @sheet.row(cnt + 1).push "#{c.main_branch.fact_name}, #{c.main_branch.legel_name}" unless c.main_branch.nil?
 
         cnt = write_addresses c, cnt + 3 # адреса
       end
 
-      cnt = write_persons c, cnt # персоны
+      cnt = write_persons c, cnt + 1 # персоны
       cnt = write_emails c, cnt + 1 # Почта
       cnt = write_websites c, cnt + 1 # веб-сайты
       cnt = write_rubrics c, cnt + 1 # рубрики

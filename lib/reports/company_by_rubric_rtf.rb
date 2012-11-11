@@ -1,8 +1,8 @@
 # Encoding: utf-8
-require_dependency 'reports/company_by_street.rb'
+require_dependency 'reports/company_by_rubric.rb'
 
-class ReportCompanyByStreetRTF < RTF::Document
-  include CompanyByStreet
+class ReportCompanyByRubricRTF < RTF::Document
+  include CompanyByRubric
 
   def to_rtf
     @styles = {}
@@ -22,22 +22,20 @@ class ReportCompanyByStreetRTF < RTF::Document
   end
 
   def write_companies
-    companies = Company.by_street street_id, filter: filter, rubricator_filter: filter_rubricator
+    companies = get_companies
     companies.each do |c|
 
       paragraph do |p|
-
-        # названия компании
         p.apply(@styles['HEADER']) << c.title
         p.line_break
 
         if c.branches.any?
-          p << "#{c.main_branch.fact_name}, #{c.main_branch.legel_name}"
+          p << "#{c.main_branch.fact_name}, #{c.main_branch.legel_name}"  unless c.main_branch.nil?
           write_addresses c # адреса
         end
 
-
       end
+
       write_persons c # персоны
       write_emails c # Почта
       write_websites c # веб-сайты
@@ -130,37 +128,30 @@ class ReportCompanyByStreetRTF < RTF::Document
     end
   end
 
-  ##
-  # Формирует строку c адресным фильтром
-  def address_summary
-    street = Street.find(street_id)
-    %Q{#{street.name} (#{street.city.name})}
-  end
-
   def write_header
-    paragraph do |p|
-      p.apply(@styles['HEADER']) << address_summary
-    end
-    paragraph << %Q{Рубрикатор: #{Rubric.rubricator_name_for(filter_rubricator)}}
+    paragraph << %Q{Рубрика: #{rubric.name}} unless rubric.nil?
     paragraph.line_break
+    paragraph << get_filter_text
   end
 
   ##
   # Пишет информацию по филиалам и их телефонам
   def write_branch(branch)
-    s = branch.is_main? ? "(*)" : ""
-    paragraph do |p|
-      p << "#{s} #{branch.fact_name}"
-      p.line_break
-    end
-    ps = RTF::ParagraphStyle.new
-    ps.left_indent = 200
-    paragraph(ps) do |p|
-      unless branch.address.nil?
-        p << branch.address.full_address
-        2.times {p.line_break}
+    unless branch.nil?
+      s = branch.is_main? ? "(*)" : ""
+      paragraph do |p|
+        p << "#{s} #{branch.fact_name}"
+        p.line_break
       end
-      write_phones branch, p
+      ps = RTF::ParagraphStyle.new
+      ps.left_indent = 200
+      paragraph(ps) do |p|
+        unless branch.address.nil?
+          p << branch.address.full_address
+          2.times {p.line_break}
+        end
+        write_phones branch, p
+      end
     end
   end
 
