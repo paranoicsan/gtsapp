@@ -202,7 +202,6 @@ Then /^Я вижу список (активных|всех) компаний п�
         }
 end
 Then /^Я могу сохранить отчёт в формате (PDF|RTF|XLS)$/ do |format|
-  sleep 2
   case format.upcase
     when 'PDF'
       el_id = 'report_export_pdf'
@@ -265,6 +264,7 @@ Then /^Я вижу список компаний в соответствии с 
     else
       cs = Company.all
   end
+  puts cs.count
 
   cs.find_all{|company| company.rubrics.include?(@rubric)}.each do |c|
     page.should have_content(c.title)

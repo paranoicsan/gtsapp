@@ -18,8 +18,8 @@ class Company < ActiveRecord::Base
   validates_presence_of :reason_need_improvement_on, :if => :need_improvement?, :message => 'Не указана причина необходимости доработки компании'
   #noinspection RailsParamDefResolve
   before_save :check_fields, only: [:create]
-  scope :active, where(:company_status_id => CompanyStatus.active.nil? ? -1 : CompanyStatus.active.id)
-  scope :archived, where(:company_status_id => CompanyStatus.archived.nil? ? -1 : CompanyStatus.archived.id)
+  scope :active, lambda { where(:company_status_id => (CompanyStatus.active.nil? ? -1 : CompanyStatus.active.id)) }
+  scope :archived, lambda { where(:company_status_id => (CompanyStatus.archived.nil? ? -1 : CompanyStatus.archived.id)) }
 
   def self.suspended
     where(:company_status_id => CompanyStatus.suspended.id)
@@ -110,7 +110,7 @@ class Company < ActiveRecord::Base
   # Отсортированный набор филиалов
   # @return [Array] Коллекция филиалов
   def branches_sorted
-    branches.order("is_main DESC, fact_name ASC")
+    self.branches.order("is_main DESC, fact_name ASC")
   end
 
   def self.suspended_by_user(user_id)
