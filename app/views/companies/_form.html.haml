@@ -15,11 +15,13 @@
     = f.label :date_added, 'Дата добавления', :class => 'control-label'
     .controls
       = f.date_select :date_added
+  .alert.alert-error#rubricator-alert
+    Укажите рубрикатор
   .control-group
     .control-label
       =f.label 'Социальный', :class => 'control-label'
       .controls
-        = check_box_tag "company[rubricator][0]", 1, @company.social_rubricator? || @company.full_rubricator?
+        = check_box_tag "company[rubricator][0]", 1, @company.social_rubricator? || @company.full_rubricator? || @company.rubricator.nil?
   .control-group
     .control-label
       =f.label 'Коммерческий', :class => 'control-label'
