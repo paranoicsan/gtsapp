@@ -12,10 +12,14 @@ class Company < ActiveRecord::Base
   has_many :persons, :dependent => :destroy
   has_many :company_rubrics, :dependent => :destroy
   has_many :rubrics, :through => :company_rubrics
+
   validates_presence_of :title
+  validates_presence_of :rubricator
+
   validates_presence_of :reason_deleted_on, :if => :queued_for_deletion?, :message => 'Не указана причина удаления'
   validates_presence_of :reason_need_attention_on, :if => :need_attention?, :message => 'Не указана причина обращения'
   validates_presence_of :reason_need_improvement_on, :if => :need_improvement?, :message => 'Не указана причина необходимости доработки компании'
+
   #noinspection RailsParamDefResolve
   before_save :check_fields, only: [:create]
   scope :active, lambda { where(:company_status_id => (CompanyStatus.active.nil? ? -1 : CompanyStatus.active.id)) }
