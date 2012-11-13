@@ -29,13 +29,13 @@ class ReportCompanyByRubricRTF < RTF::Document
         p.apply(@styles['HEADER']) << c.title
         p.line_break
 
-        if c.branches.any?
-          p << "#{c.main_branch.fact_name}, #{c.main_branch.legel_name}"  unless c.main_branch.nil?
-          write_addresses c # адреса
+        if c.branches.any? and !c.main_branch.nil?
+          p << "#{c.main_branch.fact_name}, #{c.main_branch.legel_name}"
         end
 
       end
 
+      write_addresses c if c.branches.any? # адреса
       write_persons c # персоны
       write_emails c # Почта
       write_websites c # веб-сайты
@@ -132,6 +132,7 @@ class ReportCompanyByRubricRTF < RTF::Document
     paragraph << %Q{Рубрика: #{rubric.name}} unless rubric.nil?
     paragraph.line_break
     paragraph << get_filter_text
+    paragraph.line_break
   end
 
   ##
