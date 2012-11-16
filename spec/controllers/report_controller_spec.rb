@@ -31,7 +31,26 @@ describe ReportController do
       @rubric = FactoryGirl.create :rubric
       Company.all.each do |c|
         c.rubrics << @rubric
+
+        FactoryGirl.create :person, company_id: c.id
+
+        street = FactoryGirl.create(:street)
+        b = FactoryGirl.create :branch, company_id: c.id
+        FactoryGirl.create :address, branch_id: b.id, city_id: street.city.id, street_id: street.id
+
+        # второй филиал
+        b = FactoryGirl.create :branch, company_id: c.id
+        FactoryGirl.create :address, branch_id: b.id, city_id: street.city.id, street_id: street.id
+
+        b.emails << FactoryGirl.create(:email)
+        b.websites << FactoryGirl.create(:website)
+
+        phone = FactoryGirl.create(:phone, branch: b)
+        b.phones << phone
+        FactoryGirl.create(:contract_active, company_id: c.id)
       end
+
+
     end
 
     describe "GET company_by_rubric" do
@@ -86,25 +105,69 @@ describe ReportController do
       before(:each) do
         create_data
         session[:report_params] = {
-            filter: :active,
             format: :js,
             rubric_id: @rubric.id
         }
       end
-      it "возвращает сгенерированный PDF" do
-        controller.stub(:render)
-        controller.should_receive(:send_data)
-        get :company_by_rubric_export, format: :pdf
+      context "Активные" do
+        before(:each) do
+          session[:report_params][:filter] = :active
+        end
+        it "возвращает сгенерированный PDF" do
+          controller.stub(:render)
+          controller.should_receive(:send_data)
+          get :company_by_rubric_export, format: :pdf
+        end
+        it "возвращает сгенерированный XLS" do
+          controller.stub(:render)
+          controller.should_receive(:send_data)
+          get :company_by_rubric_export, format: :xls
+        end
+        it "возвращает сгенерированный RTF" do
+          controller.stub(:render)
+          controller.should_receive(:send_data)
+          get :company_by_rubric_export, format: :rtf
+        end
       end
-      it "возвращает сгенерированный XLS" do
-        controller.stub(:render)
-        controller.should_receive(:send_data)
-        get :company_by_rubric_export, format: :xls
+      context "Архивные" do
+        before(:each) do
+          session[:report_params][:filter] = :archived
+        end
+        it "возвращает сгенерированный PDF" do
+          controller.stub(:render)
+          controller.should_receive(:send_data)
+          get :company_by_rubric_export, format: :pdf
+        end
+        it "возвращает сгенерированный XLS" do
+          controller.stub(:render)
+          controller.should_receive(:send_data)
+          get :company_by_rubric_export, format: :xls
+        end
+        it "возвращает сгенерированный RTF" do
+          controller.stub(:render)
+          controller.should_receive(:send_data)
+          get :company_by_rubric_export, format: :rtf
+        end
       end
-      it "возвращает сгенерированный RTF" do
-        controller.stub(:render)
-        controller.should_receive(:send_data)
-        get :company_by_rubric_export, format: :rtf
+      context "Все" do
+        before(:each) do
+          session[:report_params][:filter] = :all
+        end
+        it "возвращает сгенерированный PDF" do
+          controller.stub(:render)
+          controller.should_receive(:send_data)
+          get :company_by_rubric_export, format: :pdf
+        end
+        it "возвращает сгенерированный XLS" do
+          controller.stub(:render)
+          controller.should_receive(:send_data)
+          get :company_by_rubric_export, format: :xls
+        end
+        it "возвращает сгенерированный RTF" do
+          controller.stub(:render)
+          controller.should_receive(:send_data)
+          get :company_by_rubric_export, format: :rtf
+        end
       end
     end
 

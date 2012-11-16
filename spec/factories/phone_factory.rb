@@ -10,7 +10,9 @@ FactoryGirl.define do
     director false
     fax false
     mobile_refix 921
+
     branch { FactoryGirl.create :branch }
+
     order_num { branch.next_phone_order_index }
   end
 
