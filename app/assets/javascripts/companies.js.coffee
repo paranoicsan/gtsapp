@@ -15,6 +15,8 @@ $ ->
   # обработчик названия компании
   $('#company_title').keyup ->
     onTitleChange()
+  $('#company_title').blur ->
+    onTitleChange()
   onTitleChange()
 
   # устанавливаем наблюдателя за полем с названием компании
@@ -25,6 +27,15 @@ $ ->
     $.post url, data, (html) ->
       $('#title_help').html(html)
       setTitleError(html.length != 0)
+      validate()
+
+  # обработчик полей для выбора типа рубрикатор
+  $('#company_rubricator_0').change ->
+    onRubricatorChange()
+  $('#company_rubricator_1').change ->
+    onRubricatorChange()
+
+  onRubricatorChange()
 
 
 ##
@@ -201,22 +212,37 @@ onTitleChange = ->
   val = $('#company_title').val()
   check = if val then val.trim().length == 0 else true
   setTitleError(check)
+  validate()
 
+##
+# Обработчик изменения типа рубрикатора
+onRubricatorChange = ->
+  val_1 = $('#company_rubricator_0').is(':checked')
+  val_2 = $('#company_rubricator_1').is(':checked')
+  setRubricatorError(!(val_1 || val_2))
+  validate()
 ##
 # Устанавливает класс для оформления ошибки
 setTitleError = (arg) ->
   el = $('#title_group')
   if arg then el.addClass('error') else el.removeClass('error')
-  validate()
+
+##
+# Устанавливает класс для оформления ошибки
+setRubricatorError = (arg) ->
+  el = $('#rubricator-alert')
+  if arg then el.show() else el.hide()
+
 
 ##
 # Определяет, можно ли активировать кнопку для сохранения
 validate = ->
-  if $('#title_group').hasClass('error')
+
+  title_invalid = $('#title_group').hasClass('error')
+  rubricator_invalid = $('#rubricator-alert').is(':visible')
+
+  if title_invalid || rubricator_invalid
     $('#company_save').attr('disabled', 'disabled')
   else
     $('#company_save').removeAttr('disabled')
-
-
-
 

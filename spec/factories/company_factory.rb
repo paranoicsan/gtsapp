@@ -8,7 +8,7 @@ FactoryGirl.define do
     #noinspection RubyResolve
     date_added { Date::today }
     title { Faker::Lorem.words(3).join(' ') }
-    rubricator nil
+    rubricator 1
 
     author
     #noinspection RubyResolve
