@@ -289,4 +289,29 @@ class CompaniesController < ApplicationController
     c.archive if c
     redirect_to request.referer
   end
+
+  ##
+  # Переопределяем метод, возвращающий элементы автозаполнения
+  # для ограничивания выборки
+  def get_autocomplete_items(parameters)
+    items = super(parameters)
+
+    if params && params[:id]
+      # фильтрация рубрик
+      @company = Company.find params[:id]
+      if @company
+        case @company.rubricator
+          when 1
+            items.where(:social => true)
+          when 2
+            items.where(:social => false)
+          else
+            items.all
+        end
+      end
+    else
+      # всё остальное
+      items.all
+    end
+  end
 end
