@@ -165,8 +165,10 @@ When /^Я заполняю параметры отчёта компании по
       choose("filter_all")
     when "архивных"
       choose("filter_archived")
+      @company.company_status = CompanyStatus.archived
+      @company.save
     else
-      raise "Unknown filter tнзу"
+      raise "Unknown filter type"
   end
   step %Q{Я заполняю параметры отчёта компании по улице с выбором рубрикатора "полный"}
 end

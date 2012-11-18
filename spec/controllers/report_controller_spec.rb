@@ -225,6 +225,30 @@ describe ReportController do
 
   context "company_by_street" do
 
+    def create_data
+      2.times { FactoryGirl.create :company_active, rubricator: 3 }
+      2.times { FactoryGirl.create :company_archived, rubricator: 3 }
+      @street = FactoryGirl.create(:street)
+      Company.all.each do |c|
+
+        FactoryGirl.create :person, company_id: c.id
+
+        b = FactoryGirl.create :branch, company_id: c.id
+        FactoryGirl.create :address, branch_id: b.id, city_id: @street.city.id, street_id: @street.id
+
+        # второй филиал
+        b = FactoryGirl.create :branch, company_id: c.id
+        FactoryGirl.create :address, branch_id: b.id, city_id: @street.city.id, street_id: @street.id
+
+        b.emails << FactoryGirl.create(:email)
+        b.websites << FactoryGirl.create(:website)
+
+        phone = FactoryGirl.create(:phone, branch: b)
+        b.phones << phone
+        FactoryGirl.create(:contract_active, company_id: c.id)
+      end
+    end
+
     describe "GET 'company_by_street'" do
       it "returns http success" do
         get :company_by_street
@@ -235,35 +259,35 @@ describe ReportController do
     describe "POST prepare_company_by_street" do
 
       before(:each) do
-        @street = FactoryGirl.create :street
-        @company = FactoryGirl.create :company, company_status_id: FactoryGirl.create(:company_status_active).id,
-                                      rubricator: 3
-        b = FactoryGirl.create :branch, company_id: @company.id
-        FactoryGirl.create :address, branch_id: b.id, city_id: @street.city.id, street_id: @street.id
+        create_data
       end
 
-      def valid_attributes
-        {
+      def post_valid(filter = :active)
+        params = {
+            filter: filter,
             street_id: @street.id,
-            filter: :active,
             format: :js,
             rubricator_filter: 3
         }
+        post :prepare_company_by_street, params
       end
-
-      def post_valid
-        post :prepare_company_by_street, valid_attributes
-      end
-
-
 
       it "возвращает объект улицы как элемент Hash" do
         post_valid
         assigns(:report_result)[:street].should eq(@street)
       end
-      it "возвращает найденные компании как элеент Hash" do
-        post_valid
-        assigns(:report_result)[:companies].should eq([@company])
+      it "активные: возвращает найденные компании как элеент Hash" do
+        companies = Company.active
+        post_valid :active
+        assigns(:report_result)[:companies].should eq(companies)
+      end
+      it "архивные: возвращает найденные компании как элеент Hash" do
+        post_valid :archived
+        assigns(:report_result)[:companies].should eq(Company.archived)
+      end
+      it "все: возвращает найденные компании как элеент Hash" do
+        post_valid :all
+        assigns(:report_result)[:companies].should eq(Company.all)
       end
       it "возвращает JavaScript-ответ для обновления данных на странице" do
         post_valid
@@ -273,14 +297,13 @@ describe ReportController do
         post_valid
         assigns(:report_result)[:filter].should eq(:active)
       end
-      it "возвращает тип компаний, который надо искать как элемент Hash" do
-        params = {
-            street_id: @street.id,
-            filter: :all,
-            format: :js
-        }
-        post :prepare_company_by_street, params
+      it "все: возвращает тип компаний, который надо искать как элемент Hash" do
+        post_valid :all
         assigns(:report_result)[:filter].should eq(:all)
+      end
+      it "архивные: возвращает тип компаний, который надо искать как элемент Hash" do
+        post_valid :archived
+        assigns(:report_result)[:filter].should eq(:archived)
       end
 
       context "сохраняет параметры формирования отчёта в сессии" do
@@ -288,49 +311,52 @@ describe ReportController do
           post_valid
         end
         it "сохраняет ключ улицы" do
-          session[:report_params][:street_id].should eq(valid_attributes[:street_id])
+          session[:report_params][:street_id].should eq(@street.id)
         end
         it "сохраняет фильтр по статусу компании" do
-          session[:report_params][:filter].should eq(valid_attributes[:filter])
+          session[:report_params][:filter].should eq(:active)
         end
         it "сохраняет фильтр по рубрикатору" do
-          session[:report_params][:rubricator_filter].should eq(valid_attributes[:rubricator_filter])
+          session[:report_params][:rubricator_filter].should eq(3)
         end
       end
       context "фильтр по рубрикатору" do
+        def valid_attributes
+          {
+              filter: :all,
+              street_id: @street.id,
+              format: :js,
+              rubricator_filter: 3
+          }
+        end
         it "возвращает фильтр рубрикатора как элемент Hash" do
           post_valid
           assigns(:report_result)[:rubricator_filter].should eq(3)
         end
         it "возвращает компании с полным рубрикатором когда указан полный фильтр" do
-          @company.update_attribute "rubricator", 3
+          companies = Company.all
           params = valid_attributes
-          params[:rubricator_filter] = 3
           post :prepare_company_by_street, params
-          assigns(:report_result)[:companies].should eq([@company])
+          assigns(:report_result)[:companies].should eq(companies)
         end
         it "возвращает компании с полным или коммерческим рубрикатором когда указан коммерческий фильтр" do
 
-          # создаём ещё одну компанию с другим рубрикатором
-          com = create_company_for @street, CompanyStatus.active.id, 2
-          com2 = create_company_for @street, CompanyStatus.active.id, 3
-
-          @company.update_attribute "rubricator", 1
+          Company.all.each { |c| c.update_attribute "rubricator", 1 }
+          company = Company.archived.first
+          company.update_attribute "rubricator", 2
           params = valid_attributes
           params[:rubricator_filter] = 2
           post :prepare_company_by_street, params
-          assigns(:report_result)[:companies].should eq([com, com2])
+          assigns(:report_result)[:companies].should eq([company])
         end
         it "возвращает компании с полным или социальным рубрикатором когда указан социальный фильтр" do
-          # создаём ещё одну компанию с другим рубрикатором
-          com = create_company_for @street, CompanyStatus.active.id, 1
-          com2 = create_company_for @street, CompanyStatus.active.id, 3
-
-          @company.update_attribute "rubricator", 2
+          Company.all.each { |c| c.update_attribute "rubricator", 2 }
+          company = Company.archived.first
+          company.update_attribute "rubricator", 1
           params = valid_attributes
           params[:rubricator_filter] = 1
           post :prepare_company_by_street, params
-          assigns(:report_result)[:companies].should eq([com, com2])
+          assigns(:report_result)[:companies].should eq([company])
         end
       end
     end
