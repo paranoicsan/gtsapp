@@ -31,7 +31,7 @@ Spork.prefork do
 
   Capybara.default_selector = :css
   Capybara.server_boot_timeout = 50
-  Capybara.default_wait_time = 50
+  #Capybara.default_wait_time = 50
 
 
   Capybara.register_driver :selenium do |app|

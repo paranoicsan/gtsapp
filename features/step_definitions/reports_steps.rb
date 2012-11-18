@@ -159,8 +159,17 @@ When /^Я вижу информацию о договоре для каждой 
     end
   end
 end
-When /^Я заполняю параметры отчёта компании по улице для поиска всех компаний$/ do
-  choose("filter_all")
+When /^Я заполняю параметры отчёта компании по улице для поиска (всех|архивных) компаний$/ do |type|
+  case type
+    when "всех"
+      choose("filter_all")
+    when "архивных"
+      choose("filter_archived")
+      @company.company_status = CompanyStatus.archived
+      @company.save
+    else
+      raise "Unknown filter type"
+  end
   step %Q{Я заполняю параметры отчёта компании по улице с выбором рубрикатора "полный"}
 end
 When /^Я заполняю параметры отчёта компании по улице с выбором рубрикатора "([^"]*)"$/ do |arg|
@@ -181,17 +190,22 @@ When /^Я заполняю параметры отчёта компании по
   choose(el_id)
   step %Q{Я заполняю параметры отчёта компании по улице}
 end
-Then /^Я вижу список (активных|всех) компаний по выбранной улице в соответствии с рубрикатором$/ do |filter|
+Then /^Я вижу список (активных|всех|архивных) компаний по выбранной улице в соответствии с рубрикатором$/ do |filter|
   el_id = "report_results_table"
 
   # составляем ряды для таблицы
   rows = ""
-  if filter.eql?("активных")
-    cs = Company.where("company_status_id = ? and (rubricator = ? or rubricator = 3)", CompanyStatus.active.id, @rub_filter).
-        order("title")
-  else
-    cs = Company.where("rubricator = ? or rubricator = 3", @rub_filter).order("title")
+  case filter
+    when "активных"
+      cs = Company.where("company_status_id = ? and (rubricator = ? or rubricator = 3)", CompanyStatus.active.id, @rub_filter).
+          order("title")
+    when "архивных"
+      cs = Company.where("company_status_id = ? and (rubricator = ? or rubricator = 3)", CompanyStatus.archived.id, @rub_filter).
+          order("title")
+    else
+      cs = Company.where("rubricator = ? or rubricator = 3", @rub_filter).order("title")
   end
+
   cs.each do |c|
     rows = "#{rows}\n|#{c.title}\\n#{@company.main_branch.fact_name}, #{@company.main_branch.legel_name}|"
   end

@@ -141,6 +141,7 @@ class ReportCompanyByStreetRTF < RTF::Document
       p.apply(@styles['HEADER']) << address_summary
     end
     paragraph << %Q{Рубрикатор: #{Rubric.rubricator_name_for(filter_rubricator)}}
+    paragraph << filter_title
     paragraph.line_break
   end
 

@@ -8,6 +8,14 @@
         .reporesult-header.reporesult-header-left
           Рубрикатор:
           = Rubric.rubricator_name_for(@report_result[:rubricator_filter])
+          %br
+          -case @report_result[:filter]
+            -when :active
+              Активные компании
+            -when :archived
+              Архивные компании
+            -else
+              Все компании
         -if @report_result[:companies].any?
           .reporesult-header.reporesult-header-right
             =link_to image_tag('export_pdf.png', {alt: 'скачать PDF', title: 'скачать PDF'}), report_company_by_street_export_path(format: :pdf),
