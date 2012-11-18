@@ -21,11 +21,12 @@ class ReportCompanyByStreetXLS < Spreadsheet::Workbook
     street = Street.find(street_id)
     @sheet.row(0).push %Q{#{street.name} (#{street.city.name})}
     @sheet.row(1).push %Q{Рубрикатор: #{Rubric.rubricator_name_for(filter_rubricator)}}
+    @sheet.row(2).push filter_title
   end
 
   def write_companies
 
-    cnt = 3 # счётчик рядов
+    cnt = 4 # счётчик рядов
 
     companies = Company.by_street street_id, filter: filter, rubricator_filter: filter_rubricator
     companies.each do |c|

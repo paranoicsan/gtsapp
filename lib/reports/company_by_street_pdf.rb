@@ -142,6 +142,7 @@ class ReportCompanyByStreetPDF < Prawn::Document
     font "Verdana", :size => 14
     text address_summary
     text %Q{Рубрикатор: #{Rubric.rubricator_name_for(filter_rubricator)}}
+    text filter_title
     move_down 20
   end
 
