@@ -22,12 +22,14 @@ $ ->
   # устанавливаем наблюдателя за полем с названием компании
   el = $('#company_title')
   el.observe_field 1, () ->
-    data = { company_title: this.value }
-    url = '/companies/validate_title'
-    $.post url, data, (html) ->
-      $('#title_help').html(html)
-      setTitleError(html.length != 0)
-      validate()
+    if this.value && (this.value.trim().length > 0)
+      data = { company_title: this.value }
+      url = '/companies/validate_title'
+
+      $.post url, data, (html) ->
+        $('#title_help').html(html)
+        setTitleError(html.length != 0)
+        validate()
 
   # обработчик полей для выбора типа рубрикатор
   $('#company_rubricator_0').change ->
@@ -220,6 +222,7 @@ onRubricatorChange = ->
   val_1 = $('#company_rubricator_0').is(':checked')
   val_2 = $('#company_rubricator_1').is(':checked')
   setRubricatorError(!(val_1 || val_2))
+  onTitleChange()
   validate()
 ##
 # Устанавливает класс для оформления ошибки
