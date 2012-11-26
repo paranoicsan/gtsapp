@@ -34,26 +34,37 @@ Spork.prefork do
   Capybara.default_wait_time = 50
 
 
-  Capybara.register_driver :selenium do |app|
-    Capybara::Selenium::Driver.new(app, :browser => :chrome)
+  #Capybara.register_driver :selenium do |app|
+  #  Capybara::Selenium::Driver.new(app, :browser => :chrome)
+  #end
+  Capybara.register_driver :selenium_extended_http_timeout do |app|
+    client = Selenium::WebDriver::Remote::Http::Default.new
+    client.timeout = 240
+    Capybara::Selenium::Driver.new(app,
+                                   :browser => :chrome,
+                                   :http_client => client)
+                                   #:resynchronization_timeout => 60,
+                                   #:resynchronize => true)
   end
+  Capybara.javascript_driver = :selenium_extended_http_timeout
 
-  if ENV['HEADLESS']
 
-    require 'headless'
-    headless = Headless.new
-    at_exit do
-      headless.destroy
-    end
-
-    Before("@selenium,@javascript", "~@no-headless") do
-      headless.start if Capybara.current_driver == :selenium
-    end
-
-    After("@selenium,@javascript", "~@no-headless") do
-      headless.stop if Capybara.current_driver == :selenium
-    end
-  end
+  #if ENV['HEADLESS']
+  #
+  #  require 'headless'
+  #  headless = Headless.new
+  #  at_exit do
+  #    headless.destroy
+  #  end
+  #
+  #  Before("@selenium,@javascript", "~@no-headless") do
+  #    headless.start if Capybara.current_driver == :selenium
+  #  end
+  #
+  #  After("@selenium,@javascript", "~@no-headless") do
+  #    headless.stop if Capybara.current_driver == :selenium
+  #  end
+  #end
 
 end
 
