@@ -34,10 +34,10 @@ Spork.prefork do
   Capybara.default_wait_time = 50
 
 
-  #Capybara.register_driver :selenium do |app|
+  Capybara.register_driver :selenium do |app|
   #  Capybara::Selenium::Driver.new(app, :browser => :chrome)
   #end
-  Capybara.register_driver :selenium_extended_http_timeout do |app|
+  #Capybara.register_driver :selenium_extended_http_timeout do |app|
     client = Selenium::WebDriver::Remote::Http::Default.new
     client.timeout = 240
     Capybara::Selenium::Driver.new(app,
@@ -46,7 +46,7 @@ Spork.prefork do
                                    #:resynchronization_timeout => 60,
                                    #:resynchronize => true)
   end
-  Capybara.javascript_driver = :selenium_extended_http_timeout
+  #Capybara.javascript_driver = :selenium_extended_http_timeout
 
 
   if ENV['HEADLESS']
