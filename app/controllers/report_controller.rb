@@ -131,10 +131,20 @@ class ReportController < ApplicationController
     # Ищем компании
     companies = Company.by_street street_id, params
 
+    #определяем фильтр
+    case params[:filter]
+      when "active"
+        filter = :active
+      when "archived"
+        filter = :archived
+      else
+        filter = :all
+    end
+
     @report_result = {
         street: Street.find(street_id),
         companies: companies,
-        filter: params[:filter].eql?("active") ? :active : :all,
+        filter: filter,
         rubricator_filter: params[:rubricator_filter].to_i
     }
     store_params # сохраняем в сессии параметры

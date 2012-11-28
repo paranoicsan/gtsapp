@@ -9,7 +9,7 @@ Gtsapp::Application.routes.draw do
   resources :form_types
   resources :project_codes
 
-  get 'companies/autocomplete_rubric_name'
+  match 'company/:id/autocomplete_rubric_name/' => 'companies#autocomplete_rubric_name', :as => :companies_autocomplete_rubric_name
   get 'addresses/autocomplete_city_name'
   match 'addresses/autocomplete_street_name/:city_id' => 'addresses#autocomplete_street_name', :as => :addresses_autocomplete_street_name
   match 'products/autocomplete_rubric_name/:contract_id' => 'products#autocomplete_rubric_name', :as => :products_autocomplete_rubric_name

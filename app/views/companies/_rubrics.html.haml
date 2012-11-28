@@ -1,5 +1,5 @@
 .form-inline
-  = autocomplete_field_tag 'company_rubric', '', companies_autocomplete_rubric_name_path, :onKeyup => "onRubSelect()",
+  = autocomplete_field_tag 'company_rubric', '', companies_autocomplete_rubric_name_path(@company), :onKeyup => "onRubSelect()",
   :placeholder => "Начните печатать для выбора из списка", :id_element => '#rubric_id', :id => 'company_rubric_id'
   = hidden_field_tag 'rubric_id'
   = hidden_field_tag 'company_id', @company.id

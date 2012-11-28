@@ -51,6 +51,7 @@ describe Company do
         assert @company.rubricator_name == "Полный", "Полный рубрикатор не выводится по имени"
       end
       it "возвращает информацию, что рубрикатор не указан, если его нет" do
+        @company.rubricator = nil
         assert @company.rubricator_name == "Не указан"
       end
     end
@@ -333,26 +334,49 @@ describe Company do
     end
   end
 
+
   describe ".by_street" do
-    before(:each) do
-      @street = FactoryGirl.create :street
-      FactoryGirl.create :company_status_active
-      @company = FactoryGirl.create :company, company_status_id: CompanyStatus.active.id, rubricator: 3
-      3.times do
-        b = FactoryGirl.create :branch, company_id: @company.id
-        FactoryGirl.create :address, branch_id: b.id, street_id: @street.id, city_id: @street.city.id
-      end
-    end
-    it "возвращает список компаний на указанной улице" do
-      Company.by_street(@street.id, filter: :all, rubricator_filter: 3).should eq([@company])
-    end
-    it "возвращает только активные компании, если указан фильтр" do
-      # создаём неактивную компанию
-      company = FactoryGirl.create :company, rubricator: 3
+    def create_company(status = :company_active)
+      company = FactoryGirl.create status
       b = FactoryGirl.create :branch, company_id: company.id
       FactoryGirl.create :address, branch_id: b.id, street_id: @street.id, city_id: @street.city.id
-
-      Company.by_street(@street.id, filter: :active, rubricator_filter: 3).should eq([@company])
+      company
+    end
+    before(:each) do
+      @street = FactoryGirl.create :street
+    end
+    it "возвращает список компаний на указанной улице" do
+      company = create_company
+      params = {
+          filter: :active,
+          rubricator_filter: 1
+      }
+      Company.by_street(@street.id, params).should eq([company])
+    end
+    it "возвращает только активные компании, если указан фильтр" do
+      company = create_company :company_active
+      params = {
+          filter: :active,
+          rubricator_filter: 1
+      }
+      Company.by_street(@street.id, params).should eq([company])
+    end
+    it "возвращает только архивные компании, если указан фильтр" do
+      company = create_company :company_archived
+      params = {
+          filter: :archived,
+          rubricator_filter: 1
+      }
+      Company.by_street(@street.id, params).should eq([company])
+    end
+    it "возвращает все компании, если указан фильтр" do
+      companies = []
+      2.times { companies << create_company(:company_active) }
+      params = {
+          filter: :all,
+          rubricator_filter: 1
+      }
+      Company.by_street(@street.id, params).should eq(companies)
     end
   end
 end
