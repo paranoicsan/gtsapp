@@ -117,13 +117,14 @@ When /^Я ввожу "([^"]*)" в поле "([^"]*)"$/ do |wname, field_id|
   fill_in field_id, :with => wname
 end
 When /^Я вижу таблицу "([^"]*)" с веб-сайтами$/ do |table_id, table|
+  sleep 1
   xpth = "//table[@id='#{table_id}']"
   if table.hashes.any?
     page.should have_selector :xpath, xpth
     idx = 2 # Первый ряд занимает заголовок
     table.hashes.each do |row|
-      #row_xpth = "//table[@id='#{table_id}']/*/tr[#{idx}]/td[1]"
-      row_xpth = "//tr[(.|parent::tbody)[1]/parent::table[@id='#{table_id}']][#{idx}]/td[1]"
+      row_xpth = "//table[@id='#{table_id}']/tbody/tr[#{idx}]/td[1]"
+      #row_xpth = "//tr[(.|parent::tbody)[1]/parent::table[@id='#{table_id}']][#{idx}]/td[1]"
       page.find(:xpath, row_xpth).text.should == row[:name]
       idx += 1
     end
