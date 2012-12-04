@@ -195,10 +195,12 @@ describe ReportController do
         params = {
             report_agent: user.id,
             report_period_start: {
+                day: 3.month.ago.day,
                 month: 3.month.ago.month,
-                year: 3.month.ago.year,
+                year: 3.month.ago.year
               },
             report_period_end: {
+                day: DateTime.now.day,
                 month: DateTime.now.month,
                 year: DateTime.now.year
                 },
