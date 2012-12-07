@@ -4,20 +4,19 @@
       -#.well
       -if @report_result.any?
         %h4
-          Операции для агента
+          Компании, с которыми работал агент
           = @report_agent.username
         %br
         %table#report_results_table.table.table-striped
           %tr
             %th Компания
-            %th Операция
             %th
+          -# Здесь полный набор истории, а достаточно просто показывать Название компании
           -@report_result.each do |rr|
             %tr
               %td
-                = link_to rr.company.title, company_path(rr.company)
-              %td= rr.operation
-              %td= rr.created_at.strftime("%d.%m.%Y %H:%M")
+                = link_to rr.title, company_path(rr)
+              %td
       -else
         %p
           Нет данных.

@@ -57,7 +57,10 @@ class ReportController < ApplicationController
     start = Date.civil params[:report_period_start][:year].to_i, params[:report_period_start][:month].to_i, params[:report_period_start][:day].to_i
     end_p = Date.civil params[:report_period_end][:year].to_i, params[:report_period_end][:month].to_i, params[:report_period_end][:day].to_i + 1
 
-    @report_result = CompanyHistory.where("user_id = ? and created_at >= ? AND created_at <= ? ", agent_id, start, end_p)
+    @report_result = []
+
+    affected_companies = CompanyHistory.by_user(agent_id).where("created_at >= ? AND created_at <= ? ", start, end_p).uniq_company_ids
+    affected_companies.each { |c| @report_result << Company.find(c.company_id) }
     render :layout => false
   end
 

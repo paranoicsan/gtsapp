@@ -215,7 +215,7 @@ describe ReportController do
       it "возвращает набор данных как @report_result" do
         write_history
         post_valid
-        assigns(:report_result).should eq([CompanyHistory.first])
+        assigns(:report_result).should eq([company])
       end
       it "возвращает JavaScript-ответ для обновления данных на странице" do
         post_valid

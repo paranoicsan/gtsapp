@@ -14,12 +14,17 @@ Then /^Я вижу список операций пользователя$/ do
 
   # составляем ряды для таблицы
   rows = ""
-  CompanyHistory.all.each do |c|
-    rows = "#{rows}\n|#{c.company.title}|#{c.operation}|#{c.updated_at.strftime("%d.%m.%Y %H:%M")}|"
+
+  # В результатах просто представлены названия компаний
+  affected_companies = CompanyHistory.by_user(@agent.id).uniq_company_ids
+  affected_companies.each do |chistory|
+    c = Company.find chistory.company_id
+    rows = "#{rows}\n|#{c.title}|"
   end
+
   steps %Q{
     Then Я вижу таблицу "#{el_id}" с компаниями
-      | title | operation | updated_at |
+      | title |
       #{rows}
   }
 
