@@ -283,3 +283,24 @@ Then /^Я вижу список компаний в соответствии с 
     page.should have_content(c.title)
   end
 end
+When /^Я могу посмотреть детальный отчёт по компании$/ do
+  # В качестве компании берём первую
+  company = nil
+  history = nil
+  CompanyHistory.all.group_by(&:company_id).each_value do |company_history|
+    company = company_history.first.company
+    history = company_history
+    break
+  end
+
+  find(:xpath, "//a[@data-id=#{company.id}][contains(text(), '(подробно)')]").click
+  div_path = "//div[@id='dialog-details']"
+  find(:xpath, div_path).should be_visible
+
+  within :xpath, div_path do
+    page.should have_content(company.title)
+    page.should have_content(history.first.operation)
+    page.should have_content(history.first.created_at.strftime('%d.%m.%Y %H:%M'))
+  end
+
+end

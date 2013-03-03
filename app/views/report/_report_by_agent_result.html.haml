@@ -1,3 +1,45 @@
+:javascript
+  $(document).ready(function() {
+    $('.company-report-details').each(function() {
+
+      var company_id = $(this).data('id');
+      var elem = $('div#company-'+company_id);
+      var dialog_title = elem.find('h4').text();
+
+      $(this).click(function() {
+
+        $("<div id='dialog-details'></div>").
+          html('Загрузка...').
+          dialog({
+            position: ['center'],
+            width: 520,
+            modal: true,
+            title: dialog_title,
+            resizable: true,
+            draggable: false,
+            open: function() {
+              $('#dialog-details').html($('div#company-'+company_id).html());
+              $('#dialog-details').find('h4').hide();
+            },
+            close: function() {
+              $('#dialog-details').remove();
+            },
+            buttons: [
+              {
+                id: 'btn_details_close',
+                text: 'Закрыть',
+                click: function() {
+                  $('#dialog-details').dialog('close')
+                }
+              }
+            ]
+          });
+
+      });
+    });
+  });
+
+
 -if @report_result
   .row-fluid
     .span10
@@ -13,10 +55,16 @@
             %th{style: 'width:25%;text-align: right'} Последнее изменение
           -@report_result.each_value do |history|
             %tr
+              - company_id = history.first.company.id
               - company_title = history.first.company.title
               %td
                 = company_title
-                = link_to '(подробно)', '#', class: 'company-report-details'
+                = link_to '(подробно)', '#', class: 'company-report-details', 'data-id' => company_id
+
+                .hidden{id: "company-#{company_id}"}
+                  = render partial: 'company_history_details', locals: {history: history}
+
+
               %td{style: 'text-align: right'}
                 = history.last.created_at.strftime('%d.%m.%Y %H:%M')
       -else
