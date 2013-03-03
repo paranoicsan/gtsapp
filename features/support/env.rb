@@ -47,6 +47,7 @@ Spork.prefork do
                                    #:resynchronize => true)
   end
   #Capybara.javascript_driver = :selenium_extended_http_timeout
+  Capybara.javascript_driver = :selenium
 
 
   if ENV['HEADLESS']

@@ -54,11 +54,11 @@ class ReportController < ApplicationController
     agent_id = params[:report_agent]
     @report_agent = User.find agent_id
 
-    start = "1-#{params[:report_period_start][:month]}-#{params[:report_period_start][:year]}"
-    end_p = Date.civil params[:report_period_end][:year].to_i, params[:report_period_end][:month].to_i, -1
-    #end_p = "#{params[:report_period_end][:day]}-#{params[:report_period_end][:month]}-#{params[:report_period_end][:year]}"
+    start = Date.civil params[:report_period_start][:year].to_i, params[:report_period_start][:month].to_i, params[:report_period_start][:day].to_i
+    end_p = Date.civil params[:report_period_end][:year].to_i, params[:report_period_end][:month].to_i, params[:report_period_end][:day].to_i + 1
 
-    @report_result = CompanyHistory.where("user_id = ? and created_at >= ? AND created_at <= ? ", agent_id, start, end_p)
+    range_filter = 'user_id = ? and created_at >= ? AND created_at <= ? '
+    @report_result = CompanyHistory.where(range_filter, agent_id, start, end_p).group_by &:company_id
     render :layout => false
   end
 
@@ -99,17 +99,17 @@ class ReportController < ApplicationController
   def export_company_by_rubric(format)
     rubric = Rubric.find session[:report_params][:rubric_id]
     case format
-      when "pdf"
+      when 'pdf'
         rep = ReportCompanyByRubricPDF.new
         rep.filter = session[:report_params][:filter]
         rep.rubric = rubric
         rep.to_pdf
-      when "rtf"
+      when 'rtf'
         rep = ReportCompanyByRubricRTF.new(Font.new(Font::ROMAN, 'Times New Roman'))
         rep.filter = session[:report_params][:filter]
         rep.rubric = rubric
         rep.to_rtf
-      when "xls"
+      when 'xls'
         rep = ReportCompanyByRubricXLS.new
         rep.filter = session[:report_params][:filter]
         rep.rubric = rubric
@@ -133,9 +133,9 @@ class ReportController < ApplicationController
 
     #определяем фильтр
     case params[:filter]
-      when "active"
+      when 'active'
         filter = :active
-      when "archived"
+      when 'archived'
         filter = :archived
       else
         filter = :all
@@ -173,19 +173,19 @@ class ReportController < ApplicationController
   # @param [String] Формат, в котором надо выгружать результаты
   def export_company_by_street(format)
     case format
-      when "pdf"
+      when 'pdf'
         rep = ReportCompanyByStreetPDF.new
         rep.street_id = session[:report_params][:street_id]
         rep.filter = session[:report_params][:filter]
         rep.filter_rubricator = session[:report_params][:rubricator_filter].to_i
         rep.to_pdf
-      when "rtf"
+      when 'rtf'
         rep = ReportCompanyByStreetRTF.new(Font.new(Font::ROMAN, 'Times New Roman'))
         rep.street_id = session[:report_params][:street_id]
         rep.filter = session[:report_params][:filter]
         rep.filter_rubricator = session[:report_params][:rubricator_filter].to_i
         rep.to_rtf
-      when "xls"
+      when 'xls'
         rep = ReportCompanyByStreetXLS.new
         rep.street_id = session[:report_params][:street_id]
         rep.filter = session[:report_params][:filter]

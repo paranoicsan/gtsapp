@@ -24,3 +24,6 @@
 .table-borderless td, table-borderless th {
     border: 0 !important
 }
+.hidden {
+    display: none;
+}
