@@ -9,21 +9,19 @@ When /^Я заполняю параметры отчёта$/ do
   step %Q{Кнопка "do_report_by_agent" - "активна"}
   click_button("Показать")
 end
-Then /^Я вижу список операций пользователя$/ do
+Then /^Я вижу список компаний, изменённых пользователем$/ do
   el_id = "report_results_table"
-
   # составляем ряды для таблицы
   rows = ""
   CompanyHistory.all.group_by(&:company_id).each_value do |c|
-    rows = "#{rows}\n|#{c.first.company.title}|#{c.first.created_at.strftime("%d.%m.%Y %H:%M")}|"
+    text = "#{c.first.company.title} (подробно)"
+    rows = "#{rows}\n|#{text}|#{c.first.created_at.strftime("%d.%m.%Y %H:%M")}|"
   end
-
   steps %Q{
     Then Я вижу таблицу "#{el_id}" с компаниями
       | title | updated_at |
       #{rows}
   }
-
 end
 Then /^Я (|не) могу сформировать отчёт по агенту$/ do |negate|
   s = negate.eql?("не") ? "не активна" : "активна"

@@ -7,14 +7,18 @@
           Операции для агента
           = @report_agent.username
         %br
-        %table#report_results_table.table.table-striped
+        %table#report_results_table.table.table-striped.report-agent-table
           %tr
             %th Компания
-            %th Последнее изменение
+            %th{style: 'width:25%;text-align: right'} Последнее изменение
           -@report_result.each_value do |history|
             %tr
-              %td= history.first.company.title
-              %td= history.last.created_at.strftime('%d.%m.%Y %H:%M')
+              - company_title = history.first.company.title
+              %td
+                = company_title
+                = link_to '(подробно)', '#', class: 'company-report-details'
+              %td{style: 'text-align: right'}
+                = history.last.created_at.strftime('%d.%m.%Y %H:%M')
       -else
         %p
           Нет данных.
