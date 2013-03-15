@@ -5,30 +5,30 @@ When /^Я нажимаю на ссылку "([^"]*)"$/ do |link_text|
   click_link link_text
 end
 When /^Я нахожусь на странице "([^"]*)"$/ do |title|
-  selector = "h1" # идентификатор, по которому ищется объект для проверки
+  selector = 'h1' # идентификатор, по которому ищется объект для проверки
   case title
-    when "Авторизация"
+    when 'Авторизация'
       #noinspection RubyResolve
       visit login_path
-      selector = "div"
-    when "Сводка"
+      selector = 'h2'
+    when 'Сводка'
       #noinspection RubyResolve
       visit dashboard_path
-    when "Пользователи"
+    when 'Пользователи'
       #noinspection RubyResolve
       visit users_path
-    when "Компании"
+    when 'Компании'
       #noinspection RubyResolve
       visit companies_path
-    when "Поиск"
+    when 'Поиск'
       #noinspection RubyResolve
       visit search_path
-    when "Отчёты"
+    when 'Отчёты'
       visit reports_path
     else
-      assert false, "Неизвестный путь."
+      assert false, 'Неизвестный путь.'
   end
-  page.find("#{selector}").should have_content title
+  page.find(:xpath, "//#{selector}[contains(text(), '#{title}')]")
 end
 When /^Я перехожу на страницу "([^"]*)"$/ do |title|
   case title
