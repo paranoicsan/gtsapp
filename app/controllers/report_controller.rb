@@ -132,7 +132,7 @@ class ReportController < ApplicationController
     companies = Company.by_street street_id, params
 
     #определяем фильтр
-    case params[:filter]
+    case params[:filter].to_s
       when 'active'
         filter = :active
       when 'archived'
