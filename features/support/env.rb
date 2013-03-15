@@ -2,7 +2,7 @@
 require 'rubygems'
 require 'spork'
 require 'factory_girl'
-require "selenium-webdriver"
+require 'selenium-webdriver'
 
 #uncomment the following line to use spork with the debugger
 #require 'spork/ext/ruby-debug'
@@ -23,21 +23,17 @@ Spork.prefork do
     DatabaseCleaner.strategy = :transaction
     DatabaseCleaner.clean_with :truncation
   rescue NameError
-    raise "You need to add database_cleaner to your Gemfile (in the :test group) if you wish to use it."
+    raise 'You need to add database_cleaner to your Gemfile (in the :test group) if you wish to use it.'
   end
 
   #Cucumber::Rails::Database.javascript_strategy = :transaction
   Cucumber::Rails::Database.javascript_strategy = :truncation
 
   Capybara.default_selector = :css
-  Capybara.server_boot_timeout = 50
   Capybara.default_wait_time = 50
 
 
   Capybara.register_driver :selenium do |app|
-  #  Capybara::Selenium::Driver.new(app, :browser => :chrome)
-  #end
-  #Capybara.register_driver :selenium_extended_http_timeout do |app|
     client = Selenium::WebDriver::Remote::Http::Default.new
     client.timeout = 240
     Capybara::Selenium::Driver.new(app,
@@ -46,26 +42,8 @@ Spork.prefork do
                                    #:resynchronization_timeout => 60,
                                    #:resynchronize => true)
   end
-  #Capybara.javascript_driver = :selenium_extended_http_timeout
   Capybara.javascript_driver = :selenium
 
-
-  if ENV['HEADLESS']
-
-    require 'headless'
-    headless = Headless.new
-    at_exit do
-      headless.destroy
-    end
-
-    Before("@selenium,@javascript", "~@no-headless") do
-      headless.start if Capybara.current_driver == :selenium
-    end
-
-    After("@selenium,@javascript", "~@no-headless") do
-      headless.stop if Capybara.current_driver == :selenium
-    end
-  end
 
 end
 
