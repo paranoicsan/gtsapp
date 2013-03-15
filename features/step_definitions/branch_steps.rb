@@ -133,10 +133,12 @@ When /^Я вижу таблицу "([^"]*)" с веб-сайтами$/ do |table
   end
 end
 When /^Кнопка "([^"]*)" - "(активна|не активна)"$/ do |button_id, status|
-  s = status.eql?("активна") ? nil : "true"
-  #puts find(:xpath, "//input[@id='#{button_id}']")['disabled'].inspect
-  #assert find(:xpath, "//input[@id='#{button_id}']")['disabled'] == s, "Кнопка в неверном состоянии."
-  assert find_button(button_id)['disabled'] == s, "Кнопка в неверном состоянии."
+  if status.eql?('активна')
+    find(:xpath, "//*[@id='#{button_id}']")
+  else
+    find(:xpath, "//*[@id='#{button_id}'][@disabled = 'disabled']")
+  end
+
 end
 When /^Я нажимаю на кнопку "([^"]*)"$/ do |elem_id|
   #find(:xpath, "//input[@id='#{elem_id}']")['disabled'] == ""

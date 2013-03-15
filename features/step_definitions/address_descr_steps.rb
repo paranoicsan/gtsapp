@@ -1,7 +1,7 @@
 # Encoding: utf-8
 Then /^Я могу выбрать населённый пункт автозаполнением "([^"]*)"$/ do |el_id|
-  city = @address ? @address.city.name : FactoryGirl.create(:city)
-  el_id = el_id.eql?("") ? 'address_city_id' : el_id
+  city = @address ? @address.city.name : FactoryGirl.create(:city).name
+  el_id = el_id.eql?('') ? 'address_city_id' : el_id
   steps %Q{
     When Я ввожу "#{city}" в поле "#{el_id}"
     And Я выбираю "#{city}" из списка с автозаполнением с ключом "#{el_id}"

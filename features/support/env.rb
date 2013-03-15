@@ -29,10 +29,6 @@ Spork.prefork do
   #Cucumber::Rails::Database.javascript_strategy = :transaction
   Cucumber::Rails::Database.javascript_strategy = :truncation
 
-  Capybara.default_selector = :css
-  Capybara.default_wait_time = 50
-
-
   Capybara.register_driver :selenium do |app|
     client = Selenium::WebDriver::Remote::Http::Default.new
     client.timeout = 240
