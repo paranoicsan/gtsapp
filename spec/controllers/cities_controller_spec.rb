@@ -1,6 +1,5 @@
 # encoding: utf-8
 require "spec_helper"
-require "shared/auth_helper"
 
 describe CitiesController do
 

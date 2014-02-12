@@ -1,8 +1,9 @@
 # encoding: utf-8
 class Street < ActiveRecord::Base
+
   belongs_to :city
+
   has_many :street_indexes
-  #noinspection RailsParamDefResolve
   has_many :addresses, :dependent => :restrict
 
   validates_presence_of :city_id, :message => 'Выберите населённый пункт'

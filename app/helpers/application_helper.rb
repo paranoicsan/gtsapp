@@ -1,7 +1,12 @@
 module ApplicationHelper
+
   # Определение версии приложения
-  APP_VERSION_FILE = 'config/version'
-  File.open(APP_VERSION_FILE) { |f| APP_VERSION = f.readline}
+  def self.app_version
+    version_file = 'config/version'
+    version = ''
+    File.open(version_file) { |f| version = f.readline}
+    version
+  end
 
   ##
   # Возвращает имя CSS класса для обработки верхнего меню в twitter bootstrap
