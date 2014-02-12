@@ -16,7 +16,6 @@ describe Address do
   end
   it 'Не может быть создан без улицы' do
     address = FactoryGirl.build :address, street: nil
-    puts address.errors.full_messages
     address.should have(1).error_on(:street_id)
   end
 

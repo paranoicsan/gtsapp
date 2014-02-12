@@ -8,7 +8,8 @@ class Street < ActiveRecord::Base
 
   validates_presence_of :city_id, :message => 'Выберите населённый пункт'
   validates_presence_of :name, :message => 'Укажите название'
-  validates_uniqueness_of :name, :scope => :city_id, :message => 'Такая улица уже есть в этом населённом пункте',
+  validates_uniqueness_of :name, :scope => :city_id,
+                          :message => 'Такая улица уже есть в этом населённом пункте',
                           :case_sensitive => false
 
   ##
