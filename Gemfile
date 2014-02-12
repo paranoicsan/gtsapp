@@ -23,6 +23,8 @@ gem 'rails3-jquery-autocomplete'
 gem 'unicode_utils'
 gem 'russian', '~> 0.6.0'
 
+gem 'thin'
+
 # report generators
 gem 'prawn' # PDF
 gem 'rtf' # RTF
@@ -40,12 +42,8 @@ group :test do
   gem 'simplecov'
   gem 'database_cleaner'
   gem 'cucumber-rails', require: false
-  gem 'selenium-webdriver'
   gem 'capybara'
-  gem 'capybara-angular'
   gem 'poltergeist'
-  gem 'webmock'
-  gem 'json_spec'
 
   # Contains hack for foreigner and pg to work together
   gem 'rails3_pg_deferred_constraints', '~> 0.1.0'
