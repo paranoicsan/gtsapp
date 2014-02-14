@@ -314,6 +314,7 @@ Then /^Я (|не) вижу список компаний на повторном
   end
 end
 Then /^Я (|не) вижу список телефонов для филиала на странице компании$/ do |negate|
+
   table_id = "branch_#{@branch.id}"
   element = page.find("table##{table_id}")
 
@@ -322,7 +323,7 @@ Then /^Я (|не) вижу список телефонов для филиала
   else
 
     # составляем ряды для таблицы
-    rows = ""
+    rows = ''
     @branch.phones_by_order.each do |p|
       rows = "#{rows}\n|#{p.order_num}|#{p.publishable}|"
     end

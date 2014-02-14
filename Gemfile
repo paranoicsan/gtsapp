@@ -19,7 +19,7 @@ gem 'bootstrap-will_paginate', '0.0.7'
 gem 'jquery-ui-rails'
 gem 'jquery-rails'
 
-gem 'rails3-jquery-autocomplete'
+gem 'rails3-jquery-autocomplete', '~> 1.0.12'
 gem 'unicode_utils'
 gem 'russian', '~> 0.6.0'
 

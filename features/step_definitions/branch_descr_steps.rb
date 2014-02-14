@@ -46,6 +46,11 @@ Then /^Я вижу список телефонов по индексу отоб�
 
 end
 Then /^Я вижу список телефонов по индексу отображения на странице компании$/ do
+  # Нажимаем на кнопку показа телефоно
+  within '#phone_list' do
+    id = @branch.id
+    find("#show_phones_#{id}").click
+  end
   step %Q{Я  вижу список телефонов для филиала на странице компании}
 end
 When /^Я активирую закладку "([^"]*)"$/ do |tab_title|
@@ -55,6 +60,8 @@ Then /^Я не вижу ссылки для удаления филиалов$/ 
   xpth = "//table[@id='websites']"
   page.should have_selector :xpath, xpth
   within :xpath, xpth do
-    find(:xpath, "//td").should_not have_selector 'btn_branch_delete'
+    all(:xpath, '//td').each do |node|
+      node.should_not have_selector 'btn_branch_delete'
+    end
   end
 end

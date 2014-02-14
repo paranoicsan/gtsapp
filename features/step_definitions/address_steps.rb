@@ -1,24 +1,23 @@
-# encoding: utf-8
 When /^Для филиала "([^"]*)" компании "([^"]*)" создаю адрес с информацией$/ do |bname, cname, table|
   # table is a |a1     |a2  |a3      |a4   |a5    |a6    |a7   |a8      |a9   |pending
   branch = find_branch(bname, cname)
-  #noinspection RubyResolve
   visit branch_path branch
+
   click_link 'Добавить адрес'
 
   street = FactoryGirl.create :street
   city = street.city
 
-  el_id = 'address_city_id'
+  city_id = 'address_city_id'
   steps %Q{
-    When Я ввожу "#{city.name[0..5]}" в поле "#{el_id}"
-    And Я выбираю "#{city.name}" из списка с автозаполнением с ключом "#{el_id}"
+    When Я ввожу "#{city.name[0..5]}" в поле "#{city_id}"
+    And Я выбираю "#{city.name}" из списка с автозаполнением с ключом "#{city_id}"
   }
 
-  el_id = 'addr_address_street'
+  street_id = 'addr_address_street'
   steps %Q{
-    When Я ввожу "#{street.name[0..5]}" в поле "#{el_id}"
-    And Я выбираю "#{street.name}" из списка с автозаполнением с ключом "#{el_id}"
+    When Я ввожу "#{street.name[0..5]}" в поле "#{street_id}"
+    And Я выбираю "#{street.name}" из списка с автозаполнением с ключом "#{street_id}"
   }
 
   table.hashes.each do |info|
@@ -34,7 +33,8 @@ When /^Для филиала "([^"]*)" компании "([^"]*)" создаю �
     fill_in 'address_stage', :with => info[:stage]
     break
   end
-  click_button 'Сохранить'
+  find('#btn_address_save')[:disabled].should be_nil
+  find('#btn_address_save').trigger 'click'
 end
 When /^Я вижу адрес со следующей информацией$/ do |table|
   # table is a |a1     |a2  |a3      |a4   |a5    |a6    |a7   |a8      |a9   |pending

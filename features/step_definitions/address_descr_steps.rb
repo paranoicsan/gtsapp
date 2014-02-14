@@ -22,7 +22,7 @@ When /^Я удаляю введённый населенный пункт "([^"]
 end
 Then /^Значение улицы сбрасывается "([^"]*)"$/ do |el_id|
   el_id = el_id.eql?("") ? 'addr_address_street' : el_id
-  page.find("input##{el_id}")['value'].should eq("")
+  page.find("input##{el_id}").value.should eq("")
 end
 When /^Населённый пункт не выбран "([^"]*)"$/ do |el_id|
   step %Q{Я удаляю введённый населенный пункт "#{el_id}"}
