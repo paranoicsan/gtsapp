@@ -21,7 +21,7 @@ Then /^Я вижу сообщение об ошибке, если пытаюсь
   FactoryGirl.create :address, city_id: @city.id, street_id: street.id
 
   click_link('Удалить')
-  page.driver.browser.switch_to.alert.accept
+  #page.driver.browser.switch_to.alert.accept
   page.should have_content("Улица не может быть удалена. Она используется по крайней мере одним филиалом")
 end
 Then /^Я могу добавить улицу$/ do

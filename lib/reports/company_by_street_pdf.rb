@@ -4,8 +4,6 @@ require_dependency 'reports/company_by_street.rb'
 class ReportCompanyByStreetPDF < Prawn::Document
   include CompanyByStreet
 
-
-
   def to_pdf
     # привязываем шрифты
     s = "#{Rails.root}/lib/fonts"

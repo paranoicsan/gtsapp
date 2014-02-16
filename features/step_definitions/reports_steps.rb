@@ -9,20 +9,19 @@ When /^Я заполняю параметры отчёта$/ do
   step %Q{Кнопка "do_report_by_agent" - "активна"}
   click_button("Показать")
 end
-Then /^Я вижу список операций пользователя$/ do
+Then /^Я вижу список компаний, изменённых пользователем$/ do
   el_id = "report_results_table"
-
   # составляем ряды для таблицы
   rows = ""
-  CompanyHistory.all.each do |c|
-    rows = "#{rows}\n|#{c.company.title}|#{c.operation}|#{c.updated_at.strftime("%d.%m.%Y %H:%M")}|"
+  CompanyHistory.all.group_by(&:company_id).each_value do |c|
+    text = "#{c.first.company.title} (подробно)"
+    rows = "#{rows}\n|#{text}|#{c.first.created_at.strftime("%d.%m.%Y %H:%M")}|"
   end
   steps %Q{
     Then Я вижу таблицу "#{el_id}" с компаниями
-      | title | operation | updated_at |
+      | title | updated_at |
       #{rows}
   }
-
 end
 Then /^Я (|не) могу сформировать отчёт по агенту$/ do |negate|
   s = negate.eql?("не") ? "не активна" : "активна"
@@ -283,4 +282,25 @@ Then /^Я вижу список компаний в соответствии с 
   cs.find_all{|company| company.rubrics.include?(@rubric)}.each do |c|
     page.should have_content(c.title)
   end
+end
+When /^Я могу посмотреть детальный отчёт по компании$/ do
+  # В качестве компании берём первую
+  company = nil
+  history = nil
+  CompanyHistory.all.group_by(&:company_id).each_value do |company_history|
+    company = company_history.first.company
+    history = company_history
+    break
+  end
+
+  find(:xpath, "//a[@data-id=#{company.id}][contains(text(), '(подробно)')]").click
+  div_path = "//div[@id='dialog-details']"
+  find(:xpath, div_path).should be_visible
+
+  within :xpath, div_path do
+    page.should have_content(company.title)
+    page.should have_content(history.first.operation)
+    page.should have_content(history.first.created_at.strftime('%d.%m.%Y %H:%M'))
+  end
+
 end

@@ -21,6 +21,9 @@
 .text-bold {
     font-weight: bolder;
 }
-.table-borderless td, table-borderless th {
+.table-borderless td, .table-borderless th {
     border: 0 !important
+}
+.hidden {
+    display: none;
 }

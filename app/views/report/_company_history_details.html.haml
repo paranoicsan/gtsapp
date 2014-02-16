@@ -1,0 +1,13 @@
+%h4= history.first.company.title
+
+%table#company_details_table.table.table-striped.table-condensed.report-agent-table
+  %thead
+    %tr
+      %th Операция
+      %th Дата
+  - if history.any?
+    %tbody
+    - history.each do |h|
+      %tr
+        %td= h.operation
+        %td= h.created_at.strftime("%d.%m.%Y %H:%M")

@@ -119,5 +119,5 @@ end
 When /^Я удаляю телефон$/ do
   s = phone_path(@phone)
   find("a[href='#{s}'][data-method='delete']").click
-  page.driver.browser.switch_to.alert.accept
+  #page.driver.browser.switch_to.alert.accept
 end

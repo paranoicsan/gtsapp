@@ -2,7 +2,7 @@
 = form_for form_params, :html => { :class => 'well form-horizontal' }  do |f|
   -if @address.errors.any?
     #error_explanation
-      %h2= "#{pluralize(@address.errors.count, "error")} prohibited this address from being saved:"
+      %h2= "#{pluralize(@address.errors.count, 'error')} prohibited this address from being saved:"
       %ul
         - @address.errors.full_messages.each do |msg|
           %li= msg
@@ -12,8 +12,7 @@
     .controls
       -s = @address.city ? @address.city.name : nil
       = autocomplete_field_tag 'address_city_id', s, addresses_autocomplete_city_name_path,
-      :placeholder => "Начните печатать для выбора из списка", :id_element => '#city_id', :id => 'address_city_id'
-      -#:onKeyUp => 'onCityChanged()', :onChange => 'onCityChanged()'
+      :placeholder => 'Начните печатать для выбора из списка', :id_element => '#city_id', :id => 'address_city_id'
       -city_id = @address.city ? @address.city.id : ''
       = hidden_field_tag :city_id, city_id
   .control-group#addr-street-group

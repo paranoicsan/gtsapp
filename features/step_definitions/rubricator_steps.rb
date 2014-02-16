@@ -37,7 +37,7 @@ When /^Я удаляю рубрику "([^"]*)" для компании "([^"]*)
   #noinspection RubyResolve
   s = company_delete_rubric_path company, rub
   page.find(%{a[href = "#{s}"]}).click
-  page.driver.browser.switch_to.alert.accept
+  #page.driver.browser.switch_to.alert.accept
 end
 When /^Выпадающее меню "([^"]*)" содержит только следующие элементы$/ do |select_id, table|
   idx = 2 # первый вариант занимает предложение о выборе рубрики

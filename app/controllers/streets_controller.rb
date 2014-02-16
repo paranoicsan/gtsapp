@@ -1,4 +1,3 @@
-#Encoding: utf-8
 require_dependency 'reports/street_by_city_rtf.rb'
 require_dependency 'reports/street_by_city_pdf.rb'
 require_dependency 'reports/street_by_city_xls.rb'
@@ -48,7 +47,7 @@ class StreetsController < ApplicationController
         format.html { redirect_to streets_path, notice: 'Street was successfully created.' }
         format.json { render json: @streets, status: :created, location: @street }
       else
-        format.html { render action: "new" }
+        format.html { render action: 'new' }
         format.json { render json: @street.errors, status: :unprocessable_entity }
       end
     end
@@ -64,7 +63,7 @@ class StreetsController < ApplicationController
         format.html { redirect_to streets_path, notice: 'Street was successfully updated.' }
         format.json { head :ok }
       else
-        format.html { render action: "edit" }
+        format.html { render action: 'edit' }
         format.json { render json: @street.errors, status: :unprocessable_entity }
       end
     end
@@ -79,7 +78,8 @@ class StreetsController < ApplicationController
       @street = Street.find(params[:id])
       @street.destroy
     rescue
-      message = %Q{Улица не может быть удалена. Она используется по крайней мере одним филиалом.}
+      message = 'Улица не может быть удалена. Она используется по крайней мере
+                одним филиалом.'
     end
 
     # определяем сообщение
@@ -97,7 +97,7 @@ class StreetsController < ApplicationController
   def streets_by_city
     @streets_by_city = []
     if params[:city_id]
-      @streets_by_city = Street.where('city_id = ?', params[:city_id]).order("name").paginate(:page => params[:page], :per_page => 100)
+      @streets_by_city = Street.where('city_id = ?', params[:city_id]).order('name').paginate(:page => params[:page], :per_page => 100)
     end
     store_params # сохраняем параметры в сессии
     respond_to do |format|
@@ -127,15 +127,15 @@ class StreetsController < ApplicationController
   # @param [String] Формат, в котором надо выгружать результаты
   def export_by_city(format)
     case format
-      when "pdf"
+      when 'pdf'
         rep = ReportStreetByCityPDF.new
         rep.city_id = session[:report_params][:city_id]
         rep.get_data
-      when "rtf"
+      when 'rtf'
         rep = ReportStreetByCityRTF.new(Font.new(Font::ROMAN, 'Times New Roman'))
         rep.city_id = session[:report_params][:city_id]
         rep.get_data
-      when "xls"
+      when 'xls'
         rep = ReportStreetByCityXLS.new
         rep.city_id = session[:report_params][:city_id]
         rep.get_data

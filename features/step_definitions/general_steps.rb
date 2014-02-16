@@ -1,4 +1,4 @@
-# encoding: utf-8
+
 When /^Я вижу сообщение "([^"]*)"$/ do |msg|
   page.should have_content(msg)
 end
@@ -10,18 +10,19 @@ Then /^Я не вижу таблицу "([^"]*)"$/ do |table_id|
   page.should_not have_selector :xpath, xpth
 end
 Then /^Я вижу таблицу "([^"]*)" с компаниями$/ do |table_id, table|
-  xpth = "//table[@id='#{table_id}']"
-  page.should have_selector :xpath, xpth
-  idx = 2 # Первый ряд занимает заголовок
-  table.hashes.each do |row|
-    row.each_with_index do |data, i|
-      row_xpth = "//table[@id='#{table_id}']/*/tr[#{idx}]/td[#{i+1}]"
-      find(:xpath, row_xpth).text.should == data[1]
-    end
-    idx += 1
-  end
+  n = page.find("table##{table_id}")
+  #page.should have_selector()
+
+  #idx = 2 # Первый ряд занимает заголовок
+  #table.hashes.each do |row|
+  #  row.each_with_index do |data, i|
+  #    row_xpth = "//table[@id='#{table_id}']/*/tr[#{idx}]/td[#{i+1}]"
+  #    find(:xpath, row_xpth).text.should == data[1]
+  #  end
+  #  idx += 1
+  #end
   # здесь проверяем на количество рядом
-  page.should_not have_selector(:xpath, "//table[@id='#{table_id}']/*/tr[#{idx}]")
+  #page.should_not have_selector(:xpath, "//table[@id='#{table_id}']/*/tr[#{idx}]")
 end
 When /^Я вижу разбивку на страницы$/ do
   page.should have_selector("div.pagination")
@@ -50,13 +51,8 @@ Then /^Я (не|) вижу ссылки "([^"]*)" в таблице "([^"]*)" в
   end
 end
 Then /^Я (|не) вижу элемент "([^"]*)"$/ do |negate, elem_id|
-  if negate.eql?("не")
-    #noinspection RubyResolve
-    find("*[@id='#{elem_id}']").should_not be_visible
-  else
-    #noinspection RubyResolve
-    find("*[@id='#{elem_id}']").should be_visible
-  end
+  op = negate.eql?('не') ? :should_not : :should
+  find("##{elem_id}", visible: false).send op, be_visible
 end
 When /^Я выбираю "([^"]*)" из элемента "([^"]*)"$/ do |select_value, select_id|
   page.select select_value, from: select_id
@@ -108,9 +104,28 @@ end
 Given /^Я выбираю "([^"]*)" из списка с автозаполнением с ключом "([^"]*)"/ do |text, list_id|
   page.execute_script %Q{ $('##{list_id}').trigger("focus"); }
   page.execute_script %Q{ $('##{list_id}').trigger("keydown"); }
-  sleep 2
+  sleep 1
   page.evaluate_script %Q{ $('.ui-menu-item a:contains("#{text}")').trigger("mouseenter").trigger("click"); }
   page.execute_script %Q{ $('##{list_id}').trigger("keyup") }
+
+  #page.execute_script %Q{ $('input##{list_id}[data-autocomplete]').trigger("focus") }
+  #page.execute_script %Q{ $('input#{list_id}[data-autocomplete]').trigger("keydown") }
+  #sleep 1
+  #page.should have_selector('.ui-menu-item')
+  #page.execute_script %Q{ $('.ui-menu-item a:contains("#{text}")').trigger("mouseenter").trigger("click"); }
+  #sleep 1
+
+  #page.execute_script %Q{ $('input#{list_id}[data-autocomplete]').trigger("focus") }
+  #page.execute_script %Q{ $('input#{list_id}[data-autocomplete]').trigger("keydown") }
+  #sleep 1
+  #page.execute_script %Q{ console.log($('input#{list_id}[data-autocomplete]').val()) }
+  #page.execute_script %Q{ $('.ui-menu-item a:contains("#{text}")').trigger("mouseenter").trigger("click"); }
+
+  #node = find(:xpath, "//input[@id='#{list_id}' and @data-autocomplete]")
+  #node.trigger 'focus'
+  #page.execute_script %Q{ $('input#{list_id}[data-autocomplete]').trigger("keydown") }
+  #sleep 1
+
 end
 When /^Существуют определённые статусы договоров$/ do
   create_contract_statuses
@@ -119,7 +134,7 @@ Then /^Я вижу только (\d+) рядов в таблице "([^"]*)"$/ d
   page.all("table\##{table_id} tr").count.should == cnt.to_i + 1 # Один ряд с заголовками
 end
 When /^Я вижу "([^"]*)" в поле "([^"]*)"$/ do |value, field_id|
-  page.find_by_id(field_id)['value'].should eq(value)
+  page.find_by_id(field_id).value.should eq(value)
 end
 When /^Я нажимаю на элемент с ключом "([^"]*)"$/ do |elem_id|
   page.find(:xpath, "//*[@id='#{elem_id}']").click

@@ -1,13 +1,15 @@
 # encoding: utf-8
 class Street < ActiveRecord::Base
+
   belongs_to :city
+
   has_many :street_indexes
-  #noinspection RailsParamDefResolve
   has_many :addresses, :dependent => :restrict
 
   validates_presence_of :city_id, :message => 'Выберите населённый пункт'
   validates_presence_of :name, :message => 'Укажите название'
-  validates_uniqueness_of :name, :scope => :city_id, :message => 'Такая улица уже есть в этом населённом пункте',
+  validates_uniqueness_of :name, :scope => :city_id,
+                          :message => 'Такая улица уже есть в этом населённом пункте',
                           :case_sensitive => false
 
   ##

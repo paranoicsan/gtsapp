@@ -33,7 +33,7 @@ When /^Я удаляю одну персону$/ do
     And Я активирую закладку "Персоны"
   }
   click_link("compane_person_delete_link")
-  page.driver.browser.switch_to.alert.accept
+  #page.driver.browser.switch_to.alert.accept
 end
 When /^Я изменяю одну персону$/ do
   steps %Q{

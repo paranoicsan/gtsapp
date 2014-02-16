@@ -22,11 +22,11 @@
         .control-group#period_start_group
           = label_tag 'Начало периода:', nil, :class => 'control-label'
           .controls
-            = select_date(Date.today - 2.month, :prefix => 'report_period_start', :discard_day => true)
+            = select_date(Date.today - 2.month, :prefix => 'report_period_start')
         .control-group#period_start_group
           = label_tag 'Конец периода:', nil, :class => 'control-label'
           .controls
-            = select_date(Date.today, :prefix => 'report_period_end', :discard_day => true)
+            = select_date(Date.today, :prefix => 'report_period_end')
         .form-actions
           = submit_tag "Показать", {:disabled => "disabled", :id => "do_report_by_agent", :class => 'btn'}
 

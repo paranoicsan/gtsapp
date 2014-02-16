@@ -108,37 +108,42 @@ When /^Я выбираю в качестве головного филиал с 
 end
 Then /^Филиал с факт. название "([^"]*)" находится в первом ряду списка$/ do |bname|
   xpth_row = "//table[@id='branches']/tr[2]" # первый ряд с данными
-  within :xpath, xpth_row do
-    find(:xpath, "//td[2]//text()[contains(., '#{bname}')]")
-    find(:xpath, "//td[1]").has_checked_field?("cb_branch_main")
-  end
+  find(:xpath, "//td[2]//text()[contains(., '#{bname}')]")
+  find(:xpath, "#{xpth_row}/td[1]/span[@class='badge badge-success']")
 end
 When /^Я ввожу "([^"]*)" в поле "([^"]*)"$/ do |wname, field_id|
-  fill_in field_id, :with => wname
+  #fill_in field_id, :with => wname
+  #puts wname
+  find(:xpath, "//*[@id='#{field_id}']").set wname
+  page.execute_script %Q{ $('##{field_id}').trigger('keydown') }
+  #puts find(:xpath, "//*[@id='#{field_id}']").value
 end
 When /^Я вижу таблицу "([^"]*)" с веб-сайтами$/ do |table_id, table|
+  sleep 1
   xpth = "//table[@id='#{table_id}']"
   if table.hashes.any?
-    page.should have_selector :xpath, xpth
+    page.should have_selector(:xpath, xpth)
+    page.should have_selector(:xpath, "//table[@id='#{table_id}']/tbody")
     idx = 2 # Первый ряд занимает заголовок
     table.hashes.each do |row|
-      #row_xpth = "//table[@id='#{table_id}']/*/tr[#{idx}]/td[1]"
-      row_xpth = "//tr[(.|parent::tbody)[1]/parent::table[@id='#{table_id}']][#{idx}]/td[1]"
+      row_xpth = "//table[@id='#{table_id}']/tbody/tr[#{idx}]/td[1]"
+
+      #row_xpth = "//tr[(.|parent::tbody)[1]/parent::table[@id='#{table_id}']][#{idx}]/td[1]"
       page.find(:xpath, row_xpth).text.should == row[:name]
       idx += 1
     end
   end
 end
 When /^Кнопка "([^"]*)" - "(активна|не активна)"$/ do |button_id, status|
-  s = status.eql?("активна") ? nil : "true"
-  #puts find(:xpath, "//input[@id='#{button_id}']")['disabled'].inspect
-  #assert find(:xpath, "//input[@id='#{button_id}']")['disabled'] == s, "Кнопка в неверном состоянии."
-  assert find_button(button_id)['disabled'] == s, "Кнопка в неверном состоянии."
+  if status.eql?('активна')
+    find(:xpath, "//*[@id='#{button_id}']")
+  else
+    find(:xpath, "//*[@id='#{button_id}'][@disabled = 'disabled']")
+  end
+
 end
 When /^Я нажимаю на кнопку "([^"]*)"$/ do |elem_id|
-  #find(:xpath, "//input[@id='#{elem_id}']")['disabled'] == ""
-  find_button elem_id
-  click_button elem_id
+  page.find("##{elem_id}").trigger 'click'
 end
 When /^Существуют следующие веб-сайты дял филиала "([^"]*)"$/ do |bname, table|
   branch = Branch.find_by_fact_name bname
@@ -154,7 +159,9 @@ Then /^Я не вижу ссылки "([^"]*)" в таблице "([^"]*)"$/ do 
   xpth = "//table[@id='#{table_id}']"
   page.should have_selector :xpath, xpth
   within :xpath, xpth do
-    find(:xpath, "//td").should_not have_content link_title
+    all(:xpath, '//td').each do |node|
+      node.should_not have_content(link_title)
+    end
   end
 end
 When /^Я удаляю веб-сайт "([^"]*)" из филиала "([^"]*)"$/ do |ws_name, bname|
@@ -163,7 +170,7 @@ When /^Я удаляю веб-сайт "([^"]*)" из филиала "([^"]*)"$/
   #noinspection RubyResolve
   s = branch_delete_website_path b, ws
   find("a[href='#{s}'][data-method='delete']").click
-  page.driver.browser.switch_to.alert.accept
+  #page.driver.browser.switch_to.alert.accept
   sleep 2
 end
 When /^Я вижу таблицу "([^"]*)" с адресами$/ do |table_id, table|
@@ -172,8 +179,8 @@ When /^Я вижу таблицу "([^"]*)" с адресами$/ do |table_id, 
     page.should have_selector :xpath, xpth
     idx = 2 # Первый ряд занимает заголовок
     table.hashes.each do |row|
-      #row_xpth = "//table[@id='#{table_id}']/tbody/tr[#{idx}]/td[1]"
-      row_xpth = "//tr[(.|parent::tbody)[1]/parent::table[@id='#{table_id}']][#{idx}]/td[1]"
+      row_xpth = "//table[@id='#{table_id}']/tbody/tr[#{idx}]/td[1]"
+      #row_xpth = "//tr[(.|parent::tbody)[1]/parent::table[@id='#{table_id}']][#{idx}]/td[1]"
       page.find(:xpath, row_xpth).text.should == row[:name]
       idx += 1
     end
@@ -192,7 +199,7 @@ When /^Я удаляю электронный адрес "([^"]*)" из фили
   #noinspection RubyResolve
   s = branch_delete_email_path b, em
   page.find(%{a[href = "#{s}"]}).click
-  page.driver.browser.switch_to.alert.accept
+  #page.driver.browser.switch_to.alert.accept
 end
 When /^"([^"]*)" для компании "([^"]*)" является главным$/ do |bname, cname|
   b = find_branch bname, cname

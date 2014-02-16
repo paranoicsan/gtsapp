@@ -43,8 +43,8 @@ ActiveRecord::Schema.define(:version => 20120924220038) do
     t.string   "legel_name"
     t.integer  "company_id"
     t.string   "comments"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
     t.boolean  "is_main"
   end
 
@@ -52,16 +52,16 @@ ActiveRecord::Schema.define(:version => 20120924220038) do
     t.string   "name"
     t.integer  "phone_code"
     t.integer  "old_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "companies", :force => true do |t|
     t.string   "title"
     t.date     "date_added"
     t.integer  "rubricator"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                 :null => false
+    t.datetime "updated_at",                 :null => false
     t.integer  "company_status_id"
     t.integer  "author_user_id"
     t.integer  "editor_user_id"
@@ -76,8 +76,8 @@ ActiveRecord::Schema.define(:version => 20120924220038) do
   create_table "company_histories", :force => true do |t|
     t.text     "operation"
     t.integer  "company_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
     t.integer  "user_id"
   end
 
@@ -112,22 +112,22 @@ ActiveRecord::Schema.define(:version => 20120924220038) do
     t.string   "company_details"
     t.integer  "number_of_dicts"
     t.integer  "company_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
   end
 
   create_table "districts", :force => true do |t|
     t.string   "name"
     t.integer  "old_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "emails", :force => true do |t|
     t.string   "name"
     t.integer  "branch_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "form_types", :force => true do |t|
@@ -162,15 +162,15 @@ ActiveRecord::Schema.define(:version => 20120924220038) do
     t.integer  "order_num"
     t.integer  "branch_id"
     t.integer  "old_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
   end
 
   create_table "post_indices", :force => true do |t|
     t.integer  "code"
     t.integer  "old_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "product_types", :force => true do |t|
@@ -180,15 +180,15 @@ ActiveRecord::Schema.define(:version => 20120924220038) do
     t.integer  "bonus_product_id"
     t.string   "bonus_site"
     t.float    "price"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
   end
 
   create_table "products", :force => true do |t|
     t.integer  "contract_id"
     t.integer  "product_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
     t.integer  "rubric_id"
     t.text     "proposal"
   end
@@ -218,8 +218,8 @@ ActiveRecord::Schema.define(:version => 20120924220038) do
     t.string   "name"
     t.integer  "old_id"
     t.integer  "city_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "users", :force => true do |t|
@@ -228,8 +228,8 @@ ActiveRecord::Schema.define(:version => 20120924220038) do
     t.string   "crypted_password"
     t.string   "password_salt"
     t.string   "persistence_token"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                              :null => false
+    t.datetime "updated_at",                              :null => false
     t.string   "roles",             :default => "--- []"
   end
 

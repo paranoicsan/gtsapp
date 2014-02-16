@@ -1,6 +1,4 @@
 # encoding: utf-8
-require 'rspec'
-#require 'shared/auth_helper'
 
 describe UsersController do
 

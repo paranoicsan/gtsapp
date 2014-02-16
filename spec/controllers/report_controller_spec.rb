@@ -173,32 +173,34 @@ describe ReportController do
 
   end
 
-  context "by_agent" do
+  context 'by_agent' do
 
-    describe "GET 'by_agent'" do
-      it "returns http success" do
+    describe 'GET by_agent' do
+      it 'returns http success' do
         get :by_agent
         response.should be_success
       end
     end
 
-    describe "POST prepare_by_agent" do
+    describe 'POST prepare_by_agent' do
 
       let(:user) { FactoryGirl.create(:user_agent) }
       let(:company) { FactoryGirl.create(:company, author_user_id: user.id) }
 
       def write_history
-        CompanyHistory.log("ttt", user.id, company.id)
+        CompanyHistory.log('ttt', user.id, company.id)
       end
 
       def post_valid
         params = {
             report_agent: user.id,
             report_period_start: {
+                day: 3.month.ago.day,
                 month: 3.month.ago.month,
-                year: 3.month.ago.year,
+                year: 3.month.ago.year
               },
             report_period_end: {
+                day: DateTime.now.day,
                 month: DateTime.now.month,
                 year: DateTime.now.year
                 },
@@ -206,16 +208,16 @@ describe ReportController do
         }
         post :prepare_by_agent, params
       end
-      it "возвращает искомого агента как @report_agent" do
+      it 'возвращает искомого агента как @report_agent' do
         post_valid
         assigns(:report_agent).should eq(user)
       end
-      it "возвращает набор данных как @report_result" do
+      it 'возвращает изменённые в указанном периоде компании как @report_result' do
         write_history
         post_valid
-        assigns(:report_result).should eq([CompanyHistory.first])
+        assigns(:report_result).should eq(company.id => [CompanyHistory.first])
       end
-      it "возвращает JavaScript-ответ для обновления данных на странице" do
+      it 'возвращает JavaScript-ответ для обновления данных на странице' do
         post_valid
         response.should be_success
       end
@@ -223,7 +225,7 @@ describe ReportController do
 
   end
 
-  context "company_by_street" do
+  context 'company_by_street' do
 
     def create_data
       2.times { FactoryGirl.create :company_active, rubricator: 3 }
@@ -249,14 +251,14 @@ describe ReportController do
       end
     end
 
-    describe "GET 'company_by_street'" do
-      it "returns http success" do
+    describe 'GET company_by_street' do
+      it 'returns http success' do
         get :company_by_street
         response.should be_success
       end
     end
 
-    describe "POST prepare_company_by_street" do
+    describe 'POST prepare_company_by_street' do
 
       before(:each) do
         create_data
@@ -272,55 +274,55 @@ describe ReportController do
         post :prepare_company_by_street, params
       end
 
-      it "возвращает объект улицы как элемент Hash" do
+      it 'возвращает объект улицы как элемент Hash' do
         post_valid
         assigns(:report_result)[:street].should eq(@street)
       end
-      it "активные: возвращает найденные компании как элеент Hash" do
+      it 'активные: возвращает найденные компании как элеент Hash' do
         companies = Company.active
         post_valid :active
         assigns(:report_result)[:companies].should eq(companies)
       end
-      it "архивные: возвращает найденные компании как элеент Hash" do
+      it 'архивные: возвращает найденные компании как элеент Hash' do
         post_valid :archived
         assigns(:report_result)[:companies].should eq(Company.archived)
       end
-      it "все: возвращает найденные компании как элеент Hash" do
+      it 'все: возвращает найденные компании как элеент Hash' do
         post_valid :all
         assigns(:report_result)[:companies].should eq(Company.all)
       end
-      it "возвращает JavaScript-ответ для обновления данных на странице" do
+      it 'возвращает JavaScript-ответ для обновления данных на странице' do
         post_valid
         response.should be_success
       end
-      it "поумолчанию возвращает флаг, что только активные компании надо искать" do
+      it 'поумолчанию возвращает флаг, что только активные компании надо искать' do
         post_valid
         assigns(:report_result)[:filter].should eq(:active)
       end
-      it "все: возвращает тип компаний, который надо искать как элемент Hash" do
+      it 'все: возвращает тип компаний, который надо искать как элемент Hash' do
         post_valid :all
         assigns(:report_result)[:filter].should eq(:all)
       end
-      it "архивные: возвращает тип компаний, который надо искать как элемент Hash" do
+      it 'архивные: возвращает тип компаний, который надо искать как элемент Hash' do
         post_valid :archived
         assigns(:report_result)[:filter].should eq(:archived)
       end
 
-      context "сохраняет параметры формирования отчёта в сессии" do
+      context 'сохраняет параметры формирования отчёта в сессии' do
         before(:each) do
           post_valid
         end
-        it "сохраняет ключ улицы" do
+        it 'сохраняет ключ улицы' do
           session[:report_params][:street_id].should eq(@street.id)
         end
-        it "сохраняет фильтр по статусу компании" do
+        it 'сохраняет фильтр по статусу компании' do
           session[:report_params][:filter].should eq(:active)
         end
-        it "сохраняет фильтр по рубрикатору" do
+        it 'сохраняет фильтр по рубрикатору' do
           session[:report_params][:rubricator_filter].should eq(3)
         end
       end
-      context "фильтр по рубрикатору" do
+      context 'фильтр по рубрикатору' do
         def valid_attributes
           {
               filter: :all,
@@ -329,30 +331,30 @@ describe ReportController do
               rubricator_filter: 3
           }
         end
-        it "возвращает фильтр рубрикатора как элемент Hash" do
+        it 'возвращает фильтр рубрикатора как элемент Hash' do
           post_valid
           assigns(:report_result)[:rubricator_filter].should eq(3)
         end
-        it "возвращает компании с полным рубрикатором когда указан полный фильтр" do
+        it 'возвращает компании с полным рубрикатором когда указан полный фильтр' do
           companies = Company.all
           params = valid_attributes
           post :prepare_company_by_street, params
           assigns(:report_result)[:companies].should eq(companies)
         end
-        it "возвращает компании с полным или коммерческим рубрикатором когда указан коммерческий фильтр" do
+        it 'возвращает компании с полным или коммерческим рубрикатором когда указан коммерческий фильтр' do
 
-          Company.all.each { |c| c.update_attribute "rubricator", 1 }
+          Company.all.each { |c| c.update_attribute 'rubricator', 1 }
           company = Company.archived.first
-          company.update_attribute "rubricator", 2
+          company.update_attribute 'rubricator', 2
           params = valid_attributes
           params[:rubricator_filter] = 2
           post :prepare_company_by_street, params
           assigns(:report_result)[:companies].should eq([company])
         end
-        it "возвращает компании с полным или социальным рубрикатором когда указан социальный фильтр" do
-          Company.all.each { |c| c.update_attribute "rubricator", 2 }
+        it 'возвращает компании с полным или социальным рубрикатором когда указан социальный фильтр' do
+          Company.all.each { |c| c.update_attribute 'rubricator', 2 }
           company = Company.archived.first
-          company.update_attribute "rubricator", 1
+          company.update_attribute 'rubricator', 1
           params = valid_attributes
           params[:rubricator_filter] = 1
           post :prepare_company_by_street, params
