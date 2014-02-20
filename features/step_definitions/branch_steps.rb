@@ -102,8 +102,9 @@ When /^Я выбираю в качестве головного филиал с 
   @branch = Branch.find_by_fact_name bname
 
   # Ищем ячейку с операциями для филиала по указанному факт. названию
-  within :xpath, "//table[@id='branches']/*[(th|td)/descendant-or-self::*[contains(text(), '#{bname}')]]/td[3]" do
-    click_link "Сделать головным"
+  path = "//table[@id='branches']/*[(th|td)/descendant-or-self::*[contains(text(), '#{bname}')]]/td[3]"
+  within :xpath, path do
+    click_link 'Сделать головным'
   end
 end
 Then /^Филиал с факт. название "([^"]*)" находится в первом ряду списка$/ do |bname|
@@ -127,9 +128,7 @@ When /^Я вижу таблицу "([^"]*)" с веб-сайтами$/ do |table
     idx = 2 # Первый ряд занимает заголовок
     table.hashes.each do |row|
       row_xpth = "//table[@id='#{table_id}']/tbody/tr[#{idx}]/td[1]"
-
-      #row_xpth = "//tr[(.|parent::tbody)[1]/parent::table[@id='#{table_id}']][#{idx}]/td[1]"
-      page.find(:xpath, row_xpth).text.should == row[:name]
+      page.find(:xpath, row_xpth, visible: true).text.should == row[:name]
       idx += 1
     end
   end
@@ -138,9 +137,8 @@ When /^Кнопка "([^"]*)" - "(активна|не активна)"$/ do |but
   if status.eql?('активна')
     find(:xpath, "//*[@id='#{button_id}']")
   else
-    find(:xpath, "//*[@id='#{button_id}'][@disabled = 'disabled']")
+    find(:xpath, "//*[@id='#{button_id}'][@disabled]")
   end
-
 end
 When /^Я нажимаю на кнопку "([^"]*)"$/ do |elem_id|
   page.find("##{elem_id}").trigger 'click'
@@ -180,8 +178,7 @@ When /^Я вижу таблицу "([^"]*)" с адресами$/ do |table_id, 
     idx = 2 # Первый ряд занимает заголовок
     table.hashes.each do |row|
       row_xpth = "//table[@id='#{table_id}']/tbody/tr[#{idx}]/td[1]"
-      #row_xpth = "//tr[(.|parent::tbody)[1]/parent::table[@id='#{table_id}']][#{idx}]/td[1]"
-      page.find(:xpath, row_xpth).text.should == row[:name]
+      page.find(:xpath, row_xpth, visible: true).text.should == row[:name]
       idx += 1
     end
   end

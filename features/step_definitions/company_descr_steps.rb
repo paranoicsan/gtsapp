@@ -24,7 +24,7 @@ When /^Я вижу (\d+) компаний в таблице на удалени�
 end
 When /^Я отменяю удаление компании любой компании$/ do
   # ищем первую попавшуюся компанию и отменяем ей удаление
-  click_link('company_undelete_link')
+  all('#company_undelete_link').first.click
 end
 When /^У неё существуют (\d+) персоны$/ do |cnt|
   cnt.to_i.times do
@@ -174,9 +174,9 @@ When /^Я обращаю внимание администратора на ко
   step %Q{Я нажимаю на ссылку с ключом "company_request_attention_link"}
 end
 When /^Я ввожу причину обращения$/ do
-  step %Q{Кнопка "btn_reason_need_attention_submit" - "не активна"}
+  step 'Кнопка "btn_reason_need_attention_submit" - "не активна"'
   step %Q{Я ввожу "#{Faker::Lorem.sentence}" в поле "reason_attention_on_ta"}
-  step %Q{Кнопка "btn_reason_need_attention_submit" - "активна"}
+  step 'Кнопка "btn_reason_need_attention_submit" - "активна"'
 end
 When /^Я вижу введённую причину обращения$/ do
   step %Q{Я вижу параметр "Причина:" как "#{@company.reason_need_attention_on}"}
@@ -316,7 +316,7 @@ end
 Then /^Я (|не) вижу список телефонов для филиала на странице компании$/ do |negate|
 
   table_id = "branch_#{@branch.id}"
-  element = page.find("table##{table_id}")
+  element = page.find("table##{table_id}", visible: false)
 
   if negate.eql?('не')
     element['visible'].should be_false

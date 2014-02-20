@@ -11,16 +11,14 @@ class Branch < ActiveRecord::Base
   belongs_to :company
   before_save :check_is_main
 
-
   ##
   # Устанавливает филиал как основной
   # и снимает этот флаг со всех остальных филиалов
   def make_main
     c_id = self.company_id
-    Branch.find_all_by_company_id(c_id).each do |b|
-      #noinspection RubyResolve
-      b.is_main = b.eql?(self)
-      b.save
+    Branch.where(company_id: c_id).each do |b|
+      val = b.id == self.id
+      b.update_attributes is_main: val
     end
   end
 
@@ -60,7 +58,7 @@ class Branch < ActiveRecord::Base
   # Возвращает масив телефонов по индексу отображения
   def phones_by_order
     #Phone.where("branch_id = ?", id).order("order_num ASC")
-    phones.order("order_num ASC")
+    phones.order('order_num ASC')
   end
 
   ##
@@ -91,9 +89,11 @@ class Branch < ActiveRecord::Base
   # Обработка флага, что филиал является головным,
   # если он является единственным
   def check_is_main
-    if Branch.find_all_by_company_id(self.company_id).count == 0
-      self.is_main = true
+    if self.new_record?
+      count = Branch.find_all_by_company_id(self.company_id).count
+      self.is_main = count.zero?
     end
+    true
   end
 
 end
