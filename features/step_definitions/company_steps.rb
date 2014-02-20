@@ -116,12 +116,15 @@ Then /^Я вижу выпадающее меню с ключом "([^"]*)" с д
   table.hashes.each do |row|
     params << row[:username]
   end
-  page.should have_select(select_id, :options => params)
+
+  page.should have_select(select_id, with_options: params)
+
 end
-When /^Я ([^"]*)вижу слой с ключом "([^"]*)"$/ do |arg, select_id|
-  xpth = "div[@id='#{select_id}']"
-  b = arg == "не" ? false : true
-  page.has_selector?(xpth, :visible => b)
+When /^Я ([^"]*) вижу слой с ключом "([^"]*)"$/ do |arg, select_id|
+  xpth = "//div[@id='#{select_id}']"
+  negate = arg.eql?('не') ? :should_not : :should
+  node = page.find(:xpath, xpth, visible: false)
+  node.send(negate, be_visible)
 end
 Given /^Существуют (\d+) компаний с названиями на вариацию "([^"]*)" и параметрами$/ do |cnt, cname_base, table|
 

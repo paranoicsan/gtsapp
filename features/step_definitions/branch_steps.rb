@@ -139,9 +139,8 @@ When /^Кнопка "([^"]*)" - "(активна|не активна)"$/ do |but
   if status.eql?('активна')
     find(:xpath, "//*[@id='#{button_id}']")
   else
-    find(:xpath, "//*[@id='#{button_id}'][@disabled = 'disabled']")
+    find(:xpath, "//*[@id='#{button_id}'][@disabled]")
   end
-
 end
 When /^Я нажимаю на кнопку "([^"]*)"$/ do |elem_id|
   page.find("##{elem_id}").trigger 'click'

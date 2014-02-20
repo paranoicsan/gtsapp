@@ -174,9 +174,9 @@ When /^Я обращаю внимание администратора на ко
   step %Q{Я нажимаю на ссылку с ключом "company_request_attention_link"}
 end
 When /^Я ввожу причину обращения$/ do
-  step %Q{Кнопка "btn_reason_need_attention_submit" - "не активна"}
+  step 'Кнопка "btn_reason_need_attention_submit" - "не активна"'
   step %Q{Я ввожу "#{Faker::Lorem.sentence}" в поле "reason_attention_on_ta"}
-  step %Q{Кнопка "btn_reason_need_attention_submit" - "активна"}
+  step 'Кнопка "btn_reason_need_attention_submit" - "активна"'
 end
 When /^Я вижу введённую причину обращения$/ do
   step %Q{Я вижу параметр "Причина:" как "#{@company.reason_need_attention_on}"}
