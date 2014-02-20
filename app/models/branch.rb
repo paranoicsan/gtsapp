@@ -16,10 +16,9 @@ class Branch < ActiveRecord::Base
   # и снимает этот флаг со всех остальных филиалов
   def make_main
     c_id = self.company_id
-    Branch.find_all_by_company_id(c_id).each do |b|
-      #noinspection RubyResolve
-      b.is_main = b.eql?(self)
-      b.save
+    Branch.where(company_id: c_id).each do |b|
+      val = b.id == self.id
+      b.update_attributes is_main: val
     end
   end
 
@@ -90,8 +89,10 @@ class Branch < ActiveRecord::Base
   # Обработка флага, что филиал является головным,
   # если он является единственным
   def check_is_main
-    count = Branch.find_all_by_company_id(self.company_id).count
-    self.is_main = count.zero?
+    if self.new_record?
+      count = Branch.find_all_by_company_id(self.company_id).count
+      self.is_main = count.zero?
+    end
     true
   end
 

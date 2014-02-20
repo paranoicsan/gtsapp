@@ -35,6 +35,32 @@ describe Branch do
     end
   end
 
+  describe '#make_main' do
+    before(:each) do
+      @branch = FactoryGirl.create :branch
+    end
+    it 'делает главным указанный филиал' do
+      @branch.update_attributes is_main: false
+      @branch.is_main.should be_false
+      @branch.make_main
+      @branch.reload.is_main.should be_true
+    end
+    it 'все остальные делает НЕ главными' do
+      @branch.is_main.should be_true
+      company_id = @branch.company.id
+      FactoryGirl.create_list :branch, 5, company_id: company_id
+      b = FactoryGirl.create :branch, company_id: company_id
+
+      # делаем головным
+      b.make_main
+
+      Branch.where(company_id: company_id).each do |branch|
+        val = branch.id == b.id
+        branch.is_main.should == val
+      end
+    end
+  end
+
   describe '#all_emails_str' do
     it "возвращает все адреса через запятую" do
       3.times do
@@ -48,7 +74,7 @@ describe Branch do
   end
 
   describe '#all_websites_str' do
-    it "возвращает все сайты через запятую" do
+    it 'возвращает все сайты через запятую' do
       3.times do
         branch.websites << FactoryGirl.create(:website)
       end
@@ -63,7 +89,7 @@ describe Branch do
     def create_phone(branch_id)
       FactoryGirl.create :phone, branch_id: branch_id
     end
-    it "возвращает массив по порядку индекса отображения" do
+    it 'возвращает массив по порядку индекса отображения' do
       branch = FactoryGirl.create :branch
       p1 = create_phone(branch.id)
       p2 = create_phone(branch.id)
@@ -72,10 +98,10 @@ describe Branch do
   end
 
   describe '#next_phone_order_index' do
-    it "возвращает единицу для первого телефона" do
+    it 'возвращает единицу для первого телефона' do
       branch.next_phone_order_index.should eq(1)
     end
-    it "возвращает следующий порядковый индекс отображения для телефонов" do
+    it 'возвращает следующий порядковый индекс отображения для телефонов' do
       FactoryGirl.create :phone, branch_id: branch.id
       branch.next_phone_order_index.should eq(2)
     end
@@ -95,21 +121,21 @@ describe Branch do
       branch.reload
     end
 
-    it "обновляет список телефонов при удалении первого" do
+    it 'обновляет список телефонов при удалении первого' do
       delete_and_update(0)
       branch.phones[0].order_num.should eq(1)
     end
-    it "обновляет список телефонов при удалении из середины" do
+    it 'обновляет список телефонов при удалении из середины' do
       delete_and_update(PHONE_CNT-3)
       branch.phones.count.times do |i|
         branch.phones[i].order_num.should eq(i+1)
       end
     end
-    it "ничего не меняется при удалении последнего" do
+    it 'ничего не меняется при удалении последнего' do
       delete_and_update(PHONE_CNT-1)
       branch.phones[PHONE_CNT-2].order_num.should eq(PHONE_CNT-1)
     end
-    it "обновляет список телефонов при добавлении нового" do
+    it 'обновляет список телефонов при добавлении нового' do
       FactoryGirl.create :phone, branch_id: branch.id, order_num: 3
       branch.update_phone_order(true)
       branch.reload
@@ -117,7 +143,7 @@ describe Branch do
         branch.phones[i].order_num.should eq(i+1)
       end
     end
-    it "обновляет список телефонов при изменении существующего" do
+    it 'обновляет список телефонов при изменении существующего' do
       moved_phone = branch.phones[3]
       branch.phones[1].update_attribute "order_num", 4
       branch.update_phone_order
