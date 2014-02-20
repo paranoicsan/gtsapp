@@ -181,7 +181,7 @@ When /^Я вижу таблицу "([^"]*)" с адресами$/ do |table_id, 
     table.hashes.each do |row|
       row_xpth = "//table[@id='#{table_id}']/tbody/tr[#{idx}]/td[1]"
       #row_xpth = "//tr[(.|parent::tbody)[1]/parent::table[@id='#{table_id}']][#{idx}]/td[1]"
-      page.find(:xpath, row_xpth).text.should == row[:name]
+      page.find(:xpath, row_xpth, visible: true).text.should == row[:name]
       idx += 1
     end
   end

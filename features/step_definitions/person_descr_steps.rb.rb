@@ -32,7 +32,7 @@ When /^Я удаляю одну персону$/ do
   steps %Q{
     And Я активирую закладку "Персоны"
   }
-  click_link("compane_person_delete_link")
+  all('#compane_person_delete_link').first.click
   #page.driver.browser.switch_to.alert.accept
 end
 When /^Я изменяю одну персону$/ do
@@ -64,6 +64,8 @@ When /^Я указываю неверный адрес Email$/ do
   step %Q{Я ввожу "dsdsdsds" в поле "person_email"}
 end
 Then /^Я не могу ввести буквы в поле для телефона$/ do
+  field_id = '#person_phone'
+
   step %Q{Я ввожу "dsdsdsds" в поле "person_phone"}
   step %Q{Я вижу "" в поле "person_phone"}
 end

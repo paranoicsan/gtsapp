@@ -24,7 +24,7 @@ When /^Я вижу (\d+) компаний в таблице на удалени�
 end
 When /^Я отменяю удаление компании любой компании$/ do
   # ищем первую попавшуюся компанию и отменяем ей удаление
-  click_link('company_undelete_link')
+  all('#company_undelete_link').first.click
 end
 When /^У неё существуют (\d+) персоны$/ do |cnt|
   cnt.to_i.times do
@@ -316,7 +316,7 @@ end
 Then /^Я (|не) вижу список телефонов для филиала на странице компании$/ do |negate|
 
   table_id = "branch_#{@branch.id}"
-  element = page.find("table##{table_id}")
+  element = page.find("table##{table_id}", visible: false)
 
   if negate.eql?('не')
     element['visible'].should be_false

@@ -111,7 +111,7 @@ end
 
 When /^Существуют следующие города$/ do |table|
   table.hashes.each do |row|
-    City.create! :name => row[:name]
+    FactoryGirl.create :city, name: row[:name]
   end
 end
 

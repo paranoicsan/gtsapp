@@ -17,15 +17,23 @@ end
 Then /^Я вижу таблицу "([^"]*)" с рубриками$/ do |table_id, table|
   step %Q{Я активирую закладку "Рубрики"}
   xpth = "//table[@id='#{table_id}']"
+
   if table.hashes.any?
     page.should have_selector :xpath, xpth
+
     idx = 2 # Первый ряд занимает заголовок
+
+    #all(:xpath, "//tr[(.|parent::tbody)[1]/parent::table[@id='#{table_id}']]").each do |row|
+    #  puts row.inspect
+    #end
+
     table.hashes.each do |row|
       #row_xpth = "//table[@id='#{table_id}']//tr[#{idx}]/td[1]"
       row_xpth = "//tr[(.|parent::tbody)[1]/parent::table[@id='#{table_id}']][#{idx}]/td[1]"
       page.find(:xpath, row_xpth).text.should == row[:name]
       idx += 1
     end
+
   end
 end
 Then /^Я вижу "([^"]*)" в ряду (\d+) таблице "([^"]*)"$/ do |rub_name, row_num, table_id|
@@ -34,10 +42,8 @@ end
 When /^Я удаляю рубрику "([^"]*)" для компании "([^"]*)"$/ do |rub_name, cname|
   company = Company.find_by_title cname
   rub = Rubric.find_by_name rub_name
-  #noinspection RubyResolve
   s = company_delete_rubric_path company, rub
   page.find(%{a[href = "#{s}"]}).click
-  #page.driver.browser.switch_to.alert.accept
 end
 When /^Выпадающее меню "([^"]*)" содержит только следующие элементы$/ do |select_id, table|
   idx = 2 # первый вариант занимает предложение о выборе рубрики
