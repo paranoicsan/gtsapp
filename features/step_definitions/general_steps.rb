@@ -61,7 +61,7 @@ When /^Я жду (\d+) секунд$/ do |sec|
   sleep sec.to_i
 end
 When /^Я нажимаю на ссылку "([^"]*)" с ключом "([^"]*)"$/ do |link_text, link_id|
-  find("a[@id='#{link_id}'][text()='#{link_text}']").click
+  find(:xpath, "//a[@id='#{link_id}'][text()='#{link_text}']").click
 end
 Then /^Я вижу таблицу "([^"]*)" с кодами$/ do |table_id, table|
   xpth = "//table[@id='#{table_id}']"
@@ -92,11 +92,11 @@ Then /^Элемент "([^"]*)" (|не) имеет класс "([^"]*)"$/ do |el
 end
 Then /^Поле "([^"]*)" содержит "([^"]*)"$/ do |field_id, field_value|
   field = page.find("input##{field_id}")
-  assert field["value"] == field_value, "Неверное значение поля"
+  field['value'].to_s.should eq(field_value)
 end
 When /^В выпадающем меню "([^"]*)" выбран пункт cо значением "([^"]*)"$/ do |select_id, select_value|
   select = page.find("select##{select_id}")
-  assert select["value"] == select_value, "Неверное значение поля"
+  select['value'].to_s.should eq(select_value)
 end
 Then /^Элемента "([^"]*)" нет на странице$/ do |elem_id|
   page.should_not have_selector(:xpath, "//*[@id='#{elem_id}']")
