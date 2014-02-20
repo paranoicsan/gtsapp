@@ -1,24 +1,41 @@
-# Encoding: utf-8
 require 'spec_helper'
 
 describe Branch do
 
   let(:branch) { FactoryGirl.create :branch }
 
-  it "фабрика корректна" do
+  it 'фабрика корректна' do
     b = FactoryGirl.create :branch
     b.should be_valid
   end
-  it "нельзя создать без фактического названия" do
-    branch = FactoryGirl.build :branch, fact_name: ''
-    branch.should have(1).error_on(:fact_name)
-  end
-  it "нельзя создать без юридического названия" do
-    branch = FactoryGirl.build :branch, legel_name: ''
-    branch.should have(1).error_on(:legel_name)
+
+  context 'создание' do
+    before(:each) do
+      @branch = FactoryGirl.create :branch
+    end
+    it 'первый филиал для компании всегда головной' do
+      @branch.is_main.should be_true
+    end
+    it 'остальные всегда НЕ головные' do
+      b = FactoryGirl.create :branch, company: @branch.company
+      b.is_main.should be_false
+    end
   end
 
-  describe "#all_emails_str" do
+  context 'не может быть создан без' do
+    it 'фактического названия' do
+      @field = :fact_name
+    end
+    it 'юридического названия' do
+      @field = :legel_name
+    end
+    after(:each) do
+      branch = FactoryGirl.build :branch, {@field.to_sym => ''}
+      branch.should have(1).error_on(@field)
+    end
+  end
+
+  describe '#all_emails_str' do
     it "возвращает все адреса через запятую" do
       3.times do
         branch.emails << FactoryGirl.create(:email, branch_id: branch.id)
@@ -30,7 +47,7 @@ describe Branch do
     end
   end
 
-  describe "#all_websites_str" do
+  describe '#all_websites_str' do
     it "возвращает все сайты через запятую" do
       3.times do
         branch.websites << FactoryGirl.create(:website)
@@ -42,7 +59,7 @@ describe Branch do
     end
   end
 
-  describe "#phones_by_order" do
+  describe '#phones_by_order' do
     def create_phone(branch_id)
       FactoryGirl.create :phone, branch_id: branch_id
     end
@@ -54,7 +71,7 @@ describe Branch do
     end
   end
 
-  describe "#next_phone_order_index" do
+  describe '#next_phone_order_index' do
     it "возвращает единицу для первого телефона" do
       branch.next_phone_order_index.should eq(1)
     end
@@ -64,7 +81,7 @@ describe Branch do
     end
   end
 
-  describe "#update_phone_order" do
+  describe '#update_phone_order' do
     PHONE_CNT = 5
     before(:each) do
       PHONE_CNT.times do |i|

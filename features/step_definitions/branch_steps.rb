@@ -102,8 +102,9 @@ When /^Я выбираю в качестве головного филиал с 
   @branch = Branch.find_by_fact_name bname
 
   # Ищем ячейку с операциями для филиала по указанному факт. названию
-  within :xpath, "//table[@id='branches']/*[(th|td)/descendant-or-self::*[contains(text(), '#{bname}')]]/td[3]" do
-    click_link "Сделать головным"
+  path = "//table[@id='branches']/*[(th|td)/descendant-or-self::*[contains(text(), '#{bname}')]]/td[3]"
+  within :xpath, path do
+    click_link 'Сделать головным'
   end
 end
 Then /^Филиал с факт. название "([^"]*)" находится в первом ряду списка$/ do |bname|

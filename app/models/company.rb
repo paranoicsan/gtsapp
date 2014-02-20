@@ -114,11 +114,11 @@ class Company < ActiveRecord::Base
   # Отсортированный набор филиалов
   # @return [Array] Коллекция филиалов
   def branches_sorted
-    self.branches.order("is_main DESC, fact_name ASC")
+    self.branches.order('is_main DESC, fact_name ASC')
   end
 
   def self.suspended_by_user(user_id)
-    Company.where("author_user_id = ? and company_status_id = ?", user_id, CompanyStatus.suspended.id)
+    Company.where('author_user_id = ? and company_status_id = ?', user_id, CompanyStatus.suspended.id)
   end
 
   ##
@@ -128,7 +128,7 @@ class Company < ActiveRecord::Base
     if company_source
       CompanySource.find(self.company_source_id).name
     else
-      "Не указан"
+      'Не указан'
     end
   end
 
