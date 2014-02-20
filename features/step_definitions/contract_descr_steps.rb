@@ -3,15 +3,17 @@
 When /^Для него существуют (\d+) продукта$/ do |cnt|
   cnt.to_i.times do
     @product = FactoryGirl.create :product, contract: @contract, rubric: @contract.company.rubrics.first
+    #puts @product.inspect
   end
   visit contract_path(@contract)
 end
 Then /^Я вижу список продуктов$/ do
-  table_id = "products"
+  table_id = 'products'
   # составляем ряды для таблицы
-  rows = ""
-  @contract.products.each do |p|
-    rows = "#{rows}\n|#{p.product_type.name}|#{p.rubric.name}|"
+  rows = ''
+  @contract.reload.products.each do |p|
+    #puts p.inspect
+    rows = "#{rows}\n|#{p.product_type.name}|#{p.rubric.try(:name)}|"
   end
   steps %Q{
     When Я вижу таблицу "#{table_id}" с продуктами
@@ -26,7 +28,7 @@ Then /^Я могу удалить продукт$/ do
   # нажимаем на кнопку
   # становится на один ряд меньше
   cnt = @contract.products.count
-  click_link 'contract_product_delete'
+  all('#contract_product_delete').first.click
   @contract.products.count.should eq(cnt-1)
 
 end
@@ -50,7 +52,7 @@ Then /^Я могу изменить продукт$/ do
 
   row = "|#{FactoryGirl.create(:product_type).name}|#{FactoryGirl.create(:rubric).name}|#{Faker::Lorem.sentence}|"
 
-  click_link 'contract_product_edit'
+  all('#contract_product_edit').first.click
 
   steps %Q{
     When Я ввожу информацию о продукте
@@ -79,7 +81,8 @@ Then /^Я (|не) могу удалить договор$/ do |negate|
   company = @contract.company
   s = contract_path(@contract)
   if negate.eql?('не')
-    page.should_not have_link('Удалить', href: s, method: 'delete')
+    #page.should_not have_link('Удалить', href: s, method: 'delete')
+    page.should_not have_xpath("a[text='Удалить'][href='#{s}'][data-method='delete']")
   else
     link = find("a[href='#{s}'][data-method='delete']")
     link.click
@@ -117,7 +120,7 @@ When /^Я нахожусь на странице изменения догово
 end
 When /^Я пытаюсь сохранить договор с существующим номером$/ do
   step %Q{Я ввожу "#{Contract.first.number}" в поле "contract_number"}
-  click_button('Сохранить')
+  step 'Я нажимаю на кнопку с именем "Сохранить"'
 end
 When /^Я вижу сообщение, что такой номер уже используется$/ do
   s = 'Договор с таким номером уже существует!'

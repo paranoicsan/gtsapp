@@ -55,7 +55,7 @@ class BranchesController < ApplicationController
         format.html { redirect_to @branch, notice: 'Филиал добавлен.' }
         format.json { render json: @branch, status: :created, location: @branch }
       else
-        format.html { render action: "new" }
+        format.html { render action: 'new' }
         format.json { render json: @branch.errors, status: :unprocessable_entity }
       end
     end
@@ -73,7 +73,7 @@ class BranchesController < ApplicationController
         format.html { redirect_to @branch, notice: 'Филиал изменён.' }
         format.json { head :ok }
       else
-        format.html { render action: "edit" }
+        format.html { render action: 'edit' }
         format.json { render json: @branch.errors, status: :unprocessable_entity }
       end
     end

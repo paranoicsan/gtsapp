@@ -56,7 +56,7 @@ checkEmail = ->
   el = $('#person_email_group')
   val = $('#person_email').val()
 
-  re = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/
+  re = /^([\w\.]+@([\w-]+\.)+[\w-]{2,4})?$/
 
   if re.test(val.trim())
     el.removeClass('error')

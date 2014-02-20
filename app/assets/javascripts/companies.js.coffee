@@ -12,6 +12,11 @@ $ ->
 
   $('#add_rub_link').hide() # прячем ссылку для добавления рубрики
 
+  # Обработчик удаления рубрики от компании
+  $('.company_rub_delete').each ->
+    $(this).click ->
+      $(this).parents('tr').remove()
+
   # обработчик названия компании
   $('#company_title').keyup ->
     onTitleChange()

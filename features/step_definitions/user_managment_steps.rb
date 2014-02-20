@@ -44,7 +44,9 @@ When /^Пользователь "([^"]*)" связан с существующе
   FactoryGirl.create :company, editor: user
 end
 Then /^Я не могу удалить самого себя$/ do
-  page.should_not have_link('Удалить', href: user_path(@user), :method => 'delete')
+  s = user_path(@user)
+  path = "a[href='#{s}'][data-method='delete']"
+  page.should_not have_xpath(path)
 end
 Then /^Я вижу сообщение, что нельзя удалить пользователя.$/ do
   s = %Q{Пользователь не может быть удалён. Возможно, он связан с какой-либо компанией.}

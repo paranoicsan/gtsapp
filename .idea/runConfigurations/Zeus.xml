@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Zeus" type="ZeusRunConfigurationType" factoryName="Zeus Server">
+  <configuration default="false" name="Zeus" type="ZeusRunConfigurationType" factoryName="Zeus Server" singleton="true">
     <module name="gtsapp" />
     <ZEUS_RUN_CONFIGURATION NAME="RUBY_ARGS" VALUE="-e $stdout.sync=true;$stderr.sync=true;load($0=ARGV.shift)" />
     <ZEUS_RUN_CONFIGURATION NAME="WORK DIR" VALUE="$MODULE_DIR$" />

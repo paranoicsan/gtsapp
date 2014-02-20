@@ -1,8 +1,7 @@
 # encoding: UTF-8
 include ApplicationHelper
 When /^Я нажимаю на ссылку "([^"]*)"$/ do |link_text|
-  assert find_link(link_text).visible?, "Ссылка не видна."
-  click_link link_text
+  all(:xpath, "//a[contains(@title, '#{link_text}') or contains(text(), '#{link_text}')]").first.click
 end
 When /^Я нахожусь на странице "([^"]*)"$/ do |title|
   selector = 'h1' # идентификатор, по которому ищется объект для проверки
@@ -70,6 +69,7 @@ When /^Я перехожу на страницу договора "([^"]*)"$/ do
   visit contract_path(c)
 end
 When /^Я нажимаю на кнопку с именем "([^"]*)"$/ do |button_text|
+  page.find(:xpath, "//input[contains(@value, '#{button_text}')]").trigger('click')
   click_button button_text
 end
 Then /^Я попадаю на страницу филиала "([^"]*)" компании "([^"]*)"$/ do |bname, cname|
