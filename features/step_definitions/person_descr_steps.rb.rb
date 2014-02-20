@@ -63,12 +63,6 @@ end
 When /^Я указываю неверный адрес Email$/ do
   step %Q{Я ввожу "dsdsdsds" в поле "person_email"}
 end
-Then /^Я не могу ввести буквы в поле для телефона$/ do
-  field_id = '#person_phone'
-
-  step %Q{Я ввожу "dsdsdsds" в поле "person_phone"}
-  step %Q{Я вижу "" в поле "person_phone"}
-end
 When /^Я хочу просмотреть информацию о персоне$/ do
   steps %Q{
     And Я активирую закладку "Персоны"

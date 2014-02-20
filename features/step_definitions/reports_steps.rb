@@ -294,17 +294,15 @@ When /^Я могу посмотреть детальный отчёт по ко�
     break
   end
 
-  puts company.inspect
-  puts history.inspect
-
   find(:xpath, "//a[@data-id=#{company.id}][contains(text(), '(подробно)')]").click
   div_path = "//div[@id='dialog-details']"
   find(:xpath, div_path).should be_visible
 
+  puts  all(:xpath, "//div[@id='dialog-details']/table/tbody").count
+
   within :xpath, div_path do
-    page.should have_content(company.title)
-    #page.should have_content(history.first.operation)
-    #page.should have_content(history.first.created_at.strftime('%d.%m.%Y %H:%M'))
+    page.should have_content(history.first.operation)
+    page.should have_content(history.first.created_at.strftime('%d.%m.%Y %H:%M'))
   end
 
 end
