@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120924220038) do
+ActiveRecord::Schema.define(:version => 20140222115850) do
 
   create_table "addresses", :force => true do |t|
     t.string   "house"
@@ -145,9 +145,10 @@ ActiveRecord::Schema.define(:version => 20120924220038) do
     t.string  "name"
     t.string  "second_name"
     t.string  "middle_name"
-    t.integer "phone",       :limit => 8
+    t.integer "phone",          :limit => 8
     t.string  "email"
     t.integer "company_id"
+    t.integer "old_company_id"
   end
 
   create_table "phones", :force => true do |t|

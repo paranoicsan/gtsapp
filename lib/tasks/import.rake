@@ -1,4 +1,3 @@
-# encoding: utf-8
 require 'csv'
 
 namespace :db do
@@ -107,16 +106,50 @@ namespace :db do
     end
   end
 
+  def persons
+    CSV.foreach('db/data/persons.csv', {:col_sep => ',', :quote_char => '"', :headers => true}) do |row|
+
+      full_name_array = row[1].split(' ')
+      cnt = full_name_array.count
+
+      second_name = full_name_array[0]
+      name = cnt > 1 ? full_name_array[1] : second_name
+      middle_name = cnt > 2 ? full_name_array[2] : ''
+
+      phone = row[2].gsub(/[^0-9]/, '').strip
+      position = row[3].strip
+      old_company_id = row[4]
+
+      params = {
+          old_company_id: old_company_id,
+          middle_name: middle_name,
+          name: name,
+          phone: phone.empty? ? nil : phone,
+          position: position,
+          second_name: second_name
+      }
+
+      begin
+        Person.create! params
+      rescue => e
+        puts e.message
+        puts params.inspect
+      end
+
+    end
+  end
+
   desc 'Полная загрузка'
   task :load_all_data => :environment do
     form_types
     cities
-    districts
+    #districts
     post_indexes
     streets
     street_indexes
     rubrics
     products
+    persons
   end
 
   desc 'Загрузка Формы собственности'
@@ -129,10 +162,11 @@ namespace :db do
     cities
   end
 
-  desc 'Загрузка Районов'
-  task :load_districts  => :environment do
-    districts
-  end
+  # Районы не используются
+  #desc 'Загрузка Районов'
+  #task :load_districts  => :environment do
+  #  districts
+  #end
 
   desc 'Загрузка Почтовых индексов'
   task :load_post_indexes  => :environment do
@@ -183,5 +217,10 @@ namespace :db do
       end
 
     end
+  end
+
+  desc 'Загрузка персон'
+  task :load_persons => :environment do
+    persons
   end
 end
