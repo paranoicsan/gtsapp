@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140222195840) do
+ActiveRecord::Schema.define(:version => 20140222204238) do
 
   create_table "addresses", :force => true do |t|
     t.string   "house"
@@ -167,8 +167,9 @@ ActiveRecord::Schema.define(:version => 20140222195840) do
     t.integer  "order_num"
     t.integer  "branch_id"
     t.integer  "old_id"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+    t.integer  "old_branch_id"
   end
 
   create_table "post_indices", :force => true do |t|

@@ -222,6 +222,37 @@ namespace :db do
     end
   end
 
+  def phones
+    CSV.foreach('db/data/phones.csv', {:col_sep => ',', :quote_char => '"', :headers => true}) do |row|
+
+      phone = row[2].to_s.strip
+
+      unless phone.empty?
+        old_branch_id = row[0]
+        old_id = row[1]
+
+        params = {
+            old_branch_id: old_branch_id,
+            old_id: old_id,
+            name: phone,
+            fax: row[3].to_i == 1,
+            description: row[6],
+            publishable: row[7].to_i == 1,
+            mobile: row[8].to_i == 1,
+            mobile_refix: row[9].to_s
+        }
+
+        begin
+          Phone.create! params
+        rescue => e
+          puts params.inspect
+          puts e.message
+        end
+      end
+
+    end
+  end
+
   desc 'Полная загрузка'
   task :load_all_data => :environment do
     form_types
@@ -323,5 +354,10 @@ namespace :db do
   desc 'Загрузка веб-сайтов'
   task :load_websites => :environment do
     websites
+  end
+
+  desc 'Загрузка телефонов'
+  task :load_phones => :environment do
+    phones
   end
 end
