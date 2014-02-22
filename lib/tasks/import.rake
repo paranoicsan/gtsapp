@@ -139,6 +139,45 @@ namespace :db do
     end
   end
 
+  def contracts
+
+    idx = 0
+
+    CSV.foreach('db/data/contracts.csv', {:col_sep => ',', :quote_char => '"', :headers => true}) do |row|
+
+      idx += 1
+
+      #  "CONTRACT_ID","ORG_ID","CONTRACT_NAME",
+      # "CONTRACT_CODE","TRANSACTION_DATE","CONTRACT_AMOUNT",
+      # "PAYED_AMOUNT","DEBIT","STATUS_ID",
+      # "PAY_DATE","SUGGEST_PAY_DATE"
+
+      status = ContractStatus.inactive
+
+      old_company_id = row[1]
+      number = [row[2], row[3], idx].join('-')
+      date_sign = row[4]
+      amount = row[5].to_f
+      contract_status_id = status.id
+
+      params = {
+          old_company_id: old_company_id,
+          number: number,
+          date_sign: date_sign,
+          amount: amount,
+          contract_status_id: contract_status_id
+      }
+
+      begin
+        Contract.create! params
+      rescue => e
+        puts e.message
+        puts params.inspect
+      end
+
+    end
+  end
+
   desc 'Полная загрузка'
   task :load_all_data => :environment do
     form_types
@@ -150,6 +189,7 @@ namespace :db do
     rubrics
     products
     persons
+    contracts
   end
 
   desc 'Загрузка Формы собственности'
@@ -222,5 +262,10 @@ namespace :db do
   desc 'Загрузка персон'
   task :load_persons => :environment do
     persons
+  end
+
+  desc 'Загрузка договоров'
+  task :load_contracts => :environment do
+    contracts
   end
 end

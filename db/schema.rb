@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140222115850) do
+ActiveRecord::Schema.define(:version => 20140222131732) do
 
   create_table "addresses", :force => true do |t|
     t.string   "house"
@@ -71,6 +71,7 @@ ActiveRecord::Schema.define(:version => 20140222115850) do
     t.string   "reason_deleted_on"
     t.string   "reason_need_attention_on"
     t.string   "reason_need_improvement_on"
+    t.integer  "old_id"
   end
 
   create_table "company_histories", :force => true do |t|
@@ -114,6 +115,7 @@ ActiveRecord::Schema.define(:version => 20140222115850) do
     t.integer  "company_id"
     t.datetime "created_at",         :null => false
     t.datetime "updated_at",         :null => false
+    t.integer  "old_company_id"
   end
 
   create_table "districts", :force => true do |t|
