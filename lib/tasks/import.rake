@@ -253,6 +253,46 @@ namespace :db do
     end
   end
 
+  def branches
+    CSV.foreach('db/data/phones.csv', {:col_sep => ',', :quote_char => '"', :headers => true}) do |row|
+      params = {
+
+      }
+      begin
+        Branch.create! params
+      rescue => e
+        puts params.inspect
+        puts e.message
+      end
+    end
+  end
+
+  def addresses
+    CSV.foreach('db/data/addresses.csv', {:col_sep => ',', :quote_char => '"', :headers => true}) do |row|
+      params = {
+        old_id: row[0],
+        house: row[1],
+        entrance: row[2],
+        case: row[3],
+        stage: row[4],
+        office: row[5],
+        cabinet: row[6],
+        city: City.where(old_id:row[8].to_i).first,
+        street: Street.where(old_id:row[9].to_i).first,
+        post_index: PostIndex.where(old_id:row[10].to_i).first,
+        other: row[11],
+        pavilion: row[12],
+        litera: row[13]
+      }
+      begin
+        Address.create! params
+      rescue => e
+        puts params.inspect
+        puts e.message
+      end
+    end
+  end
+
   desc 'Полная загрузка'
   task :load_all_data => :environment do
     form_types
@@ -359,5 +399,15 @@ namespace :db do
   desc 'Загрузка телефонов'
   task :load_phones => :environment do
     phones
+  end
+
+  desc 'Загрузка адресов'
+  task :load_addresses => :environment do
+    addresses
+  end
+
+  desc 'Загрузка филиалов'
+  task :load_branches => :environment do
+    branches
   end
 end
