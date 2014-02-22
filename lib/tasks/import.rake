@@ -178,6 +178,50 @@ namespace :db do
     end
   end
 
+  def emails
+    CSV.foreach('db/data/emails.csv', {:col_sep => ',', :quote_char => '"', :headers => true}) do |row|
+
+      email = row[1].to_s.strip
+
+      unless email.empty?
+        params = {
+            name: email,
+            old_branch_id: row[0]
+        }
+
+        begin
+          Email.create! params
+        rescue => e
+          puts e.message
+          puts params.inspect
+        end
+      end
+
+    end
+  end
+
+  def websites
+    CSV.foreach('db/data/websites.csv', {:col_sep => ',', :quote_char => '"', :headers => true}) do |row|
+
+      website = row[1].to_s.strip
+
+      unless website.empty?
+        old_branch_id = row[0]
+
+        begin
+          w = Website.create! name: website
+          BranchWebsite.create! old_branch_id: old_branch_id,
+                                    website: w
+        rescue => e
+          puts website
+          puts w.inspect
+          puts e.message
+        end
+      end
+
+    end
+  end
+
   desc 'Полная загрузка'
   task :load_all_data => :environment do
     form_types
@@ -190,6 +234,8 @@ namespace :db do
     products
     persons
     contracts
+    emails
+    websites
   end
 
   desc 'Загрузка Формы собственности'
@@ -267,5 +313,15 @@ namespace :db do
   desc 'Загрузка договоров'
   task :load_contracts => :environment do
     contracts
+  end
+
+  desc 'Загрузка почты'
+  task :load_emails => :environment do
+    emails
+  end
+
+  desc 'Загрузка веб-сайтов'
+  task :load_websites => :environment do
+    websites
   end
 end

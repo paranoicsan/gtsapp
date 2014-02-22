@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140222131732) do
+ActiveRecord::Schema.define(:version => 20140222195840) do
 
   create_table "addresses", :force => true do |t|
     t.string   "house"
@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(:version => 20140222131732) do
   create_table "branch_websites", :force => true do |t|
     t.integer "website_id"
     t.integer "branch_id"
+    t.integer "old_branch_id"
   end
 
   create_table "branches", :force => true do |t|
@@ -128,8 +129,9 @@ ActiveRecord::Schema.define(:version => 20140222131732) do
   create_table "emails", :force => true do |t|
     t.string   "name"
     t.integer  "branch_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+    t.integer  "old_branch_id"
   end
 
   create_table "form_types", :force => true do |t|
