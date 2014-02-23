@@ -373,6 +373,18 @@ namespace :db do
     end
   end
 
+  def link_branch_websites
+    BranchWebsite.all.each do |bwebsite|
+      begin
+        b_id = Branch.where(old_id: bwebsite.old_branch_id).first.id
+        bwebsite.update_attributes branch_id: b_id
+      rescue => e
+        puts e.message
+        puts bwebsite.inspect
+      end
+    end
+  end
+
   desc 'Полная загрузка'
   task :load_all_data => :environment do
     form_types
@@ -394,6 +406,7 @@ namespace :db do
     link_company_rubrics
     link_company_branches
     link_branch_emails
+    link_branch_websites
   end
 
   desc 'Загрузка Формы собственности'
@@ -516,5 +529,10 @@ namespace :db do
   desc 'Связывает филиалы с почтой'
   task :link_branch_emails => :environment do
     link_branch_emails
+  end
+
+  desc 'Связывает филиалы с сайтами'
+  task :link_branch_websites => :environment do
+    link_branch_websites
   end
 end
