@@ -421,6 +421,24 @@ namespace :db do
     end
   end
 
+  def make_main_branches
+    CSV.foreach('db/data/branches.csv', {:col_sep => ',', :quote_char => '"', :headers => true}) do |row|
+
+      old_id = row[0].to_i
+      is_main = row[7].to_i == 1
+
+      begin
+        branch = Branch.where(old_id: old_id).first
+        unless branch.is_main
+          branch.update_attributes is_main: is_main
+        end
+      rescue => e
+        puts params.inspect
+        puts e.message
+      end
+    end
+  end
+
   desc 'Полная загрузка'
   task :load_all_data => :environment do
     form_types
@@ -446,6 +464,7 @@ namespace :db do
     link_company_persons
     link_company_contracts
     link_branch_phones
+    make_main_branches
   end
 
   desc 'Загрузка Формы собственности'
@@ -588,5 +607,10 @@ namespace :db do
   desc 'Связывает филиалы с телефонами'
   task :link_branch_phones => :environment do
     link_branch_phones
+  end
+
+  desc 'Чиним главные филиалы'
+  task :make_main_branches => :environment do
+    make_main_branches
   end
 end
