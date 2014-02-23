@@ -361,6 +361,18 @@ namespace :db do
     end
   end
 
+  def link_branch_emails
+    Email.all.each do |email|
+      begin
+        b_id = Branch.where(old_id: email.old_branch_id).first.id
+        email.update_attributes branch_id: b_id
+      rescue => e
+        puts e.message
+        puts email.inspect
+      end
+    end
+  end
+
   desc 'Полная загрузка'
   task :load_all_data => :environment do
     form_types
@@ -381,6 +393,7 @@ namespace :db do
     companies
     link_company_rubrics
     link_company_branches
+    link_branch_emails
   end
 
   desc 'Загрузка Формы собственности'
@@ -498,5 +511,10 @@ namespace :db do
   desc 'Связывает компании с филиалами'
   task :link_company_branches => :environment do
     link_company_branches
+    end
+
+  desc 'Связывает филиалы с почтой'
+  task :link_branch_emails => :environment do
+    link_branch_emails
   end
 end
