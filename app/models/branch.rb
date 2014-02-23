@@ -1,11 +1,11 @@
 # Encoding: utf-8
 class Branch < ActiveRecord::Base
 
-  has_one :address, :dependent => :destroy
-  has_many :phones, :dependent => :destroy
-  has_many :branch_websites, :dependent => :destroy
-  has_many :websites, :through => :branch_websites, :dependent => :destroy
-  has_many :emails, :dependent => :destroy
+  has_one :address#, #:dependent => :destroy
+  has_many :phones#, #:dependent => :destroy
+  has_many :branch_websites#, #:dependent => :destroy
+  has_many :websites, :through => :branch_websites#, :dependent => :destroy
+  has_many :emails#, :dependent => :destroy
 
   validates_presence_of :fact_name, :message => 'Укажите фактическое название'
   validates_presence_of :legel_name, :message => 'Укажите юридическое название'

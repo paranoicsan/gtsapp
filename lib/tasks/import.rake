@@ -254,9 +254,19 @@ namespace :db do
   end
 
   def branches
-    CSV.foreach('db/data/phones.csv', {:col_sep => ',', :quote_char => '"', :headers => true}) do |row|
-      params = {
+    CSV.foreach('db/data/branches.csv', {:col_sep => ',', :quote_char => '"', :headers => true}) do |row|
 
+      old_id = row[0].to_i
+
+      params = {
+        old_id: old_id,
+        legel_name: row[1],
+        address: Address.where(old_id: row[2].to_i).first,
+        form_type: FormType.where(old_id: row[4].to_i).first,
+        comments: row[5],
+        old_company_id: row[6],
+        is_main: row[7].to_i == 1,
+        fact_name: row[8].to_s.empty? ? row[1] : row[8]
       }
       begin
         Branch.create! params
@@ -293,6 +303,52 @@ namespace :db do
     end
   end
 
+  def companies
+    CSV.foreach('db/data/companies.csv', {:col_sep => ',', :quote_char => '"', :headers => true}) do |row|
+
+      old_id = row[0].to_i
+      status = row[6].to_i == 1 ? CompanyStatus.active : CompanyStatus.suspended
+
+      params = {
+          old_id: old_id,
+          title: row[1],
+          date_added: row[2],
+          rubricator: row[5].to_i,
+          company_status: status
+      }
+      begin
+        Company.create! params
+      rescue => e
+        puts params.inspect
+        puts e.message
+      end
+    end
+  end
+
+  def link_company_rubrics
+    %w(db/data/org_rubrics.csv db/data/org_soc_rubrics.csv).each do |file|
+      CSV.foreach(file, {:col_sep => ',', :quote_char => '"', :headers => true}) do |row|
+
+        old_rub_id = row[0]
+        old_company_id = row[1]
+
+        begin
+          rubric = Rubric.where(old_id: old_rub_id).first
+          # связываем компанию с рубрикой
+          company = Company.where(old_id: old_company_id).first
+          unless company.rubrics.include?(rubric)
+            company.rubrics << rubric
+          end
+        rescue => e
+          puts e.message
+          puts old_rub_id
+          next
+        end
+
+      end
+    end
+  end
+
   desc 'Полная загрузка'
   task :load_all_data => :environment do
     form_types
@@ -307,6 +363,11 @@ namespace :db do
     contracts
     emails
     websites
+    phones
+    addresses
+    branches
+    companies
+    link_company_rubrics
   end
 
   desc 'Загрузка Формы собственности'
@@ -409,5 +470,15 @@ namespace :db do
   desc 'Загрузка филиалов'
   task :load_branches => :environment do
     branches
+  end
+
+  desc 'Загрузка компаний'
+  task :load_companies => :environment do
+    companies
+  end
+
+  desc 'Загрузка рубрик для компаний'
+  task :link_company_rubrics => :environment do
+    link_company_rubrics
   end
 end
