@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120924220038) do
+ActiveRecord::Schema.define(:version => 20140223105537) do
 
   create_table "addresses", :force => true do |t|
     t.string   "house"
@@ -30,11 +30,16 @@ ActiveRecord::Schema.define(:version => 20120924220038) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "branch_id"
+    t.integer  "old_id"
   end
+
+  add_index "addresses", ["old_id"], :name => "address_old_id_idx"
+  add_index "addresses", ["old_id"], :name => "index_addresses_on_old_id"
 
   create_table "branch_websites", :force => true do |t|
     t.integer "website_id"
     t.integer "branch_id"
+    t.integer "old_branch_id"
   end
 
   create_table "branches", :force => true do |t|
@@ -43,10 +48,15 @@ ActiveRecord::Schema.define(:version => 20120924220038) do
     t.string   "legel_name"
     t.integer  "company_id"
     t.string   "comments"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
     t.boolean  "is_main"
+    t.integer  "old_id"
+    t.integer  "old_company_id"
   end
+
+  add_index "branches", ["old_id"], :name => "b_old_id_idx"
+  add_index "branches", ["old_id"], :name => "index_branches_on_old_id"
 
   create_table "cities", :force => true do |t|
     t.string   "name"
@@ -71,7 +81,11 @@ ActiveRecord::Schema.define(:version => 20120924220038) do
     t.string   "reason_deleted_on"
     t.string   "reason_need_attention_on"
     t.string   "reason_need_improvement_on"
+    t.integer  "old_id"
   end
+
+  add_index "companies", ["old_id"], :name => "company_old_id_idx"
+  add_index "companies", ["old_id"], :name => "index_companies_on_old_id"
 
   create_table "company_histories", :force => true do |t|
     t.text     "operation"
@@ -114,6 +128,7 @@ ActiveRecord::Schema.define(:version => 20120924220038) do
     t.integer  "company_id"
     t.datetime "created_at",         :null => false
     t.datetime "updated_at",         :null => false
+    t.integer  "old_company_id"
   end
 
   create_table "districts", :force => true do |t|
@@ -126,14 +141,18 @@ ActiveRecord::Schema.define(:version => 20120924220038) do
   create_table "emails", :force => true do |t|
     t.string   "name"
     t.integer  "branch_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+    t.integer  "old_branch_id"
   end
 
   create_table "form_types", :force => true do |t|
     t.string  "name"
     t.integer "old_id"
   end
+
+  add_index "form_types", ["old_id"], :name => "form_type_old_id_idx"
+  add_index "form_types", ["old_id"], :name => "index_form_types_on_old_id"
 
   create_table "keywords", :force => true do |t|
     t.integer "old_id"
@@ -145,9 +164,10 @@ ActiveRecord::Schema.define(:version => 20120924220038) do
     t.string  "name"
     t.string  "second_name"
     t.string  "middle_name"
-    t.integer "phone",       :limit => 8
+    t.integer "phone",          :limit => 8
     t.string  "email"
     t.integer "company_id"
+    t.integer "old_company_id"
   end
 
   create_table "phones", :force => true do |t|
@@ -162,8 +182,9 @@ ActiveRecord::Schema.define(:version => 20120924220038) do
     t.integer  "order_num"
     t.integer  "branch_id"
     t.integer  "old_id"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+    t.integer  "old_branch_id"
   end
 
   create_table "post_indices", :force => true do |t|
@@ -207,6 +228,9 @@ ActiveRecord::Schema.define(:version => 20120924220038) do
     t.string  "name"
     t.boolean "social"
   end
+
+  add_index "rubrics", ["old_id"], :name => "index_rubrics_on_old_id"
+  add_index "rubrics", ["old_id"], :name => "old_id_idx"
 
   create_table "street_indices", :force => true do |t|
     t.integer "street_id"

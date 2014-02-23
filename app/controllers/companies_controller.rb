@@ -1,4 +1,3 @@
-# encoding: utf-8
 class CompaniesController < ApplicationController
   helper :application
   before_filter :require_user

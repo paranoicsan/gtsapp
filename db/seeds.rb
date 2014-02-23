@@ -26,8 +26,8 @@ CompanyStatus.create(name: 'Требует доработки').save!
 CompanyStatus.create(name: 'Повторное рассмотрение').save!
 
 # Источники компаний
-CompanySource.create(name: "Заявка с сайта").save!
-CompanySource.create(name: "От агента").save!
+CompanySource.create(name: 'Заявка с сайта').save!
+CompanySource.create(name: 'От агента').save!
 
 # Статусы договоров
 ContractStatus.create(name: 'активен').save!

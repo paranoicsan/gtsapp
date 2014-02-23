@@ -6,6 +6,6 @@ class City < ActiveRecord::Base
   validates_presence_of :name,
                         :phone_code
 
-  attr_accessible :name, :phone_code
+  attr_accessible :name, :phone_code, :old_id
 
 end
