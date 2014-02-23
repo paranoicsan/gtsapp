@@ -409,6 +409,18 @@ namespace :db do
     end
   end
 
+  def link_branch_phones
+    Phone.all.each do |phone|
+      begin
+        c_id = Branch.where(old_id: phone.old_branch_id).first.id
+        phone.update_attributes branch_id: c_id
+      rescue => e
+        puts e.message
+        puts phone.inspect
+      end
+    end
+  end
+
   desc 'Полная загрузка'
   task :load_all_data => :environment do
     form_types
@@ -433,6 +445,7 @@ namespace :db do
     link_branch_websites
     link_company_persons
     link_company_contracts
+    link_branch_phones
   end
 
   desc 'Загрузка Формы собственности'
@@ -570,5 +583,10 @@ namespace :db do
   desc 'Связывает компании с договорами'
   task :link_company_contracts => :environment do
     link_company_contracts
+  end
+
+  desc 'Связывает филиалы с телефонами'
+  task :link_branch_phones => :environment do
+    link_branch_phones
   end
 end
