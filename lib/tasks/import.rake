@@ -385,6 +385,18 @@ namespace :db do
     end
   end
 
+  def link_company_persons
+    Person.all.each do |person|
+      begin
+        c_id = Company.where(old_id: person.old_company_id).first.id
+        person.update_attributes company_id: c_id
+      rescue => e
+        puts e.message
+        puts person.inspect
+      end
+    end
+  end
+
   desc 'Полная загрузка'
   task :load_all_data => :environment do
     form_types
@@ -407,6 +419,7 @@ namespace :db do
     link_company_branches
     link_branch_emails
     link_branch_websites
+    link_company_persons
   end
 
   desc 'Загрузка Формы собственности'
@@ -534,5 +547,10 @@ namespace :db do
   desc 'Связывает филиалы с сайтами'
   task :link_branch_websites => :environment do
     link_branch_websites
+  end
+
+  desc 'Связывает компании с людьми'
+  task :link_company_persons => :environment do
+    link_company_persons
   end
 end
