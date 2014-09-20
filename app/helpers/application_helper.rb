@@ -1,10 +1,11 @@
 module ApplicationHelper
 
+  VERSION_FILE = 'config/version'
+
   # Определение версии приложения
-  def self.app_version
-    version_file = 'config/version'
+  def app_version
     version = ''
-    File.open(version_file) { |f| version = f.readline}
+    File.open(VERSION_FILE) { |f| version = f.readline}
     version
   end
 
