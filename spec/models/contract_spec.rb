@@ -17,13 +17,16 @@ describe Contract do
       prod_types = []
       2.times { prod_types << FactoryGirl.create(:product, contract_id: contract.id).product_type.name }
 
+      # noinspection RubyResolve
       sd = contract.date_sign.strftime('%d.%m.%Y')
       prods = ''
       prod_types.each do |pt|
         prods =%Q{#{prods}'#{pt}', }
       end
 
-        s = %Q{№ #{contract.number}, #{code.name}, заключён: #{sd}, #{prods}сумма: #{contract.amount}руб.}
+      s = %Q{№ #{contract.number}, #{code.name}, заключён: #{sd}, #{prods}сумма: #{contract.amount}руб.}
+      p contract.info
+      p s
       contract.info.should eq(s)
     end
     it 'не выводит код проекта, если он не указан' do

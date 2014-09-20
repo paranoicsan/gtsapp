@@ -3,11 +3,9 @@ require 'spec_helper'
 describe Address do
 
   it 'Фабрика корректна' do
-    #noinspection RubyResolve
     FactoryGirl.create(:address).should be_valid
   end
   it 'Не может быть создан без филиала' do
-    #noinspection RubyResolve
     FactoryGirl.build(:address, branch: nil).should_not be_valid
   end
   it 'Не может быть создан без населённого пункта' do

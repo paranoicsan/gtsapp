@@ -6,8 +6,7 @@ class Address < ActiveRecord::Base
   belongs_to :post_index
   belongs_to :branch
 
-  # TODO: Включить после импорта
-  #validates_presence_of :branch_id
+  validates_presence_of :branch_id
   validates_presence_of :city_id, :message => 'Укажите населённый пункт'
   validates_presence_of :street_id, :message => 'Укажите улицу'
 

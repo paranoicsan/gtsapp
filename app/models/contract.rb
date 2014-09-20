@@ -67,13 +67,12 @@ class Contract < ActiveRecord::Base
   def info
     s = "№ #{number}, "
     s = "#{s}#{project_code.name}, " unless project_code.nil?
-    s = "#{s}заключён: #{date_sign.strftime("%d.%m.%Y")}, " unless date_sign.nil?
+    s = "#{s}заключён: #{date_sign.strftime('%d.%m.%Y')}, " unless date_sign.nil?
 
     # обрабатываем продукты
     if products.any?
-      products.each do |p|
-        s = %Q{#{s}"#{p.product_type.name}", }
-      end
+      s += products.map{|p| "'#{p.product_type.name}'"}.join(', ')
+      s += ', '
     end
 
     %Q{#{s}сумма: #{amount}руб.}
