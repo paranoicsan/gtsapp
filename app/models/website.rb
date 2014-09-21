@@ -2,7 +2,7 @@
 require "uri"
 class Website < ActiveRecord::Base
 
-  has_many :branch_websites, :dependent => :destroy
+  has_and_belongs_to_many :branches
 
   ##
   # Проверяет введённый адрес на корректность

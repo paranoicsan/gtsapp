@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140223105537) do
+ActiveRecord::Schema.define(:version => 20140921131734) do
 
   create_table "addresses", :force => true do |t|
     t.string   "house"
@@ -36,12 +36,6 @@ ActiveRecord::Schema.define(:version => 20140223105537) do
   add_index "addresses", ["old_id"], :name => "address_old_id_idx"
   add_index "addresses", ["old_id"], :name => "index_addresses_on_old_id"
 
-  create_table "branch_websites", :force => true do |t|
-    t.integer "website_id"
-    t.integer "branch_id"
-    t.integer "old_branch_id"
-  end
-
   create_table "branches", :force => true do |t|
     t.integer  "form_type_id"
     t.string   "fact_name"
@@ -57,6 +51,11 @@ ActiveRecord::Schema.define(:version => 20140223105537) do
 
   add_index "branches", ["old_id"], :name => "b_old_id_idx"
   add_index "branches", ["old_id"], :name => "index_branches_on_old_id"
+
+  create_table "branches_websites", :id => false, :force => true do |t|
+    t.integer "website_id"
+    t.integer "branch_id"
+  end
 
   create_table "cities", :force => true do |t|
     t.string   "name"
@@ -267,11 +266,11 @@ ActiveRecord::Schema.define(:version => 20140223105537) do
   add_foreign_key "addresses", "post_indices", :name => "addresses_post_index_id_fk"
   add_foreign_key "addresses", "streets", :name => "addresses_street_id_fk"
 
-  add_foreign_key "branch_websites", "branches", :name => "branch_websites_branch_id_fk"
-  add_foreign_key "branch_websites", "websites", :name => "branch_websites_website_id_fk"
-
   add_foreign_key "branches", "companies", :name => "branches_company_id_fk"
   add_foreign_key "branches", "form_types", :name => "branches_form_type_id_fk"
+
+  add_foreign_key "branches_websites", "branches", :name => "branch_websites_branch_id_fk"
+  add_foreign_key "branches_websites", "websites", :name => "branch_websites_website_id_fk"
 
   add_foreign_key "companies", "company_sources", :name => "companies_company_source_id_fk"
   add_foreign_key "companies", "users", :name => "companies_agent_id_fk", :column => "agent_id"

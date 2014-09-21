@@ -1,14 +1,13 @@
 # Encoding: utf-8
 class Branch < ActiveRecord::Base
 
-  has_one :address#, #:dependent => :destroy
-  has_many :phones#, #:dependent => :destroy
-  has_many :branch_websites#, #:dependent => :destroy
-  has_many :websites, :through => :branch_websites#, :dependent => :destroy
-  has_many :emails#, :dependent => :destroy
+  has_one :address, dependent: :destroy
+  has_many :phones, dependent: :destroy
+  has_many :emails, dependent: :destroy
+  has_and_belongs_to_many :websites
 
-  validates_presence_of :fact_name, :message => 'Укажите фактическое название'
-  validates_presence_of :legel_name, :message => 'Укажите юридическое название'
+  validates_presence_of :fact_name, message: 'Укажите фактическое название'
+  validates_presence_of :legel_name, message: 'Укажите юридическое название'
 
   belongs_to :form_type
   belongs_to :company
@@ -19,7 +18,7 @@ class Branch < ActiveRecord::Base
   # Устанавливает филиал как основной
   # и снимает этот флаг со всех остальных филиалов
   def make_main
-    c_id = self.company_id
+    c_id = company_id
     Branch.where(company_id: c_id).each do |b|
       val = b.id == self.id
       b.update_attributes is_main: val
@@ -32,9 +31,9 @@ class Branch < ActiveRecord::Base
   def formatted_name
     res = ''
     params = {
-      ft: self.form_type ? self.form_type.name : '',
-      fn: self.fact_name? ? self.fact_name : '',
-      ln: self.legel_name? ? self.legel_name : '',
+      ft: form_type ? form_type.name : '',
+      fn: fact_name? ? fact_name : '',
+      ln: legel_name? ? legel_name : '',
     }
     params.each_value do |p|
       res = res + p + ' ' if p.length > 0
@@ -45,24 +44,23 @@ class Branch < ActiveRecord::Base
   ##
   # Вовзращаетв все адреса в строку через запятую
   def all_emails_str
-    s = ""
+    s = ''
     emails.each {|e| s = "#{s}#{e.name}, "}
-    s.gsub(/, $/, "")
+    s.gsub /, $/, ''
   end
 
   ##
   # Вовзращаетв все адреса веб-сайтов в строку через запятую
   def all_websites_str
-    s = ""
+    s = ''
     websites.each {|w| s = "#{s}#{w.name}, "}
-    s.gsub(/, $/, "")
+    s.gsub /, $/, ''
   end
 
   ##
   # Возвращает масив телефонов по индексу отображения
   def phones_by_order
-    #Phone.where("branch_id = ?", id).order("order_num ASC")
-    phones.order('order_num ASC')
+    phones.order 'order_num ASC'
   end
 
   ##
@@ -80,11 +78,10 @@ class Branch < ActiveRecord::Base
   # @param [Boolea] creation - флаг, что обновить порядок надо после создания нового телефона
   def update_phone_order(creation=false)
     idx = 1
-    direction = creation ? "DESC" : "ASC"
+    direction = creation ? 'DESC' : 'ASC'
     phones_by_order.order("updated_at #{direction}").each do |p|
-      p.update_attribute "order_num", idx
+      p.update_attribute 'order_num', idx
       idx += 1
-      #puts "#{p.id}-#{p.order_num}"
     end
   end
 

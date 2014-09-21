@@ -1,21 +1,12 @@
 # encoding: utf-8
 class BranchesController < ApplicationController
+
   helper :application
-  before_filter :require_user
-  before_filter :require_system_users, :only => [:delete_website]
-  before_filter :get_company
 
-  def index
-    # Не обрабатывается
-    #@branches = Branch.all
-
-    respond_to do |format|
-      #format.html # index.html.erb
-      #format.json { render json: @branches }
-      format.html { redirect_to root_path }
-      format.json { head :ok }
-    end
-  end
+  before_filter :assign_branch, except: [:new, :create]
+  before_filter :assign_company,
+                :require_user
+  before_filter :require_system_users, only: [:delete_website]
 
   # GET /branches/1
   def show
@@ -30,73 +21,54 @@ class BranchesController < ApplicationController
 
   def new
     @branch = Branch.new
-    @company = Company.find params[:company_id]
-
     respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @branch }
+      format.html
     end
   end
 
   # GET /branches/1/edit
   def edit
-    @branch = Branch.find(params[:id])
+    respond_to do |format|
+      format.html
+    end
   end
 
   # POST /companies/:company_id/branches
-  # POST /companies/:company_id/branches.json
   def create
-    params[:branch][:company_id] = params[:company_id]
-    @branch = Branch.new(params[:branch])
+    @branch = Branch.new params[:branch]
+    @branch.company = @company
 
     respond_to do |format|
       if @branch.save
         log_operation :branch, :create, @branch.company.id
         format.html { redirect_to @branch, notice: 'Филиал добавлен.' }
-        format.json { render json: @branch, status: :created, location: @branch }
       else
         format.html { render action: 'new' }
-        format.json { render json: @branch.errors, status: :unprocessable_entity }
       end
     end
   end
 
   # PUT /branches/1
-  # PUT /branches/1.json
   def update
-    @branch = Branch.find(params[:id])
-    @company = @branch.company
-
+    @company ||= @branch.company
     respond_to do |format|
       if @branch.update_attributes(params[:branch])
         log_operation :branch, :update, @company.id
         format.html { redirect_to @branch, notice: 'Филиал изменён.' }
-        format.json { head :ok }
       else
         format.html { render action: 'edit' }
-        format.json { render json: @branch.errors, status: :unprocessable_entity }
       end
     end
   end
 
   # DELETE /branches/1
-  # DELETE /branches/1.json
   def destroy
-    @branch = Branch.find(params[:id])
-    @company = Company.find @branch.company_id
-
+    @company ||= @branch.company
     log_operation :branch, :destroy, @company.id
     @branch.destroy
-
     respond_to do |format|
       format.html { redirect_to company_url @company }
-      format.json { head :ok }
     end
-  end
-
-  # Определяет родительскую компанию
-  def get_company
-    @company = Company.find(params[:company_id]) if params[:company_id]
   end
 
   ##
@@ -114,7 +86,6 @@ class BranchesController < ApplicationController
   # Добавляет указанный веб-сайт к филиалу
   # POST branches/:id/add_website
   def add_website
-    @branch = Branch.find params[:id]
     if params[:branch_website]
       ws_name = params[:branch_website].strip
       if Website.valid? ws_name
@@ -148,11 +119,8 @@ class BranchesController < ApplicationController
   # Удаляет веб-сайт от филиала и вообще из системы
   #
   def delete_website
-    @branch = Branch.find params[:id]
     ws = Website.find params[:website_id]
-    if @branch.websites.include? ws
-      @branch.websites.delete ws
-    end
+    @branch.websites.delete(ws) if @branch.websites.include?(ws)
     Website.delete ws
     log_operation :website, :remove, @branch.company.id
     respond_to do |format|
@@ -164,8 +132,6 @@ class BranchesController < ApplicationController
   # Добавляет указанный адрес электронной почты к филиалу
   # POST branches/:id/add_email
   def add_email
-    @branch = Branch.find params[:id]
-
     if params[:branch_email]
       em_name = params[:branch_email].strip
       if Email.valid? em_name
@@ -190,7 +156,6 @@ class BranchesController < ApplicationController
   # Удаляет адрес электронной почты от филиала и вообще из системы
   # GET branches/:id/delete_email/:email_id
   def delete_email
-    @branch = Branch.find params[:id]
     em = Email.find params[:email_id]
     if @branch.emails.include? em
       @branch.emails.delete em
@@ -201,4 +166,14 @@ class BranchesController < ApplicationController
       format.js { render :action => "add_email" }
     end
   end
+
+  def assign_branch
+    @branch = Branch.find params[:id]
+  end
+
+  # Определяет родительскую компанию
+  def assign_company
+    @company = Company.find(params[:company_id]) if params[:company_id]
+  end
+
 end
