@@ -15,3 +15,4 @@ public/assets/*
 .idea/workspace.xml
 .idea/dictionaries
 chromedriver.log
+.idea

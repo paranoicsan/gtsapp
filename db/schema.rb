@@ -33,7 +33,6 @@ ActiveRecord::Schema.define(:version => 20140921131734) do
     t.integer  "old_id"
   end
 
-  add_index "addresses", ["old_id"], :name => "address_old_id_idx"
   add_index "addresses", ["old_id"], :name => "index_addresses_on_old_id"
 
   create_table "branches", :force => true do |t|
@@ -49,7 +48,6 @@ ActiveRecord::Schema.define(:version => 20140921131734) do
     t.integer  "old_company_id"
   end
 
-  add_index "branches", ["old_id"], :name => "b_old_id_idx"
   add_index "branches", ["old_id"], :name => "index_branches_on_old_id"
 
   create_table "branches_websites", :id => false, :force => true do |t|
@@ -83,7 +81,6 @@ ActiveRecord::Schema.define(:version => 20140921131734) do
     t.integer  "old_id"
   end
 
-  add_index "companies", ["old_id"], :name => "company_old_id_idx"
   add_index "companies", ["old_id"], :name => "index_companies_on_old_id"
 
   create_table "company_histories", :force => true do |t|
@@ -150,7 +147,6 @@ ActiveRecord::Schema.define(:version => 20140921131734) do
     t.integer "old_id"
   end
 
-  add_index "form_types", ["old_id"], :name => "form_type_old_id_idx"
   add_index "form_types", ["old_id"], :name => "index_form_types_on_old_id"
 
   create_table "keywords", :force => true do |t|
@@ -229,7 +225,6 @@ ActiveRecord::Schema.define(:version => 20140921131734) do
   end
 
   add_index "rubrics", ["old_id"], :name => "index_rubrics_on_old_id"
-  add_index "rubrics", ["old_id"], :name => "old_id_idx"
 
   create_table "street_indices", :force => true do |t|
     t.integer "street_id"
