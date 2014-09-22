@@ -61,14 +61,9 @@ class RubricsController < ApplicationController
       message = nil
       @rubric = Rubric.find(params[:id])
       @rubric.destroy
-    rescue => e
-      p e
+    rescue
       message = 'Рубрика используется в одной из компаний или в продукте.'
     end
-
-    p @rubric.errors
-    p message
-
     # определяем сообщение
     params = message ? { error: message } : {}
     respond_to do |format|
