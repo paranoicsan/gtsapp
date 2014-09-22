@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140922062649) do
+ActiveRecord::Schema.define(:version => 20140922134809) do
 
   create_table "addresses", :force => true do |t|
     t.string   "house"
@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(:version => 20140922062649) do
     t.integer  "old_id"
   end
 
+  add_index "addresses", ["old_id"], :name => "address_old_id_idx"
   add_index "addresses", ["old_id"], :name => "index_addresses_on_old_id"
 
   create_table "branches", :force => true do |t|
@@ -48,6 +49,7 @@ ActiveRecord::Schema.define(:version => 20140922062649) do
     t.integer  "old_company_id"
   end
 
+  add_index "branches", ["old_id"], :name => "b_old_id_idx"
   add_index "branches", ["old_id"], :name => "index_branches_on_old_id"
 
   create_table "branches_websites", :id => false, :force => true do |t|
@@ -81,6 +83,7 @@ ActiveRecord::Schema.define(:version => 20140922062649) do
     t.integer  "old_id"
   end
 
+  add_index "companies", ["old_id"], :name => "company_old_id_idx"
   add_index "companies", ["old_id"], :name => "index_companies_on_old_id"
 
   create_table "companies_rubrics", :id => false, :force => true do |t|
@@ -147,11 +150,17 @@ ActiveRecord::Schema.define(:version => 20140922062649) do
     t.integer "old_id"
   end
 
+  add_index "form_types", ["old_id"], :name => "form_type_old_id_idx"
   add_index "form_types", ["old_id"], :name => "index_form_types_on_old_id"
 
   create_table "keywords", :force => true do |t|
     t.integer "old_id"
     t.string  "name"
+  end
+
+  create_table "keywords_rubrics", :id => false, :force => true do |t|
+    t.integer "rubric_id"
+    t.integer "keyword_id"
   end
 
   create_table "people", :force => true do |t|
@@ -213,11 +222,6 @@ ActiveRecord::Schema.define(:version => 20140922062649) do
     t.string "name"
   end
 
-  create_table "rubric_keywords", :force => true do |t|
-    t.integer "rubric_id"
-    t.integer "keyword_id"
-  end
-
   create_table "rubrics", :force => true do |t|
     t.integer "old_id"
     t.string  "name"
@@ -225,6 +229,7 @@ ActiveRecord::Schema.define(:version => 20140922062649) do
   end
 
   add_index "rubrics", ["old_id"], :name => "index_rubrics_on_old_id"
+  add_index "rubrics", ["old_id"], :name => "old_id_idx"
 
   create_table "street_indices", :force => true do |t|
     t.integer "street_id"
@@ -284,6 +289,9 @@ ActiveRecord::Schema.define(:version => 20140922062649) do
 
   add_foreign_key "emails", "branches", :name => "emails_branch_id_fk"
 
+  add_foreign_key "keywords_rubrics", "keywords", :name => "rubric_keywords_keyword_id_fk"
+  add_foreign_key "keywords_rubrics", "rubrics", :name => "rubric_keywords_rubric_id_fk"
+
   add_foreign_key "people", "companies", :name => "people_company_id_fk"
 
   add_foreign_key "phones", "branches", :name => "phones_branch_id_fk"
@@ -293,9 +301,6 @@ ActiveRecord::Schema.define(:version => 20140922062649) do
   add_foreign_key "products", "contracts", :name => "contract_products_contract_id_fk"
   add_foreign_key "products", "product_types", :name => "contract_products_product_id_fk", :column => "product_id"
   add_foreign_key "products", "rubrics", :name => "products_rubric_id_fk"
-
-  add_foreign_key "rubric_keywords", "keywords", :name => "rubric_keywords_keyword_id_fk"
-  add_foreign_key "rubric_keywords", "rubrics", :name => "rubric_keywords_rubric_id_fk"
 
   add_foreign_key "street_indices", "post_indices", :name => "street_indices_post_index_id_fk"
   add_foreign_key "street_indices", "streets", :name => "street_indices_street_id_fk"

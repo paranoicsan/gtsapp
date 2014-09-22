@@ -1,13 +1,11 @@
 # Encoding: utf-8
 class Rubric < ActiveRecord::Base
 
-  # noinspection RailsParamDefResolve
-  has_many :rubric_keywords, dependent: :restrict
-  has_many :keywords, through: :rubric_keyword
+
   # noinspection RailsParamDefResolve
   has_many :products, dependent: :restrict
   has_and_belongs_to_many :companies
-  belongs_to :rubric_keyword
+  has_and_belongs_to_many :keywords
 
   validates_presence_of :name, message: 'Укажите название рубрики.'
   validates_uniqueness_of :name, message: 'Такая рубрика уже существует.',
