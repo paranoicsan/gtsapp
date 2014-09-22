@@ -4,17 +4,15 @@ require 'spec_helper'
 describe PhonesController do
 
   
-  let(:branch) { FactoryGirl.create :branch }
-  
   before(:each) do
     authorize_user
-
     @user = FactoryGirl.create :user
     controller.stub(:current_user).and_return(@user)
+    @branch = FactoryGirl.create :branch
   end
 
   def valid_attributes
-    {:branch_id => branch.id}
+    {branch_id: @branch.id}
   end
 
   # создание объекта с минимальным набором атрибутов
@@ -47,7 +45,7 @@ describe PhonesController do
       assigns(:phone).should be_a_new(Phone)
     end
     it 'выставялет индекс следующий по порядку индекс отображения' do
-      FactoryGirl.create :phone, valid_attributes
+      pp = FactoryGirl.create :phone, valid_attributes
       get_valid
       assigns(:phone).order_num.should eq(2)
     end
@@ -65,8 +63,8 @@ describe PhonesController do
     describe 'with valid params' do
 
       def post_valid
-        params = FactoryGirl.attributes_for :phone, branch_id: branch.id
-        post :create, {:phone => params, :branch_id => branch.id}
+        params = FactoryGirl.attributes_for :phone, branch_id: @branch.id
+        post :create, {:phone => params, :branch_id => @branch.id}
       end
 
       it 'creates a new Phone' do
@@ -82,7 +80,7 @@ describe PhonesController do
       end
       it 'redirects to the parent Branch' do
         post_valid
-        response.should redirect_to(branch)
+        response.should redirect_to(@branch)
       end
       it 'создаёт запись в истории компании' do
         expect {
@@ -95,7 +93,7 @@ describe PhonesController do
 
       def post_invalid
         params = FactoryGirl.attributes_for :phone, branch_id: nil
-        post :create, {:phone => params, :branch_id => branch.id}
+        post :create, {:phone => params, :branch_id => @branch.id}
       end
 
       it 'assigns a newly created but unsaved phone as @phone' do
@@ -133,7 +131,7 @@ describe PhonesController do
       end
       it 'redirects to the branch' do
         put_valid
-        response.should redirect_to(branch)
+        response.should redirect_to(@branch)
       end
       it 'создаёт запись в истории компании' do
         expect {
@@ -173,7 +171,7 @@ describe PhonesController do
       phone = create_valid
       delete :destroy, :id => phone.to_param
       #noinspection RubyResolve
-      response.should redirect_to(branch_url(branch))
+      response.should redirect_to(branch_url(@branch))
     end
     it 'создаёт запись в истории компании' do
       expect {

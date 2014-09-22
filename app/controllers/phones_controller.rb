@@ -1,42 +1,36 @@
 # encoding: utf-8
 class PhonesController < ApplicationController
+
   helper :application
-  before_filter :require_user
-  before_filter :get_branch
+
+  before_filter :require_user,
+                :assign_branch
 
   # GET /phones
-  # GET /phones.json
   def index
     @phones = Phone.all
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @phones }
     end
   end
 
   # GET /phones/1
-  # GET /phones/1.json
   def show
     @phone = find_phone params[:id]
     @branch = @phone.branch
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: @phone }
     end
   end
 
   # GET /branches/:branch_id/phones/new
-  # GET /branches/:branch_id/phones/new.json
   def new
-    @phone = Phone.new
-    @branch = Branch.find params[:branch_id]
-    @phone.order_num = @branch.next_phone_order_index
-
+    order = @branch.next_phone_order_index
+    @phone = @branch.phones.new order_num: order
     respond_to do |format|
       format.html # new.html.erb
-      format.json { render json: @phone }
     end
   end
 
@@ -46,7 +40,6 @@ class PhonesController < ApplicationController
   end
 
   # POST /phones
-  # POST /phones.json
   def create
     params[:phone][:branch_id] = params[:branch_id]
     @phone = Phone.new(params[:phone])
@@ -57,16 +50,13 @@ class PhonesController < ApplicationController
         log_operation :phone, :create, @branch.company.id
         @phone.branch.update_phone_order true
         format.html { redirect_to @branch, notice: 'Телефон создан.' }
-        format.json { render json: @phone, status: :created, location: @phone }
       else
         format.html { render action: "new" }
-        format.json { render json: @phone.errors, status: :unprocessable_entity }
       end
     end
   end
 
   # PUT /phones/1
-  # PUT /phones/1.json
   def update
     @phone = find_phone params[:id]
     @branch = Branch.find @phone.branch_id
@@ -76,16 +66,13 @@ class PhonesController < ApplicationController
         @phone.branch.update_phone_order
         log_operation :phone, :update, @branch.company.id
         format.html { redirect_to @branch, notice: 'Телефон изменён.' }
-        format.json { head :ok }
       else
         format.html { render action: "edit" }
-        format.json { render json: @phone.errors, status: :unprocessable_entity }
       end
     end
   end
 
   # DELETE /phones/1
-  # DELETE /phones/1.json
   def destroy
     @phone = Phone.find(params[:id])
     @branch = Branch.find @phone.branch_id
@@ -95,20 +82,23 @@ class PhonesController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to branch_url @branch }
-      format.json { head :ok }
     end
   end
 
   private
+
   ##
   # Определяет связанный филиал
-  def get_branch
+  #
+  def assign_branch
     @branch = Branch.find(params[:branch_id]) if params[:branch_id]
   end
 
   # Ищет телефон по укаазнному параметру
+  #
   # @param [Integer] id ключ объекта
   # @return [Phone] объект телефона
+  #
   def find_phone(id)
     Phone.find(id)
   end

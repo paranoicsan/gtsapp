@@ -52,7 +52,7 @@ describe BranchesController do
     describe 'with valid params' do
 
       def post_valid
-        params = FactoryGirl.attributes_for :branch, company_id: company.id
+        params = FactoryGirl.attributes_for :branch
         post :create, {branch: params, company_id: company.id}
       end
 

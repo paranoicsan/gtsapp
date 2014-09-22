@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140921131734) do
+ActiveRecord::Schema.define(:version => 20140922062649) do
 
   create_table "addresses", :force => true do |t|
     t.string   "house"
@@ -83,17 +83,17 @@ ActiveRecord::Schema.define(:version => 20140921131734) do
 
   add_index "companies", ["old_id"], :name => "index_companies_on_old_id"
 
+  create_table "companies_rubrics", :id => false, :force => true do |t|
+    t.integer "company_id"
+    t.integer "rubric_id"
+  end
+
   create_table "company_histories", :force => true do |t|
     t.text     "operation"
     t.integer  "company_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
     t.integer  "user_id"
-  end
-
-  create_table "company_rubrics", :force => true do |t|
-    t.integer "company_id"
-    t.integer "rubric_id"
   end
 
   create_table "company_sources", :force => true do |t|
@@ -272,11 +272,11 @@ ActiveRecord::Schema.define(:version => 20140921131734) do
   add_foreign_key "companies", "users", :name => "companies_author_user_id_fk", :column => "author_user_id"
   add_foreign_key "companies", "users", :name => "companies_editor_user_id_fk", :column => "editor_user_id"
 
+  add_foreign_key "companies_rubrics", "companies", :name => "company_rubrics_company_id_fk"
+  add_foreign_key "companies_rubrics", "rubrics", :name => "company_rubrics_rubric_id_fk"
+
   add_foreign_key "company_histories", "companies", :name => "company_histories_company_id_fk"
   add_foreign_key "company_histories", "users", :name => "company_histories_user_id_fk"
-
-  add_foreign_key "company_rubrics", "companies", :name => "company_rubrics_company_id_fk"
-  add_foreign_key "company_rubrics", "rubrics", :name => "company_rubrics_rubric_id_fk"
 
   add_foreign_key "contracts", "companies", :name => "contracts_company_id_fk"
   add_foreign_key "contracts", "contract_statuses", :name => "contracts_contract_status_id_fk"

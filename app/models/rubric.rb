@@ -1,17 +1,20 @@
 # Encoding: utf-8
 class Rubric < ActiveRecord::Base
-  has_many :company_rubric, :dependent => :restrict
-  has_many :rubric_keywords, :dependent => :restrict
-  has_many :keywords, :through => :rubric_keyword
-  has_many :products, :dependent => :restrict
 
+  # noinspection RailsParamDefResolve
+  has_many :rubric_keywords, dependent: :restrict
+  has_many :keywords, through: :rubric_keyword
+  # noinspection RailsParamDefResolve
+  has_many :products, dependent: :restrict
+  has_and_belongs_to_many :companies
   belongs_to :rubric_keyword
-  validates_presence_of :name, :message => 'Укажите название рубрики.'
-  validates_uniqueness_of :name, :message => 'Такая рубрика уже существует.',
-                          :case_sensitive => false
 
-  scope :social, where(:social => true)
-  scope :commercial, where(:social => false)
+  validates_presence_of :name, message: 'Укажите название рубрики.'
+  validates_uniqueness_of :name, message: 'Такая рубрика уже существует.',
+                          case_sensitive: false
+
+  scope :social, where(social: true)
+  scope :commercial, where(social: false)
 
   ##
   # Возвращает определённый набор рубрик в зависимости
@@ -37,13 +40,13 @@ class Rubric < ActiveRecord::Base
   def self.rubricator_name_for(type)
     case type
       when 1
-        "Социальный"
+        'Социальный'
       when 2
-        "Коммерческий"
+        'Коммерческий'
       when 3
-        "Полный"
+        'Полный'
       else
-        raise "Unknown rubricator type"
+        raise 'Unknown rubricator type'
     end
   end
 

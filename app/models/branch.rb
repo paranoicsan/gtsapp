@@ -67,8 +67,8 @@ class Branch < ActiveRecord::Base
   # Определяет следующий порядок отображения для телефонов филиала
   # @return [Integer] Самый низкий порядок отображения
   def next_phone_order_index
-    last_phone = phones_by_order.last
-    last_phone && last_phone.order_num ? last_phone.order_num + 1 : 1
+    last_order = phones_by_order.last.try(:order_num).to_i
+    last_order + 1
   end
 
   ##

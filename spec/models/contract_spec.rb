@@ -25,8 +25,6 @@ describe Contract do
       end
 
       s = %Q{№ #{contract.number}, #{code.name}, заключён: #{sd}, #{prods}сумма: #{contract.amount}руб.}
-      p contract.info
-      p s
       contract.info.should eq(s)
     end
     it 'не выводит код проекта, если он не указан' do

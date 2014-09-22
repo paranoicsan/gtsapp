@@ -1,29 +1,29 @@
 # encoding: utf-8
 #noinspection RubyTooManyMethodsInspection
 class Company < ActiveRecord::Base
+
   belongs_to :company_status
   belongs_to :company_source
-  belongs_to :agent, :class_name => 'User', :foreign_key => "agent_id"
-  belongs_to :author, :class_name => 'User', :foreign_key => "author_user_id"
-  belongs_to :editor, :class_name => 'User', :foreign_key => "editor_user_id"
-  has_many :company_histories, :dependent => :destroy
-  has_many :contracts, :dependent => :destroy
-  has_many :branches, :dependent => :destroy
-  has_many :persons, :dependent => :destroy
-  has_many :company_rubrics, :dependent => :destroy
-  has_many :rubrics, :through => :company_rubrics
+  belongs_to :agent, class_name: 'User', foreign_key: 'agent_id'
+  belongs_to :author, class_name: 'User', foreign_key: 'author_user_id'
+  belongs_to :editor, class_name: 'User', foreign_key: 'editor_user_id'
+  has_many :company_histories, dependent: :destroy
+  has_many :contracts, dependent: :destroy
+  has_many :branches, dependent: :destroy
+  has_many :persons, dependent: :destroy
+  has_and_belongs_to_many :rubrics
 
   validates_presence_of :title
   validates_presence_of :rubricator
 
-  validates_presence_of :reason_deleted_on, :if => :queued_for_deletion?, :message => 'Не указана причина удаления'
-  validates_presence_of :reason_need_attention_on, :if => :need_attention?, :message => 'Не указана причина обращения'
-  validates_presence_of :reason_need_improvement_on, :if => :need_improvement?, :message => 'Не указана причина необходимости доработки компании'
+  validates_presence_of :reason_deleted_on, if: :queued_for_deletion?, message: 'Не указана причина удаления'
+  validates_presence_of :reason_need_attention_on, if: :need_attention?, message: 'Не указана причина обращения'
+  validates_presence_of :reason_need_improvement_on, if: :need_improvement?, message: 'Не указана причина необходимости доработки компании'
 
   #noinspection RailsParamDefResolve
   before_save :check_fields, only: [:create]
-  scope :active, lambda { where(:company_status_id => (CompanyStatus.active.nil? ? -1 : CompanyStatus.active.id)) }
-  scope :archived, lambda { where(:company_status_id => (CompanyStatus.archived.nil? ? -1 : CompanyStatus.archived.id)) }
+  scope :active, ->{ where(company_status_id: (CompanyStatus.active.nil? ? -1 : CompanyStatus.active.id)) }
+  scope :archived, ->{ where(company_status_id: (CompanyStatus.archived.nil? ? -1 : CompanyStatus.archived.id)) }
 
   def self.suspended
     where(:company_status_id => CompanyStatus.suspended.id)
@@ -263,15 +263,16 @@ class Company < ActiveRecord::Base
   def self.by_street(street_id, options)
     companies = []
     Address.by_street(street_id).each do |a|
+      # noinspection RubyResolve
       if a.branch.is_main
         c = a.branch.company
 
         # для полного рубрикатора всегда есть попадание в любое условие
         if c.rubricator.eql?(options[:rubricator_filter].to_i) || c.rubricator.eql?(3)
           case options[:filter].to_s
-            when "active"
+            when 'active'
               companies << c if c.active?
-            when "archived"
+            when 'archived'
               companies << c if c.archived?
             else
               companies << c
