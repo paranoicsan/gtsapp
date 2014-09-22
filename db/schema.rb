@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140922184254) do
+ActiveRecord::Schema.define(:version => 20140922184853) do
 
   create_table "addresses_addresses", :force => true do |t|
     t.string   "house"
@@ -32,6 +32,38 @@ ActiveRecord::Schema.define(:version => 20140922184254) do
     t.integer  "branch_id"
   end
 
+  create_table "addresses_cities", :force => true do |t|
+    t.string   "name"
+    t.integer  "phone_code"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "addresses_districts", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "addresses_post_indices", :force => true do |t|
+    t.integer  "code"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "addresses_street_indices", :force => true do |t|
+    t.integer "street_id"
+    t.integer "post_index_id"
+    t.string  "comments"
+  end
+
+  create_table "addresses_streets", :force => true do |t|
+    t.string   "name"
+    t.integer  "city_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "branches", :force => true do |t|
     t.integer  "form_type_id"
     t.string   "fact_name"
@@ -46,13 +78,6 @@ ActiveRecord::Schema.define(:version => 20140922184254) do
   create_table "branches_websites", :id => false, :force => true do |t|
     t.integer "website_id"
     t.integer "branch_id"
-  end
-
-  create_table "cities", :force => true do |t|
-    t.string   "name"
-    t.integer  "phone_code"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
   end
 
   create_table "companies", :force => true do |t|
@@ -115,12 +140,6 @@ ActiveRecord::Schema.define(:version => 20140922184254) do
     t.datetime "updated_at",         :null => false
   end
 
-  create_table "districts", :force => true do |t|
-    t.string   "name"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
   create_table "emails", :force => true do |t|
     t.string   "name"
     t.integer  "branch_id"
@@ -166,12 +185,6 @@ ActiveRecord::Schema.define(:version => 20140922184254) do
     t.datetime "updated_at",   :null => false
   end
 
-  create_table "post_indices", :force => true do |t|
-    t.integer  "code"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
   create_table "product_types", :force => true do |t|
     t.string   "name"
     t.float    "size_width"
@@ -201,19 +214,6 @@ ActiveRecord::Schema.define(:version => 20140922184254) do
     t.boolean "social"
   end
 
-  create_table "street_indices", :force => true do |t|
-    t.integer "street_id"
-    t.integer "post_index_id"
-    t.string  "comments"
-  end
-
-  create_table "streets", :force => true do |t|
-    t.string   "name"
-    t.integer  "city_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
   create_table "users", :force => true do |t|
     t.string   "username"
     t.string   "email"
@@ -229,11 +229,16 @@ ActiveRecord::Schema.define(:version => 20140922184254) do
     t.string "name"
   end
 
+  add_foreign_key "addresses_addresses", "addresses_cities", :name => "addresses_city_id_fk", :column => "city_id"
+  add_foreign_key "addresses_addresses", "addresses_districts", :name => "addresses_district_id_fk", :column => "district_id"
+  add_foreign_key "addresses_addresses", "addresses_post_indices", :name => "addresses_post_index_id_fk", :column => "post_index_id"
+  add_foreign_key "addresses_addresses", "addresses_streets", :name => "addresses_street_id_fk", :column => "street_id"
   add_foreign_key "addresses_addresses", "branches", :name => "addresses_branch_id_fk"
-  add_foreign_key "addresses_addresses", "cities", :name => "addresses_city_id_fk"
-  add_foreign_key "addresses_addresses", "districts", :name => "addresses_district_id_fk"
-  add_foreign_key "addresses_addresses", "post_indices", :name => "addresses_post_index_id_fk"
-  add_foreign_key "addresses_addresses", "streets", :name => "addresses_street_id_fk"
+
+  add_foreign_key "addresses_street_indices", "addresses_post_indices", :name => "street_indices_post_index_id_fk", :column => "post_index_id"
+  add_foreign_key "addresses_street_indices", "addresses_streets", :name => "street_indices_street_id_fk", :column => "street_id"
+
+  add_foreign_key "addresses_streets", "addresses_cities", :name => "streets_city_id_fk", :column => "city_id"
 
   add_foreign_key "branches", "companies", :name => "branches_company_id_fk"
   add_foreign_key "branches", "form_types", :name => "branches_form_type_id_fk"
@@ -270,10 +275,5 @@ ActiveRecord::Schema.define(:version => 20140922184254) do
   add_foreign_key "products", "contracts", :name => "contract_products_contract_id_fk"
   add_foreign_key "products", "product_types", :name => "contract_products_product_id_fk", :column => "product_id"
   add_foreign_key "products", "rubrics", :name => "products_rubric_id_fk"
-
-  add_foreign_key "street_indices", "post_indices", :name => "street_indices_post_index_id_fk"
-  add_foreign_key "street_indices", "streets", :name => "street_indices_street_id_fk"
-
-  add_foreign_key "streets", "cities", :name => "streets_city_id_fk"
 
 end

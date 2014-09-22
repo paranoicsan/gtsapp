@@ -1,4 +1,4 @@
-class City < ActiveRecord::Base
+class Addresses::City < ActiveRecord::Base
 
   has_many :streets
   has_many :addresses

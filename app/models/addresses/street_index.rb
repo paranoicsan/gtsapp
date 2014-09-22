@@ -1,4 +1,4 @@
-class StreetIndex < ActiveRecord::Base
+class Addresses::StreetIndex < ActiveRecord::Base
   belongs_to :street
   belongs_to :post_index
 end
