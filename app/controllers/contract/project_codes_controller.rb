@@ -1,6 +1,7 @@
 # encoding: utf-8
 class ProjectCodesController < ApplicationController
   helper :application
+
   before_filter :require_user
   before_filter :require_admin
 

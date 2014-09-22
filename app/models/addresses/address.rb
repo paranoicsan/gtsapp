@@ -1,5 +1,5 @@
 # encoding: utf-8
-class Address < ActiveRecord::Base
+class Addresses::Address < ActiveRecord::Base
   belongs_to :district
   belongs_to :city
   belongs_to :street

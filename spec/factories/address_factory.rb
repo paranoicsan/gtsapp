@@ -2,7 +2,7 @@ require "faker"
 
 FactoryGirl.define do
 
-  factory :address do |a|
+  factory :address, class: 'Addresses::Address' do |a|
     a.cabinet 2
     a.case 1
     a.entrance 34
