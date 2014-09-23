@@ -1,10 +1,9 @@
-# encoding: utf-8
 class Addresses::Address < ActiveRecord::Base
   belongs_to :district
   belongs_to :city
   belongs_to :street
   belongs_to :post_index
-  belongs_to :branch
+  belongs_to :branch, class_name: 'Branches::Branch'
 
   validates_presence_of :branch_id
   validates_presence_of :city_id, :message => 'Укажите населённый пункт'

@@ -1,8 +1,6 @@
-require "faker"
-
 FactoryGirl.define do
 
-  factory :email do
+  factory :email, class: Branches::Email do
     name { Faker::Internet.email }
   end
 

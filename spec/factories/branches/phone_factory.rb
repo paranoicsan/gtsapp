@@ -1,8 +1,6 @@
-require 'faker'
-
 FactoryGirl.define do
 
-  factory :phone do
+  factory :phone, class: Branches::Phone do
     name { Faker::PhoneNumber.phone_number }
     mobile false
     contact false

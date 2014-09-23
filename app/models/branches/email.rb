@@ -1,6 +1,6 @@
 require 'resolv'
 
-class Email < ActiveRecord::Base
+class Branches::Email < ActiveRecord::Base
   belongs_to :branch
   validates_presence_of :name
 

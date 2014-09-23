@@ -1,8 +1,8 @@
 # encoding: utf-8
-require "uri"
-class Website < ActiveRecord::Base
+require 'uri'
+class Branches::Website < ActiveRecord::Base
 
-  has_and_belongs_to_many :branches
+  has_and_belongs_to_many :branches, join_table: 'branches_websites_join'
 
   ##
   # Проверяет введённый адрес на корректность

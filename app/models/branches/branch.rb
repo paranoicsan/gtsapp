@@ -1,10 +1,9 @@
-# Encoding: utf-8
-class Branch < ActiveRecord::Base
+class Branches::Branch < ActiveRecord::Base
 
-  has_one :address, dependent: :destroy
+  has_one :address, dependent: :destroy, class_name: 'Addresses::Address'
   has_many :phones, dependent: :destroy
   has_many :emails, dependent: :destroy
-  has_and_belongs_to_many :websites
+  has_and_belongs_to_many :websites, join_table: 'branches_websites_join'
 
   validates_presence_of :fact_name, message: 'Укажите фактическое название'
   validates_presence_of :legel_name, message: 'Укажите юридическое название'
@@ -19,7 +18,7 @@ class Branch < ActiveRecord::Base
   # и снимает этот флаг со всех остальных филиалов
   def make_main
     c_id = company_id
-    Branch.where(company_id: c_id).each do |b|
+    Branches::Branch.where(company_id: c_id).each do |b|
       val = b.id == self.id
       b.update_attributes is_main: val
     end
@@ -91,7 +90,7 @@ class Branch < ActiveRecord::Base
   # если он является единственным
   def check_is_main
     if self.new_record?
-      count = Branch.find_all_by_company_id(self.company_id).count
+      count = Branches::Branch.find_all_by_company_id(self.company_id).count
       self.is_main = count.zero?
     end
     true

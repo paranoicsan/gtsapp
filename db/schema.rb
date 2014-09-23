@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140922184853) do
+ActiveRecord::Schema.define(:version => 20140923074359) do
 
   create_table "addresses_addresses", :force => true do |t|
     t.string   "house"
@@ -64,7 +64,7 @@ ActiveRecord::Schema.define(:version => 20140922184853) do
     t.datetime "updated_at", :null => false
   end
 
-  create_table "branches", :force => true do |t|
+  create_table "branches_branches", :force => true do |t|
     t.integer  "form_type_id"
     t.string   "fact_name"
     t.string   "legel_name"
@@ -75,7 +75,37 @@ ActiveRecord::Schema.define(:version => 20140922184853) do
     t.boolean  "is_main"
   end
 
-  create_table "branches_websites", :id => false, :force => true do |t|
+  create_table "branches_emails", :force => true do |t|
+    t.string   "name"
+    t.integer  "branch_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "branches_form_types", :force => true do |t|
+    t.string "name"
+  end
+
+  create_table "branches_phones", :force => true do |t|
+    t.string   "mobile_refix"
+    t.boolean  "publishable"
+    t.boolean  "fax"
+    t.boolean  "director"
+    t.boolean  "mobile"
+    t.text     "description"
+    t.string   "name"
+    t.integer  "contact"
+    t.integer  "order_num"
+    t.integer  "branch_id"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
+  create_table "branches_websites", :force => true do |t|
+    t.string "name"
+  end
+
+  create_table "branches_websites_join", :id => false, :force => true do |t|
     t.integer "website_id"
     t.integer "branch_id"
   end
@@ -140,17 +170,6 @@ ActiveRecord::Schema.define(:version => 20140922184853) do
     t.datetime "updated_at",         :null => false
   end
 
-  create_table "emails", :force => true do |t|
-    t.string   "name"
-    t.integer  "branch_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
-  create_table "form_types", :force => true do |t|
-    t.string "name"
-  end
-
   create_table "keywords", :force => true do |t|
     t.string "name"
   end
@@ -168,21 +187,6 @@ ActiveRecord::Schema.define(:version => 20140922184853) do
     t.integer "phone",       :limit => 8
     t.string  "email"
     t.integer "company_id"
-  end
-
-  create_table "phones", :force => true do |t|
-    t.string   "mobile_refix"
-    t.boolean  "publishable"
-    t.boolean  "fax"
-    t.boolean  "director"
-    t.boolean  "mobile"
-    t.text     "description"
-    t.string   "name"
-    t.integer  "contact"
-    t.integer  "order_num"
-    t.integer  "branch_id"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
   end
 
   create_table "product_types", :force => true do |t|
@@ -225,26 +229,26 @@ ActiveRecord::Schema.define(:version => 20140922184853) do
     t.string   "roles",             :default => "--- []"
   end
 
-  create_table "websites", :force => true do |t|
-    t.string "name"
-  end
-
   add_foreign_key "addresses_addresses", "addresses_cities", :name => "addresses_city_id_fk", :column => "city_id"
   add_foreign_key "addresses_addresses", "addresses_districts", :name => "addresses_district_id_fk", :column => "district_id"
   add_foreign_key "addresses_addresses", "addresses_post_indices", :name => "addresses_post_index_id_fk", :column => "post_index_id"
   add_foreign_key "addresses_addresses", "addresses_streets", :name => "addresses_street_id_fk", :column => "street_id"
-  add_foreign_key "addresses_addresses", "branches", :name => "addresses_branch_id_fk"
+  add_foreign_key "addresses_addresses", "branches_branches", :name => "addresses_branch_id_fk", :column => "branch_id"
 
   add_foreign_key "addresses_street_indices", "addresses_post_indices", :name => "street_indices_post_index_id_fk", :column => "post_index_id"
   add_foreign_key "addresses_street_indices", "addresses_streets", :name => "street_indices_street_id_fk", :column => "street_id"
 
   add_foreign_key "addresses_streets", "addresses_cities", :name => "streets_city_id_fk", :column => "city_id"
 
-  add_foreign_key "branches", "companies", :name => "branches_company_id_fk"
-  add_foreign_key "branches", "form_types", :name => "branches_form_type_id_fk"
+  add_foreign_key "branches_branches", "branches_form_types", :name => "branches_form_type_id_fk", :column => "form_type_id"
+  add_foreign_key "branches_branches", "companies", :name => "branches_company_id_fk"
 
-  add_foreign_key "branches_websites", "branches", :name => "branch_websites_branch_id_fk"
-  add_foreign_key "branches_websites", "websites", :name => "branch_websites_website_id_fk"
+  add_foreign_key "branches_emails", "branches_branches", :name => "emails_branch_id_fk", :column => "branch_id"
+
+  add_foreign_key "branches_phones", "branches_branches", :name => "phones_branch_id_fk", :column => "branch_id"
+
+  add_foreign_key "branches_websites_join", "branches_branches", :name => "branch_websites_branch_id_fk", :column => "branch_id"
+  add_foreign_key "branches_websites_join", "branches_websites", :name => "branch_websites_website_id_fk", :column => "website_id"
 
   add_foreign_key "companies", "company_sources", :name => "companies_company_source_id_fk"
   add_foreign_key "companies", "users", :name => "companies_agent_id_fk", :column => "agent_id"
@@ -261,14 +265,10 @@ ActiveRecord::Schema.define(:version => 20140922184853) do
   add_foreign_key "contracts", "contract_statuses", :name => "contracts_contract_status_id_fk"
   add_foreign_key "contracts", "project_codes", :name => "contracts_project_code_id_fk"
 
-  add_foreign_key "emails", "branches", :name => "emails_branch_id_fk"
-
   add_foreign_key "keywords_rubrics", "keywords", :name => "rubric_keywords_keyword_id_fk"
   add_foreign_key "keywords_rubrics", "rubrics", :name => "rubric_keywords_rubric_id_fk"
 
   add_foreign_key "people", "companies", :name => "people_company_id_fk"
-
-  add_foreign_key "phones", "branches", :name => "phones_branch_id_fk"
 
   add_foreign_key "product_types", "product_types", :name => "products_bonus_product_id_fk", :column => "bonus_product_id"
 
