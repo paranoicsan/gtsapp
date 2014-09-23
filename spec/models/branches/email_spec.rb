@@ -1,20 +1,15 @@
-#encoding: utf-8
-require 'spec_helper'
+describe Branches::Email do
 
-describe Email do
-
-  describe "существует проверка на корректность введённого адреса" do
-    it "возвращает истину при корректном адресе" do
+  describe 'существует проверка на корректность введённого адреса' do
+    it 'возвращает истину при корректном адресе' do
       s = 'test@test.com'
-      assert Email.valid?(s) == true, 'Проверка не работает 0'
+      Branches::Email.valid?(s).should be_true
     end
-    it "возвращает ложь при ошибочном адресе" do
-      s = 'test@test'
-      assert Email.valid?(s) == false, 'Проверка не работает 1'
-      s = 'testtest.com'
-      assert Email.valid?(s) == false, 'Проверка не работает 2'
-      s = 'testtest'
-      assert Email.valid?(s) == false, 'Проверка не работает 3'
+    it 'возвращает ложь при ошибочном адресе' do
+      emails = %w( test@test testtest.com testtest)
+      emails.each do |email|
+        Branches::Email.valid?(email).should be_false
+      end
     end
   end
 

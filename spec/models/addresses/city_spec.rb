@@ -1,27 +1,21 @@
-require 'spec_helper'
+describe Addresses::City do
 
-module Addresses
+  it 'has valid factory' do
+    city = FactoryGirl.create :city
+    city.should be_valid
+  end
 
-  describe City do
-
-    it 'has valid factory' do
-      city = FactoryGirl.create :city
-      city.should be_valid
+  context 'cannot be created without' do
+    it 'name' do
+      @params = {name: nil}
     end
-
-    context 'cannot be created without' do
-      it 'name' do
-        @params = {name: nil}
-      end
-      it 'code' do
-        @params = {name: nil}
-      end
-      after(:each) do
-        city = FactoryGirl.build :city, @params
-        city.should_not be_valid
-      end
+    it 'code' do
+      @params = {name: nil}
     end
-
+    after(:each) do
+      city = FactoryGirl.build :city, @params
+      city.should_not be_valid
+    end
   end
 
 end

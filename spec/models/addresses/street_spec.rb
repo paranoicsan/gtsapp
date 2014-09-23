@@ -1,8 +1,4 @@
-require 'spec_helper'
-
-module Addresses
-
-  describe Street do
+  describe Addresses::Street do
 
     it 'Фабрика корректна' do
       street = FactoryGirl.create :street
@@ -22,5 +18,3 @@ module Addresses
       new_street.should have(1).error_on(:name)
     end
   end
-
-end

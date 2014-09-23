@@ -1,4 +1,3 @@
-# ENcoding: utf-8
 class Branches::Phone < ActiveRecord::Base
   belongs_to :branch
   validates_presence_of :name

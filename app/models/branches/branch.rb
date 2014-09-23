@@ -13,6 +13,8 @@ class Branches::Branch < ActiveRecord::Base
 
   before_save :check_is_main
 
+  scope :by_company, ->(id){ where(company_id: id) }
+
   ##
   # Устанавливает филиал как основной
   # и снимает этот флаг со всех остальных филиалов
