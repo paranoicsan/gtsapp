@@ -9,7 +9,7 @@ class Branches::Branch < ActiveRecord::Base
   validates_presence_of :legel_name, message: 'Укажите юридическое название'
 
   belongs_to :form_type
-  belongs_to :company
+  belongs_to :company, class_name: 'Companies::Company'
 
   before_save :check_is_main
 

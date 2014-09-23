@@ -74,7 +74,7 @@ describe BranchesController do
       it 'создаёт запись в истории компании' do
         expect {
           post_valid
-        }.to change(CompanyHistory, :count).by(1)
+        }.to change(History, :count).by(1)
       end
     end
     describe 'with invalid params' do
@@ -126,7 +126,7 @@ describe BranchesController do
       it 'создаёт запись в истории компании' do
         expect {
           put_valid
-        }.to change(CompanyHistory, :count).by(1)
+        }.to change(History, :count).by(1)
       end
     end
 
@@ -167,7 +167,7 @@ describe BranchesController do
       expect {
         branch = create_valid
         delete :destroy, id: branch.to_param
-      }.to change(CompanyHistory, :count).by(1)
+      }.to change(History, :count).by(1)
     end
   end
 
@@ -184,7 +184,7 @@ describe BranchesController do
     it 'создаёт запись в истории компании' do
       expect {
         add_valid
-      }.to change(CompanyHistory, :count).by(1)
+      }.to change(History, :count).by(1)
     end
   end
 
@@ -207,7 +207,7 @@ describe BranchesController do
     it 'создаёт запись в истории компании' do
       expect {
         delete_valid
-      }.to change(CompanyHistory, :count).by(1)
+      }.to change(History, :count).by(1)
     end
   end
 
@@ -224,7 +224,7 @@ describe BranchesController do
     it 'создаёт запись в истории компании' do
       expect {
         add_valid
-      }.to change(CompanyHistory, :count).by(1)
+      }.to change(History, :count).by(1)
     end
   end
 
@@ -246,7 +246,7 @@ describe BranchesController do
     it 'создаёт запись в истории компании' do
       expect {
         delete_valid
-      }.to change(CompanyHistory, :count).by(1)
+      }.to change(History, :count).by(1)
     end
   end
 

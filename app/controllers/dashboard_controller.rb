@@ -18,18 +18,18 @@ class DashboardController < ApplicationController
   end
 
   def companies_second_suspend
-    Company.find_all_by_company_status_id CompanyStatus.second_suspend.id
+    Company.find_all_by_company_status_id Status.second_suspend.id
   end
 
   def companies_need_attention
-    Company.need_attention_list
+    Company.need_attention
   end
 
   def companies_need_improvement
     if current_user.is_agent?
-      Company.need_improvement_list_by_user(current_user.id)
+      Company.need_improvement_by_user(current_user.id)
     else
-      Company.need_improvement_list
+      Company.need_improvement
     end
   end
 

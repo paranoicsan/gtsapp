@@ -146,6 +146,6 @@ class ApplicationController < ActionController::Base
   # @param company_id [Integer] Родительская компания
   def log_operation(object, operation, company_id)
     log_str = @object_operations[object][operation]
-    CompanyHistory.log(log_str, current_user.id, company_id)
+    History.log(log_str, current_user.id, company_id)
   end
 end

@@ -30,10 +30,10 @@
   .control-group
     = f.label :company_source_id, 'Источник', :class => 'control-label'
     .controls
-      = f.select(:company_source_id, options_for_select(CompanySource.all.collect{ |s| [s.name, s.id] },
-        @company.company_source_id), {}, {:onChange => "showHideAgentList(#{CompanySource.from_agent_id})"})
+      = f.select(:company_source_id, options_for_select(Source.all.collect{ |s| [s.name, s.id] },
+        @company.company_source_id), {}, {:onChange => "showHideAgentList(#{Source.from_agent_id})"})
   %div{ :id => "agent_list",
-        :class => @company.company_source_id == CompanySource.from_agent_id ? "agent_list_visible" : "agent_list_hidden" }
+        :class => @company.company_source_id == Source.from_agent_id ? "agent_list_visible" : "agent_list_hidden" }
     .control-group
       = f.label :agent_id, "Агент", :class => 'control-label'
       .controls

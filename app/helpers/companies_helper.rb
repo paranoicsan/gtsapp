@@ -2,19 +2,19 @@
 module CompaniesHelper
   def status_span(status)
     case status
-      when CompanyStatus.active
+      when Status.active
         val = 'label-success'
-      when CompanyStatus.suspended
+      when Status.suspended
         val = ''
-      when CompanyStatus.archived
+      when Status.archived
         val = ''
-      when CompanyStatus.queued_for_delete
+      when Status.queued_for_delete
         val = 'label-important'
-      when CompanyStatus.need_attention
+      when Status.need_attention
         val = 'label-warning'
-      when CompanyStatus.need_improvement
+      when Status.need_improvement
         val = 'label-info'
-      when CompanyStatus.second_suspend
+      when Status.second_suspend
         val = ''
       else
         val = 'Неизвестный статус'

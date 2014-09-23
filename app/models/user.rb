@@ -1,7 +1,7 @@
 #Encoding: utf-8
 class User < ActiveRecord::Base
   has_many :companies
-  has_many :company_histories
+  has_many :histories
   easy_roles :roles
   acts_as_authentic do |c|
     c.validates_format_of_login_field_options :with => /\A[А-Яа-я\w\.+\-_@ ]+$/,

@@ -8,8 +8,8 @@ class CompanySourceFrom < ActiveRecord::Migration
     add_column :companies, :company_source_id, :integer
     add_foreign_key :companies, :company_sources
 
-    CompanySource.create(name: "Заявка с сайта").save!
-    CompanySource.create(name: "От агента").save!
+    Source.create(name: "Заявка с сайта").save!
+    Source.create(name: "От агента").save!
 
   end
 

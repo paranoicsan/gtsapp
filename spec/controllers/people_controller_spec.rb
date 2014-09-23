@@ -94,7 +94,7 @@ describe PeopleController do
       it "создаёт запись в истории компании" do
         expect {
           post_valid
-        }.to change(CompanyHistory, :count).by(1)
+        }.to change(History, :count).by(1)
       end
     end
 
@@ -157,7 +157,7 @@ describe PeopleController do
       it "создаёт запись в истории компании" do
         expect {
           put_valid
-        }.to change(CompanyHistory, :count).by(1)
+        }.to change(History, :count).by(1)
       end
     end
 
@@ -202,7 +202,7 @@ describe PeopleController do
       expect {
         person = create_valid
         delete :destroy, {:id => person.to_param}
-      }.to change(CompanyHistory, :count).by(1)
+      }.to change(History, :count).by(1)
     end
   end
 

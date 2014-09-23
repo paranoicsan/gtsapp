@@ -1,5 +1,4 @@
-# Encoding: utf-8
-class Person < ActiveRecord::Base
+class Companies::Person < ActiveRecord::Base
 
   belongs_to :company
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140923074359) do
+ActiveRecord::Schema.define(:version => 20140923115026) do
 
   create_table "addresses_addresses", :force => true do |t|
     t.string   "house"
@@ -110,16 +110,16 @@ ActiveRecord::Schema.define(:version => 20140923074359) do
     t.integer "branch_id"
   end
 
-  create_table "companies", :force => true do |t|
+  create_table "companies_companies", :force => true do |t|
     t.string   "title"
     t.date     "date_added"
     t.integer  "rubricator"
     t.datetime "created_at",                 :null => false
     t.datetime "updated_at",                 :null => false
-    t.integer  "company_status_id"
+    t.integer  "companies_status_id"
     t.integer  "author_user_id"
     t.integer  "editor_user_id"
-    t.integer  "company_source_id"
+    t.integer  "companies_source_id"
     t.integer  "agent_id"
     t.string   "comments"
     t.string   "reason_deleted_on"
@@ -127,12 +127,7 @@ ActiveRecord::Schema.define(:version => 20140923074359) do
     t.string   "reason_need_improvement_on"
   end
 
-  create_table "companies_rubrics", :id => false, :force => true do |t|
-    t.integer "company_id"
-    t.integer "rubric_id"
-  end
-
-  create_table "company_histories", :force => true do |t|
+  create_table "companies_histories", :force => true do |t|
     t.text     "operation"
     t.integer  "company_id"
     t.datetime "created_at", :null => false
@@ -140,11 +135,26 @@ ActiveRecord::Schema.define(:version => 20140923074359) do
     t.integer  "user_id"
   end
 
-  create_table "company_sources", :force => true do |t|
+  create_table "companies_people", :force => true do |t|
+    t.string  "position"
+    t.string  "name"
+    t.string  "second_name"
+    t.string  "middle_name"
+    t.integer "phone",       :limit => 8
+    t.string  "email"
+    t.integer "company_id"
+  end
+
+  create_table "companies_rubrics", :id => false, :force => true do |t|
+    t.integer "company_id"
+    t.integer "rubric_id"
+  end
+
+  create_table "companies_sources", :force => true do |t|
     t.string "name"
   end
 
-  create_table "company_statuses", :force => true do |t|
+  create_table "companies_statuses", :force => true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -177,16 +187,6 @@ ActiveRecord::Schema.define(:version => 20140923074359) do
   create_table "keywords_rubrics", :id => false, :force => true do |t|
     t.integer "rubric_id"
     t.integer "keyword_id"
-  end
-
-  create_table "people", :force => true do |t|
-    t.string  "position"
-    t.string  "name"
-    t.string  "second_name"
-    t.string  "middle_name"
-    t.integer "phone",       :limit => 8
-    t.string  "email"
-    t.integer "company_id"
   end
 
   create_table "product_types", :force => true do |t|
@@ -241,7 +241,7 @@ ActiveRecord::Schema.define(:version => 20140923074359) do
   add_foreign_key "addresses_streets", "addresses_cities", :name => "streets_city_id_fk", :column => "city_id"
 
   add_foreign_key "branches_branches", "branches_form_types", :name => "branches_form_type_id_fk", :column => "form_type_id"
-  add_foreign_key "branches_branches", "companies", :name => "branches_company_id_fk"
+  add_foreign_key "branches_branches", "companies_companies", :name => "branches_company_id_fk", :column => "company_id"
 
   add_foreign_key "branches_emails", "branches_branches", :name => "emails_branch_id_fk", :column => "branch_id"
 
@@ -250,25 +250,26 @@ ActiveRecord::Schema.define(:version => 20140923074359) do
   add_foreign_key "branches_websites_join", "branches_branches", :name => "branch_websites_branch_id_fk", :column => "branch_id"
   add_foreign_key "branches_websites_join", "branches_websites", :name => "branch_websites_website_id_fk", :column => "website_id"
 
-  add_foreign_key "companies", "company_sources", :name => "companies_company_source_id_fk"
-  add_foreign_key "companies", "users", :name => "companies_agent_id_fk", :column => "agent_id"
-  add_foreign_key "companies", "users", :name => "companies_author_user_id_fk", :column => "author_user_id"
-  add_foreign_key "companies", "users", :name => "companies_editor_user_id_fk", :column => "editor_user_id"
+  add_foreign_key "companies_companies", "companies_sources", :name => "companies_company_source_id_fk"
+  add_foreign_key "companies_companies", "companies_statuses", :name => "companies_companies_companies_status_id_fk"
+  add_foreign_key "companies_companies", "users", :name => "companies_agent_id_fk", :column => "agent_id"
+  add_foreign_key "companies_companies", "users", :name => "companies_author_user_id_fk", :column => "author_user_id"
+  add_foreign_key "companies_companies", "users", :name => "companies_editor_user_id_fk", :column => "editor_user_id"
 
-  add_foreign_key "companies_rubrics", "companies", :name => "company_rubrics_company_id_fk"
+  add_foreign_key "companies_histories", "companies_companies", :name => "company_histories_company_id_fk", :column => "company_id"
+  add_foreign_key "companies_histories", "users", :name => "company_histories_user_id_fk"
+
+  add_foreign_key "companies_people", "companies_companies", :name => "people_company_id_fk", :column => "company_id"
+
+  add_foreign_key "companies_rubrics", "companies_companies", :name => "company_rubrics_company_id_fk", :column => "company_id"
   add_foreign_key "companies_rubrics", "rubrics", :name => "company_rubrics_rubric_id_fk"
 
-  add_foreign_key "company_histories", "companies", :name => "company_histories_company_id_fk"
-  add_foreign_key "company_histories", "users", :name => "company_histories_user_id_fk"
-
-  add_foreign_key "contracts", "companies", :name => "contracts_company_id_fk"
+  add_foreign_key "contracts", "companies_companies", :name => "contracts_company_id_fk", :column => "company_id"
   add_foreign_key "contracts", "contract_statuses", :name => "contracts_contract_status_id_fk"
   add_foreign_key "contracts", "project_codes", :name => "contracts_project_code_id_fk"
 
   add_foreign_key "keywords_rubrics", "keywords", :name => "rubric_keywords_keyword_id_fk"
   add_foreign_key "keywords_rubrics", "rubrics", :name => "rubric_keywords_rubric_id_fk"
-
-  add_foreign_key "people", "companies", :name => "people_company_id_fk"
 
   add_foreign_key "product_types", "product_types", :name => "products_bonus_product_id_fk", :column => "bonus_product_id"
 

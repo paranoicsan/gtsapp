@@ -186,7 +186,7 @@ describe CompaniesController do
       it 'меняет статус компании на Требует внимания' do
         p = HashWithIndifferentAccess.new(
             reason_need_attention_on: Faker::Lorem.sentence,
-            company_status: CompanyStatus.need_attention
+            company_status: Status.need_attention
         )
         Company.any_instance.should_receive(:update_attributes).with(p)
         post :request_attention, id: @company.to_param, company: p, format: 'js'
@@ -287,7 +287,7 @@ describe CompaniesController do
       it 'меняет статус компании на Требует доработки' do
         p = HashWithIndifferentAccess.new(
             reason_need_improvement_on: Faker::Lorem.sentence,
-            company_status: CompanyStatus.need_improvement
+            company_status: Status.need_improvement
         )
         Company.any_instance.should_receive(:update_attributes).with(p)
         post :request_improvement, id: @company.to_param, company: p, format: 'js'
@@ -397,7 +397,7 @@ describe CompaniesController do
       it 'создаёт запись в истории компании' do
         expect {
           post_valid
-        }.to change(CompanyHistory, :count).by(1)
+        }.to change(History, :count).by(1)
       end
     end
 
@@ -457,7 +457,7 @@ describe CompaniesController do
       it 'создаёт запись в истории компании' do
         expect {
           put_valid
-        }.to change(CompanyHistory, :count).by(1)
+        }.to change(History, :count).by(1)
       end
     end
 
@@ -522,7 +522,7 @@ describe CompaniesController do
     it 'создаёт запись в истории компании' do
       expect {
         add_valid
-      }.to change(CompanyHistory, :count).by(1)
+      }.to change(History, :count).by(1)
     end
   end
 
@@ -545,7 +545,7 @@ describe CompaniesController do
     it 'создаёт запись в истории компании' do
       expect {
         delete_valid
-      }.to change(CompanyHistory, :count).by(1)
+      }.to change(History, :count).by(1)
     end
   end
 

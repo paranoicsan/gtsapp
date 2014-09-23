@@ -58,7 +58,7 @@ class ReportController < ApplicationController
     end_p = Date.civil params[:report_period_end][:year].to_i, params[:report_period_end][:month].to_i, params[:report_period_end][:day].to_i + 1
 
     range_filter = 'user_id = ? and created_at >= ? AND created_at <= ? '
-    @report_result = CompanyHistory.where(range_filter, agent_id, start, end_p).group_by &:company_id
+    @report_result = History.where(range_filter, agent_id, start, end_p).group_by &:company_id
     render :layout => false
   end
 

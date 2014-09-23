@@ -13,7 +13,7 @@ Then /^Я вижу список компаний, изменённых поль�
   el_id = "report_results_table"
   # составляем ряды для таблицы
   rows = ""
-  CompanyHistory.all.group_by(&:company_id).each_value do |c|
+  History.all.group_by(&:company_id).each_value do |c|
     text = "#{c.first.company.title} (подробно)"
     rows = "#{rows}\n|#{text}|#{c.first.created_at.strftime("%d.%m.%Y %H:%M")}|"
   end
@@ -97,7 +97,7 @@ end
 #
 #  # составляем ряды для таблицы
 #  rows = ""
-#  cs = filter.eql?("активных") ? Company.where("company_status_id = ?", CompanyStatus.active.id) : Company.all
+#  cs = filter.eql?("активных") ? Company.where("company_status_id = ?", Status.active.id) : Company.all
 #  cs.each do |c|
 #    rows = "#{rows}\n|#{c.title}\\n#{@company.main_branch.fact_name}, #{@company.main_branch.legel_name}|"
 #  end
@@ -164,7 +164,7 @@ When /^Я заполняю параметры отчёта компании по
       choose("filter_all")
     when "архивных"
       choose("filter_archived")
-      @company.company_status = CompanyStatus.archived
+      @company.company_status = Status.archived
       @company.save
     else
       raise "Unknown filter type"
@@ -196,10 +196,10 @@ Then /^Я вижу список (активных|всех|архивных) к�
   rows = ""
   case filter
     when "активных"
-      cs = Company.where("company_status_id = ? and (rubricator = ? or rubricator = 3)", CompanyStatus.active.id, @rub_filter).
+      cs = Company.where("company_status_id = ? and (rubricator = ? or rubricator = 3)", Status.active.id, @rub_filter).
           order("title")
     when "архивных"
-      cs = Company.where("company_status_id = ? and (rubricator = ? or rubricator = 3)", CompanyStatus.archived.id, @rub_filter).
+      cs = Company.where("company_status_id = ? and (rubricator = ? or rubricator = 3)", Status.archived.id, @rub_filter).
           order("title")
     else
       cs = Company.where("rubricator = ? or rubricator = 3", @rub_filter).order("title")
@@ -234,8 +234,8 @@ Then /^Я могу попасть на страницу формирования
 end
 When /^Я нахожусь на странице отчётов по рубрике$/ do
 
-  2.times { create_company_wstatus CompanyStatus.active }
-  2.times { create_company_wstatus CompanyStatus.archived }
+  2.times { create_company_wstatus Status.active }
+  2.times { create_company_wstatus Status.archived }
 
   @rubric = FactoryGirl.create :rubric
   Company.all.each do |c|
@@ -288,7 +288,7 @@ When /^Я могу посмотреть детальный отчёт по ко�
   # В качестве компании берём первую
   company = nil
   history = nil
-  CompanyHistory.all.group_by(&:company_id).each_value do |company_history|
+  History.all.group_by(&:company_id).each_value do |company_history|
     company = company_history.first.company
     history = company_history
     break

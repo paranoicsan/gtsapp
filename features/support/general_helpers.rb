@@ -16,13 +16,13 @@ module GeneralHelpers
     statuses = ["Активна", "На рассмотрении", "В архиве", "На удалении", "Требует внимания", "Требует доработки",
       "Повторное рассмотрение"]
     statuses.each do |s|
-      CompanyStatus.create(name: s).save! unless CompanyStatus.find_by_name(s)
+      Status.create(name: s).save! unless Status.find_by_name(s)
     end
   end
 
   def create_company_sources
     ["Заявка с сайта", "От агента"].each do |s|
-      CompanySource.create(name: s).save! unless CompanySource.find_by_name(s)
+      Source.create(name: s).save! unless Source.find_by_name(s)
     end
   end
 

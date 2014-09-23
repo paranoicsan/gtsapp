@@ -307,7 +307,7 @@ namespace :db do
     CSV.foreach('db/data/companies.csv', {:col_sep => ',', :quote_char => '"', :headers => true}) do |row|
 
       old_id = row[0].to_i
-      status = row[6].to_i == 1 ? CompanyStatus.active : CompanyStatus.suspended
+      status = row[6].to_i == 1 ? Status.active : Status.suspended
 
       params = {
           old_id: old_id,

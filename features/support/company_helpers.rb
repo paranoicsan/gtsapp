@@ -61,7 +61,7 @@ module CompanyHelpers
   # @return [Company] Созданный экземпляр компании
   def create_company(active=false)
     if active
-      FactoryGirl.create :company, company_status_id: CompanyStatus.active.id
+      FactoryGirl.create :company, company_status_id: Status.active.id
     else
       FactoryGirl.create :company
     end
@@ -80,10 +80,10 @@ module CompanyHelpers
   # @param [User] Агент, для которого делаются записи
   def create_history(agent)
     company_1 = FactoryGirl.create :company, author_user_id: agent.id
-    CompanyHistory.log("создал компанию", agent.id, company_1.id)
-    CompanyHistory.log("обновил компанию", agent.id, company_1.id)
+    History.log("создал компанию", agent.id, company_1.id)
+    History.log("обновил компанию", agent.id, company_1.id)
     company_2 = FactoryGirl.create :company
-    CompanyHistory.log("добавил рубрику", agent.id, company_2.id)
+    History.log("добавил рубрику", agent.id, company_2.id)
   end
 
 

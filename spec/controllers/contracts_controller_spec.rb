@@ -81,7 +81,7 @@ describe ContractsController do
       it "создаёт запись в истории компании" do
         expect {
           post_valid
-        }.to change(CompanyHistory, :count).by(1)
+        }.to change(History, :count).by(1)
       end
     end
 
@@ -137,7 +137,7 @@ describe ContractsController do
       it "создаёт запись в истории компании" do
         expect {
           put_valid
-        }.to change(CompanyHistory, :count).by(1)
+        }.to change(History, :count).by(1)
       end
     end
 
@@ -178,7 +178,7 @@ describe ContractsController do
       expect {
         contract = create_valid
         delete :destroy, {:id => contract.to_param}
-      }.to change(CompanyHistory, :count).by(1)
+      }.to change(History, :count).by(1)
     end
   end
 

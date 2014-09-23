@@ -188,7 +188,7 @@ describe ReportController do
       let(:company) { FactoryGirl.create(:company, author_user_id: user.id) }
 
       def write_history
-        CompanyHistory.log('ttt', user.id, company.id)
+        History.log('ttt', user.id, company.id)
       end
 
       def post_valid
@@ -215,7 +215,7 @@ describe ReportController do
       it 'возвращает изменённые в указанном периоде компании как @report_result' do
         write_history
         post_valid
-        assigns(:report_result).should eq(company.id => [CompanyHistory.first])
+        assigns(:report_result).should eq(company.id => [History.first])
       end
       it 'возвращает JavaScript-ответ для обновления данных на странице' do
         post_valid

@@ -1,5 +1,5 @@
 # encoding: utf-8
-class CompanySource < ActiveRecord::Base
+class Companies::Source < ActiveRecord::Base
   has_many :companies
 
   ##
@@ -8,7 +8,7 @@ class CompanySource < ActiveRecord::Base
   # @return [Integer] Ключ источника с именем "От агента"
   #
   def self.from_agent_id
-    obj = CompanySource.find_by_name('От агента')
+    obj = Source.find_by_name('От агента')
     if obj
       obj.id
     end

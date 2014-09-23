@@ -80,9 +80,9 @@ When /^Для компании существуют (\d+) договора на 
 end
 When /^Существует (\d+) компаний на рассмотрении$/ do |cnt|
   step %Q{Существует #{cnt} компаний}
-  s = CompanyStatus.suspended ? CompanyStatus.suspended : FactoryGirl.create(:company_status_suspended)
+  s = Status.suspended ? Status.suspended : FactoryGirl.create(:company_status_suspended)
 
-  unless CompanyStatus.active
+  unless Status.active
     FactoryGirl.create :company_status_active
   end
 
@@ -193,13 +193,13 @@ end
 When /^Я нахожусь на странице компании, с запрошенным вниманием администратора$/ do
   @company = create_company
   @company.reason_need_attention_on = Faker::Lorem.sentence
-  @company.company_status = CompanyStatus.need_attention
+  @company.company_status = Status.need_attention
   @company.save
   visit company_path @company
 end
 When /^Я нахожусь на странице активной компании$/ do
   @company = create_company
-  @company.company_status = CompanyStatus.active
+  @company.company_status = Status.active
   @company.save
   visit company_path @company
 end
@@ -207,7 +207,7 @@ When /^Существует (\d+) компаний с запрошенным в�
   step %Q{Существует #{cnt} компаний}
 
   Company.all.each do |c|
-    c.company_status = CompanyStatus.need_attention
+    c.company_status = Status.need_attention
     c.reason_need_attention_on = Faker::Lorem.sentence
     c.save
   end
@@ -278,7 +278,7 @@ Then /^Я (|не) вижу список компаний на доработке
   else
     # составляем ряды для таблицы
     rows = ""
-    Company.need_improvement_list_by_user(@user.id).each do |c|
+    Company.need_improvement_by_user(@user.id).each do |c|
       rows = "#{rows}\n|#{c.title}|#{c.reason_need_improvement_on}|"
     end
     steps %Q{

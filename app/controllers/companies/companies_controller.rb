@@ -61,7 +61,7 @@ class CompaniesController < ApplicationController
 
     # Определяем права пользователя и в зависимости от этого задаем статус
     #noinspection RubyResolve
-    status = current_user.is_admin? || current_user.is_operator? ? CompanyStatus.active : CompanyStatus.suspended
+    status = current_user.is_admin? || current_user.is_operator? ? Status.active : Status.suspended
     params[:company][:company_status] = status
 
     # Автор и редактор
@@ -226,7 +226,7 @@ class CompaniesController < ApplicationController
   # Меняет компании статус как "Требует внимания"
   def request_attention
     @company = Company.find params[:id]
-    params[:company][:company_status] = CompanyStatus.need_attention
+    params[:company][:company_status] = Status.need_attention
     @company.update_attributes(params[:company])
 
     if @company.save
@@ -250,7 +250,7 @@ class CompaniesController < ApplicationController
   # Меняет компании статус как "Требует внимания"
   def request_improvement
     @company = Company.find params[:id]
-    params[:company][:company_status] = CompanyStatus.need_improvement
+    params[:company][:company_status] = Status.need_improvement
     @company.update_attributes(params[:company])
 
     if @company.save
@@ -266,7 +266,7 @@ class CompaniesController < ApplicationController
   def improve
     c = Company.find params[:id]
     c.update_attributes({
-                        company_status: CompanyStatus.second_suspend,
+                        company_status: Status.second_suspend,
                         reason_need_improvement_on: nil
                             })
     redirect_to request.referer

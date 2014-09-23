@@ -1,7 +1,5 @@
-require "faker"
-
 FactoryGirl.define do
-  factory :person do
+  factory :person, class: Companies::Person do
     position { Faker::Name.title }
     name { Faker::Name.name }
     second_name { Faker::Name.last_name }

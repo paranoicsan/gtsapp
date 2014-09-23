@@ -1,5 +1,5 @@
 # encoding: utf-8
-class CompanyStatus < ActiveRecord::Base
+class Companies::Status < ActiveRecord::Base
   has_many :companies
 
   ##

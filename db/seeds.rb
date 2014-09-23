@@ -17,17 +17,17 @@ User.create(username: 't_agent', password: '1111', password_confirmation: '1111'
             email: 'agent@test.com', roles: %w(agent)).save!
 
 ## Статусы компаний
-CompanyStatus.create(name: 'Активна').save!
-CompanyStatus.create(name: 'На рассмотрении').save!
-CompanyStatus.create(name: 'В архиве').save!
-CompanyStatus.create(name: 'На удалении').save!
-CompanyStatus.create(name: 'Требует внимания').save!
-CompanyStatus.create(name: 'Требует доработки').save!
-CompanyStatus.create(name: 'Повторное рассмотрение').save!
+Status.create(name: 'Активна').save!
+Status.create(name: 'На рассмотрении').save!
+Status.create(name: 'В архиве').save!
+Status.create(name: 'На удалении').save!
+Status.create(name: 'Требует внимания').save!
+Status.create(name: 'Требует доработки').save!
+Status.create(name: 'Повторное рассмотрение').save!
 
 # Источники компаний
-CompanySource.create(name: 'Заявка с сайта').save!
-CompanySource.create(name: 'От агента').save!
+Source.create(name: 'Заявка с сайта').save!
+Source.create(name: 'От агента').save!
 
 # Статусы договоров
 ContractStatus.create(name: 'активен').save!

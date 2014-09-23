@@ -29,7 +29,7 @@ Given /^Существуют следующие компании$/ do |table|
       params[:agent_id] = User.find_by_username(company[:agent_name]).id
     end
     if company[:source_name]
-      params[:company_source_id] = CompanySource.find_by_name(company[:source_name]).id
+      params[:company_source_id] = Source.find_by_name(company[:source_name]).id
     end
     params[:rubricator] = company[:rubricator] if company[:rubricator]
     params[:author_user_id] = company[:author_user_id] if company[:author_user_id]
@@ -135,7 +135,7 @@ Given /^Существуют (\d+) компаний с названиями на
   if table
     table.hashes.each do |p|
       if p[:company_status]
-        params[:company_status_id] = CompanyStatus.find_by_name(p[:company_status]).id
+        params[:company_status_id] = Status.find_by_name(p[:company_status]).id
       end
       if p[:author_user]
         params[:author] = User.find_by_username(p[:author_user])
@@ -185,13 +185,13 @@ When /^Существует (\d+) компаний$/ do |cnt|
 end
 When /^Существует (\d+) компаний в архиве$/ do |cnt|
   cnt.to_i.times do
-    @company = FactoryGirl.create :company, company_status: CompanyStatus.archived
+    @company = FactoryGirl.create :company, company_status: Status.archived
   end
 end
 When /^Существует (\d+) компаний на доработке$/ do |cnt|
   cnt.to_i.times do
     attrs = {
-        company_status: CompanyStatus.need_improvement,
+        company_status: Status.need_improvement,
         reason_need_improvement_on: Faker::Lorem.sentence
     }
     @company = FactoryGirl.create :company, attrs
@@ -200,7 +200,7 @@ end
 When /^Существует (\d+) компаний на доработке, созданных мною$/ do |cnt|
   cnt.to_i.times do
     attrs = {
-        company_status: CompanyStatus.need_improvement,
+        company_status: Status.need_improvement,
         reason_need_improvement_on: Faker::Lorem.sentence,
         author: @user
     }
@@ -213,7 +213,7 @@ When /^Я нахожусь на странице компании, отправ�
 end
 When /^Существует (\d+) компаний на повторном рассмотрении$/ do |cnt|
   cnt.to_i.times do
-    @company = FactoryGirl.create :company, company_status: CompanyStatus.second_suspend
+    @company = FactoryGirl.create :company, company_status: Status.second_suspend
   end
 end
 When /^Я нахожусь на странице компании на повторном рассмотрении$/ do
