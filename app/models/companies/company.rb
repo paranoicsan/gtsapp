@@ -17,23 +17,23 @@ module Companies
     validates_presence_of :title
     validates_presence_of :rubricator
 
-    validates_presence_of :reason_deleted_on, if: :queued_for_deletion?, unless: :new_record?,
+    validates_presence_of :reason_deleted_on, if: :queued_for_deletion?,
                           message: 'Не указана причина удаления'
-    validates_presence_of :reason_need_attention_on, if: :need_attention?, unless: :new_record?,
+    validates_presence_of :reason_need_attention_on, if: :need_attention?,
                           message: 'Не указана причина обращения'
-    validates_presence_of :reason_need_improvement_on, if: :need_improvement?, unless: :new_record?,
+    validates_presence_of :reason_need_improvement_on, if: :need_improvement?,
                           message: 'Не указана причина необходимости доработки компании'
 
-    before_save :default_values, only: [:create]
+    before_save :default_values, if: :new_record?
 
-    scope :active, -> { where status: Status.active }
-    scope :archived, -> { where status: Status.archived }
-    scope :suspended, -> { where status: Status.suspended }
-    scope :need_improvement, -> { where status: Status.need_improvement }
-    scope :need_improvement_by_user, ->(id) { where status: Status.need_improvement, author_user_id: id }
-    scope :suspended_by_user, ->(id) { where status: Status.suspended, author_user_id: id }
-    scope :queued_for_delete, -> { where status: Status.queued_for_delete }
-    scope :need_attention, -> { where status: Status.need_attention }
+    scope :active, -> { where companies_status_id: Status.active.id }
+    scope :archived, -> { where companies_status_id: Status.archived.id }
+    scope :suspended, -> { where companies_status_id: Status.suspended.id }
+    scope :need_improvement, -> { where companies_status_id: Status.need_improvement.id }
+    scope :need_improvement_by_user, ->(id) { where companies_status_id: Status.need_improvement, author_user_id: id }
+    scope :suspended_by_user, ->(id) { where companies_status_id: Status.suspended, author_user_id: id}
+    scope :queued_for_delete, -> { where companies_status_id: Status.queued_for_delete.id }
+    scope :need_attention, -> { where companies_status_id: Status.need_attention.id }
 
     # Возвращает истину, если компания владеет только социальным рубрикатором
     def social_rubricator?
@@ -237,9 +237,11 @@ module Companies
     ##
     # Проверяет и обрабатывает поля перед непосредственной записью в БД
     def default_values
+
       self.date_added ||= Date.today
 
       owner = self.author
+
       if owner.is_admin? || owner.is_operator?
         s = Status.active
       elsif owner.is_agent?
@@ -248,7 +250,7 @@ module Companies
         s = Status.need_attention
       end
 
-      self.status ||= s
+      self.status = s
 
     end
 

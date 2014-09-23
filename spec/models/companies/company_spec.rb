@@ -4,15 +4,25 @@ module Companies
 
   describe Company do
 
+    before(:each) do
+      seed_statuses
+    end
+
+    let(:status_active) { Status.active }
+    let(:status_archived) { Status.archived }
+    let(:status_suspended) { Status.suspended }
+    let(:status_deletion) { Status.queued_for_delete }
+    let(:status_attention) { Status.need_attention }
+    let(:status_improvements) { Status.need_improvement }
+
+
     it 'Фабрика корректна' do
-      #noinspection RubyResolve
       FactoryGirl.create(:company).should be_valid
     end
 
     it 'компания не может быть создана без названия' do
       company = FactoryGirl.build(:company, title: nil)
       company.should have(1).error_on(:title)
-      #noinspection RubyResolve
       company.should_not be_valid
     end
 
@@ -62,26 +72,20 @@ module Companies
     describe 'Создаётся с тем или иным состоянием, в зависимости от прав автора' do
 
       it 'статус АКТИВНА, если создаёт админ' do
-        user = FactoryGirl.create(:user_admin)
-        status = FactoryGirl.create :company_status_active
-        company = FactoryGirl.create(:company, author: user, editor: user)
-        #noinspection RubyResolve
-        company.status.should eq(status)
+        user = FactoryGirl.create :user_admin
+        company = FactoryGirl.create :company, author: user, editor: user
+        company.status.should eq(status_active)
       end
 
       it 'статус АКТИВНА, если создаёт оператор' do
-        user = FactoryGirl.create(:user_operator)
-        status = FactoryGirl.create :company_status_active
-        company = FactoryGirl.create(:company, author: user, editor: user)
-        #noinspection RubyResolve
-        company.status.should eq(status)
+        user = FactoryGirl.create :user_operator
+        company = FactoryGirl.create :company, author: user, editor: user
+        company.status.should eq(status_active)
       end
 
       it 'статус НА РАССМОТРЕНИИ, если создаёт агент' do
-        status = FactoryGirl.create :company_status_suspended
         company = FactoryGirl.create :company
-        #noinspection RubyResolve
-        company.status.should eq(status)
+        company.status.should eq(status_suspended)
       end
 
     end
@@ -89,10 +93,6 @@ module Companies
     describe '#queue_for_delete' do
 
       let(:company) { FactoryGirl.create :company }
-      let(:status_active) { FactoryGirl.create :company_status_active }
-      let(:status_archived) { FactoryGirl.create :company_status_archived }
-      let(:status_suspended) { FactoryGirl.create :company_status_suspended }
-      let(:status_deletion) { FactoryGirl.create :company_status_on_deletion }
 
       context 'агент может выставить компанию на удаление' do
 
@@ -136,10 +136,6 @@ module Companies
     describe '#unqueue_for_delete' do
 
       let(:company) { FactoryGirl.create :company }
-      let(:status_active) { FactoryGirl.create :company_status_active }
-      let(:status_archived) { FactoryGirl.create :company_status_archived }
-      let(:status_suspended) { FactoryGirl.create :company_status_suspended }
-      let(:status_deletion) { FactoryGirl.create :company_status_on_deletion }
 
       it 'меняет статус компании на указанный активный' do
         company.status = status_deletion
@@ -175,8 +171,6 @@ module Companies
 
     describe '#queued_for_deletion?' do
       let(:company) { FactoryGirl.create :company }
-      let(:status_active) { FactoryGirl.create :company_status_active }
-      let(:status_deletion) { FactoryGirl.create :company_status_on_deletion }
 
       it 'возвращает истину, если компания помечена на удаление' do
         company.status = status_deletion
@@ -189,16 +183,16 @@ module Companies
 
     describe '.queued_for_delete' do
       it 'возвращает компании на удалении' do
-        company = FactoryGirl.create :company_queued_for_delete
+        company = FactoryGirl.create :company
+        company.queue_for_delete Faker::Lorem.sentence
         Company.queued_for_delete.should eq([company])
       end
     end
 
     describe '#need_attention?' do
       let(:company) { FactoryGirl.create :company }
-      let(:status) { FactoryGirl.create :company_status_need_attention }
       it 'возвращает истину, если компания с указанным статусом' do
-        company.status = status
+        company.status = status_attention
         company.need_attention?.should be_true
       end
       it 'возвращает ложь, если компания с любым другим статусом' do
@@ -208,9 +202,9 @@ module Companies
 
     describe '#need_improvement?' do
       let(:company) { FactoryGirl.create :company }
-      let(:status) { FactoryGirl.create :company_status_need_improvement }
+
       it 'возвращает истину, если компания с указанным статусом' do
-        company.status = status
+        company.status = status_improvements
         company.need_improvement?.should be_true
       end
       it 'возвращает ложь, если компания с любым другим статусом' do
@@ -218,47 +212,41 @@ module Companies
       end
     end
 
-    describe '.need_attention_list' do
+    describe '.need_attention' do
       it 'возвращает компании, требующие внимания' do
-        params = {
-            reason_need_attention_on: Faker::Lorem.sentence,
-            status: FactoryGirl.create(:company_status_need_attention)
-        }
-        company = FactoryGirl.create :company, params
-        Company.need_attention_list.should eq([company])
+        company = FactoryGirl.create :company, reason_need_attention_on: Faker::Lorem.sentence
+        company.status = status_attention
+        company.save
+        Company.need_attention.should eq([company])
       end
     end
 
-    describe '.need_improvement_list' do
+    describe '.need_improvement' do
       it 'возвращает компании на доработке' do
-        params = {
-            reason_need_improvement_on: Faker::Lorem.sentence,
-            status: FactoryGirl.create(:company_status_need_improvement)
-        }
-        company = FactoryGirl.create :company, params
-        Company.need_improvement_list.should eq([company])
+        company = FactoryGirl.create :company,
+                                     reason_need_improvement_on: Faker::Lorem.sentence
+        company.status = status_improvements
+        company.save
+        Company.need_improvement.should eq([company])
       end
     end
 
     describe '.need_improvement_by_user' do
       it 'возвращает компании на доработке для агента-автора' do
         author = FactoryGirl.create(:user)
-        params = {
-            reason_need_improvement_on: Faker::Lorem.sentence,
-            status: FactoryGirl.create(:company_status_need_improvement),
-            author: author
-        }
-
-        company = FactoryGirl.create :company, params
+        company = FactoryGirl.create :company,
+                                     reason_need_improvement_on: Faker::Lorem.sentence,
+                                     author: author
+        company.status = status_improvements
+        company.save
         Company.need_improvement_by_user(author.id).should eq([company])
       end
     end
 
     describe '#archived?' do
       let(:company) { FactoryGirl.create :company }
-      let(:status) { FactoryGirl.create :company_status_archived }
       it 'возвращает истину, если компания с указанным статусом' do
-        company.status = status
+        company.status = status_archived
         company.archived?.should be_true
       end
       it 'возвращает ложь, если компания с любым другим статусом' do
@@ -269,7 +257,6 @@ module Companies
     describe '.activate' do
 
       before(:each) do
-        @status_active = FactoryGirl.create :company_status_active
         @company = FactoryGirl.create :company_suspended
         @company.reason_need_attention_on = Faker::Lorem.sentences.join
         @company.reason_deleted_on = Faker::Lorem.sentences.join
@@ -278,7 +265,7 @@ module Companies
 
       it 'меняет статус компании на активный' do
         Company.activate @company.id
-        Company.find(@company.id).status.should eq(@status_active)
+        Company.find(@company.id).status.should eq(status_active)
       end
       it 'Сбрасывает причину запроса внимания' do
         Company.activate(@company.id)
@@ -296,13 +283,11 @@ module Companies
 
     describe '#archive' do
       before(:each) do
-        active_status = FactoryGirl.create :company_status_active
-        @status = FactoryGirl.create :company_status_archived
-        @company = FactoryGirl.create :company, status: active_status
+        @company = FactoryGirl.create :company, status: status_active
       end
       it 'меняет статус компании на архивный' do
         @company.archive
-        @company.status.should eq(@status)
+        @company.status.should eq(status_archived)
       end
       it 'Сбрасывает причину запроса внимания' do
         @company.reason_need_attention_on = Faker::Lorem.sentences.join
@@ -323,7 +308,8 @@ module Companies
 
     describe '#can_be_activated_by_agent?' do
       it 'возвращает истину, если текущий статус - архивный' do
-        company = FactoryGirl.create :company, status: FactoryGirl.create(:company_status_archived)
+        company = FactoryGirl.create :company
+        company.archive
         company.can_be_activated_by_agent?.should be_true
       end
     end
@@ -337,8 +323,10 @@ module Companies
 
 
     describe '.by_street' do
-      def create_company(status = :company_active)
-        company = FactoryGirl.create status
+      def create_company(status = status_active)
+        company = FactoryGirl.create :company
+        company.status = status
+        company.save
         b = FactoryGirl.create :branch, company_id: company.id
         FactoryGirl.create :address, branch_id: b.id, street_id: @street.id, city_id: @street.city.id
         company
@@ -356,7 +344,7 @@ module Companies
         Company.by_street(@street.id, params).should eq([company])
       end
       it 'возвращает только активные компании, если указан фильтр' do
-        company = create_company :company_active
+        company = create_company
         params = {
             filter: :active,
             rubricator_filter: 1
@@ -364,7 +352,7 @@ module Companies
         Company.by_street(@street.id, params).should eq([company])
       end
       it 'возвращает только архивные компании, если указан фильтр' do
-        company = create_company :company_archived
+        company = create_company status_archived
         params = {
             filter: :archived,
             rubricator_filter: 1
@@ -373,7 +361,7 @@ module Companies
       end
       it 'возвращает все компании, если указан фильтр' do
         companies = []
-        2.times { companies << create_company(:company_active) }
+        2.times { companies << create_company }
         params = {
             filter: :all,
             rubricator_filter: 1

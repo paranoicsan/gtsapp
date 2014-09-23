@@ -2,14 +2,19 @@ FactoryGirl.define do
 
   factory :company, class: Companies::Company do
 
-    comments { Faker::Lorem.sentence }
-    date_added { Date::today }
-    title { Faker::Lorem.words(3).join(' ') }
-    rubricator 1
+    trait :general do
+      comments { Faker::Lorem.sentence }
+      date_added { Date::today }
+      title { Faker::Lorem.words(3).join(' ') }
+      rubricator 1
 
-    author
-    editor
-    status { FactoryGirl.create :company_status }
+      author
+      editor
+    end
+
+    general
+    status { FactoryGirl.create :company_status_need_attention }
+    reason_need_attention_on { Faker::Lorem.sentence }
 
     factory :company_active do
       status { FactoryGirl.create :company_status_active }
