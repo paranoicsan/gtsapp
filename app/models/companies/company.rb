@@ -9,7 +9,7 @@ module Companies
     belongs_to :author, class_name: 'User', foreign_key: 'author_user_id'
     belongs_to :editor, class_name: 'User', foreign_key: 'editor_user_id'
     has_many :histories, dependent: :destroy
-    has_many :contracts, dependent: :destroy
+    has_many :contracts, dependent: :destroy, class_name: 'Contracts::Contract'
     has_many :branches, dependent: :destroy, class_name: 'Branches::Branch'
     has_many :persons, dependent: :destroy
     has_and_belongs_to_many :rubrics

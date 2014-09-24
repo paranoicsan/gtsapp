@@ -35,7 +35,7 @@ class DashboardController < ApplicationController
 
   private
     def suspended_contracts
-      Contract.find_all_by_contract_status_id ContractStatus.pending
+      Contract.find_all_by_contract_status_id Status.pending
     end
 
     def queued_for_delete_companies

@@ -152,7 +152,7 @@ namespace :db do
       # "PAYED_AMOUNT","DEBIT","STATUS_ID",
       # "PAY_DATE","SUGGEST_PAY_DATE"
 
-      status = ContractStatus.inactive
+      status = Status.inactive
 
       old_company_id = row[1]
       number = [row[2], row[3], idx].join('-')

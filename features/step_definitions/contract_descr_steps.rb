@@ -96,7 +96,7 @@ Then /^Я (не|) могу активировать договор$/ do |negate|
   else
     page.find("a[href='#{s}']").click
     step %Q{Я нахожусь на странице компании}
-    Contract.find(@contract.id).contract_status.should eq(ContractStatus.active)
+    Contract.find(@contract.id).contract_status.should eq(Status.active)
   end
 end
 When /^Я вижу список договоров$/ do

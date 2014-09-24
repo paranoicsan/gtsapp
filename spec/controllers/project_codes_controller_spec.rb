@@ -29,7 +29,7 @@ describe ProjectCodesController do
   end
 
   # This should return the minimal set of attributes required to create a valid
-  # ProjectCode. As you add validations to ProjectCode, be sure to
+  # Code. As you add validations to Code, be sure to
   # update the return value of this method accordingly.
   def valid_attributes
     {}
@@ -44,7 +44,7 @@ describe ProjectCodesController do
 
   describe "GET index" do
     it "assigns all project_codes as @project_codes" do
-      project_code = ProjectCode.create! valid_attributes
+      project_code = Code.create! valid_attributes
       get :index, {}, valid_session
       assigns(:project_codes).should eq([project_code])
     end
@@ -53,13 +53,13 @@ describe ProjectCodesController do
   describe "GET new" do
     it "assigns a new project_code as @project_code" do
       get :new, {}, valid_session
-      assigns(:project_code).should be_a_new(ProjectCode)
+      assigns(:project_code).should be_a_new(Code)
     end
   end
 
   describe "GET edit" do
     it "assigns the requested project_code as @project_code" do
-      project_code = ProjectCode.create! valid_attributes
+      project_code = Code.create! valid_attributes
       get :edit, {:id => project_code.to_param}, valid_session
       assigns(:project_code).should eq(project_code)
     end
@@ -67,15 +67,15 @@ describe ProjectCodesController do
 
   describe "POST create" do
     describe "with valid params" do
-      it "creates a new ProjectCode" do
+      it "creates a new Code" do
         expect {
           post :create, {:project_code => valid_attributes}, valid_session
-        }.to change(ProjectCode, :count).by(1)
+        }.to change(Code, :count).by(1)
       end
 
       it "assigns a newly created project_code as @project_code" do
         post :create, {:project_code => valid_attributes}, valid_session
-        assigns(:project_code).should be_a(ProjectCode)
+        assigns(:project_code).should be_a(Code)
         #noinspection RubyResolve
         assigns(:project_code).should be_persisted
       end
@@ -89,14 +89,14 @@ describe ProjectCodesController do
     describe "with invalid params" do
       it "assigns a newly created but unsaved project_code as @project_code" do
         # Trigger the behavior that occurs when invalid params are submitted
-        ProjectCode.any_instance.stub(:save).and_return(false)
+        Code.any_instance.stub(:save).and_return(false)
         post :create, {:project_code => {}}, valid_session
-        assigns(:project_code).should be_a_new(ProjectCode)
+        assigns(:project_code).should be_a_new(Code)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
-        ProjectCode.any_instance.stub(:save).and_return(false)
+        Code.any_instance.stub(:save).and_return(false)
         post :create, {:project_code => {}}, valid_session
         response.should render_template("new")
       end
@@ -106,23 +106,23 @@ describe ProjectCodesController do
   describe "PUT update" do
     describe "with valid params" do
       it "updates the requested project_code" do
-        project_code = ProjectCode.create! valid_attributes
+        project_code = Code.create! valid_attributes
         # Assuming there are no other project_codes in the database, this
-        # specifies that the ProjectCode created on the previous line
+        # specifies that the Code created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        ProjectCode.any_instance.should_receive(:update_attributes).with({:these.to_s => 'params'})
+        Code.any_instance.should_receive(:update_attributes).with({:these.to_s => 'params'})
         put :update, {:id => project_code.to_param, :project_code => {:these => 'params'}}, valid_session
       end
 
       it "assigns the requested project_code as @project_code" do
-        project_code = ProjectCode.create! valid_attributes
+        project_code = Code.create! valid_attributes
         put :update, {:id => project_code.to_param, :project_code => valid_attributes}, valid_session
         assigns(:project_code).should eq(project_code)
       end
 
       it "redirects to the project_codes" do
-        project_code = ProjectCode.create! valid_attributes
+        project_code = Code.create! valid_attributes
         put :update, {:id => project_code.to_param, :project_code => valid_attributes}, valid_session
         response.should redirect_to(project_codes_path)
       end
@@ -130,17 +130,17 @@ describe ProjectCodesController do
 
     describe "with invalid params" do
       it "assigns the project_code as @project_code" do
-        project_code = ProjectCode.create! valid_attributes
+        project_code = Code.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
-        ProjectCode.any_instance.stub(:save).and_return(false)
+        Code.any_instance.stub(:save).and_return(false)
         put :update, {:id => project_code.to_param, :project_code => {}}, valid_session
         assigns(:project_code).should eq(project_code)
       end
 
       it "re-renders the 'edit' template" do
-        project_code = ProjectCode.create! valid_attributes
+        project_code = Code.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
-        ProjectCode.any_instance.stub(:save).and_return(false)
+        Code.any_instance.stub(:save).and_return(false)
         put :update, {:id => project_code.to_param, :project_code => {}}, valid_session
         response.should render_template("edit")
       end
@@ -149,14 +149,14 @@ describe ProjectCodesController do
 
   describe "DELETE destroy" do
     it "destroys the requested project_code" do
-      project_code = ProjectCode.create! valid_attributes
+      project_code = Code.create! valid_attributes
       expect {
         delete :destroy, {:id => project_code.to_param}, valid_session
-      }.to change(ProjectCode, :count).by(-1)
+      }.to change(Code, :count).by(-1)
     end
 
     it "redirects to the project_codes list" do
-      project_code = ProjectCode.create! valid_attributes
+      project_code = Code.create! valid_attributes
       delete :destroy, {:id => project_code.to_param}, valid_session
       response.should redirect_to(project_codes_url)
     end

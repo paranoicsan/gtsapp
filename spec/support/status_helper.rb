@@ -13,4 +13,13 @@ module StatusHelper
     FactoryGirl.create :company_status_need_improvement
   end
 
+  #
+  # Создаёт набор статусов договоров
+  #
+  def seed_contract_statuses
+    FactoryGirl.create(:contract_status_active) if Contracts::Status.active.nil?
+    FactoryGirl.create(:contract_status_suspended) if Contracts::Status.pending.nil?
+    FactoryGirl.create(:contract_status_inactive) if Contracts::Status.inactive.nil?
+  end
+
 end

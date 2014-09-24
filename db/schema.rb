@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140923115026) do
+ActiveRecord::Schema.define(:version => 20140924051949) do
 
   create_table "addresses_addresses", :force => true do |t|
     t.string   "house"
@@ -160,13 +160,13 @@ ActiveRecord::Schema.define(:version => 20140923115026) do
     t.datetime "updated_at"
   end
 
-  create_table "contract_statuses", :force => true do |t|
+  create_table "contracts_codes", :force => true do |t|
     t.string "name"
   end
 
-  create_table "contracts", :force => true do |t|
-    t.integer  "contract_status_id"
-    t.integer  "project_code_id"
+  create_table "contracts_contracts", :force => true do |t|
+    t.integer  "contracts_statuses_id"
+    t.integer  "contracts_codes_id"
     t.date     "date_sign"
     t.string   "number"
     t.float    "amount"
@@ -176,8 +176,12 @@ ActiveRecord::Schema.define(:version => 20140923115026) do
     t.string   "company_details"
     t.integer  "number_of_dicts"
     t.integer  "company_id"
-    t.datetime "created_at",         :null => false
-    t.datetime "updated_at",         :null => false
+    t.datetime "created_at",            :null => false
+    t.datetime "updated_at",            :null => false
+  end
+
+  create_table "contracts_statuses", :force => true do |t|
+    t.string "name"
   end
 
   create_table "keywords", :force => true do |t|
@@ -207,10 +211,6 @@ ActiveRecord::Schema.define(:version => 20140923115026) do
     t.datetime "updated_at",  :null => false
     t.integer  "rubric_id"
     t.text     "proposal"
-  end
-
-  create_table "project_codes", :force => true do |t|
-    t.string "name"
   end
 
   create_table "rubrics", :force => true do |t|
@@ -264,16 +264,16 @@ ActiveRecord::Schema.define(:version => 20140923115026) do
   add_foreign_key "companies_rubrics", "companies_companies", :name => "company_rubrics_company_id_fk", :column => "company_id"
   add_foreign_key "companies_rubrics", "rubrics", :name => "company_rubrics_rubric_id_fk"
 
-  add_foreign_key "contracts", "companies_companies", :name => "contracts_company_id_fk", :column => "company_id"
-  add_foreign_key "contracts", "contract_statuses", :name => "contracts_contract_status_id_fk"
-  add_foreign_key "contracts", "project_codes", :name => "contracts_project_code_id_fk"
+  add_foreign_key "contracts_contracts", "companies_companies", :name => "contracts_company_id_fk", :column => "company_id"
+  add_foreign_key "contracts_contracts", "contracts_codes", :name => "contracts_project_code_id_fk", :column => "contracts_codes_id"
+  add_foreign_key "contracts_contracts", "contracts_statuses", :name => "contracts_contract_status_id_fk", :column => "contracts_statuses_id"
 
   add_foreign_key "keywords_rubrics", "keywords", :name => "rubric_keywords_keyword_id_fk"
   add_foreign_key "keywords_rubrics", "rubrics", :name => "rubric_keywords_rubric_id_fk"
 
   add_foreign_key "product_types", "product_types", :name => "products_bonus_product_id_fk", :column => "bonus_product_id"
 
-  add_foreign_key "products", "contracts", :name => "contract_products_contract_id_fk"
+  add_foreign_key "products", "contracts_contracts", :name => "contract_products_contract_id_fk", :column => "contract_id"
   add_foreign_key "products", "product_types", :name => "contract_products_product_id_fk", :column => "product_id"
   add_foreign_key "products", "rubrics", :name => "products_rubric_id_fk"
 

@@ -33,7 +33,7 @@ end
 When /^Существуют следующие коды проекта$/ do |table|
   table.hashes.each do |row|
 
-    ProjectCode.create!({:name => row[:name]})
+    Code.create!({:name => row[:name]})
   end
 end
 When /^Я вижу следующую информацию$/ do |table|

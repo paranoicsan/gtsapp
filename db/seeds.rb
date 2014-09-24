@@ -30,9 +30,9 @@ Source.create(name: 'Заявка с сайта').save!
 Source.create(name: 'От агента').save!
 
 # Статусы договоров
-ContractStatus.create(name: 'активен').save!
-ContractStatus.create(name: 'не активен').save!
-ContractStatus.create(name: 'на рассмотрении').save!
+Status.create(name: 'активен').save!
+Status.create(name: 'не активен').save!
+Status.create(name: 'на рассмотрении').save!
 
 
 

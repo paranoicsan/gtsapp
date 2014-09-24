@@ -28,7 +28,7 @@ module GeneralHelpers
 
   def create_contract_statuses
     ["активен", "не активен", "на рассмотрении"].each do |s|
-      ContractStatus.create(name: s).save! unless ContractStatus.find_by_name(s)
+      Status.create(name: s).save! unless Status.find_by_name(s)
     end
   end
 

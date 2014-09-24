@@ -53,7 +53,7 @@ class ContractsController < ApplicationController
 
     # Определяем состояние создаваемого договора
     #noinspection RubyResolve
-    @contract.contract_status = ContractStatus.active
+    @contract.contract_status = Status.active
 
     respond_to do |format|
       if @contract.save

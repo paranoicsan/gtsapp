@@ -74,7 +74,7 @@ When /^Для компании существуют (\d+) договора на 
   step %Q{Для компании существуют #{cnt} договора}
   @company.contracts.each do |c|
     puts c.contract_status.inspect
-    c.contract_status = ContractStatus.pending
+    c.contract_status = Status.pending
     puts c.contract_status.inspect
   end
 end

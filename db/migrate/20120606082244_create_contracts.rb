@@ -29,7 +29,7 @@ class CreateContracts < ActiveRecord::Migration
     add_foreign_key :contracts, :contract_statuses
 
     # Статусы договоров
-    ContractStatus.create(name: 'активен').save!
-    ContractStatus.create(name: 'не активен').save!
+    Status.create(name: 'активен').save!
+    Status.create(name: 'не активен').save!
   end
 end
