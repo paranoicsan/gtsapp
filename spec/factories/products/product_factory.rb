@@ -1,10 +1,8 @@
-require 'faker'
-
 FactoryGirl.define do
-  factory :product do
+  factory :product, class: Products::Product do
     proposal { Faker::Lorem.sentence }
     rubric
     association :contract, factory: :contract
-    product_type
+    association :type, factory: :product_type
   end
 end

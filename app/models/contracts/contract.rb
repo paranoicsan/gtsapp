@@ -4,10 +4,10 @@ class Contracts::Contract < ActiveRecord::Base
   belongs_to :status, foreign_key: 'contracts_statuses_id'
   belongs_to :code, foreign_key: 'contracts_codes_id'
 
-  has_many :products, :dependent => :destroy
-  has_many :product_types, :through => :products
+  has_many :products, dependent: :destroy, class_name: 'Products::Product'
+  # has_many :types, through => :products
 
-  validates_presence_of :number, :message => 'Введите номер договора!'
+  validates_presence_of :number, message: 'Введите номер договора!'
 
   validates :number, uniqueness: {case_sensitive: false, message: 'Договор с таким номером уже существует!'}
   validates :amount, numericality: {message: 'Сумма должна быть числовым значением!'}
@@ -27,7 +27,7 @@ class Contracts::Contract < ActiveRecord::Base
   # @return [Boolean] Истина, когда пользователь может активировать договор
   #
   def can_activate?(user)
-    (user.is_admin? || user.is_operator?) && !self.active? ? true : false
+    (user.is_admin? || user.is_operator?) && !active? ? true : false
   end
 
   ##
@@ -37,7 +37,7 @@ class Contracts::Contract < ActiveRecord::Base
   # @param [Integer] Ключ договора
   #
   def self.activate(contract_id)
-    c = self.find contract_id
+    c = Contract.find contract_id
     c.update_attributes contract_status: Status.active
   end
 
@@ -47,7 +47,7 @@ class Contracts::Contract < ActiveRecord::Base
   # @return [Boolean] Истина, если договор активен
   #
   def active?
-    self.status == Status.active
+    status == Status.active
   end
 
   ##
@@ -62,7 +62,7 @@ class Contracts::Contract < ActiveRecord::Base
 
     # обрабатываем продукты
     if products.any?
-      s += products.map{|p| "'#{p.product_type.name}'"}.join(', ')
+      s += products.map{|p| "'#{p.type.name}'"}.join(', ')
       s += ', '
     end
 

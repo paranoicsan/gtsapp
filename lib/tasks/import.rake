@@ -13,7 +13,7 @@ namespace :db do
         :bonus_site => row[4],
         :price => row[5]
       }
-      p = ProductType.create!(params)
+      p = Type.create!(params)
       p.save!
       prods[p.id] = row[3]
     end
@@ -21,8 +21,8 @@ namespace :db do
     # повторный проход с сохранением ссылок на бонусный продукт
     prods.each do |k,v|
       if v
-        p = ProductType.find k
-        p.update_attribute 'bonus_product_id', ProductType.find_by_name(v).id
+        p = Type.find k
+        p.update_attribute 'bonus_product_id', Type.find_by_name(v).id
         p.save!
       end
     end

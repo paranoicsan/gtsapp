@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140924051949) do
+ActiveRecord::Schema.define(:version => 20140925120439) do
 
   create_table "addresses_addresses", :force => true do |t|
     t.string   "house"
@@ -193,24 +193,24 @@ ActiveRecord::Schema.define(:version => 20140924051949) do
     t.integer "keyword_id"
   end
 
-  create_table "product_types", :force => true do |t|
-    t.string   "name"
-    t.float    "size_width"
-    t.float    "size_height"
-    t.integer  "bonus_product_id"
-    t.string   "bonus_site"
-    t.float    "price"
-    t.datetime "created_at",       :null => false
-    t.datetime "updated_at",       :null => false
-  end
-
-  create_table "products", :force => true do |t|
+  create_table "products_products", :force => true do |t|
     t.integer  "contract_id"
-    t.integer  "product_id"
+    t.integer  "type_id"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
     t.integer  "rubric_id"
     t.text     "proposal"
+  end
+
+  create_table "products_types", :force => true do |t|
+    t.string   "name"
+    t.float    "size_width"
+    t.float    "size_height"
+    t.integer  "bonus_type_id"
+    t.string   "bonus_site"
+    t.float    "price"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
   end
 
   create_table "rubrics", :force => true do |t|
@@ -271,10 +271,10 @@ ActiveRecord::Schema.define(:version => 20140924051949) do
   add_foreign_key "keywords_rubrics", "keywords", :name => "rubric_keywords_keyword_id_fk"
   add_foreign_key "keywords_rubrics", "rubrics", :name => "rubric_keywords_rubric_id_fk"
 
-  add_foreign_key "product_types", "product_types", :name => "products_bonus_product_id_fk", :column => "bonus_product_id"
+  add_foreign_key "products_products", "contracts_contracts", :name => "contract_products_contract_id_fk", :column => "contract_id"
+  add_foreign_key "products_products", "products_types", :name => "contract_products_product_id_fk", :column => "type_id"
+  add_foreign_key "products_products", "rubrics", :name => "products_rubric_id_fk"
 
-  add_foreign_key "products", "contracts_contracts", :name => "contract_products_contract_id_fk", :column => "contract_id"
-  add_foreign_key "products", "product_types", :name => "contract_products_product_id_fk", :column => "product_id"
-  add_foreign_key "products", "rubrics", :name => "products_rubric_id_fk"
+  add_foreign_key "products_types", "products_types", :name => "products_bonus_product_id_fk", :column => "bonus_type_id"
 
 end

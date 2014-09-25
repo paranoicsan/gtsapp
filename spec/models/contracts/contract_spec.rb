@@ -16,7 +16,7 @@ describe Contracts::Contract do
       prod_types = []
       2.times do
         product = FactoryGirl.create :product, contract: contract
-        prod_types << product.product_type.name
+        prod_types << product.type.name
       end
 
       sd = contract.date_sign.strftime('%d.%m.%Y')

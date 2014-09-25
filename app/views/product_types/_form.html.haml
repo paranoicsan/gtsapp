@@ -24,7 +24,7 @@
   .control-group
     = f.label :bonus_product_id, 'Бонусный продукт', :class => 'control-label'
     .controls
-      = f.select(:bonus_product_id, options_for_select(ProductType.all.collect{ |p| [p.name, p.id] },
+      = f.select(:bonus_product_id, options_for_select(Type.all.collect{ |p| [p.name, p.id] },
         @product_type.bonus_product_id), {:prompt => 'Выберите продукт'})
   .control-group
     = f.label :bonus_site, 'Бонус для сайта', :class => 'control-label'
