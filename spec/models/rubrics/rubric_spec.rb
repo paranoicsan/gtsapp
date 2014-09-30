@@ -1,7 +1,6 @@
-# encoding: utf-8
 require 'spec_helper'
 
-describe Rubric do
+describe Rubrics::Rubric do
 
   it 'фабрика корректна' do
     rubric = FactoryGirl.create :rubric
@@ -19,12 +18,13 @@ describe Rubric do
   end
 
   describe '.by_rubricator' do
-    before(:all) do
-      r1 = Rubric.create name: 'rub_1', social: true
-      r2 = Rubric.create name: 'rub_2', social: true
-      r3 = Rubric.create name: 'rub_3', social: false
-      r4 = Rubric.create name: 'rub_4', social: false
-      r5 = Rubric.create name: 'rub_5', social: true
+    before(:each) do
+
+      r1 = FactoryGirl.create :rubric, name: 'rub_1'
+      r2 = FactoryGirl.create :rubric, name: 'rub_2'
+      r3 = FactoryGirl.create :rubric_comercial, name: 'rub_3'
+      r4 = FactoryGirl.create :rubric_comercial, name: 'rub_4'
+      r5 = FactoryGirl.create :rubric, name: 'rub_5'
 
       @all = [r1, r2, r3, r4, r5]
       @social = [r1, r2, r5]
@@ -33,21 +33,21 @@ describe Rubric do
     end
 
     it 'возвращает все социальные для рубрикатора - 1' do
-      rubs = Rubric.by_rubricator 1
-      assert rubs.count == @social.count, 'Количество рубрик не совпадает!'
+      rubs = Rubrics::Rubric.by_rubricator 1
+      rubs.count.should == @social.count
       rubs.each_with_index do |rub, i|
-        assert rub.name == @social[i].name
+        rub.name.should eq(@social[i].name)
       end
     end
     it 'возвращает все коммерческие для рубрикатора - 2' do
-      rubs = Rubric.by_rubricator 2
+      rubs = Rubrics::Rubric.by_rubricator 2
       assert rubs.count == @commercial.count, 'Количество рубрик не совпадает!'
       rubs.each_with_index do |rub, i|
         assert rub.name == @commercial[i].name
       end
     end
     it 'возвращает абсолютно все для рубрикатора - 3' do
-      rubs = Rubric.by_rubricator 3
+      rubs = Rubrics::Rubric.by_rubricator 3
       assert rubs.count == @all.count, 'Количество рубрик не совпадает!'
       rubs.each_with_index do |rub, i|
         assert rub.name == @all[i].name
@@ -56,14 +56,16 @@ describe Rubric do
   end
 
   describe '.rubricator_name_for' do
-    it 'возвращает название социального' do
-      Rubric.rubricator_name_for(1).should eq('Социальный')
+    context 'returns specific rubricator name' do
+      it do
+        types = Rubrics::Rubric::RUBRICATOR_TYPE
+        types.each_with_index do |type, i|
+          Rubrics::Rubric.rubricator_name_for(i - 1).should eq(type)
+        end
+      end
     end
-    it 'возвращает название полного' do
-      Rubric.rubricator_name_for(3).should eq('Полный')
-    end
-    it 'возвращает название коммерческого' do
-      Rubric.rubricator_name_for(2).should eq('Коммерческий')
+    it 'returns nil if requested rubricator does not exist' do
+      Rubrics::Rubric.rubricator_name_for(-100).should be_nil
     end
   end
 end

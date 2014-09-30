@@ -2,7 +2,7 @@ class Products::Product < ActiveRecord::Base
 
   belongs_to :type
   belongs_to :contract, class_name: 'Contracts::Contract'
-  belongs_to :rubric
+  belongs_to :rubric, class_name: 'Rubrics::Rubric'
 
   validates_presence_of :type,
                         :contract

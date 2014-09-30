@@ -12,7 +12,8 @@ module Companies
     has_many :contracts, dependent: :destroy, class_name: 'Contracts::Contract'
     has_many :branches, dependent: :destroy, class_name: 'Branches::Branch'
     has_many :persons, dependent: :destroy
-    has_and_belongs_to_many :rubrics
+    has_and_belongs_to_many :rubrics, class_name: 'Rubrics::Rubric',
+                            join_table: 'companies_rubrics_join'
 
     validates_presence_of :title
     validates_presence_of :rubricator
@@ -53,7 +54,7 @@ module Companies
     # Выводит текстовое обозначение рубриктора для компании
     # @return [string] Текстовое значение рубрикатора
     def rubricator_name
-      rubricator.nil? || (rubricator == 0) ? 'Не указан' : Rubric.rubricator_name_for(rubricator)
+      rubricator.nil? || (rubricator == 0) ? 'Не указан' : Rubrics::Rubric.rubricator_name_for(rubricator)
     end
 
     ##
