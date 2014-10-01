@@ -1,4 +1,4 @@
-class AddressesController < ApplicationController
+class Address::AddressesController < ApplicationController
 
   before_filter :assign_address, except: [:index, :new, :create]
 

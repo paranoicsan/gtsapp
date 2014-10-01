@@ -9,9 +9,13 @@ Gtsapp::Application.routes.draw do
   resources :streets
   resources :post_indices
   resources :districts
-  resources :cities
+
   resources :form_types
   resources :project_codes
+
+  scope module: :address do
+    resources :cities
+  end
 
   match 'company/:id/autocomplete_rubric_name/', to: 'companies#autocomplete_rubric_name',
       as: :companies_autocomplete_rubric_name
@@ -27,7 +31,7 @@ Gtsapp::Application.routes.draw do
       resources :products, only: [:new, :create, :edit, :show, :destroy, :update]
     end
     resources :branches do
-      resources :addresses
+      resources :addresses, module: :address
       resources :phones
     end
   end

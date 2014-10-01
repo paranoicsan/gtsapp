@@ -1,3 +1,5 @@
+require 'spec_helper'
+
 describe Addresses::Address do
 
   it 'Фабрика корректна' do

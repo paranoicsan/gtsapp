@@ -1,4 +1,4 @@
-class CitiesController < ApplicationController
+class Address::CitiesController < ApplicationController
 
   before_filter :check_operator!, except: [:index, :show]
   before_filter :assign_city, except: [:index, :new, :create]

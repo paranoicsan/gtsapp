@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe CitiesController do
+describe Address::CitiesController do
 
   def valid_attributes
     FactoryGirl.attributes_for :city

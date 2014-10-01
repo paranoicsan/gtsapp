@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe AddressesController do
+describe Address::AddressesController do
 
   let(:branch) { FactoryGirl.create :branch }
 
