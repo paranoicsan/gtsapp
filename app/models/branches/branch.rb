@@ -81,7 +81,7 @@ class Branches::Branch < ActiveRecord::Base
     idx = 1
     direction = creation ? 'DESC' : 'ASC'
     phones_by_order.order("updated_at #{direction}").each do |p|
-      p.update_attribute 'order_num', idx
+      p.update_attributes order_num: idx
       idx += 1
     end
   end

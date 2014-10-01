@@ -109,44 +109,43 @@ describe Branches::Branch do
   describe '#update_phone_order' do
     PHONE_CNT = 5
     before(:each) do
+      @b = branch
       PHONE_CNT.times do |i|
-        FactoryGirl.create :phone, branch_id: branch.id, order_num: i+1
+        FactoryGirl.create :phone, branch_id: @b.id, order_num: i+1
       end
+      @b.phones.sort!{ |a, b| a.id <=> b.id }
     end
 
     def delete_and_update(index)
-      branch.phones[index].destroy
-      branch.phones.reload
-      branch.update_phone_order
-      branch.reload
+      @b.phones[index].destroy
+      @b.update_phone_order
     end
 
     it 'обновляет список телефонов при удалении первого' do
       delete_and_update(0)
-      branch.phones[0].order_num.should eq(1)
+      @b.phones[0].order_num.should eq(1)
     end
     it 'обновляет список телефонов при удалении из середины' do
       delete_and_update(PHONE_CNT-3)
-      branch.phones.count.times do |i|
-        branch.phones[i].order_num.should eq(i+1)
+      @b.phones.count.times do |i|
+        @b.phones[i].order_num.should eq(i+1)
       end
     end
     it 'ничего не меняется при удалении последнего' do
       delete_and_update(PHONE_CNT-1)
-      branch.phones[PHONE_CNT-2].order_num.should eq(PHONE_CNT-1)
+      @b.phones[PHONE_CNT-2].order_num.should eq(PHONE_CNT-1)
     end
     it 'обновляет список телефонов при добавлении нового' do
-      FactoryGirl.create :phone, branch_id: branch.id, order_num: 3
-      branch.update_phone_order(true)
-      branch.reload
-      branch.phones.count.times do |i|
-        branch.phones[i].order_num.should eq(i+1)
+      @b.phones << FactoryGirl.create(:phone, branch_id: @b.id, order_num: 3)
+      @b.update_phone_order(true)
+      @b.phones.count.times do |i|
+        @b.phones[i].order_num.should eq(i+1)
       end
     end
     it 'обновляет список телефонов при изменении существующего' do
-      moved_phone = branch.phones[3]
-      branch.phones[1].update_attribute 'order_num', 4
-      branch.update_phone_order
+      moved_phone = @b.phones[3]
+      @b.phones[1].update_attribute 'order_num', 4
+      @b.update_phone_order
       moved_phone.reload
       moved_phone.order_num.should eq(3)
     end

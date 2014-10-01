@@ -60,7 +60,7 @@ describe Rubrics::Rubric do
       it do
         types = Rubrics::Rubric::RUBRICATOR_TYPE
         types.each_with_index do |type, i|
-          Rubrics::Rubric.rubricator_name_for(i - 1).should eq(type)
+          Rubrics::Rubric.rubricator_name_for(i + 1).should eq(type)
         end
       end
     end

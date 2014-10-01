@@ -2,6 +2,9 @@
 class Rubrics::Rubric < ActiveRecord::Base
 
   RUBRICATOR_TYPE = %w(Социальный Коммерческий Полный)
+  RUBRICATOR_SOC = 0
+  RUBRICATOR_COM = 1
+  RUBRICATOR_FULL = 2
 
   # noinspection RailsParamDefResolve
   has_many :products, class_name: 'Products::Product', dependent: :restrict
@@ -42,7 +45,7 @@ class Rubrics::Rubric < ActiveRecord::Base
   # по миграции существующих данных
   #
   def self.rubricator_name_for(type)
-    return RUBRICATOR_TYPE.try :[], type +1
+    return RUBRICATOR_TYPE.try :[], type-1
   end
 
 end
