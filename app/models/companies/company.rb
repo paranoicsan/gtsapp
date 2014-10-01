@@ -5,9 +5,9 @@ module Companies
 
     belongs_to :status, foreign_key: :companies_status_id
     belongs_to :source, foreign_key: :companies_source_id
-    belongs_to :agent, class_name: 'User', foreign_key: 'agent_id'
-    belongs_to :author, class_name: 'User', foreign_key: 'author_user_id'
-    belongs_to :editor, class_name: 'User', foreign_key: 'editor_user_id'
+    belongs_to :agent, class_name: 'Users::User', foreign_key: 'agent_id'
+    belongs_to :author, class_name: 'Users::User', foreign_key: 'author_user_id'
+    belongs_to :editor, class_name: 'Users::User', foreign_key: 'editor_user_id'
     has_many :histories, dependent: :destroy
     has_many :contracts, dependent: :destroy, class_name: 'Contracts::Contract'
     has_many :branches, dependent: :destroy, class_name: 'Branches::Branch'

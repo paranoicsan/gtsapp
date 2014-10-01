@@ -1,13 +1,9 @@
-require "faker"
-
 FactoryGirl.define do
 
-  factory :user, aliases: [:agent, :author, :editor] do
+  factory :user, aliases: [:agent, :author, :editor], class: Users::User do
     email { Faker::Internet.email }
     username { "#{Faker::Internet.user_name}#{Faker::Lorem.words.join}" }
-    password 12345
-    #noinspection RubyResolve
-    password_confirmation 12345
+    password { Faker::Lorem.words.join }
 
     roles %w(agent)
 

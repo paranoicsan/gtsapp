@@ -1,6 +1,6 @@
 class Companies::History < ActiveRecord::Base
   belongs_to :company
-  belongs_to :user
+  belongs_to :user, class_name: 'Users::User'
 
   scope :by_user, lambda { |user_id| where( user_id: user_id ) }
   scope :uniq_company_ids, select: 'DISTINCT company_id'

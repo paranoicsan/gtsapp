@@ -57,4 +57,8 @@ Gtsapp::Application.configure do
 
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
+
+  # CUSTOM SETTINGS
+  # TODO: Поставить на реальный адрес и порт
+  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 end

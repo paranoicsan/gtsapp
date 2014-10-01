@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140930154318) do
+ActiveRecord::Schema.define(:version => 20141001082741) do
 
   create_table "addresses_addresses", :force => true do |t|
     t.string   "house"
@@ -218,16 +218,24 @@ ActiveRecord::Schema.define(:version => 20140930154318) do
     t.boolean "social"
   end
 
-  create_table "users", :force => true do |t|
+  create_table "users_users", :force => true do |t|
     t.string   "username"
     t.string   "email"
-    t.string   "crypted_password"
-    t.string   "password_salt"
-    t.string   "persistence_token"
-    t.datetime "created_at",                              :null => false
-    t.datetime "updated_at",                              :null => false
-    t.string   "roles",             :default => "--- []"
+    t.datetime "created_at",                                   :null => false
+    t.datetime "updated_at",                                   :null => false
+    t.string   "roles",                  :default => "--- []"
+    t.string   "encrypted_password",     :default => "",       :null => false
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "last_sign_in_ip"
+    t.integer  "sign_in_count"
   end
+
+  add_index "users_users", ["email"], :name => "index_users_users_on_email", :unique => true
+  add_index "users_users", ["reset_password_token"], :name => "index_users_users_on_reset_password_token", :unique => true
 
   add_foreign_key "addresses_addresses", "addresses_cities", :name => "addresses_city_id_fk", :column => "city_id"
   add_foreign_key "addresses_addresses", "addresses_districts", :name => "addresses_district_id_fk", :column => "district_id"
@@ -252,12 +260,12 @@ ActiveRecord::Schema.define(:version => 20140930154318) do
 
   add_foreign_key "companies_companies", "companies_sources", :name => "companies_company_source_id_fk"
   add_foreign_key "companies_companies", "companies_statuses", :name => "companies_companies_companies_status_id_fk"
-  add_foreign_key "companies_companies", "users", :name => "companies_agent_id_fk", :column => "agent_id"
-  add_foreign_key "companies_companies", "users", :name => "companies_author_user_id_fk", :column => "author_user_id"
-  add_foreign_key "companies_companies", "users", :name => "companies_editor_user_id_fk", :column => "editor_user_id"
+  add_foreign_key "companies_companies", "users_users", :name => "companies_agent_id_fk", :column => "agent_id"
+  add_foreign_key "companies_companies", "users_users", :name => "companies_author_user_id_fk", :column => "author_user_id"
+  add_foreign_key "companies_companies", "users_users", :name => "companies_editor_user_id_fk", :column => "editor_user_id"
 
   add_foreign_key "companies_histories", "companies_companies", :name => "company_histories_company_id_fk", :column => "company_id"
-  add_foreign_key "companies_histories", "users", :name => "company_histories_user_id_fk"
+  add_foreign_key "companies_histories", "users_users", :name => "company_histories_user_id_fk", :column => "user_id"
 
   add_foreign_key "companies_people", "companies_companies", :name => "people_company_id_fk", :column => "company_id"
 

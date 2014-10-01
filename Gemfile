@@ -10,7 +10,7 @@ gem 'foreigner'
 gem 'haml'
 gem 'haml-rails'
 
-gem 'authlogic'
+gem 'devise'
 gem 'easy_roles'
 
 gem 'will_paginate'
