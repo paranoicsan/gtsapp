@@ -1,87 +1,49 @@
-class Addresses::DistrictsController < ApplicationController
-  helper :application
-  before_filter :require_user
-  before_filter :require_operator, :only => [:new, :edit, :update, :create, :destroy]
+class Address::DistrictsController < ApplicationController
 
-  # GET /districts
-  # GET /districts.json
+  before_filter :check_operator!, except: [:index, :show]
+  before_filter :assign_district, except: [:index, :new, :create]
+
   def index
-    @districts = District.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @districts }
-    end
+    @districts = Addresses::District.all
   end
 
-  # GET /districts/1
-  # GET /districts/1.json
   def show
-    @district = District.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @district }
-    end
   end
 
-  # GET /districts/new
-  # GET /districts/new.json
   def new
-    @district = District.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @district }
-    end
+    @district = Addresses::District.new
   end
 
-  # GET /districts/1/edit
   def edit
-    @district = District.find(params[:id])
   end
 
-  # POST /districts
-  # POST /districts.json
   def create
-    @district = District.new(params[:district])
+    @district = Addresses::District.new params[:district]
 
-    respond_to do |format|
-      if @district.save
-        format.html { redirect_to @district, notice: 'District was successfully created.' }
-        format.json { render json: @district, status: :created, location: @district }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @district.errors, status: :unprocessable_entity }
-      end
+    if @district.save
+      redirect_to district_path(@district), notice: 'District was successfully created.'
+    else
+      render action: 'new'
     end
   end
 
-  # PUT /districts/1
-  # PUT /districts/1.json
   def update
-    @district = District.find(params[:id])
-
-    respond_to do |format|
-      if @district.update_attributes(params[:district])
-        format.html { redirect_to @district, notice: 'District was successfully updated.' }
-        format.json { head :ok }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @district.errors, status: :unprocessable_entity }
-      end
+    if @district.update_attributes(params[:district])
+      redirect_to district_path(@district), notice: 'District was successfully updated.'
+    else
+      render action: 'edit'
     end
-  end
+end
 
-  # DELETE /districts/1
-  # DELETE /districts/1.json
   def destroy
-    @district = District.find(params[:id])
     @district.destroy
-
-    respond_to do |format|
-      format.html { redirect_to districts_url }
-      format.json { head :ok }
-    end
+    redirect_to districts_url
   end
+
+  private
+
+  def assign_district
+    @district = Addresses::District.find params[:id]
+  end
+
 end

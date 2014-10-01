@@ -8,12 +8,12 @@ Gtsapp::Application.routes.draw do
   resources :rubrics
   resources :streets
   resources :post_indices
-  resources :districts
 
   resources :form_types
   resources :project_codes
 
   scope module: :address do
+    resources :districts
     resources :cities
   end
 
