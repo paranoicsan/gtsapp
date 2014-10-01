@@ -1,5 +1,9 @@
 Gtsapp::Application.routes.draw do
 
+  devise_for :users, class_name: 'Users::User'
+
+  root :to => 'dashboard#index'
+
   resources :product_types
   resources :rubrics
   resources :streets
@@ -60,8 +64,8 @@ Gtsapp::Application.routes.draw do
 
   match 'contracts/:id/activate', to: 'contracts#activate', as: :activate_contract
 
-  resources :users
-  resources :user_sessions
+  # resources :users
+  # resources :user_sessions
 
   match 'dashboard', to: 'dashboard#index', as: :dashboard
   match 'login', to: 'user_sessions#new', as: :login
@@ -92,6 +96,6 @@ Gtsapp::Application.routes.draw do
   match 'streets/export/:format', to: 'streets#streets_by_city_export',
       as: :streets_by_city_export, :via => :get
 
-  root :to => 'user_sessions#new'
+
 
 end
