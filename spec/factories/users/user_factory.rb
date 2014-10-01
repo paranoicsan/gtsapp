@@ -3,7 +3,7 @@ FactoryGirl.define do
   factory :user, aliases: [:agent, :author, :editor], class: Users::User do
     email { Faker::Internet.email }
     username { "#{Faker::Internet.user_name}#{Faker::Lorem.words.join}" }
-    password { Faker::Lorem.words.join }
+    password 12345678
 
     roles %w(agent)
 

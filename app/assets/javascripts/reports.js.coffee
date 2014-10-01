@@ -102,7 +102,7 @@ repoRubric_RubChange = ->
 
   # подстановка ключа города для фильтрации улиц
   city_id = $('#city_id').val()
-  url = if city_id == '' then '' else '/addresses/autocomplete_street_name/' + city_id
+  url = if city_id == '' then '' else '/address/autocomplete_street_name/' + city_id
 
   # ручное изменение
   if $('#address_city').val() && $('#address_city').val().trim() == ''

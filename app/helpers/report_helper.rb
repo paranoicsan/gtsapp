@@ -4,14 +4,14 @@ module ReportHelper
   # @param [String] Формат экспорта
   def self.mime_type(format)
     case format.downcase
-      when "pdf"
-        "application/pdf"
-      when "rtf"
-        "application/rtf"
-      when "xls"
-        "application/excel"
+      when 'pdf'
+        'application/pdf'
+      when 'rtf'
+        'application/rtf'
+      when 'xls'
+        'application/excel'
       else
-        raise "Unknown format"
+        raise 'Unknown format'
     end
   end
 

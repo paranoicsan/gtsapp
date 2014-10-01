@@ -8,11 +8,11 @@ describe Addresses::Address do
   end
   it 'Не может быть создан без населённого пункта' do
     address = FactoryGirl.build :address, city: nil
-    address.should have(1).error_on(:city_id)
+    address.should have(1).error_on(:city)
   end
   it 'Не может быть создан без улицы' do
     address = FactoryGirl.build :address, street: nil
-    address.should have(1).error_on(:street_id)
+    address.should have(1).error_on(:street)
   end
 
   describe '.full_address возвращает отформатированную строку полного адреса' do
@@ -43,6 +43,7 @@ describe Addresses::Address do
       address = FactoryGirl.create :address
 
       params = FactoryGirl.attributes_for :address # чистые атрибуты адреса
+      params[:case] = address.case
       params[:other] = address.other
       params[:city] = address.city.name
       params[:street] = address.street.name
@@ -56,6 +57,7 @@ describe Addresses::Address do
       address = FactoryGirl.create :address, house: ''
 
       params = FactoryGirl.attributes_for :address
+      params[:case] = address.case
       params[:other] = address.other
       params[:city] = address.city.name
       params[:street] = address.street.name

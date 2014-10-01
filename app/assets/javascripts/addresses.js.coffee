@@ -25,7 +25,7 @@ $ ->
   if city_id == ''
     url = ''
   else
-    url = '/addresses/autocomplete_street_name/' + city_id
+    url = '/address/autocomplete_street_name/' + city_id
 
   # ручное изменение
   if $('#address_city_id').val() && $('#address_city_id').val().trim() == ''

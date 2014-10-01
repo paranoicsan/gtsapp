@@ -212,8 +212,8 @@ class SearchController < ApplicationController
   # @return {Array} Коллекция найденных компаний
   #def self.search_by_address_district(id)
   #  ar = []
-  #  addresses = Address.find_all_by_district_id id
-  #  addresses.each do |address|
+  #  address = Address.find_all_by_district_id id
+  #  address.each do |address|
   #    ar << address.branch.company
   #  end
   #  ar

@@ -21,7 +21,6 @@ end
 
 RSpec.configure do |config|
 
-  config.include AuthHelper
   config.include StatusHelper
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
@@ -46,5 +45,10 @@ RSpec.configure do |config|
   config.after(:each) do
     DatabaseCleaner.clean
   end
+
+  config.include Devise::TestHelpers, :type => :controller
+  config.include Devise::TestHelpers, :type => :view
+  config.extend DeviseMacros, :type => :controller
+  config.extend DeviseMacros, :type => :view
 
 end

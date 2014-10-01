@@ -13,6 +13,6 @@ class CreateBranches < ActiveRecord::Migration
 
     add_foreign_key :branches, :form_types
     add_foreign_key :branches, :companies
-    add_foreign_key :branches, :addresses
+    add_foreign_key :branches, :address
   end
 end

@@ -18,10 +18,10 @@ class CreateAddress < ActiveRecord::Migration
       t.datetime :updated_at
     end
 
-    add_foreign_key :addresses, :streets
-    add_foreign_key :addresses, :districts
-    add_foreign_key :addresses, :cities
-    add_foreign_key :addresses, :post_indices
+    add_foreign_key :address, :streets
+    add_foreign_key :address, :districts
+    add_foreign_key :address, :cities
+    add_foreign_key :address, :post_indices
 
   end
 end

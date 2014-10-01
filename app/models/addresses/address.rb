@@ -5,9 +5,9 @@ class Addresses::Address < ActiveRecord::Base
   belongs_to :post_index
   belongs_to :branch, class_name: 'Branches::Branch'
 
-  validates_presence_of :branch_id
-  validates_presence_of :city_id, :message => 'Укажите населённый пункт'
-  validates_presence_of :street_id, :message => 'Укажите улицу'
+  validates_presence_of :branch
+  validates_presence_of :city, :message => 'Укажите населённый пункт'
+  validates_presence_of :street, :message => 'Укажите улицу'
 
   # Форматирует объект адреса в строку с условными обозначениями
   # @return [string] строка адреса

@@ -15,8 +15,8 @@ Gtsapp::Application.routes.draw do
 
   match 'company/:id/autocomplete_rubric_name/', to: 'companies#autocomplete_rubric_name',
       as: :companies_autocomplete_rubric_name
-  match 'addresses/autocomplete_city_name'
-  match 'addresses/autocomplete_street_name/:city_id', to: 'addresses#autocomplete_street_name',
+  match 'address/autocomplete_city_name'
+  match 'address/autocomplete_street_name/:city_id', to: 'address#autocomplete_street_name',
       as: :addresses_autocomplete_street_name
   match 'products/autocomplete_rubric_name/:contract_id', to: 'products#autocomplete_rubric_name',
       as: :products_autocomplete_rubric_name

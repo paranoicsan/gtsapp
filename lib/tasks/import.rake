@@ -278,7 +278,7 @@ namespace :db do
   end
 
   def addresses
-    CSV.foreach('db/data/addresses.csv', {:col_sep => ',', :quote_char => '"', :headers => true}) do |row|
+    CSV.foreach('db/data/address.csv', {:col_sep => ',', :quote_char => '"', :headers => true}) do |row|
       params = {
         old_id: row[0],
         house: row[1],

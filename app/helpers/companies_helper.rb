@@ -1,4 +1,3 @@
-#Encoding: utf-8
 module CompaniesHelper
   def status_span(status)
     case status
