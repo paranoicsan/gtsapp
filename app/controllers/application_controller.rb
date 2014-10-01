@@ -6,6 +6,12 @@ class ApplicationController < ActionController::Base
 
   protect_from_forgery
 
+  protected
+
+  def check_operator!
+    head(:forbidden) unless current_user.has_role?('operator')
+  end
+
   private
 
   ##
