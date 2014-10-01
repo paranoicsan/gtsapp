@@ -1,5 +1,9 @@
 Gtsapp::Application.routes.draw do
 
+  devise_for :users, class_name: 'Users::User'
+
+  root :to => 'dashboard#index'
+
   resources :product_types
   resources :rubrics
   resources :streets
@@ -92,6 +96,6 @@ Gtsapp::Application.routes.draw do
   match 'streets/export/:format', to: 'streets#streets_by_city_export',
       as: :streets_by_city_export, :via => :get
 
-  root :to => 'dashboard#index'
+
 
 end

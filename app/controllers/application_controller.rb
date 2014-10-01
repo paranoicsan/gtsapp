@@ -1,8 +1,12 @@
 # encoding: utf-8
 class ApplicationController < ActionController::Base
-  helper :all
-  helper_method :current_user_session, :current_user
-  before_filter :create_default_vars
+
+  # helper :all
+  # helper_method :current_user_session, :current_user
+  # before_filter :create_default_vars
+
+  before_filter :authenticate_user!
+
   protect_from_forgery
 
   # Сохраняет в сессии путь, куда хотят попасть
