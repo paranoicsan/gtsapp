@@ -1,7 +1,0 @@
-= form_tag branch_add_email_path(@branch), {:remote => true, :method => :post, class: "form-inline"} do
-  = text_field_tag "branch_email", "", :placeholder => "test@test.com", :size => 70
-  =button_tag :id => "branch_add_email", :class => "btn btn-small", type: "submit" do
-    =glyph(:plus)
-    Добавить
-#emails_list
-  = render :partial => "emails_list"

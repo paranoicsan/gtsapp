@@ -9,5 +9,4 @@
 //= require jquery_ujs
 //= require jquery.ui.all
 //= require autocomplete-rails
-//= require jquery-plugins/jquery.observe_field
 //= require_tree .

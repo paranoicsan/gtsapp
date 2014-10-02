@@ -1,8 +1,0 @@
-- unless current_user.is_agent?
-  %p
-    =link_to new_contract_product_path(@contract), :class => "btn btn-mini", id: 'contract_product_add' do
-      =glyph(:plus)
-      Добавить
-
-#products_list
-  = render :partial => "products_list"
