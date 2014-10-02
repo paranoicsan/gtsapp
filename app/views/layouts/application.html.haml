@@ -11,46 +11,46 @@
       .navbar.navbar-fixed-top
         .navbar-inner
           .container
-            %a.btn.btn-navbar{"data-toggle" => "collapse", "data-target" => ".nav-collapse"}
+            %a.btn.btn-navbar{'data-toggle' => 'collapse', 'data-target' => '.nav-collapse'}
               %span.icon-bar
               %span.icon-bar
               %span.icon-bar
 
-            =link_to "ГТС", root_path, "class" => "brand"
+            =link_to 'ГТС', root_path, 'class' => 'brand'
             .nav-collapse
               %ul.nav
-                %li{ class: top_menu_active?(companies_path) }
-                  = link_to "Компании", companies_path
+                %li{ class: top_menu_active?('#') }
+                  = link_to 'Компании', '#'
                 - if @current_user && (@current_user.is_admin? || @current_user.is_operator?)
-                  %li{ class: top_menu_active?(reports_path) }
-                    = link_to "Отчёты", reports_path
-                %li{ class: top_menu_active?(search_path) }
-                  = link_to "Поиск", search_path
+                  %li{ class: top_menu_active?('#') }
+                    = link_to 'Отчёты', '#'
+                %li{ class: top_menu_active?('#') }
+                  = link_to 'Поиск', '#'
 
               %ul.nav.pull-right
                 - if @current_user && (@current_user.is_admin? || @current_user.is_operator?)
                   %li.dropdown
-                    %a.dropdown-toggle{ "data-toggle" => "dropdown" }
+                    %a.dropdown-toggle{ 'data-toggle' => 'dropdown' }
                       =glyph(:cog)
                       Настройки
                       %b.caret
                       %ul.dropdown-menu
                         -if @current_user.is_admin?
                           %li
-                            = link_to "Пользователи", users_path, id: "users_link"
+                            = link_to 'Пользователи', '#', id: 'users_link'
                           %li.divider
                           %li
-                            = link_to "Коды проекта", project_codes_path, id: "project_code_link"
+                            = link_to 'Коды проекта', '#', id: 'project_code_link'
                           %li
-                            = link_to "Продукты", product_types_path
+                            = link_to 'Продукты', '#'
                           %li
-                            = link_to "Рубрики", rubrics_path
+                            = link_to 'Рубрики', '#'
                           %li.divider
                         %li
-                          = link_to "Улицы", streets_path
+                          = link_to 'Улицы', '#'
                 %li.divider-vertical
                 %li
-                  = link_to "Выйти", logout_path
+                  = link_to 'Выйти', '#'
       .navbar.navbar-fixed-bottom
         .navbar-inner
           .container
@@ -60,6 +60,21 @@
                   = "gtsapp #{app_version}"
 
     .container
+      .row
+        .span12
+          #message
+            - if flash[:notice]
+              #notice.alert.alert-success
+                = flash[:notice]
+            - if flash[:error]
+              #warning.alert.alert-error
+                Ошибка:
+                - if flash[:error].is_a?(Array)
+                  - flash[:error].each do |msg|
+                    = msg
+                - else
+                  = flash[:error]
+
       .row
         .span12
           = yield
