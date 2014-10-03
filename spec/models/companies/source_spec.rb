@@ -1,3 +1,11 @@
+# == Schema Information
+#
+# Table name: companies_sources
+#
+#  id   :integer          not null, primary key
+#  name :string(255)
+#
+
 require 'spec_helper'
 
 describe Companies::Source do

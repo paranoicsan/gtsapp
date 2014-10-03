@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: addresses_cities
+#
+#  id         :integer          not null, primary key
+#  name       :string(255)
+#  phone_code :integer
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
 describe Addresses::City do
 
   it 'has valid factory' do

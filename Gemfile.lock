@@ -30,6 +30,9 @@ GEM
       i18n (~> 0.6)
       multi_json (~> 1.0)
     afm (0.2.0)
+    annotate (2.6.5)
+      activerecord (>= 2.3.0)
+      rake (>= 0.8.7)
     arel (3.0.3)
     bcrypt (3.1.7)
     bootstrap-will_paginate (0.0.7)
@@ -144,8 +147,6 @@ GEM
       activesupport (= 3.2.12)
       bundler (~> 1.0)
       railties (= 3.2.12)
-    rails3_pg_deferred_constraints (0.1.0)
-      rails (~> 3.2.0)
     railties (3.2.12)
       actionpack (= 3.2.12)
       activesupport (= 3.2.12)
@@ -221,6 +222,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  annotate (~> 2.6.5)
   bootstrap-will_paginate (= 0.0.7)
   capybara
   coffee-rails (~> 3.2.1)
@@ -239,7 +241,6 @@ DEPENDENCIES
   poltergeist
   prawn
   rails (= 3.2.12)
-  rails3_pg_deferred_constraints (~> 0.1.0)
   rb-readline (~> 0.4.2)
   rspec-rails (>= 2.12.2)
   rtf

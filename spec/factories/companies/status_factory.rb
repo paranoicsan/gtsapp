@@ -1,3 +1,13 @@
+# == Schema Information
+#
+# Table name: companies_statuses
+#
+#  id         :integer          not null, primary key
+#  name       :string(255)
+#  created_at :datetime
+#  updated_at :datetime
+#
+
 FactoryGirl.define do
 
   factory :company_status, class: Companies::Status do

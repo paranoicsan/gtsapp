@@ -6,6 +6,7 @@ gem 'rails', '3.2.12'
 
 gem 'pg'
 gem 'foreigner'
+gem 'annotate', '~> 2.6.5'
 
 gem 'haml'
 gem 'haml-rails'
@@ -42,9 +43,6 @@ group :test do
   gem 'cucumber-rails', require: false
   gem 'capybara'
   gem 'poltergeist'
-
-  # Contains hack for foreigner and pg to work together
-  gem 'rails3_pg_deferred_constraints', '~> 0.1.0'
 end
 
 # Gems used only for assets and not required

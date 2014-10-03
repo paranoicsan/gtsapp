@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: companies_people
+#
+#  id          :integer          not null, primary key
+#  position    :string(255)
+#  name        :string(255)
+#  second_name :string(255)
+#  middle_name :string(255)
+#  phone       :integer
+#  email       :string(255)
+#  company_id  :integer
+#
+
 class Companies::Person < ActiveRecord::Base
 
   belongs_to :company

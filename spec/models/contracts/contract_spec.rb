@@ -1,3 +1,23 @@
+# == Schema Information
+#
+# Table name: contracts_contracts
+#
+#  id                    :integer          not null, primary key
+#  contracts_statuses_id :integer
+#  contracts_codes_id    :integer
+#  date_sign             :date
+#  number                :string(255)
+#  amount                :float
+#  bonus                 :boolean
+#  company_legel_name    :string(255)
+#  person                :string(255)
+#  company_details       :string(255)
+#  number_of_dicts       :integer
+#  company_id            :integer
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#
+
 require 'spec_helper'
 
 describe Contracts::Contract do

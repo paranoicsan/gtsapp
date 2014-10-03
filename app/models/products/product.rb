@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: products_products
+#
+#  id          :integer          not null, primary key
+#  contract_id :integer
+#  type_id     :integer
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  rubric_id   :integer
+#  proposal    :text
+#
+
 class Products::Product < ActiveRecord::Base
 
   belongs_to :type

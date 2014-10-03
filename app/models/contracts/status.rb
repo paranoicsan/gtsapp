@@ -1,3 +1,11 @@
+# == Schema Information
+#
+# Table name: contracts_statuses
+#
+#  id   :integer          not null, primary key
+#  name :string(255)
+#
+
 class Contracts::Status < ActiveRecord::Base
 
   has_many :contracts

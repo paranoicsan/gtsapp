@@ -1,3 +1,13 @@
+# == Schema Information
+#
+# Table name: addresses_post_indices
+#
+#  id         :integer          not null, primary key
+#  code       :integer
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
 FactoryGirl.define do
 
   factory :post_index, class: Addresses::PostIndex do

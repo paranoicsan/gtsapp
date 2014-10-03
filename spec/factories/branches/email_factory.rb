@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: branches_emails
+#
+#  id         :integer          not null, primary key
+#  name       :string(255)
+#  branch_id  :integer
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
 FactoryGirl.define do
 
   factory :email, class: Branches::Email do

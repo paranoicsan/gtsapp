@@ -1,4 +1,12 @@
 # encoding: utf-8
+# == Schema Information
+#
+# Table name: branches_websites
+#
+#  id   :integer          not null, primary key
+#  name :string(255)
+#
+
 require 'uri'
 class Branches::Website < ActiveRecord::Base
 

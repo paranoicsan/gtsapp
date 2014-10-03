@@ -1,3 +1,18 @@
+# == Schema Information
+#
+# Table name: branches_branches
+#
+#  id           :integer          not null, primary key
+#  form_type_id :integer
+#  fact_name    :string(255)
+#  legel_name   :string(255)
+#  company_id   :integer
+#  comments     :string(255)
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#  is_main      :boolean
+#
+
 describe Branches::Branch do
 
   let(:branch) { FactoryGirl.create :branch }

@@ -1,3 +1,11 @@
+# == Schema Information
+#
+# Table name: branches_form_types
+#
+#  id   :integer          not null, primary key
+#  name :string(255)
+#
+
 describe Branches::FormType do
 
   it 'has valid factory' do

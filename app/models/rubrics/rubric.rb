@@ -1,3 +1,12 @@
+# == Schema Information
+#
+# Table name: rubrics_rubrics
+#
+#  id     :integer          not null, primary key
+#  name   :string(255)
+#  social :boolean
+#
+
 # Encoding: utf-8
 class Rubrics::Rubric < ActiveRecord::Base
 

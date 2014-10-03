@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: branches_emails
+#
+#  id         :integer          not null, primary key
+#  name       :string(255)
+#  branch_id  :integer
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
 describe Branches::Email do
 
   describe 'существует проверка на корректность введённого адреса' do

@@ -1,3 +1,24 @@
+# == Schema Information
+#
+# Table name: companies_companies
+#
+#  id                         :integer          not null, primary key
+#  title                      :string(255)
+#  date_added                 :date
+#  rubricator                 :integer
+#  created_at                 :datetime         not null
+#  updated_at                 :datetime         not null
+#  companies_status_id        :integer
+#  author_user_id             :integer
+#  editor_user_id             :integer
+#  companies_source_id        :integer
+#  agent_id                   :integer
+#  comments                   :string(255)
+#  reason_deleted_on          :string(255)
+#  reason_need_attention_on   :string(255)
+#  reason_need_improvement_on :string(255)
+#
+
 FactoryGirl.define do
 
   factory :company, class: Companies::Company do

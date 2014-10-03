@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: companies_histories
+#
+#  id         :integer          not null, primary key
+#  operation  :text
+#  company_id :integer
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#  user_id    :integer
+#
+
 class Companies::History < ActiveRecord::Base
   belongs_to :company
   belongs_to :user, class_name: 'Users::User'

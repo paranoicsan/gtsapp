@@ -1,4 +1,12 @@
 # encoding: utf-8
+# == Schema Information
+#
+# Table name: companies_sources
+#
+#  id   :integer          not null, primary key
+#  name :string(255)
+#
+
 class Companies::Source < ActiveRecord::Base
   has_many :companies
 

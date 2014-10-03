@@ -1,3 +1,12 @@
+# == Schema Information
+#
+# Table name: rubrics_rubrics
+#
+#  id     :integer          not null, primary key
+#  name   :string(255)
+#  social :boolean
+#
+
 FactoryGirl.define do
 
   factory :rubric, class: Rubrics::Rubric do

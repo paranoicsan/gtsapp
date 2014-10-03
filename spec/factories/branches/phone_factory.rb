@@ -1,3 +1,22 @@
+# == Schema Information
+#
+# Table name: branches_phones
+#
+#  id           :integer          not null, primary key
+#  mobile_refix :string(255)
+#  publishable  :boolean
+#  fax          :boolean
+#  director     :boolean
+#  mobile       :boolean
+#  description  :text
+#  name         :string(255)
+#  contact      :integer
+#  order_num    :integer
+#  branch_id    :integer
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#
+
 FactoryGirl.define do
 
   factory :phone, class: Branches::Phone do

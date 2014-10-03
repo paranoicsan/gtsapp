@@ -1,4 +1,15 @@
 # encoding: utf-8
+# == Schema Information
+#
+# Table name: addresses_streets
+#
+#  id         :integer          not null, primary key
+#  name       :string(255)
+#  city_id    :integer
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
 class Addresses::Street < ActiveRecord::Base
 
   belongs_to :city
