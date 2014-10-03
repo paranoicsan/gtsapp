@@ -6,6 +6,10 @@
 #  name   :string(255)
 #  social :boolean
 #
+# Indexes
+#
+#  index_rubrics_rubrics_on_id  (id)
+#
 
 # Encoding: utf-8
 class Rubrics::Rubric < ActiveRecord::Base

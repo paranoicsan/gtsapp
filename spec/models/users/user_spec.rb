@@ -17,6 +17,12 @@
 #  last_sign_in_ip        :string(255)
 #  sign_in_count          :integer
 #
+# Indexes
+#
+#  index_users_users_on_email                 (email) UNIQUE
+#  index_users_users_on_id                    (id)
+#  index_users_users_on_reset_password_token  (reset_password_token) UNIQUE
+#
 
 require 'spec_helper'
 

@@ -8,6 +8,10 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
+# Indexes
+#
+#  index_branches_emails_on_id  (id)
+#
 
 describe Branches::Email do
 

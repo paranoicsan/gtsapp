@@ -12,6 +12,10 @@
 #  updated_at   :datetime         not null
 #  is_main      :boolean
 #
+# Indexes
+#
+#  index_branches_branches_on_id  (id)
+#
 
 describe Branches::Branch do
 

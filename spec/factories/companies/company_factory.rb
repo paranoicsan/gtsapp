@@ -18,6 +18,10 @@
 #  reason_need_attention_on   :string(255)
 #  reason_need_improvement_on :string(255)
 #
+# Indexes
+#
+#  index_companies_companies_on_id  (id)
+#
 
 FactoryGirl.define do
 

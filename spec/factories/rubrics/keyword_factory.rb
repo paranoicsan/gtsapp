@@ -5,6 +5,10 @@
 #  id   :integer          not null, primary key
 #  name :string(255)
 #
+# Indexes
+#
+#  index_rubrics_keywords_on_id  (id)
+#
 
 FactoryGirl.define do
 

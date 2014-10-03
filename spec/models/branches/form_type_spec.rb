@@ -5,6 +5,10 @@
 #  id   :integer          not null, primary key
 #  name :string(255)
 #
+# Indexes
+#
+#  index_branches_form_types_on_id  (id)
+#
 
 describe Branches::FormType do
 

@@ -16,6 +16,10 @@
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #
+# Indexes
+#
+#  index_branches_phones_on_id  (id)
+#
 
 describe Branches::Phone do
 

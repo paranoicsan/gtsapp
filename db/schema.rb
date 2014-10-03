@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141001082741) do
+ActiveRecord::Schema.define(:version => 20141003114531) do
 
   create_table "addresses_addresses", :force => true do |t|
     t.string   "house"
@@ -32,6 +32,8 @@ ActiveRecord::Schema.define(:version => 20141001082741) do
     t.integer  "branch_id"
   end
 
+  add_index "addresses_addresses", ["id"], :name => "index_addresses_addresses_on_id"
+
   create_table "addresses_cities", :force => true do |t|
     t.string   "name"
     t.integer  "phone_code"
@@ -39,11 +41,15 @@ ActiveRecord::Schema.define(:version => 20141001082741) do
     t.datetime "updated_at", :null => false
   end
 
+  add_index "addresses_cities", ["id"], :name => "index_addresses_cities_on_id"
+
   create_table "addresses_districts", :force => true do |t|
     t.string   "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
+
+  add_index "addresses_districts", ["id"], :name => "index_addresses_districts_on_id"
 
   create_table "addresses_post_indices", :force => true do |t|
     t.integer  "code"
@@ -51,11 +57,15 @@ ActiveRecord::Schema.define(:version => 20141001082741) do
     t.datetime "updated_at", :null => false
   end
 
+  add_index "addresses_post_indices", ["id"], :name => "index_addresses_post_indices_on_id"
+
   create_table "addresses_street_indices", :force => true do |t|
     t.integer "street_id"
     t.integer "post_index_id"
     t.string  "comments"
   end
+
+  add_index "addresses_street_indices", ["id"], :name => "index_addresses_street_indices_on_id"
 
   create_table "addresses_streets", :force => true do |t|
     t.string   "name"
@@ -63,6 +73,8 @@ ActiveRecord::Schema.define(:version => 20141001082741) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
+
+  add_index "addresses_streets", ["id"], :name => "index_addresses_streets_on_id"
 
   create_table "branches_branches", :force => true do |t|
     t.integer  "form_type_id"
@@ -75,6 +87,8 @@ ActiveRecord::Schema.define(:version => 20141001082741) do
     t.boolean  "is_main"
   end
 
+  add_index "branches_branches", ["id"], :name => "index_branches_branches_on_id"
+
   create_table "branches_emails", :force => true do |t|
     t.string   "name"
     t.integer  "branch_id"
@@ -82,9 +96,13 @@ ActiveRecord::Schema.define(:version => 20141001082741) do
     t.datetime "updated_at", :null => false
   end
 
+  add_index "branches_emails", ["id"], :name => "index_branches_emails_on_id"
+
   create_table "branches_form_types", :force => true do |t|
     t.string "name"
   end
+
+  add_index "branches_form_types", ["id"], :name => "index_branches_form_types_on_id"
 
   create_table "branches_phones", :force => true do |t|
     t.string   "mobile_refix"
@@ -101,9 +119,13 @@ ActiveRecord::Schema.define(:version => 20141001082741) do
     t.datetime "updated_at",   :null => false
   end
 
+  add_index "branches_phones", ["id"], :name => "index_branches_phones_on_id"
+
   create_table "branches_websites", :force => true do |t|
     t.string "name"
   end
+
+  add_index "branches_websites", ["id"], :name => "index_branches_websites_on_id"
 
   create_table "branches_websites_join", :id => false, :force => true do |t|
     t.integer "website_id"
@@ -127,6 +149,8 @@ ActiveRecord::Schema.define(:version => 20141001082741) do
     t.string   "reason_need_improvement_on"
   end
 
+  add_index "companies_companies", ["id"], :name => "index_companies_companies_on_id"
+
   create_table "companies_histories", :force => true do |t|
     t.text     "operation"
     t.integer  "company_id"
@@ -134,6 +158,8 @@ ActiveRecord::Schema.define(:version => 20141001082741) do
     t.datetime "updated_at", :null => false
     t.integer  "user_id"
   end
+
+  add_index "companies_histories", ["id"], :name => "index_companies_histories_on_id"
 
   create_table "companies_people", :force => true do |t|
     t.string  "position"
@@ -145,6 +171,8 @@ ActiveRecord::Schema.define(:version => 20141001082741) do
     t.integer "company_id"
   end
 
+  add_index "companies_people", ["id"], :name => "index_companies_people_on_id"
+
   create_table "companies_rubrics_join", :id => false, :force => true do |t|
     t.integer "company_id"
     t.integer "rubric_id"
@@ -154,15 +182,21 @@ ActiveRecord::Schema.define(:version => 20141001082741) do
     t.string "name"
   end
 
+  add_index "companies_sources", ["id"], :name => "index_companies_sources_on_id"
+
   create_table "companies_statuses", :force => true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
+  add_index "companies_statuses", ["id"], :name => "index_companies_statuses_on_id"
+
   create_table "contracts_codes", :force => true do |t|
     t.string "name"
   end
+
+  add_index "contracts_codes", ["id"], :name => "index_contracts_codes_on_id"
 
   create_table "contracts_contracts", :force => true do |t|
     t.integer  "contracts_statuses_id"
@@ -180,9 +214,13 @@ ActiveRecord::Schema.define(:version => 20141001082741) do
     t.datetime "updated_at",            :null => false
   end
 
+  add_index "contracts_contracts", ["id"], :name => "index_contracts_contracts_on_id"
+
   create_table "contracts_statuses", :force => true do |t|
     t.string "name"
   end
+
+  add_index "contracts_statuses", ["id"], :name => "index_contracts_statuses_on_id"
 
   create_table "products_products", :force => true do |t|
     t.integer  "contract_id"
@@ -192,6 +230,8 @@ ActiveRecord::Schema.define(:version => 20141001082741) do
     t.integer  "rubric_id"
     t.text     "proposal"
   end
+
+  add_index "products_products", ["id"], :name => "index_products_products_on_id"
 
   create_table "products_types", :force => true do |t|
     t.string   "name"
@@ -204,9 +244,13 @@ ActiveRecord::Schema.define(:version => 20141001082741) do
     t.datetime "updated_at",    :null => false
   end
 
+  add_index "products_types", ["id"], :name => "index_products_types_on_id"
+
   create_table "rubrics_keywords", :force => true do |t|
     t.string "name"
   end
+
+  add_index "rubrics_keywords", ["id"], :name => "index_rubrics_keywords_on_id"
 
   create_table "rubrics_keywords_join", :id => false, :force => true do |t|
     t.integer "rubric_id"
@@ -217,6 +261,8 @@ ActiveRecord::Schema.define(:version => 20141001082741) do
     t.string  "name"
     t.boolean "social"
   end
+
+  add_index "rubrics_rubrics", ["id"], :name => "index_rubrics_rubrics_on_id"
 
   create_table "users_users", :force => true do |t|
     t.string   "username"
@@ -235,6 +281,7 @@ ActiveRecord::Schema.define(:version => 20141001082741) do
   end
 
   add_index "users_users", ["email"], :name => "index_users_users_on_email", :unique => true
+  add_index "users_users", ["id"], :name => "index_users_users_on_id"
   add_index "users_users", ["reset_password_token"], :name => "index_users_users_on_reset_password_token", :unique => true
 
   add_foreign_key "addresses_addresses", "addresses_cities", :name => "addresses_city_id_fk", :column => "city_id"

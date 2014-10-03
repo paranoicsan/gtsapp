@@ -5,6 +5,10 @@
 #  id   :integer          not null, primary key
 #  name :string(255)
 #
+# Indexes
+#
+#  index_rubrics_keywords_on_id  (id)
+#
 
 class Rubrics::Keyword < ActiveRecord::Base
   has_and_belongs_to_many :rubrics

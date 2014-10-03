@@ -5,6 +5,10 @@
 #  id   :integer          not null, primary key
 #  name :string(255)
 #
+# Indexes
+#
+#  index_contracts_codes_on_id  (id)
+#
 
 require 'spec_helper'
 

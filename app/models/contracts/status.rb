@@ -5,6 +5,10 @@
 #  id   :integer          not null, primary key
 #  name :string(255)
 #
+# Indexes
+#
+#  index_contracts_statuses_on_id  (id)
+#
 
 class Contracts::Status < ActiveRecord::Base
 

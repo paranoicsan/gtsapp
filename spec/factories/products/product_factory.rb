@@ -10,6 +10,10 @@
 #  rubric_id   :integer
 #  proposal    :text
 #
+# Indexes
+#
+#  index_products_products_on_id  (id)
+#
 
 FactoryGirl.define do
   factory :product, class: Products::Product do

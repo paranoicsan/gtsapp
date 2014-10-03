@@ -8,6 +8,10 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
+# Indexes
+#
+#  index_addresses_cities_on_id  (id)
+#
 
 class Addresses::City < ActiveRecord::Base
 

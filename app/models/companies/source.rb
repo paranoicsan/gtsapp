@@ -6,6 +6,10 @@
 #  id   :integer          not null, primary key
 #  name :string(255)
 #
+# Indexes
+#
+#  index_companies_sources_on_id  (id)
+#
 
 class Companies::Source < ActiveRecord::Base
   has_many :companies

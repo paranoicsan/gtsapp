@@ -12,6 +12,10 @@
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #
+# Indexes
+#
+#  index_products_types_on_id  (id)
+#
 
 class Products::Type < ActiveRecord::Base
   has_many :products

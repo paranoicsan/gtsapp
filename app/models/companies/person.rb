@@ -11,6 +11,10 @@
 #  email       :string(255)
 #  company_id  :integer
 #
+# Indexes
+#
+#  index_companies_people_on_id  (id)
+#
 
 class Companies::Person < ActiveRecord::Base
 

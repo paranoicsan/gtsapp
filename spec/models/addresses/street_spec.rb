@@ -8,6 +8,10 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
+# Indexes
+#
+#  index_addresses_streets_on_id  (id)
+#
 
   describe Addresses::Street do
 

@@ -17,6 +17,10 @@
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #
+# Indexes
+#
+#  index_contracts_contracts_on_id  (id)
+#
 
 FactoryGirl.define do
 

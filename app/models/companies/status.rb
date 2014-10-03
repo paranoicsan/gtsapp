@@ -8,6 +8,10 @@
 #  created_at :datetime
 #  updated_at :datetime
 #
+# Indexes
+#
+#  index_companies_statuses_on_id  (id)
+#
 
 class Companies::Status < ActiveRecord::Base
   has_many :companies

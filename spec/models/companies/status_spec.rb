@@ -7,6 +7,10 @@
 #  created_at :datetime
 #  updated_at :datetime
 #
+# Indexes
+#
+#  index_companies_statuses_on_id  (id)
+#
 
 require 'spec_helper'
 

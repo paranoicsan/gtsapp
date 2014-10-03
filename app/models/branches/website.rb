@@ -6,6 +6,10 @@
 #  id   :integer          not null, primary key
 #  name :string(255)
 #
+# Indexes
+#
+#  index_branches_websites_on_id  (id)
+#
 
 require 'uri'
 class Branches::Website < ActiveRecord::Base

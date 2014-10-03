@@ -7,6 +7,10 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
+# Indexes
+#
+#  index_addresses_post_indices_on_id  (id)
+#
 
 FactoryGirl.define do
 

@@ -5,6 +5,10 @@
 #  id   :integer          not null, primary key
 #  name :string(255)
 #
+# Indexes
+#
+#  index_companies_sources_on_id  (id)
+#
 
 require 'spec_helper'
 

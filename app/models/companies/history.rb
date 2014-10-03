@@ -9,6 +9,10 @@
 #  updated_at :datetime         not null
 #  user_id    :integer
 #
+# Indexes
+#
+#  index_companies_histories_on_id  (id)
+#
 
 class Companies::History < ActiveRecord::Base
   belongs_to :company
