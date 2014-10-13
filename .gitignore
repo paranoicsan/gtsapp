@@ -16,3 +16,4 @@ public/assets/*
 .idea/dictionaries
 chromedriver.log
 .idea
+bin
